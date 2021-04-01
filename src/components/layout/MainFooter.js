@@ -16,7 +16,6 @@ const MainFooter = ({ contained, menuItems, copyright }) => (
             </NavItem>
           ))}
         </Nav>
-        <span className="copyright ml-auto my-auto mr-2">{copyright}</span>
       </Row>
     </Container>
   </footer>
