@@ -3,10 +3,14 @@ import { EventEmitter } from "events";
 import Dispatcher from "./dispatcher";
 import Constants from "./constants";
 import getSidebarNavItems from "../data/sidebar-nav-items";
+import signSample from "../data/sign-sample/sign-sample-items";
 
 let _store = {
   menuVisible: false,
-  navItems: getSidebarNavItems()
+  navItems: getSidebarNavItems(),
+  signSampleItems: signSample,
+  searchTerm: "",
+  signListVisible: false,
 };
 
 class Store extends EventEmitter {
@@ -15,6 +19,8 @@ class Store extends EventEmitter {
 
     this.registerToActions = this.registerToActions.bind(this);
     this.toggleSidebar = this.toggleSidebar.bind(this);
+    this.toggleSearch = this.toggleSearch.bind(this);
+    this.searchTerm = this.searchTerm.bind(this);
 
     Dispatcher.register(this.registerToActions.bind(this));
   }
@@ -24,6 +30,15 @@ class Store extends EventEmitter {
       case Constants.TOGGLE_SIDEBAR:
         this.toggleSidebar();
         break;
+
+      case "TOGGLE_SEARCH":
+        this.toggleSearch();
+        break;
+
+      case "SEARCH_TERM":
+        this.searchTerm(payload);
+        break;
+
       default:
     }
   }
@@ -33,12 +48,34 @@ class Store extends EventEmitter {
     this.emit(Constants.CHANGE);
   }
 
+  toggleSearch() {
+    _store.signListVisible = !_store.signListVisible;
+    this.emit(Constants.CHANGE);
+  }
+
+  searchTerm(e) {
+    _store.searchTerm = e.target.value;
+    this.emit(Constants.CHANGE);
+  }
+
   getMenuState() {
     return _store.menuVisible;
   }
 
+  getSearchState() {
+    return _store.signListVisible;
+  }
+
   getSidebarItems() {
     return _store.navItems;
+  }
+
+  getSignItems() {
+    return _store.signSampleItems;
+  }
+
+  getSearchTerm() {
+    return _store.searchTerm;
   }
 
   addChangeListener(callback) {
@@ -49,5 +86,4 @@ class Store extends EventEmitter {
     this.removeListener(Constants.CHANGE, callback);
   }
 }
-
 export default new Store();
