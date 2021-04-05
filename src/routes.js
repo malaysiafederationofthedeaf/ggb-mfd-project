@@ -8,6 +8,8 @@ import { DefaultLayout } from "./layouts";
 import Errors from "./views/Errors";
 import AboutUs from "./views/AboutUs";
 import BrowseByCategory from "./views/BrowseByCategory";
+import SelectedCategory from "./views/SelectedCategory";
+import SelectedVocab from "./views/SelectedVocab";
 
 export default [
   {
@@ -30,5 +32,15 @@ export default [
     path: "/browse-by-category",
     layout: DefaultLayout,
     component: BrowseByCategory
+  },
+  {
+    path: "/category/:category",
+    layout: DefaultLayout,
+    component: SelectedCategory
+  },
+  {
+    path: "/vocab/:category/:vocab",
+    layout: DefaultLayout,
+    component: SelectedVocab
   }  
 ];
