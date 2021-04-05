@@ -7,6 +7,7 @@ import { DefaultLayout } from "./layouts";
 // Route Views
 import Errors from "./views/Errors";
 import AboutUs from "./views/AboutUs";
+import BrowseByCategory from "./views/BrowseByCategory";
 
 export default [
   {
@@ -24,5 +25,10 @@ export default [
     path: "/about-us",
     layout: DefaultLayout,
     component: AboutUs
-  }
+  },
+  {
+    path: "/browse-by-category",
+    layout: DefaultLayout,
+    component: BrowseByCategory
+  }  
 ];
