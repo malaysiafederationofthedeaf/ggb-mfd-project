@@ -4,6 +4,7 @@ import classNames from "classnames";
 import { Col } from "shards-react";
 
 import SidebarMainNavbar from "./SidebarMainNavbar";
+import SidebarSearch from "./SidebarSearch";
 import SidebarNavItems from "./SidebarNavItems";
 
 import { Store } from "../../../flux";
@@ -46,7 +47,8 @@ class MainSidebar extends React.Component {
 
     return (
       <Col tag="aside" className={classes} lg={{ size: 2 }} md={{ size: 3 }}>
-        <SidebarMainNavbar />
+        <SidebarMainNavbar hideLogoText={this.props.hideLogoText} />
+        <SidebarSearch />
         <SidebarNavItems />
       </Col>
     );

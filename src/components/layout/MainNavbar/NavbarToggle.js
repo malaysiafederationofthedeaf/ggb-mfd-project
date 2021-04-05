@@ -1,5 +1,4 @@
 import React from "react";
-import { Nav } from "shards-react";
 import { Dispatcher, Constants } from "../../../flux";
 
 class NavbarToggle extends React.Component {
@@ -17,7 +16,7 @@ class NavbarToggle extends React.Component {
 
   render() {
     return (
-      <Nav navbar className="nav ">
+      <nav className="nav">
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a
           href="#"
@@ -26,7 +25,7 @@ class NavbarToggle extends React.Component {
         >
           <i className="material-icons">&#xE5D2;</i>
         </a>
-      </Nav>
+      </nav>
     );
   }
 }

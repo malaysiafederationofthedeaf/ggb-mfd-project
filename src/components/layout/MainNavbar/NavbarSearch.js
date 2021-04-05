@@ -1,14 +1,15 @@
+/* eslint-disable import/no-anonymous-default-export */
 import React from "react";
 import {
   Form,
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-  FormInput
+  FormInput,
 } from "shards-react";
 
-const NavbarSearch = () => (
-  <Form className="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
+export default () => (
+  <Form className="main-navbar__search w-100 d-none d-sm-flex d-md-flex d-lg-flex">
     <InputGroup seamless className="ml-3">
       <InputGroupAddon type="prepend">
         <InputGroupText>
@@ -22,6 +23,3 @@ const NavbarSearch = () => (
     </InputGroup>
   </Form>
 );
-
-
-export default NavbarSearch

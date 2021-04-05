@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Button } from "shards-react";
+import { Container } from "shards-react";
 
 import BackButton from "../components/common/BackButton";
 

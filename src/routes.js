@@ -5,56 +5,42 @@ import { Redirect } from "react-router-dom";
 import { DefaultLayout } from "./layouts";
 
 // Route Views
-import Home from "./views/Home";
-import UserProfileLite from "./views/UserProfileLite";
-import AddNewPost from "./views/AddNewPost";
 import Errors from "./views/Errors";
-import ComponentsOverview from "./views/ComponentsOverview";
-import Tables from "./views/Tables";
-import BlogPosts from "./views/BlogPosts";
+import AboutUs from "./views/AboutUs";
+import BrowseByCategory from "./views/BrowseByCategory";
+import SelectedCategory from "./views/SelectedCategory";
+import SelectedVocab from "./views/SelectedVocab";
 
-const routes = [
+export default [
   {
     path: "/",
     exact: true,
     layout: DefaultLayout,
-    component: () => <Redirect to="/home" />
-  },
-  {
-    path: "/home",
-    layout: DefaultLayout,
-    component: Home
-  },
-  {
-    path: "/user-profile-lite",
-    layout: DefaultLayout,
-    component: UserProfileLite
-  },
-  {
-    path: "/add-new-post",
-    layout: DefaultLayout,
-    component: AddNewPost
+    component: () => <Redirect to="/about-us" />,
   },
   {
     path: "/errors",
     layout: DefaultLayout,
-    component: Errors
+    component: Errors,
   },
   {
-    path: "/components-overview",
+    path: "/about-us",
     layout: DefaultLayout,
-    component: ComponentsOverview
+    component: AboutUs,
   },
   {
-    path: "/tables",
+    path: "/browse-by-category",
     layout: DefaultLayout,
-    component: Tables
+    component: BrowseByCategory,
   },
   {
-    path: "/blog-posts",
+    path: "/category/:category",
     layout: DefaultLayout,
-    component: BlogPosts
-  }
+    component: SelectedCategory,
+  },
+  {
+    path: "/vocab/:category/:vocab",
+    layout: DefaultLayout,
+    component: SelectedVocab,
+  },
 ];
-
-export default routes;

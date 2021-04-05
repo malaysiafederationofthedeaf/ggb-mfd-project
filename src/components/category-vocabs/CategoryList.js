@@ -7,7 +7,7 @@ import CategoryDetail from "./CategoryDetail";
 
 const CategoryList = ({category}) => {
     const [activeItemIndex, setActiveItemIndex] = useState(0);
-
+ 
     return (
         <>
             {/* Page Header */}
