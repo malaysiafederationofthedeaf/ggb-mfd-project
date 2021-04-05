@@ -11,7 +11,7 @@ const SearchInput = ({ onChange, onFocus }) => {
     <div>
       <InputGroup>
         <FormInput
-          placeholder="Search Here"
+          placeholder="Cari MyBIM di sini / Search MyBIM here"
           onChange={onChange}
           onFocus={onFocus}
           onBlur={onFocus}

@@ -41,8 +41,8 @@ const AboutUs = () => {
           </Row>
 
           {/* Signs Blocks */}
-          {categoriesItems.slice(0, 2).map((category) => (
-            <CategoryList category={category} />
+          {categoriesItems.slice(0, 2).map((category, key) => (
+            <CategoryList category={category} key={key} />
           ))}
         </>
       )}

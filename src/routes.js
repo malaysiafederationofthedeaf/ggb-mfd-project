@@ -7,7 +7,6 @@ import { DefaultLayout } from "./layouts";
 // Route Views
 import Errors from "./views/Errors";
 import AboutUs from "./views/AboutUs";
-import About from "./views/Home";
 import BrowseByCategory from "./views/BrowseByCategory";
 import SelectedCategory from "./views/SelectedCategory";
 import SelectedVocab from "./views/SelectedVocab";

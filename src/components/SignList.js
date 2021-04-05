@@ -17,12 +17,14 @@ const SignList = ({ filter }) => {
       {Store.getSignItems()
         // eslint-disable-next-line array-callback-return
         .filter((val) => {
-          if (filter === "") return val;
-          else if (
+          if (filter === "") {
+            return val;
+          } else if (
             val.titleMalay.toLowerCase().includes(filter.toLowerCase()) ||
             val.title.toLowerCase().includes(filter.toLowerCase())
-          )
+          ) {
             return val;
+          }
         })
         .map((val, key) => {
           return (

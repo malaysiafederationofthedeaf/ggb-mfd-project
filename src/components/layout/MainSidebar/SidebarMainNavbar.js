@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Navbar, NavbarBrand } from "shards-react";
-import logo from "../../../images/img-logo-MFD.jpg";
+import logo from "../../../images/mfd/img-logo-BIM.png";
 import { Dispatcher, Constants } from "../../../flux";
 
 class SidebarMainNavbar extends React.Component {
@@ -33,8 +33,8 @@ class SidebarMainNavbar extends React.Component {
             <div className="d-table m-auto">
               <img
                 id="main-logo"
-                className="d-inline-block align-top mr-1"
-                style={{ maxWidth: "25px" }}
+                className="d-md-none d-block align-top mr-1"
+                style={{ maxWidth: "40px" }}
                 src={logo}
                 alt="Shards Dashboard"
               />
