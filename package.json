@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "./",
   "dependencies": {
-
+    "bootstrap": "^4.6.0",
     "flux": "^4.0.1",
     "lodash.find": "^4.6.0",
     "react": "^16.6.3",
