@@ -1,11 +1,9 @@
-/* eslint-disable import/no-anonymous-default-export */
 export default function () {
   return [
     {
-      title: "About Us",
-      to: "/home",
+      title: "About",
       htmlBefore: '<i class="material-icons">info</i>',
-      htmlAfter: "",
+      to: "/about-us",
     },
   ];
 }

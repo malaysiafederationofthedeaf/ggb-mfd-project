@@ -4,7 +4,7 @@ import {
   FormInput,
   InputGroup,
   InputGroupAddon,
-  InputGroupText
+  InputGroupText,
 } from "shards-react";
 
 const SidebarSearch = () => (
@@ -27,4 +27,4 @@ const SidebarSearch = () => (
   </Form>
 );
 
-export default SidebarSearch
+export default SidebarSearch;

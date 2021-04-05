@@ -18,6 +18,7 @@ class SidebarMainNavbar extends React.Component {
   }
 
   render() {
+    const { hideLogoText } = this.props;
     return (
       <div className="main-navbar">
         <Navbar
@@ -26,7 +27,7 @@ class SidebarMainNavbar extends React.Component {
         >
           <NavbarBrand
             className="w-100 mr-0"
-            href="#"
+            href="/about-us"
             style={{ lineHeight: "25px" }}
           >
             <div className="d-table m-auto">
@@ -37,6 +38,9 @@ class SidebarMainNavbar extends React.Component {
                 src={logo}
                 alt="Shards Dashboard"
               />
+              {!hideLogoText && (
+                <span className="d-none d-md-inline ml-1">MFD Sign Bank</span>
+              )}
             </div>
           </NavbarBrand>
           {/* eslint-disable-next-line */}

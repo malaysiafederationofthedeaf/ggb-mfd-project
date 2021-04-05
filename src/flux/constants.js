@@ -1,6 +1,4 @@
-const constants = () => ({
+export default {
   CHANGE: "CHANGE",
   TOGGLE_SIDEBAR: "TOGGLE_SIDEBAR",
-});
-
-export default constants;
+};
