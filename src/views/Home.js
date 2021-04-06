@@ -1,16 +1,16 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { Container, Row, Col } from "shards-react";
 
-import PageTitle from "../components/common/PageTitle";
-import AboutUs from "../components/blog/AboutUs";
+import { Container, Col, Row } from "shards-react";
+
+import AboutUsPreview from "../components/about-us/AboutUsPreview";
 import categoriesItems from "../data/categories/categories-items";
 import CategoryList from "../components/category-vocabs/CategoryList";
 import SignList from "../components/SignList";
 import { Store } from "../flux";
+import CategoryPreview from "../components/category-vocabs/CategoryPreview";
 
-const Home = ({ categoriesItems }) => {
+const Home = () => {
   const [searchTerm, setSearchTerm] = useState(Store.getSearchTerm());
   const [searchState, setSearchState] = useState(Store.getSearchState());
   useEffect(() => {
@@ -20,28 +20,21 @@ const Home = ({ categoriesItems }) => {
     });
   }, []);
   return (
-    <Container fluid className="main-content-container px-4">
+    <Container fluid className="main-content-container px-4 mb-2">
+      <Row>
+        <Col lg="6" md="12" sm="12" className="mb-4">
+          <AboutUsPreview />
+        </Col>
+        <Col lg="6" md="12" sm="12" className="mb-4">
+          <CategoryPreview />
+        </Col>
+      </Row>
+
       {/* Search Lists */}
       {searchState ? (
         <SignList filter={searchTerm} />
       ) : (
         <>
-          {/* Page Header */}
-          <Row noGutters className="page-header py-4">
-            <PageTitle
-              title="SignBank"
-              subtitle="GGB-MFD"
-              className="text-sm-left mb-3"
-            />
-          </Row>
-
-          <Row>
-            {/* About Us */}
-            <Col className="mb-4">
-              <AboutUs title="About Us" />
-            </Col>
-          </Row>
-
           {/* Signs Blocks */}
           {categoriesItems.slice(0, 2).map((category) => (
             <CategoryList category={category} />
@@ -50,17 +43,6 @@ const Home = ({ categoriesItems }) => {
       )}
     </Container>
   );
-};
-
-Home.propTypes = {
-  /**
-   * The small stats dataset.
-   */
-  categoriesItems: PropTypes.array,
-};
-
-Home.defaultProps = {
-  categoriesItems,
 };
 
 export default Home;
