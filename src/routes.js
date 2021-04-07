@@ -7,6 +7,7 @@ import { DefaultLayout } from "./layouts";
 // Route Views
 import Errors from "./views/Errors";
 import AboutUs from "./views/AboutUs";
+import Home from "./views/Home";
 import BrowseByCategory from "./views/BrowseByCategory";
 import SelectedCategory from "./views/SelectedCategory";
 import SelectedVocab from "./views/SelectedVocab";
@@ -16,31 +17,36 @@ export default [
     path: "/",
     exact: true,
     layout: DefaultLayout,
-    component: () => <Redirect to="/about-us" />
+    component: () => <Redirect to="/home" />,
+  },
+  {
+    path: "/home",
+    layout: DefaultLayout,
+    component: Home,
   },
   {
     path: "/errors",
     layout: DefaultLayout,
-    component: Errors
+    component: Errors,
   },
   {
     path: "/about-us",
     layout: DefaultLayout,
-    component: AboutUs
+    component: AboutUs,
   },
   {
     path: "/browse-by-category",
     layout: DefaultLayout,
-    component: BrowseByCategory
+    component: BrowseByCategory,
   },
   {
     path: "/category/:category",
     layout: DefaultLayout,
-    component: SelectedCategory
+    component: SelectedCategory,
   },
   {
     path: "/vocab/:category/:vocab",
     layout: DefaultLayout,
-    component: SelectedVocab
-  }  
+    component: SelectedVocab,
+  },
 ];

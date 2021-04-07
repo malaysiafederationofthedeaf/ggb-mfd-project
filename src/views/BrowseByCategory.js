@@ -8,7 +8,9 @@ class BrowseByCategory extends React.Component {
   render() {
     return (
       <Container fluid className="main-content-container px-4 mb-2">
-        {categoriesItems.map(category => <CategoryList category={category} />)}
+        {categoriesItems.map((category, key) => (
+          <CategoryList category={category} key={key} />
+        ))}
       </Container>
     );
   }

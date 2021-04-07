@@ -15,7 +15,7 @@ class MainSidebar extends React.Component {
 
     this.state = {
       menuVisible: false,
-      sidebarNavItems: Store.getSidebarItems()
+      sidebarNavItems: Store.getSidebarItems(),
     };
 
     this.onChange = this.onChange.bind(this);
@@ -33,7 +33,7 @@ class MainSidebar extends React.Component {
     this.setState({
       ...this.state,
       menuVisible: Store.getMenuState(),
-      sidebarNavItems: Store.getSidebarItems()
+      sidebarNavItems: Store.getSidebarItems(),
     });
   }
 
@@ -46,12 +46,7 @@ class MainSidebar extends React.Component {
     );
 
     return (
-      <Col
-        tag="aside"
-        className={classes}
-        lg={{ size: 2 }}
-        md={{ size: 3 }}
-      >
+      <Col tag="aside" className={classes} lg={{ size: 2 }} md={{ size: 3 }}>
         <SidebarMainNavbar hideLogoText={this.props.hideLogoText} />
         <SidebarSearch />
         <SidebarNavItems />
@@ -64,11 +59,11 @@ MainSidebar.propTypes = {
   /**
    * Whether to hide the logo text, or not.
    */
-  hideLogoText: PropTypes.bool
+  hideLogoText: PropTypes.bool,
 };
 
 MainSidebar.defaultProps = {
-  hideLogoText: false
+  hideLogoText: false,
 };
 
 export default MainSidebar;

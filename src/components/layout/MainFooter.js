@@ -36,10 +36,18 @@ MainFooter.defaultProps = {
   contained: false,
   menuItems: [
     {
+      title: "Home",
+      to: "/home",
+    },
+    {
       title: "About",
-      to: "/about-us"
-    }
-  ]
+      to: "/about-us",
+    },
+    {
+      title: "Category",
+      to: "/browse-by-category",
+    },
+  ],
 };
 
 export default MainFooter;

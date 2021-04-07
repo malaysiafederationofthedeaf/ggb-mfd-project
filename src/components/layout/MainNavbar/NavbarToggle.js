@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Dispatcher, Constants } from "../../../flux";
 
 class NavbarToggle extends React.Component {
@@ -11,7 +10,7 @@ class NavbarToggle extends React.Component {
 
   handleClick() {
     Dispatcher.dispatch({
-      actionType: Constants.TOGGLE_SIDEBAR
+      actionType: Constants.TOGGLE_SIDEBAR,
     });
   }
 
@@ -19,11 +18,15 @@ class NavbarToggle extends React.Component {
     return (
       <nav className="nav">
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-        <a href="#" onClick={this.handleClick} className="nav-link nav-link-icon toggle-sidebar d-sm-inline d-md-inline d-lg-none text-center">
+        <a
+          href="#"
+          onClick={this.handleClick}
+          className="nav-link nav-link-icon toggle-sidebar d-sm-inline d-md-inline d-lg-none text-center"
+        >
           <i className="material-icons">&#xE5D2;</i>
         </a>
       </nav>
-    )
+    );
   }
 }
 

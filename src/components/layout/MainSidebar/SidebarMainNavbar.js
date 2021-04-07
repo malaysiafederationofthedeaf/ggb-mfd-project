@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Navbar, NavbarBrand } from "shards-react";
-
+import logo from "../../../images/mfd/img-logo-BIM.png";
 import { Dispatcher, Constants } from "../../../flux";
 
 class SidebarMainNavbar extends React.Component {
@@ -13,7 +13,7 @@ class SidebarMainNavbar extends React.Component {
 
   handleToggleSidebar() {
     Dispatcher.dispatch({
-      actionType: Constants.TOGGLE_SIDEBAR
+      actionType: Constants.TOGGLE_SIDEBAR,
     });
   }
 
@@ -33,15 +33,13 @@ class SidebarMainNavbar extends React.Component {
             <div className="d-table m-auto">
               <img
                 id="main-logo"
-                className="d-inline-block align-top mr-1"
-                style={{ maxWidth: "25px" }}
-                src={require("../../../images/mfd/mfd-logo.jpg")}
-                alt="MFD Logo"
+                className="d-md-none d-block align-top mr-1"
+                style={{ maxWidth: "40px" }}
+                src={logo}
+                alt="Shards Dashboard"
               />
               {!hideLogoText && (
-                <span className="d-none d-md-inline ml-1">
-                  MFD Sign Bank
-                </span>
+                <span className="d-none d-md-inline ml-1">MFD Sign Bank</span>
               )}
             </div>
           </NavbarBrand>
@@ -62,11 +60,11 @@ SidebarMainNavbar.propTypes = {
   /**
    * Whether to hide the logo text, or not.
    */
-  hideLogoText: PropTypes.bool
+  hideLogoText: PropTypes.bool,
 };
 
 SidebarMainNavbar.defaultProps = {
-  hideLogoText: false
+  hideLogoText: false,
 };
 
 export default SidebarMainNavbar;

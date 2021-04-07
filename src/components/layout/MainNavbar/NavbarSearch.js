@@ -5,7 +5,7 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-  FormInput
+  FormInput,
 } from "shards-react";
 
 export default () => (
