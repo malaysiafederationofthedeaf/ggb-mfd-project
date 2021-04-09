@@ -1,17 +1,17 @@
 export default function() {
   return [
     {
-      title: "Home",
+      title: "nav_item_1_title",
       htmlBefore: '<i class="material-icons">home</i>',
       to: "/home",
     },
     {
-      title: "About Us",
+      title: "nav_item_2_title",
       htmlBefore: '<i class="material-icons">info</i>',
       to: "/about-us",
     },
     {
-      title: "Browse By Category",
+      title: "nav_item_3_title",
       htmlBefore: '<i class="material-icons">category</i>',
       to: "/browse-by-category",
     },
