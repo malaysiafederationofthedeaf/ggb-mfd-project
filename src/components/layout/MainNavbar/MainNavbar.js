@@ -6,8 +6,9 @@ import { Container, Navbar } from "shards-react";
 import SearchInput from "../../SearchInput";
 import NavbarNav from "./NavbarNav/NavbarNav";
 import NavbarToggle from "./NavbarToggle";
+import NavbarTranslate from "./NavbarTranslate";
 
-const MainNavbar = ({ layout, stickyTop, onChange, onFocus }) => {
+const MainNavbar = ({ layout, stickyTop, onChange, onFocus, toggle }) => {
   const classes = classNames(stickyTop && "sticky-top");
 
   return (
@@ -19,7 +20,10 @@ const MainNavbar = ({ layout, stickyTop, onChange, onFocus }) => {
             className="align-items-stretch flex-md-nowrap p-0"
           >
             <NavbarNav />
-            <NavbarToggle />
+            <div className="justify-content-end">
+              <NavbarTranslate toggle={toggle} />
+              <NavbarToggle />
+            </div>
           </Navbar>
         </Container>
       </div>
