@@ -5,13 +5,14 @@ import {
   InputGroupAddon,
   InputGroupText,
 } from "shards-react";
-
+import { useTranslation } from "react-i18next";
 const SearchInput = ({ onChange, onFocus }) => {
+  const { t } = useTranslation();
   return (
     <div>
       <InputGroup>
         <FormInput
-          placeholder="Cari MyBIM di sini / Search MyBIM here"
+          placeholder={t("search_placeholder")}
           onChange={onChange}
           onFocus={onFocus}
           onBlur={onFocus}

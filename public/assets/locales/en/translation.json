@@ -3,5 +3,18 @@
   "sidebar_title": "MFD Sign Bank",
   "nav_item_1_title": "Home",
   "nav_item_2_title": "About Us",
-  "nav_item_3_title": "Browse By Category"
+  "nav_item_3_title": "Browse By Category",
+  "search_placeholder": "Search MyBIM here",
+  "about_us_btn": "About Us",
+  "mfd_name": "Malaysian Federation of Deaf (MFD)",
+  "category_btn": "BIM Categories",
+  "bim_name": "Malaysian Sign Language (MSL)",
+  "general": "General",
+  "general_title_1": "Alphabets",
+  "general_title_2": "Numbers",
+  "general_title_3": "Colors",
+  "living_things": "Living Things",
+  "living_things_title_1": "Family",
+  "living_things_title_2": "Animals",
+  "living_things_title_3": "Plants"
 }

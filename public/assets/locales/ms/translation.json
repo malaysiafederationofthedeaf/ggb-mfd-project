@@ -3,5 +3,18 @@
   "sidebar_title": "MFD Sign Bank",
   "nav_item_1_title": "Utama",
   "nav_item_2_title": "Mengenai Kami",
-  "nav_item_3_title": "Layar Kategori"
+  "nav_item_3_title": "Layar Kategori",
+  "search_placeholder": "Cari MyBIM di sini",
+  "about_us_btn": "Tentang Kami",
+  "mfd_name": "Persatuan Orang Pekak Malaysia (POKM) ",
+  "category_btn": "Kategori BIM",
+  "bim_name": "Bahasa Isyarat Malaysia (BIM)",
+  "general": "Am",
+  "general_title_1": "Abjad",
+  "general_title_2": "Nombor",
+  "general_title_3": "Warna",
+  "living_things": "Benda Hidup",
+  "living_things_title_1": "Keluarga",
+  "living_things_title_2": "Haiwan",
+  "living_things_title_3": "Tumbuhan"
 }

@@ -1,43 +1,43 @@
 const categoriesItems = [
   {
-    categoryGroup: "General",
+    categoryGroup: "general",
     categoryGroupMalay: "Am",
     categories: [
       {
         backgroundImage: require("../../images/mfd/category/alphabetCat.jpg"),
         titleMalay: "Abjad",
-        title: "Alphabets",
+        title: "general_title_1",
       },
       {
         backgroundImage: require("../../images/mfd/category/numberCat.jpg"),
         titleMalay: "Angka",
-        title: "Numbers",
+        title: "general_title_2",
       },
       {
         backgroundImage: require("../../images/mfd/category/colorCat.jpg"),
         titleMalay: "Warna",
-        title: "Colors",
+        title: "general_title_3",
       },
     ],
   },
   {
-    categoryGroup: "Living Things",
+    categoryGroup: "living_things",
     categoryGroupMalay: "Benda-Benda Hidup",
     categories: [
       {
         backgroundImage: require("../../images/mfd/category/familyCat.jfif"),
         titleMalay: "Keluarga",
-        title: "Family",
+        title: "living_things_title_1",
       },
       {
         backgroundImage: require("../../images/mfd/category/animalCat.jpg"),
         titleMalay: "Haiwan",
-        title: "Animals",
+        title: "living_things_title_2",
       },
       {
         backgroundImage: require("../../images/mfd/category/animalCat.jpg"),
         titleMalay: "Tumbuh-Tumbuhan",
-        title: "Plants",
+        title: "living_things_title_3",
       },
     ],
   },
