@@ -42,34 +42,34 @@ const categoriesItems = [
     ],
   },
   {
-    categoryGroup: "Places",
+    categoryGroup: "places",
     categoryGroupMalay: "Tempat-Tempatan",
     categories: [
       {
         backgroundImage: require("../../images/mfd/category/placeCat.jpg"),
         titleMalay: "Tempat & Bangunan",
-        title: "Places",
+        title: "places_title_1",
       },
       {
         backgroundImage: require("../../images/mfd/category/stateCat.jfif"),
         titleMalay: "Negeri",
-        title: "States",
+        title: "places_title_2",
       },
     ],
   },
   {
-    categoryGroup: "Conversation",
+    categoryGroup: "conversation",
     categoryGroupMalay: "Perbualan",
     categories: [
       {
         backgroundImage: require("../../images/mfd/category/greetingCat.jfif"),
         titleMalay: "Ucapan",
-        title: "Greetings",
+        title: "conversation_title_1",
       },
       {
         backgroundImage: require("../../images/mfd/category/whCat.jpg"),
         titleMalay: "Kata Tanya",
-        title: "WHs",
+        title: "conversation_title_2",
       },
     ],
   },
