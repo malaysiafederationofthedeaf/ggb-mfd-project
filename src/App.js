@@ -5,7 +5,7 @@ import routes from "./routes";
 import withTracker from "./withTracker";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.scss";
+import "./assets/styles/App.scss";
 import Aos from "aos";
 import "aos/dist/aos.css";
 
