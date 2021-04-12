@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
-
 import { Container, Row, Col } from "shards-react";
+import { useTranslation } from "react-i18next";
 
 import PageTitle from "../components/common/PageTitle";
 import AboutUsDetails from "../components/about-us/AboutUsDetails";
@@ -19,6 +19,7 @@ const AboutUs = () => {
       setSearchState(Store.getSearchState());
     });
   }, []);
+  const { t } = useTranslation();
   return (
     <Container fluid className="main-content-container px-4">
       {/* Search Lists */}
@@ -28,15 +29,14 @@ const AboutUs = () => {
         <>
           <Row noGutters className="page-header py-4">
             <PageTitle
-              title="Pengenalan"
-              subtitle="ABOUT US"
+              title={t("about_us_title")}
               md="12"
               className="ml-sm-auto mr-sm-auto"
             />
           </Row>
           <Row>
             <Col>
-              <AboutUsDetails />
+              <AboutUsDetails t={t} />
             </Col>
           </Row>
 

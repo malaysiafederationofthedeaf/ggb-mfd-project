@@ -4,9 +4,11 @@ import ItemsCarousel from "react-items-carousel";
 
 import PageTitle from "../common/PageTitle";
 import CategoryDetail from "./CategoryDetail";
+import { useTranslation } from "react-i18next";
 
 const CategoryList = ({ category }) => {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
+  const { t } = useTranslation();
 
   return (
     <>
@@ -14,8 +16,7 @@ const CategoryList = ({ category }) => {
       <Row noGutters className="page-header py-4">
         <PageTitle
           sm="4"
-          title={category.categoryGroupMalay}
-          subtitle={category.categoryGroup}
+          title={t(category.categoryGroup)}
           className="text-sm-left"
         />
       </Row>
