@@ -5,9 +5,12 @@ import routes from "./routes";
 import withTracker from "./withTracker";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./assets/shards-dashboards.1.1.0.min.css";
+import "./App.scss";
+import Aos from "aos";
+import "aos/dist/aos.css";
 
 function App() {
+  Aos.init();
   return (
     <Router basename={process.env.REACT_APP_BASENAME || ""}>
       <div>

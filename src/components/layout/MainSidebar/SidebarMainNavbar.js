@@ -27,19 +27,16 @@ class SidebarMainNavbar extends React.Component {
         >
           <NavbarBrand
             className="w-100 mr-0"
-            href="/about-us"
-            style={{ lineHeight: "25px" }}
+            href="/home"
           >
             <div className="d-table m-auto">
               <img
-                id="main-logo"
-                className="d-md-none d-block align-top mr-1"
-                style={{ maxWidth: "40px" }}
+                className="navbar-logo"
                 src={logo}
-                alt="Shards Dashboard"
+                alt="BIM Logo"
               />
               {!hideLogoText && (
-                <span className="d-none d-md-inline ml-1">MFD Sign Bank</span>
+                <span className="d-none d-md-inline ml-1">BIM</span>
               )}
             </div>
           </NavbarBrand>

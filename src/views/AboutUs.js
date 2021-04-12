@@ -30,25 +30,7 @@ const AboutUs = () => {
       {searchState ? (
         <SignList filter={searchTerm} />
       ) : (
-        <>
-          <Row noGutters className="page-header py-4">
-            <PageTitle
-              title={t("about_us_title")}
-              md="12"
-              className="ml-sm-auto mr-sm-auto"
-            />
-          </Row>
-          <Row>
-            <Col>
-              <AboutUsDetails t={t} />
-            </Col>
-          </Row>
-
-          {/* Signs Blocks */}
-          {categoriesItems.slice(0, 2).map((category, key) => (
-            <CategoryList category={category} key={key} />
-          ))}
-        </>
+        <AboutUsDetails t={t} />
       )}
     </Container>
   );

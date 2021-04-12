@@ -1,7 +1,10 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Button } from "shards-react";
 
-const BackButton = ({ history }) => <Button pill onClick={() => history.goBack()}>&larr; Go Back</Button>;
+const BackButton = ({ history }) => 
+<button className="btn-primary scrollto d-inline-flex align-items-center justify-content-center align-self-center" onClick={() => history.goBack()}>
+    <span>&larr; Go Back</span>
+    <i className="bi bi-arrow-right"></i>
+</button>
 
 export default withRouter(BackButton);

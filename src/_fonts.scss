@@ -1,0 +1,94 @@
+$font-title: "Libre Baskerville", serif;
+$font-size-title: 36px;
+$font-weight-title: 700;
+
+$font-body-monospace: "Roboto Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; 
+
+$font-subtitle:'Palatino Linotype',serif;
+$font-size-subtitle: 20px;
+$font-weight-subtitle: 500;
+
+$font-body: 'Open Sans',sans-serif;
+$font-size-body: 16px;
+$font-weight-body: 400;
+
+// Fonts Variables
+$font-nav-link: $font-body;
+$font-button: $font-body;
+
+@mixin title-font {
+    font: {
+        family: $font-title;
+        weight: $font-weight-title;
+        size: $font-size-title;
+    }
+}
+
+@mixin subtitle-font {
+    font: {
+        family: $font-subtitle;
+        weight: $font-weight-subtitle;
+        size: $font-size-subtitle;
+    }
+}
+
+@mixin body-font {
+    font: {
+        family: $font-body;
+        weight: $font-weight-body;
+        size: $font-size-body;
+    }
+}
+
+@mixin button-font {
+    font: {
+        family: $font-button;
+        weight: $font-weight-body;
+        size: $font-size-body;
+    }
+}
+
+@mixin nav-item-font {
+    font: {
+        family: $font-subtitle;
+        weight: $font-weight-subtitle;
+        size: $font-size-body;
+    }
+}
+
+@mixin app-name-font {
+    font: {
+        family: $font-title;
+        size: $font-size-title; 
+    }  
+    padding: 10px;
+    letter-spacing: 8px;
+}
+
+@mixin h1 {
+    margin: 0;
+    color: $title-font-color;
+    text-transform: uppercase;
+    font: {
+      size: 48px;
+      weight: 700;  
+      family: $font-title;      
+    }
+}
+ 
+@mixin h2 {
+    margin: 15px 0 0 0;
+    color: $subtitle-font-color;
+    font: {
+      size: 26px;
+      family: $font-subtitle;    
+    }
+}  
+
+@mixin h3 {
+    font: {
+        weight: 500;
+        size: 35px;
+    }
+    margin-bottom: 10px;    
+}
