@@ -19,6 +19,11 @@ const DefaultLayout = ({ children, noNavbar, noFooter }) => {
       actionType: "TOGGLE_SEARCH",
     });
   };
+  const toggleDropdown = () => {
+    Dispatcher.dispatch({
+      actionType: "TOGGLE_DROPDOWN",
+    });
+  };
 
   return (
     <Container fluid>
@@ -31,7 +36,13 @@ const DefaultLayout = ({ children, noNavbar, noFooter }) => {
           sm="12"
           tag="main"
         >
-          {!noNavbar && <MainNavbar onChange={search} onFocus={showSearch} />}
+          {!noNavbar && (
+            <MainNavbar
+              onChange={search}
+              onFocus={showSearch}
+              toggle={toggleDropdown}
+            />
+          )}
           {children}
           {!noFooter && <MainFooter />}
         </Col>

@@ -11,6 +11,19 @@ let _store = {
   signSampleItems: signSample,
   searchTerm: "",
   signListVisible: false,
+  openDropdown: false,
+  languages: [
+    {
+      code: "en",
+      name: "English",
+      country_code: "gb",
+    },
+    {
+      code: "ms",
+      name: "Melayu",
+      country_code: "my",
+    },
+  ],
 };
 
 class Store extends EventEmitter {
@@ -21,6 +34,7 @@ class Store extends EventEmitter {
     this.toggleSidebar = this.toggleSidebar.bind(this);
     this.toggleSearch = this.toggleSearch.bind(this);
     this.searchTerm = this.searchTerm.bind(this);
+    this.toggleDropdown = this.toggleDropdown.bind(this);
 
     Dispatcher.register(this.registerToActions.bind(this));
   }
@@ -37,6 +51,10 @@ class Store extends EventEmitter {
 
       case "SEARCH_TERM":
         this.searchTerm(payload);
+        break;
+
+      case "TOGGLE_DROPDOWN":
+        this.toggleDropdown();
         break;
 
       default:
@@ -58,6 +76,11 @@ class Store extends EventEmitter {
     this.emit(Constants.CHANGE);
   }
 
+  toggleDropdown() {
+    _store.openDropdown = !_store.openDropdown;
+    this.emit(Constants.CHANGE);
+  }
+
   getMenuState() {
     return _store.menuVisible;
   }
@@ -76,6 +99,14 @@ class Store extends EventEmitter {
 
   getSearchTerm() {
     return _store.searchTerm;
+  }
+
+  getOpenDropdown() {
+    return _store.openDropdown;
+  }
+
+  getLanguages() {
+    return _store.languages;
   }
 
   addChangeListener(callback) {
