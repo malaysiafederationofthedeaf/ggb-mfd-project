@@ -19,10 +19,14 @@ const NavbarTranslate = ({ toggle }) => {
   const { t } = useTranslation();
   const [openDropdown, setOpenDropdown] = useState(false);
   useEffect(() => {
-    Store.addChangeListener(() => {
-      setOpenDropdown(Store.getOpenDropdown());
-    });
+    Store.addChangeListener(onChange);
+    return () => {
+      Store.removeChangeListener(onChange);
+    };
   }, []);
+  const onChange = () => {
+    setOpenDropdown(Store.getOpenDropdown());
+  };
 
   return (
     <div className="d-flex my-2">
