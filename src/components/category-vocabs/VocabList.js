@@ -18,7 +18,7 @@ const VocabList = ({vocabs}) => (
                         </Col>
                         <Col>
                             <button className="vocab-play-button" >
-                                <i class="material-icons">play_circle_filled</i>    
+                                <i className="material-icons">play_circle_filled</i>    
                             </button>                            
                         </Col>                        
                         <Col>

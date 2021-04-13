@@ -1,12 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Container, Row, Col } from "shards-react";
+import { Container } from "shards-react";
 import { useTranslation } from "react-i18next";
 
-import PageTitle from "../components/common/PageTitle";
 import AboutUsDetails from "../components/about-us/AboutUsDetails";
-import categoriesItems from "../data/categories/categories-items";
-import CategoryList from "../components/category-vocabs/CategoryList";
 import SignList from "../components/SignList";
 import { Store } from "../flux";
 

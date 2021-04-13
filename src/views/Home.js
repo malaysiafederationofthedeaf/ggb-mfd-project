@@ -28,8 +28,8 @@ const Home = () => {
         <Container fluid className="main-content-container">
           <div className="category-list-wrapper">
             {/* Signs Blocks */}
-            {categoriesItems.slice(0, 2).map((category) => (
-                <CategoryList category={category} />
+            {categoriesItems.slice(0, 2).map((category, key) => (
+                <CategoryList category={category} key={key} />
             ))}
           </div>
         </Container>

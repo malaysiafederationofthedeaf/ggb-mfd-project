@@ -138,7 +138,7 @@ p {
     height: calc(100vh - 60px - 1px);
   }
   .nav {
-    .nav-item {
+    .nav-link {
       @include nav-item-font; 
       white-space: nowrap;
       min-width: 100%;
@@ -147,7 +147,10 @@ p {
       text-overflow: ellipsis;
       text-transform: uppercase;
       will-change: background-color, box-shadow, color;
-      transition: box-shadow .2s ease, color .2s ease, background-color .2s ease;
+      transition: box-shadow .2s ease, color .2s ease, background-color .2s ease;           
+    }
+    .nav-item {
+      @extend .nav-link;
       .nav-link {
         border-bottom: $border;
         color: $navbar-link-color;
@@ -164,16 +167,16 @@ p {
         &:hover {
           @include nav-link-hover-active;
         }
-      }
-      .nav-link.active {
-        @include nav-link-hover-active;
+        .active {
+          @include nav-link-hover-active;
+        }
       }
       &:hover {
         @include nav-link-hover-active;
       }
-    }
-    .nav-item.active {
-      @include nav-link-hover-active;
+      .active {
+        @include nav-link-hover-active;
+      }
     }
   }
   .nav--no-borders {
@@ -303,8 +306,7 @@ p {
       padding-left: 25px;
       padding-right: 25px; }  
     &:hover {
-      box-shadow: $box-shadow;
-      transform: scale(1.05);     
+      box-shadow: $box-shadow;   
     }  
 }
 

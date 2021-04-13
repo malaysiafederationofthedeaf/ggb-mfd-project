@@ -16,7 +16,7 @@ const MainNavbar = ({ stickyTop, onChange, onFocus, toggle }) => {
       <div className="main-navbar bg-white ">
           <Navbar
             type="light"
-            className="align-items-stretch flex-md-nowrap p-0"
+            className="align-items-stretch flex-md-nowrap p-0 navbar"
           >
             <NavbarNav />
             <div className="justify-content-end right-end-navbar">
