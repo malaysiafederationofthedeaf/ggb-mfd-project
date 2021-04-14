@@ -1,25 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Card, CardHeader, ListGroup, ListGroupItem } from "shards-react";
 
 const AboutUsDetails = ({ mfdDetails, t }) => (
-  <Card small className="mb-4 pt-3">
-    <CardHeader className="border-bottom text-center">
-      <div className="mb-3 mx-auto">
-        <img src={mfdDetails.logo} alt={t(mfdDetails.name)} width="110" />
-      </div>
-      <h4 className="mb-0">{t(mfdDetails.name)}</h4>
-    </CardHeader>
-    <ListGroup flush>
-      <ListGroupItem className="p-4">
-        <strong className="text-muted d-block mb-2">
-          {t(mfdDetails.metaTitle)}
-        </strong>
-        <p>{t(mfdDetails.metaValue1)}</p>
-        <p>{t(mfdDetails.metaValue2)}</p>
-      </ListGroupItem>
-    </ListGroup>
-  </Card>
+  <div className="about-us d-flex align-items-center">
+    <div className="container">
+      <div className="row">
+        <div className="col-lg-6 d-flex flex-column justify-content-center">
+          <h1 data-aos="fade-up">{t(mfdDetails.name)}</h1>
+          <p data-aos="fade-up" data-aos-delay="400">{t(mfdDetails.metaValue1)}</p>         
+          <p data-aos="fade-up" data-aos-delay="500">{t(mfdDetails.metaValue2)}</p> 
+        </div>
+        <div className="col-lg-6 about-us-img" data-aos="zoom-out" data-aos-delay="200">
+          <img src={mfdDetails.logo} alt={t(mfdDetails.name)}className="img-fluid"/>
+        </div> 
+      </div>     
+    </div>
+  </div> 
 );
 
 AboutUsDetails.propTypes = {
@@ -32,7 +28,7 @@ AboutUsDetails.propTypes = {
 AboutUsDetails.defaultProps = {
   mfdDetails: {
     name: "mfd_name",
-    logo: require("./../../images/mfd/mfd-logo.jpg"),
+    logo: require("./../../images/mfd/mfd-about.jpg"),
     metaTitle: "meta_title",
     metaValue1: "meta_value_1",
     metaValue2: "meta_value_2",

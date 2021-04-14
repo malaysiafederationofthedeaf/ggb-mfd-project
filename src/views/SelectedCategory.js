@@ -16,7 +16,7 @@ const SelectedCategory = ({match}) => {
     if (!vocabs) return <Errors />
 
     return(
-        <Container fluid className="main-content-container px-4">
+        <Container fluid className="main-content-container px-4 vocab-list-wrapper">
             <Row noGutters className="page-header py-4">
                 <PageTitle title={vocabs.category} md="12" className="ml-sm-auto mr-sm-auto" />
             </Row>

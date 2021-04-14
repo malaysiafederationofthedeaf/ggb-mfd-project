@@ -29,7 +29,7 @@ const NavbarTranslate = ({ toggle }) => {
   };
 
   return (
-    <div className="d-flex my-2">
+    <div>
       <Dropdown open={openDropdown} toggle={toggle}>
         <DropdownToggle>
           <GlobeIcon />

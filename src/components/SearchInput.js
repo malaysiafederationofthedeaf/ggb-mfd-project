@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 const SearchInput = ({ onChange, onFocus }) => {
   const { t } = useTranslation();
   return (
-    <div>
+    <div className="search-bar">
       <InputGroup>
         <FormInput
           placeholder={t("search_placeholder")}

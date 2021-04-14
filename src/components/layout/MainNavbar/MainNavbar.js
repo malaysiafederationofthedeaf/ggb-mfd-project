@@ -1,35 +1,32 @@
 import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import { Container, Navbar } from "shards-react";
+import { Navbar } from "shards-react";
 
 import SearchInput from "../../SearchInput";
 import NavbarNav from "./NavbarNav/NavbarNav";
 import NavbarToggle from "./NavbarToggle";
 import NavbarTranslate from "./NavbarTranslate";
 
-const MainNavbar = ({ layout, stickyTop, onChange, onFocus, toggle }) => {
+const MainNavbar = ({ stickyTop, onChange, onFocus, toggle }) => {
   const classes = classNames(stickyTop && "sticky-top");
 
   return (
     <div className={classes}>
-      <div className="main-navbar bg-white">
-        <Container className="p-0">
+      <div className="main-navbar bg-white ">
           <Navbar
             type="light"
-            className="align-items-stretch flex-md-nowrap p-0"
+            className="align-items-stretch flex-md-nowrap p-0 navbar"
           >
             <NavbarNav />
-            <div className="justify-content-end">
-              <NavbarTranslate toggle={toggle} />
-              <NavbarToggle />
-            </div>
+            <div className="justify-content-end right-end-navbar">
+              <NavbarTranslate toggle={toggle} />            
+              <NavbarToggle />              
+            </div>            
           </Navbar>
-        </Container>
+          {/* Search Row */}
+          <SearchInput onChange={onChange} onFocus={onFocus} />          
       </div>
-
-      {/* Search Row */}
-      <SearchInput onChange={onChange} onFocus={onFocus} />
     </div>
   );
 };

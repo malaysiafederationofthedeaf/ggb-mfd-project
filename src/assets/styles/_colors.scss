@@ -1,0 +1,44 @@
+// Primary Colors
+$color-primary: #024c8b;
+$color-primary-dark: #1a1a1a;
+$color-primary-light:#2a9cff;
+
+// Secondary Colors
+$color-secondary: #edded9;
+$color-secondary-dark: #8a826a;
+$color-secondary-light: #ffffff;
+
+// Shadow Colors
+$color-dark-shadow: rgba(90, 97, 105, 0.1);
+$color-light-shadow: rgba(165, 182, 201, 0.1);
+$color-nav-active-hover-shadow: $color-primary-light;
+
+// Color Variables
+// Title, Subtitle, Body
+$title-font-color: $color-primary;
+$subtitle-font-color: $color-primary-dark;
+$body-font-color: $color-primary-dark;
+
+$title-font-light-color: $color-secondary-light;
+$subtitle-font-light-color: $color-secondary;
+$body-font-light-color: $color-secondary-light;
+
+// Background 
+$background-color: $color-secondary-light;
+
+// Navbar
+$navbar-top-background-color: $color-secondary-dark;
+$navbar-background-color: $color-secondary-light;
+$navbar-link-color: $color-secondary-dark;
+$navbar-active-link-color: $color-secondary-dark;
+
+// Category List
+$category-list-background-color: $color-secondary-light;
+
+// a (Link)
+$a-color: $color-primary;
+$a-hover-color: $color-primary-light;
+
+// Button
+$button-text-color: $color-secondary-light;
+$button-background-color: $color-primary;

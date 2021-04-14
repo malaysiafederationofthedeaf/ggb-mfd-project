@@ -19,11 +19,11 @@ const SelectedVocab = ({match}) => {
     if (!vocab) return <Errors />
 
     return(
-        <Container fluid className="main-content-container px-4">
-          <Row noGutters className="page-header py-4">
-            <PageTitle title={vocabs.categoryMalay} subtitle={cat} md="12" className="ml-sm-auto mr-sm-auto" />
-          </Row>
-          <VocabDetail vocab={vocab} />
+      <Container fluid className="main-content-container px-4 vocab-detail-wrapper">
+        <Row noGutters className="page-header py-4">
+          <PageTitle title={vocabs.categoryMalay} subtitle={cat} md="12" className="ml-sm-auto mr-sm-auto" />
+        </Row>
+        <VocabDetail vocab={vocab} />
       </Container>
     );
 }

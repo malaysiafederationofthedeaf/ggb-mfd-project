@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row } from "shards-react";
 import ItemsCarousel from "react-items-carousel";
 
@@ -7,6 +7,18 @@ import CategoryDetail from "./CategoryDetail";
 import { useTranslation } from "react-i18next";
 
 const CategoryList = ({ category }) => {
+  const [noOfCards, setNoOfCards] = useState((window.innerWidth > 768) ? 3 : 2);
+  useEffect(() => {
+    function handleResize() {
+      setNoOfCards((window.innerWidth > 768) ? 3 : 2)  
+    }
+    window.addEventListener('resize', handleResize)
+
+    return _ => {
+      window.removeEventListener('resize', handleResize)
+    }
+  })
+
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const { t } = useTranslation();
 
@@ -22,7 +34,7 @@ const CategoryList = ({ category }) => {
       </Row>
       <ItemsCarousel
         // Carousel configurations
-        numberOfCards={2}
+        numberOfCards={noOfCards}
         gutter={12}
         showSlither={true}
         firstAndLastGutter={true}

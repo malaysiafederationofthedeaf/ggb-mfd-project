@@ -1,0 +1,47 @@
+@import "colors";
+
+// Breakpoints
+$breakpoint-xs: 0;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// Box Shadow
+$box-shadow: 0 0.125rem 9.375rem $color-dark-shadow, 0 0.25rem 0.5rem $color-dark-shadow, 0 0.9375rem 1.375rem $color-dark-shadow, 0 0.4375rem 2.1875rem $color-light-shadow;
+$nav-active-hover-box-shadow: 0.1875rem 0 0 $color-nav-active-hover-shadow;
+
+// Border
+$border: 1px solid $color-secondary;
+// Border Radius
+$border-radius: 0.625rem;
+
+// Background Image
+@mixin background-image {
+    width: 100%;
+    height: 100vh;
+    background: url(../../images/home-background.jpg) top center no-repeat;
+    background-size: cover;
+    background-attachment: scroll; 
+}
+
+// Nav Link Hover & Active
+@mixin nav-link-hover-active {
+    box-shadow: inset $nav-active-hover-box-shadow;
+    color: $color-nav-active-hover-shadow;
+    i {
+      color: $color-nav-active-hover-shadow;
+    }
+}
+
+// Icon Button
+@mixin icon-button{
+    background-color: $navbar-background-color;
+    border: none; 
+    font-size: 30px;
+    cursor: pointer; 
+    color: $a-color;
+    &:hover{
+      color: $a-hover-color;
+    }
+}

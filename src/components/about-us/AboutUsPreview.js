@@ -1,57 +1,43 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  CardFooter,
-  Col,
-  Row,
-} from "shards-react";
 import { useTranslation } from "react-i18next";
-const AboutUsPreview = ({ mfdDetails }) => {
-  const { t } = useTranslation();
-  return (
-    <Link to="/about-us">
-      <Card small className="h-100 m-3">
-        <CardHeader className="border-bottom">
-          <h6 className="m-0">{t(mfdDetails.name).toLocaleUpperCase()}</h6>
-        </CardHeader>
-        <CardBody className="d-flex py-0">
-          <img
-            className="blog-users-by-device m-auto"
-            src={mfdDetails.logo}
-            alt={t(mfdDetails.name)}
-            height="180"
-          />
-        </CardBody>
-        <CardFooter className="border-top">
-          <Row>
-            <Col className="text-right view-report">
-              {/* eslint-disable-next-line */}
-              <Button>{t("about_us_btn")} &rarr;</Button>
-            </Col>
-          </Row>
-        </CardFooter>
-      </Card>
-    </Link>
-  );
-};
 
+import Button from "../common/Button";
+
+const AboutUsPreview = ({ bimDetails }) => {
+  const { t } = useTranslation();  
+  return (
+    <div className="bim-preview d-flex align-items-center">
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-6 d-flex flex-column justify-content-center">
+            <h1 data-aos="fade-up">{t(bimDetails.name).toLocaleUpperCase()}</h1>
+            <div data-aos="fade-up" data-aos-delay="600">
+              <div className="text-center text-lg-start">
+                <Button text={t("category_btn")} href="/browse-by-category" />
+              </div>           
+            </div>
+          </div>
+          <div className="col-lg-6 bim-preview-img" data-aos="zoom-out" data-aos-delay="200">
+                <img src={require("../../images/mfd/mfd-bim-books.png")} alt="BIM Books" className="img-fluid"/>
+          </div> 
+        </div>
+      </div>
+    </div>  
+);
+}
 AboutUsPreview.propTypes = {
   /**
-   * The user details object.
+   * The about MFD preview object.
    */
-  mfdDetails: PropTypes.object,
+   bimDetails: PropTypes.object,
 };
 
 AboutUsPreview.defaultProps = {
-  mfdDetails: {
-    nameMalay: "PERSATUAN ORANG PEKAK MALAYSIA",
-    name: "mfd_name",
-    logo: require("./../../images/mfd/mfd-logo.jpg"),
+  bimDetails: {
+    nameMalay: "BAHASA ISYARAT MALAYSIA (BIM)",
+    name: "bim_name",
+    logo: require("../../images/mfd/mfd-bim-books.png"),
   },
 };
 

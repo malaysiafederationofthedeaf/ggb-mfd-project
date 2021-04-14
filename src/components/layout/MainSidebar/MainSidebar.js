@@ -61,7 +61,7 @@ MainSidebar.propTypes = {
 };
 
 MainSidebar.defaultProps = {
-  hideLogoText: false,
+  hideLogoText: true,
 };
 
 export default MainSidebar;
