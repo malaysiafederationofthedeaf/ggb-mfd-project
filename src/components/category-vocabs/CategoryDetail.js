@@ -1,11 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Card, CardBody, CardTitle } from "shards-react";
 import { useTranslation } from "react-i18next";
 
 const CategoryDetail = ({ categoryItem }) => {
   const { t } = useTranslation();
   return (
-    <a href={`/category/${categoryItem.titleEn.toLowerCase()}`}>
+    <Link to={`/category/${categoryItem.titleEn.toLowerCase()}`}>
       <Card
         small
         className="card-post card-post--1"
@@ -22,7 +23,7 @@ const CategoryDetail = ({ categoryItem }) => {
           </CardTitle>
         </CardBody>
       </Card>
-    </a>
+    </Link>
   );
 };
 
