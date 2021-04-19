@@ -1,10 +1,9 @@
 import React from "react";
-import { Nav } from "shards-react";
 
-import SidebarNavItem from "./SidebarNavItem";
+import NavbarNavItem from "./NavbarNavItem";
 import { Store } from "../../../flux";
 
-class SidebarNavItems extends React.Component {
+class NavbarNavItems extends React.Component {
   constructor(props) {
     super(props);
 
@@ -33,15 +32,13 @@ class SidebarNavItems extends React.Component {
   render() {
     const { navItems: items } = this.state;
     return (
-      <div className="nav-wrapper">
-        <Nav className="nav--no-borders flex-column">
-          {items.map((item, idx) => (
-            <SidebarNavItem key={idx} item={item} />
+        <>
+          {items.map((item, key) => (
+            <NavbarNavItem key={key} item={item} />
           ))}
-        </Nav>
-      </div>
+        </>
     );
   }
 }
 
-export default SidebarNavItems;
+export default NavbarNavItems;

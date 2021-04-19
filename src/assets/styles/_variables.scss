@@ -9,12 +9,11 @@ $breakpoint-xl: 1200px;
 
 // Box Shadow
 $box-shadow: 0 0.125rem 9.375rem $color-dark-shadow, 0 0.25rem 0.5rem $color-dark-shadow, 0 0.9375rem 1.375rem $color-dark-shadow, 0 0.4375rem 2.1875rem $color-light-shadow;
-$nav-active-hover-box-shadow: 0.1875rem 0 0 $color-nav-active-hover-shadow;
 
 // Border
-$border: 1px solid $color-secondary;
+$border: 1px solid $color-primary;
 // Border Radius
-$border-radius: 0.625rem;
+$border-radius: 10px;
 
 // Background Image
 @mixin background-image {
@@ -27,12 +26,13 @@ $border-radius: 0.625rem;
 
 // Nav Link Hover & Active
 @mixin nav-link-hover-active {
-    box-shadow: inset $nav-active-hover-box-shadow;
-    color: $color-nav-active-hover-shadow;
-    i {
-      color: $color-nav-active-hover-shadow;
-    }
+  background-color: $navbar-active-link-background-color;
+  span {
+    color: $navbar-active-link-font-color;
+    font-weight: 600;
+  }
 }
+$navbar-logo-height: 50px;
 
 // Icon Button
 @mixin icon-button{
@@ -44,4 +44,10 @@ $border-radius: 0.625rem;
     &:hover{
       color: $a-hover-color;
     }
+}
+
+// Hover and Scale Up
+@mixin hover-scale-up {
+  transition: 0.5s;
+  transform: scale(1.05);
 }

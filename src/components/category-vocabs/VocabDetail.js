@@ -15,7 +15,7 @@ const VocabDetail = ({vocab}) => (
                     </strong>
                 </Col>
                 <Col>
-                    <img src={vocab.image} alt="sans" style={{width: "180px", height: "auto", float: "right"}}/>
+                    <img src={vocab.image} alt={vocab.word} className="vocab-image" />
                 </Col>
             </Row>
             <Row>
