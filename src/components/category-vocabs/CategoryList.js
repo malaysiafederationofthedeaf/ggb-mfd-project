@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Col } from "shards-react";
 import ItemsCarousel from "react-items-carousel";
 
@@ -25,29 +26,31 @@ const CategoryList = ({ category }) => {
   return (
       <Col sm="12" md="6" lg="4">
         <div className="category-card-wrapper">
-          <PageTitle title={t(category.categoryGroup)}/>     
-          <ItemsCarousel
-            // Carousel configurations
-            numberOfCards={noOfCards}
-            gutter={12}
-            showSlither={true}
-            firstAndLastGutter={true}
-            freeScrolling={false}
-            // Active item configurations
-            requestToChangeActive={(activeItemIndex) =>
-              setActiveItemIndex(activeItemIndex)
-            }
-            activeItemIndex={activeItemIndex}
-            activePosition={"center"}
-            chevronWidth={30}
-            rightChevron={">"}
-            leftChevron={"<"}
-            outsideChevron={false}
-          >
-            {category.categories.map((categoryItem, key) => (
-              <CategoryDetail categoryItem={categoryItem} key={key} />
-            ))}
-          </ItemsCarousel>
+          <Link to={`/group/${category.categoryGroup.toLowerCase()}`}>
+            <PageTitle title={t(category.categoryGroup)}/>     
+          </Link>
+            <ItemsCarousel
+              // Carousel configurations
+              numberOfCards={noOfCards}
+              gutter={12}
+              showSlither={true}
+              firstAndLastGutter={true}
+              freeScrolling={false}
+              // Active item configurations
+              requestToChangeActive={(activeItemIndex) =>
+                setActiveItemIndex(activeItemIndex)
+              }
+              activeItemIndex={activeItemIndex}
+              activePosition={"center"}
+              chevronWidth={30}
+              rightChevron={">"}
+              leftChevron={"<"}
+              outsideChevron={false}
+            >
+              {category.categories.map((categoryItem, key) => (
+                <CategoryDetail categoryItem={categoryItem} key={key} />
+              ))}
+            </ItemsCarousel>
         </div>
       </Col>
   );

@@ -2,13 +2,14 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 
 // Layout Types
-import { DefaultLayout } from "./layouts";
+import { DefaultLayout, SideCategoryLayout } from "./layouts";
 
 // Route Views
 import Errors from "./views/Errors";
 import AboutUs from "./views/AboutUs";
 import Home from "./views/Home";
 import BrowseByCategory from "./views/BrowseByCategory";
+import SelectedGroup from "./views/SelectedGroup";
 import SelectedCategory from "./views/SelectedCategory";
 import SelectedVocab from "./views/SelectedVocab";
 
@@ -44,8 +45,13 @@ export default [
     component: BrowseByCategory,
   },
   {
+    path: "/group/:group",
+    layout: SideCategoryLayout,
+    component: SelectedGroup,
+  },   
+  {
     path: "/category/:category",
-    layout: DefaultLayout,
+    layout: SideCategoryLayout,
     component: SelectedCategory,
   },
   {

@@ -3,11 +3,13 @@ import { EventEmitter } from "events";
 import Dispatcher from "./dispatcher";
 import Constants from "./constants";
 import getSidebarNavItems from "../data/sidebar-nav-items";
+import allVocabsItems from "../data/categories/categories-items";
 import signSample from "../data/sign-sample/sign-sample-items";
 
 let _store = {
   menuVisible: false,
   navItems: getSidebarNavItems(),
+  vocabsItems: allVocabsItems,
   signSampleItems: signSample,
   searchTerm: "",
   signListVisible: false,
@@ -91,6 +93,10 @@ class Store extends EventEmitter {
 
   getSidebarItems() {
     return _store.navItems;
+  }
+
+  getSidebarVocabItems() {
+    return _store.vocabsItems;
   }
 
   getSignItems() {
