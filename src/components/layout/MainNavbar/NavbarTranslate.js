@@ -29,7 +29,7 @@ const NavbarTranslate = ({ toggle }) => {
   };
 
   return (
-    <div>
+    <div className="navbar-translate-btn">
       <Dropdown open={openDropdown} toggle={toggle}>
         <DropdownToggle>
           <GlobeIcon />

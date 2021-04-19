@@ -1,12 +1,22 @@
 // Primary Colors
-$color-primary: #024c8b;
-$color-primary-dark: #1a1a1a;
-$color-primary-light:#2a9cff;
+$color-primary: #0367B9;
+$color-primary-dark: #024C8B;
+$color-primary-light:#098EFB;
 
 // Secondary Colors
-$color-secondary: #edded9;
-$color-secondary-dark: #8a826a;
-$color-secondary-light: #ffffff;
+$color-secondary: #8AC4BC;
+$color-secondary-dark: #5A9C97;
+$color-secondary-light: #CFE7E4;
+
+// Background Color
+// $color-background: #EDDED9;
+$color-background: #FFFFFF;
+$color-surface: #FFFFFF;
+$color-error: #D12C00;
+
+// Fonts Color
+$color-font-dark: #000000;
+$color-font-light: #FFFFFF;
 
 // Shadow Colors
 $color-dark-shadow: rgba(90, 97, 105, 0.1);
@@ -17,23 +27,20 @@ $color-nav-active-hover-shadow: $color-primary-light;
 // Title, Subtitle, Body
 $title-font-color: $color-primary;
 $subtitle-font-color: $color-primary-dark;
-$body-font-color: $color-primary-dark;
+$body-font-color: $color-font-dark;
 
-$title-font-light-color: $color-secondary-light;
-$subtitle-font-light-color: $color-secondary;
-$body-font-light-color: $color-secondary-light;
+$title-font-light-color: $color-secondary;
+$subtitle-font-light-color: $color-secondary-dark;
+$body-font-light-color: $color-font-light;
 
 // Background 
-$background-color: $color-secondary-light;
+$background-color: $color-background;
 
 // Navbar
-$navbar-top-background-color: $color-secondary-dark;
-$navbar-background-color: $color-secondary-light;
-$navbar-link-color: $color-secondary-dark;
-$navbar-active-link-color: $color-secondary-dark;
-
-// Category List
-$category-list-background-color: $color-secondary-light;
+// $navbar-top-background-color: $color-surface;
+$navbar-background-color: $color-surface;
+$navbar-active-link-background-color: $color-dark-shadow;
+$navbar-active-link-font-color: $color-primary-dark;
 
 // a (Link)
 $a-color: $color-primary;
