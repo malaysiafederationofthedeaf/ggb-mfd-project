@@ -19,7 +19,7 @@ const AboutUsPreview = ({ bimDetails }) => {
             </div>
           </div>
           <div className="col-lg-6 bim-preview-img" data-aos="zoom-out" data-aos-delay="200">
-                <img src={require("../../images/mfd/mfd-bim-books.png")} alt="BIM Books" className="img-fluid"/>
+            <img src={bimDetails.logo} alt="BIM Books" className="img-fluid"/>
           </div> 
         </div>
       </div>
@@ -35,9 +35,8 @@ AboutUsPreview.propTypes = {
 
 AboutUsPreview.defaultProps = {
   bimDetails: {
-    nameMalay: "BAHASA ISYARAT MALAYSIA (BIM)",
     name: "bim_name",
-    logo: require("../../images/mfd/mfd-bim-books.png"),
+    logo: require("../../images/mfd/mfd-bim-books.jpg"),
   },
 };
 
