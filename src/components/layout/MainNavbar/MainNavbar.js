@@ -8,7 +8,7 @@ import {
   Collapse
 } from "shards-react";
 
-import bimLogo from "../../../images/mfd/img-logo-BIM.png";
+import bimLogo from "../../../images/bim/logo/bim-logo.jpg";
 import NavbarBackButton from "../../common/NavbarBackButton"
 import NavbarNavItems from "./NavbarNavItems";
 import NavbarTranslate from "./NavbarTranslate";
@@ -86,7 +86,7 @@ MainNavbar.defaultProps = {
     },
     {
       href: "https://careers.guidewire.com/guidewire-gives-back",
-      imgSrc: require("../../../images/ggb/GGB-logo.png"),
+      imgSrc: require("../../../images/ggb/ggb-logo.jpg"),
       imgAlt: "GGB Logo",
     },    
   ],
