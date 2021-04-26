@@ -45,17 +45,20 @@ export default [
     component: BrowseByCategory,
   },
   {
-    path: "/group/:group",
+    path: "/:group",
+    exact: true,
     layout: SideCategoryLayout,
     component: SelectedGroup,
   },   
   {
-    path: "/category/:category",
+    path: "/:group/:category",
+    exact: true,
     layout: SideCategoryLayout,
     component: SelectedCategory,
   },
   {
-    path: "/vocab/:category/:vocab",
+    path: "/:group/:category/:vocab",
+    exact: true,
     layout: DefaultLayout,
     component: SelectedVocab,
   },

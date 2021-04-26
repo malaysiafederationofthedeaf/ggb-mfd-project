@@ -351,6 +351,24 @@ p {
   margin: 10px;
 }
 
+.breadcrumbs-selected-vocab {
+  .category-breadcrumbs {
+    display: inline;
+    background-color: aqua;
+  }
+}
+
+.category-breadcrumbs {
+  display: none;
+  text-transform: capitalize;
+  .breadcrumb {
+    margin: 0;
+  }
+  @media (max-width: $breakpoint-sm) {
+    display: inline;
+  }
+}
+
 .btn-view-all-categories {
   a {
     float: right;
