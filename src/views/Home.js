@@ -4,7 +4,7 @@ import { Container, Row, Col } from "shards-react";
 import { useTranslation } from "react-i18next";
 
 import AboutUsPreview from "../components/about-us/AboutUsPreview";
-import categoriesItems from "../data/categories/categories-items";
+import allVocabsItems from "../data/categories/all-vocabs-items";
 import CategoryList from "../components/category-vocabs/CategoryList";
 import SignList from "../components/SignList";
 import { Store } from "../flux";
@@ -38,7 +38,7 @@ const Home = () => {
             </Row>
             <Row>             
               {/* Signs Blocks */}
-              {categoriesItems.slice(0, 3).map((category, key) => (
+              {allVocabsItems.slice(0, 3).map((category, key) => (
                   <CategoryList category={category} key={key} />
               ))}                
             </Row>

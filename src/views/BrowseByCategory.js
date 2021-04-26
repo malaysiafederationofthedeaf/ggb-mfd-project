@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Row } from "shards-react";
 
-import categoriesItems from "../data/categories/categories-items";
+import allVocabsItems from "../data/categories/all-vocabs-items";
 import CategoryList from "../components/category-vocabs/CategoryList";
 
 import { useTranslation } from "react-i18next";
@@ -15,9 +15,9 @@ const BrowseByCategory = () => {
           <h1>{t("category")}</h1>
         </Row>
         <Row>
-            {categoriesItems.map((category, key) => (
-              <CategoryList category={category} key={key} />
-            ))}              
+          {allVocabsItems.map((category, key) => (
+            <CategoryList category={category} key={key} />
+          ))}              
         </Row>
       </Container>
     </div>

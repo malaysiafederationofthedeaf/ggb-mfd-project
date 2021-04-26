@@ -4,12 +4,12 @@ import { useTranslation } from "react-i18next";
 
 import Errors from "./Errors";
 import PageTitle from "../components/common/PageTitle";
-import categoriesItems from "../data/categories/categories-items";
+import allVocabsItems from "../data/categories/all-vocabs-items";
 import GroupList from "../components/category-vocabs/GroupList";
 
 const SelectedGroup = ({match}) => {
     const group = match.params.group;
-    const categories = categoriesItems.find(category => category.categoryGroup.toLowerCase() === group);
+    const categories = allVocabsItems.find(category => category.categoryGroup.toLowerCase() === group);
     if (!categories) return <Errors />
 
     const { t } = useTranslation();

@@ -3,7 +3,7 @@ import { EventEmitter } from "events";
 import Dispatcher from "./dispatcher";
 import Constants from "./constants";
 import getSidebarNavItems from "../data/sidebar-nav-items";
-import allVocabsItems from "../data/categories/categories-items";
+import allVocabsItems from "../data/categories/all-vocabs-items";
 import signSample from "../data/sign-sample/sign-sample-items";
 
 let _store = {
@@ -113,6 +113,54 @@ class Store extends EventEmitter {
 
   getLanguages() {
     return _store.languages;
+  }
+
+  getCategoryImgSrc(categoryMalay) {
+    try{
+      return require(`../images/bim/category/${categoryMalay.replace(/\s+/g, "-").toLowerCase()}.jpg`);
+    }
+    catch(err){
+      //default img (placeholder only)*
+      return require(`../images/bim/category/abjad.jpg`);
+    }       
+  }
+
+  getSignImgSrc(signMalay) {
+    try{
+      return require(`../images/bim/vocab/${signMalay.replace(/\s+/g, "-").toLowerCase()}.jpg`);
+    }
+    catch(err){
+      //default img (placeholder only)*
+      return require(`../images/bim/vocab/hai.jpg`);
+    }    
+  }
+
+  getVocabList(categoryEng) {
+    for (let group of allVocabsItems){
+      for (let category of group['categories']){
+        if(category['titleEn'].toString().toLowerCase() === categoryEng){
+          return category;
+        }
+      }
+    }
+  }
+
+  getVocabDetail(categoryEng, signEng) {
+    for (let group of allVocabsItems){
+      for (let category of group['categories']){
+        if(category['titleEn'].toString().toLowerCase() === categoryEng){   
+          var categoryMatch = category;         
+          for (let vocab of category['vocabs']){
+            if(vocab['word'].toString().toLowerCase() === signEng){
+              return {
+                category: categoryMatch,
+                vocab: vocab,
+              };
+            }
+          }
+        }
+      }
+    }
   }
 
   addChangeListener(callback) {

@@ -3,17 +3,14 @@ import { Container, Col, Row } from "shards-react";
 
 import Errors from "./Errors";
 import PageTitle from "../components/common/PageTitle";
-import vocabsItems from "../data/categories/vocabs-items";
 import VocabList from "../components/category-vocabs/VocabList";
+import { Store } from "../flux";
 
 const SelectedCategory = ({match}) => {
-    const name = match.params.category;
-    console.log(name);
-    console.log(vocabsItems[0].category);
-    const vocabs = vocabsItems.find(category => category.category.toLowerCase() === name);
-    console.log(vocabs);
+    const categoryEng = match.params.category;
 
-    if (!vocabs) return <Errors />
+    const vocabs = Store.getVocabList(categoryEng);
+    if (vocabs['vocabs'].length === 0) return <Errors />
 
     return(
         <Container fluid className="main-content-container px-4 vocab-list-wrapper">
@@ -22,7 +19,7 @@ const SelectedCategory = ({match}) => {
             </Row>
             <Row className="py-4">
                 <Col>
-                    <VocabList vocabs={vocabs} />
+                    <VocabList vocabs={vocabs} category={categoryEng}/>
                 </Col>
             </Row>
       </Container>
