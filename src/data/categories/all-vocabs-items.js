@@ -6,7 +6,7 @@ const allVocabsItems = [
       {
         titleMalay: "Abjad",
         titleEn: "Alphabets",
-        title: "general_title_1",
+        title: "alphabets",
         vocabs: [
               {
                 word: "A",
@@ -68,7 +68,7 @@ const allVocabsItems = [
       {
         titleMalay: "Angka",
         titleEn: "Numbers",
-        title: "general_title_2",
+        title: "numbers",
         vocabs: [
           {
             word: "One",
@@ -125,7 +125,7 @@ const allVocabsItems = [
       {
         titleMalay: "Warna",
         titleEn: "Colors",
-        title: "general_title_3",
+        title: "colors",
         vocabs: [],
       },
     ],
@@ -137,7 +137,7 @@ const allVocabsItems = [
       {
         titleMalay: "Minggu",
         titleEn: "Week",
-        title: "time_title_1",
+        title: "week",
         vocabs: [
               {
                   word: "Sunday",
@@ -179,7 +179,7 @@ const allVocabsItems = [
       {
         titleMalay: "Bulan",
         titleEn: "Month",
-        title: "time_title_2",
+        title: "month",
         vocabs: [
           {
             word: "January",
@@ -222,7 +222,7 @@ const allVocabsItems = [
       {
         titleMalay: "Keluarga",
         titleEn: "Family",
-        title: "living_things_title_1",
+        title: "family",
         vocabs: [
               {
                   word: "Father",
@@ -239,13 +239,13 @@ const allVocabsItems = [
       {
         titleMalay: "Haiwan",
         titleEn: "Animals",
-        title: "living_things_title_2",
+        title: "animals",
         vocabs: [],
       },
       {
         titleMalay: "Tumbuh-Tumbuhan",
         titleEn: "Plants",
-        title: "living_things_title_3",
+        title: "plants",
         vocabs: [],
       },
     ],
@@ -256,8 +256,8 @@ const allVocabsItems = [
     categories: [
       {
         titleMalay: "Tempat & Bangunan",
-        titleEn: "Places",
-        title: "places_title_1",
+        titleEn: "Places & Buildings",
+        title: "places_buildings",
         vocabs: [
               {
                   word: "Room",
@@ -274,7 +274,7 @@ const allVocabsItems = [
       {
         titleMalay: "Negeri",
         titleEn: "States",
-        title: "places_title_2",
+        title: "states",
         vocabs: [],
       },
     ],
@@ -286,7 +286,7 @@ const allVocabsItems = [
       {
         titleMalay: "Ucapan",
         titleEn: "Greetings",
-        title: "conversation_title_1",
+        title: "greetings",
         vocabs: [
               {
                   word: "Assalamualaikum",
@@ -308,7 +308,7 @@ const allVocabsItems = [
       {
         titleMalay: "Kata Tanya",
         titleEn: "WHs",
-        title: "conversation_title_2",
+        title: "whs",
         vocabs: [],
       },
     ],

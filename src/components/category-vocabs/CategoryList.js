@@ -26,7 +26,7 @@ const CategoryList = ({ category }) => {
   return (
       <Col sm="12" md="6" lg="4">
         <div className="category-card-wrapper">
-          <Link to={`/group/${category.categoryGroup.toLowerCase()}`}>
+          <Link to={`/${category.categoryGroup.toLowerCase()}`}>
             <PageTitle title={t(category.categoryGroup)}/>     
           </Link>
             <ItemsCarousel
@@ -48,7 +48,7 @@ const CategoryList = ({ category }) => {
               outsideChevron={false}
             >
               {category.categories.map((categoryItem, key) => (
-                <CategoryDetail categoryItem={categoryItem} key={key} />
+                <CategoryDetail categoryItem={categoryItem} group={category.categoryGroup} key={key} />
               ))}
             </ItemsCarousel>
         </div>
