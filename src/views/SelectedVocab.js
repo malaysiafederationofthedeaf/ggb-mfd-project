@@ -14,11 +14,9 @@ const SelectedVocab = ({match}) => {
 
     const { t } = useTranslation();
 
-    const categoryVocab = Store.getVocabDetail(t(categoryEng).toLowerCase(), signEng);
+    const categoryVocab = Store.getVocabDetail(categoryEng.toLowerCase(), signEng);
 
-    if (!categoryVocab) return <Errors />    
-        
-    const category = categoryVocab.category;
+    if (!categoryVocab) return <Errors />            
     const vocab = categoryVocab.vocab;
 
     return(
@@ -28,7 +26,7 @@ const SelectedVocab = ({match}) => {
       </div>
       <Container fluid className="main-content-container px-4 vocab-detail-wrapper">
         <Row noGutters className="page-header py-4">
-          <PageTitle title={category.titleMalay} subtitle={categoryEng} md="12" className="ml-sm-auto mr-sm-auto" />
+          <PageTitle title={t(categoryEng)} md="12" className="ml-sm-auto mr-sm-auto" />
         </Row>
         <VocabDetail vocab={vocab} />
       </Container>
