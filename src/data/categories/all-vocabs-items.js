@@ -257,7 +257,7 @@ const allVocabsItems = [
       {
         titleMalay: "Tempat & Bangunan",
         titleEn: "Places & Buildings",
-        title: "places_buildings",
+        title: "places_&_buildings",
         vocabs: [
               {
                   word: "Room",

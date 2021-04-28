@@ -9,24 +9,7 @@ class NavbarNavItems extends React.Component {
 
     this.state = {
       navItems: Store.getSidebarItems(),
-    };
-
-    this.onChange = this.onChange.bind(this);
-  }
-
-  componentWillMount() {
-    Store.addChangeListener(this.onChange);
-  }
-
-  componentWillUnmount() {
-    Store.removeChangeListener(this.onChange);
-  }
-
-  onChange() {
-    this.setState({
-      ...this.state,
-      navItems: Store.getSidebarItems(),
-    });
+    };    
   }
 
   render() {

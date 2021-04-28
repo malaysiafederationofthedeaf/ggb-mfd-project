@@ -229,6 +229,19 @@ p {
   }
 }
 
+.sign-list-close-row{
+  display: inline-block;
+  min-height: 40px;  
+  .sign-list-close-btn {
+    position: absolute;
+    right: 0;
+    background-color: rgba(255,255,255,0);
+    border: none;
+    box-shadow: none;
+    color: $color-primary;
+  }
+}
+
 .bim-preview {
   @include background-image;
   height: fit-content;

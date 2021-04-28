@@ -14,7 +14,7 @@ const SelectedCategory = ({match}) => {
 
     const { t } = useTranslation();
 
-    const vocabs = Store.getVocabList(t(categoryEng).toLowerCase());
+    const vocabs = Store.getVocabList(categoryEng.toLowerCase());
     if (vocabs['vocabs'].length === 0) return <Errors />
     
     return(
@@ -26,7 +26,7 @@ const SelectedCategory = ({match}) => {
             </Row>
             <Row className="py-4">
                 <Col>
-                    <VocabList vocabs={vocabs} group={group} category={categoryEng}/>
+                    <VocabList vocabs={vocabs.vocabs} group={group} category={categoryEng}/>
                 </Col>
             </Row>
       </Container>
