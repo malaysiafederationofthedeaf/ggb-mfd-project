@@ -5,11 +5,12 @@ import Constants from "./constants";
 import getSidebarNavItems from "../data/sidebar-nav-items";
 import allVocabsItems from "../data/categories/all-vocabs-items";
 import signSample from "../data/sign-sample/sign-sample-items";
+import backlog from "../data/categories/backlog";
 
 let _store = {
   menuVisible: false,
   navItems: getSidebarNavItems(),
-  vocabsItems: allVocabsItems,
+  vocabsItems: backlog,
   signSampleItems: signSample,
   searchTerm: "",
   signListVisible: false,
@@ -116,29 +117,31 @@ class Store extends EventEmitter {
   }
 
   getCategoryImgSrc(categoryMalay) {
-    try{
-      return require(`../images/bim/category/${categoryMalay.replace(/\s+/g, "-").toLowerCase()}.jpg`);
-    }
-    catch(err){
+    try {
+      return require(`../images/bim/category/${categoryMalay
+        .replace(/\s+/g, "-")
+        .toLowerCase()}.jpg`);
+    } catch (err) {
       //default img (placeholder only)*
       return require(`../images/bim/category/abjad.jpg`);
-    }       
+    }
   }
 
   getSignImgSrc(signMalay) {
-    try{
-      return require(`../images/bim/vocab/${signMalay.replace(/\s+/g, "-").toLowerCase()}.jpg`);
-    }
-    catch(err){
+    try {
+      return require(`../images/bim/vocab/${signMalay
+        .replace(/\s+/g, "-")
+        .toLowerCase()}.jpg`);
+    } catch (err) {
       //default img (placeholder only)*
       return require(`../images/bim/vocab/hai.jpg`);
-    }    
+    }
   }
 
   getVocabList(categoryEng) {
-    for (let group of allVocabsItems){
-      for (let category of group['categories']){
-        if(category['titleEn'].toString().toLowerCase() === categoryEng){
+    for (let group of allVocabsItems) {
+      for (let category of group["categories"]) {
+        if (category["titleEn"].toString().toLowerCase() === categoryEng) {
           return category;
         }
       }
@@ -146,12 +149,12 @@ class Store extends EventEmitter {
   }
 
   getVocabDetail(categoryEng, signEng) {
-    for (let group of allVocabsItems){
-      for (let category of group['categories']){
-        if(category['titleEn'].toString().toLowerCase() === categoryEng){   
-          var categoryMatch = category;         
-          for (let vocab of category['vocabs']){
-            if(vocab['word'].toString().toLowerCase() === signEng){
+    for (let group of allVocabsItems) {
+      for (let category of group["categories"]) {
+        if (category["titleEn"].toString().toLowerCase() === categoryEng) {
+          var categoryMatch = category;
+          for (let vocab of category["vocabs"]) {
+            if (vocab["word"].toString().toLowerCase() === signEng) {
               return {
                 category: categoryMatch,
                 vocab: vocab,

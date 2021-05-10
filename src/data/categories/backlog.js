@@ -1,25 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import XLSX from "xlsx";
 import axios from "axios";
 import useSWR from "swr";
+export default function() {
+  const [excelItems, setExcelItems] = useState({
+    loading: true,
+    excelItem: [],
+  });
 
-const backlog = () => {
-  const [excelItems, setExcelItems] = useState([]);
-
-  const { data } = useSWR(
-    "assets/BIM_Test_1.xlsx",
-    (url) =>
-      axios({
-        method: "get",
-        url: url,
-        responseType: "blob",
-      }).then((res) => {
-        readExcel(res.data);
-      }),
-    { dedupingInterval: 10000 }
-  );
-
-  const readExcel = (file) => {
+  let readExcel = (file) => {
     const promise = new Promise((resolve, reject) => {
       const fileReader = new FileReader();
       fileReader.readAsBinaryString(file);
@@ -36,34 +25,63 @@ const backlog = () => {
       };
     });
     promise.then((d) => {
+      // console.log(d);
       restructureJSON(d);
     });
   };
 
   const restructureJSON = (data) => {
     const cats = [...new Set(data.map((i) => i.Category))];
-    const words = (cat) =>
-      data
-        .filter((word) => word.Category === cat)
-        .map((items) => ({
-          word: items.Word,
-          wordMalay: items.Perkataan,
-          // image: require(`../../images/mfd/vocabs/greetings/${items.Image}`),
-          video: items.Video,
-        }));
+    const grps = [...new Set(data.map((i) => i.Group))];
 
-    const reconData = [
-      cats.map((cat) => ({
-        category: cat,
-        categoryMalay: cat,
-        vocabs: words(cat),
-      })),
-    ];
-    console.log(reconData);
-    setExcelItems(reconData);
+    const groups = (grps) =>
+      grps.map((group) => ({
+        categoryGroup: group,
+        categories: data
+          .filter(
+            (grp, index, self) =>
+              grp.Group === group &&
+              index === self.findIndex((t) => t.Category === grp.Category) //get unique values
+          )
+          .map((grp) => ({ title: grp.Category })),
+      }));
+
+    const titles = (cats) =>
+      cats.map((categ) => ({
+        title: categ,
+        vocabs: data
+          .filter((cat) => cat.Category === categ)
+          .map((cat) => ({ word: cat.Word })),
+      }));
+
+    const reconData = groups(grps).map((grp) => {
+      const titleArr = grp.categories.map((catTitle) => catTitle.title);
+      const title = titles(cats)
+        .filter((cat) => titleArr.includes(cat.title))
+        .map((cat) => cat);
+      Object.assign(grp.categories, title);
+      return grp;
+    });
+
+    setExcelItems({ loading: false, excelItem: reconData });
   };
 
-  return excelItems;
-};
+  const { data } = useSWR(
+    "assets/BIM_Test_1.xlsx",
+    (url) =>
+      axios({
+        method: "get",
+        url: url,
+        responseType: "blob",
+      }).then((res) => res.data),
+    { dedupingInterval: 2000, suspense: true }
+  );
 
-export default backlog;
+  useEffect(() => {
+    readExcel(data);
+  }, [data]);
+
+  const backlog = excelItems.excelItem.length !== 0 ? excelItems.excelItem : [];
+  // console.log(backlogItems);
+  return backlog;
+}
