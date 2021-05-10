@@ -229,6 +229,19 @@ p {
   }
 }
 
+.sign-list-close-row{
+  display: inline-block;
+  min-height: 40px;  
+  .sign-list-close-btn {
+    position: absolute;
+    right: 0;
+    background-color: rgba(255,255,255,0);
+    border: none;
+    box-shadow: none;
+    color: $color-primary;
+  }
+}
+
 .bim-preview {
   @include background-image;
   height: fit-content;
@@ -349,6 +362,24 @@ p {
 
 .category-list-wrapper, .vocab-list-wrapper, .vocab-detail-wrapper {
   margin: 10px;
+}
+
+.breadcrumbs-selected-vocab {
+  .category-breadcrumbs {
+    display: inline;
+    background-color: aqua;
+  }
+}
+
+.category-breadcrumbs {
+  display: none;
+  text-transform: capitalize;
+  .breadcrumb {
+    margin: 0;
+  }
+  @media (max-width: $breakpoint-sm) {
+    display: inline;
+  }
 }
 
 .btn-view-all-categories {

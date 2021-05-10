@@ -75,17 +75,17 @@ MainFooter.defaultProps = {
   footerLinks: [
     {
       href: "https://www.facebook.com/BahasaIsyaratMalaysiaMFD/",
-      imgSrc: require("../../images/footer/fb-logo.jfif"),
+      imgSrc: require("../../images/general/logo/fb-logo.jpg"),
       imgAlt: "FB Logo",
     },
     {
       href: "https://www.instagram.com/mfd.2020/",
-      imgSrc: require("../../images/footer/ig-logo.png"),
+      imgSrc: require("../../images/general/logo/ig-logo.jpg"),
       imgAlt: "IG Logo",
     }, 
     {
       href: "https://www.youtube.com/channel/UCcTR3G_8WDv3V7MqnYtN1gw",
-      imgSrc: require("../../images/footer/youtube-logo.png"),
+      imgSrc: require("../../images/general/logo/youtube-logo.jpg"),
       imgAlt: "Youtube Logo",
     },     
   ]

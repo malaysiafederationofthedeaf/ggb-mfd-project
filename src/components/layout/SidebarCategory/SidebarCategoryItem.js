@@ -20,17 +20,17 @@ const SidebarCategoryItem = ({ item }) => {
               open={dropdownOpen}
               toggle={toggleDropdown}             
             >
-              <div className={(window.location.pathname).localeCompare(`/group/${item.categoryGroup}`) ? "inactive" : "active"} >
-                <Link to={`/group/${item.categoryGroup}`} >              
+              <div className={(window.location.pathname).localeCompare(`/${item.categoryGroup}`) ? "inactive" : "active"} >
+                <Link to={`/${item.categoryGroup}`} >              
                   {t(item.categoryGroup)}  
                 </Link> 
                 <DropdownToggle nav caret className="d-inline" />
                 <DropdownMenu className="dropdown-menu">
                     {t(item.categoryGroup) &&  item.categories.map((item1, key) => (                   
                       <div key={key}>                      
-                        {useEffect(() => {!(window.location.pathname).localeCompare(`/category/${item1.titleEn.toLowerCase()}`) && setDropdownOpen(true) }, [])}
-                        <DropdownItem  href={`/category/${item1.titleEn.toLowerCase()}`}>
-                          <span className={(window.location.pathname).localeCompare(`/category/${item1.titleEn.toLowerCase()}`) ? "inactive" : "active"}>{t(item1.title)}</span>
+                        {useEffect(() => {!(window.location.pathname).localeCompare(`/${item.categoryGroup}/${item1.titleEn.toLowerCase()}`) && setDropdownOpen(true) }, [])}
+                        <DropdownItem  href={`/${item.categoryGroup}/${item1.titleEn.toLowerCase()}`}>
+                          <span className={(window.location.pathname).localeCompare(`/${item.categoryGroup}/${item1.titleEn.toLowerCase()}`) ? "inactive" : "active"}>{t(item1.title)}</span>
                         </DropdownItem>
                       </div>
                     ))} 

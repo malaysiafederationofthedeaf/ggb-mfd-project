@@ -9,7 +9,7 @@ import {
   DropdownItem,
 } from "shards-react";
 import "flag-icon-css/css/flag-icon.min.css";
-import GlobeIcon from "../../../images/mfd/globe-translate-icon.js";
+import GlobeIcon from "../../../images/general/icon/globe-translate-icon.js";
 import { Store } from "../../../flux";
 
 const languages = Store.getLanguages();
