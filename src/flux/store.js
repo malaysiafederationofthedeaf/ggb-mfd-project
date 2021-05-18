@@ -5,12 +5,11 @@ import Constants from "./constants";
 import getSidebarNavItems from "../data/sidebar-nav-items";
 import allVocabsItems from "../data/categories/all-vocabs-items";
 import signSample from "../data/sign-sample/sign-sample-items";
-import backlog from "../data/categories/backlog";
 
 let _store = {
   menuVisible: false,
   navItems: getSidebarNavItems(),
-  vocabsItems: backlog,
+  vocabsItems: [],
   signSampleItems: signSample,
   searchTerm: "",
   signListVisible: false,
@@ -38,6 +37,7 @@ class Store extends EventEmitter {
     this.toggleSearch = this.toggleSearch.bind(this);
     this.searchTerm = this.searchTerm.bind(this);
     this.toggleDropdown = this.toggleDropdown.bind(this);
+    this.storeExcel = this.storeExcel.bind(this);
 
     Dispatcher.register(this.registerToActions.bind(this));
   }
@@ -60,6 +60,9 @@ class Store extends EventEmitter {
         this.toggleDropdown();
         break;
 
+      case "STORE_EXCEL":
+        this.storeExcel(payload);
+        break;
       default:
     }
   }
@@ -82,6 +85,15 @@ class Store extends EventEmitter {
   toggleDropdown() {
     _store.openDropdown = !_store.openDropdown;
     this.emit(Constants.CHANGE);
+  }
+
+  storeExcel(value) {
+    _store.vocabsItems = value;
+    this.emit(Constants.CHANGE);
+  }
+
+  getVocabsItems() {
+    return _store.vocabsItems;
   }
 
   getMenuState() {

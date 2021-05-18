@@ -17,8 +17,9 @@ const Home = () => {
       setSearchTerm(Store.getSearchTerm());
       setSearchState(Store.getSearchState());
     });
+    console.log(Store.getVocabsItems());
   }, []);
-  
+
   const { t } = useTranslation();
 
   return (
@@ -32,15 +33,17 @@ const Home = () => {
         <Container fluid>
           <div className="category-list-wrapper">
             <Row>
-              <Col  sm="12" md="12" lg="12" className="btn-view-all-categories">
-                <a href="/browse-by-category">{t("view_all_category_btn")} &rarr;</a>                              
+              <Col sm="12" md="12" lg="12" className="btn-view-all-categories">
+                <a href="/browse-by-category">
+                  {t("view_all_category_btn")} &rarr;
+                </a>
               </Col>
             </Row>
-            <Row>             
+            <Row>
               {/* Signs Blocks */}
               {allVocabsItems.slice(0, 3).map((category, key) => (
-                  <CategoryList category={category} key={key} />
-              ))}                
+                <CategoryList category={category} key={key} />
+              ))}
             </Row>
           </div>
         </Container>
