@@ -25,7 +25,7 @@ const SelectedCategory = ({match}) => {
                 <PageTitle title={t(vocabs.title)} md="12" className="ml-sm-auto mr-sm-auto" />
             </Row>
             <Row className="py-4">
-                <Col>
+                <Col md="12" lg="11">
                     <VocabList vocabs={vocabs.vocabs} group={group} category={categoryEng}/>
                 </Col>
             </Row>

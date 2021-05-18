@@ -28,9 +28,9 @@ const SidebarCategoryItem = ({ item }) => {
                 <DropdownMenu className="dropdown-menu">
                     {t(item.categoryGroup) &&  item.categories.map((item1, key) => (                   
                       <div key={key}>                      
-                        {useEffect(() => {!(window.location.pathname).localeCompare(`/${item.categoryGroup}/${item1.titleEn.toLowerCase()}`) && setDropdownOpen(true) }, [])}
-                        <DropdownItem  href={`/${item.categoryGroup}/${item1.titleEn.toLowerCase()}`}>
-                          <span className={(window.location.pathname).localeCompare(`/${item.categoryGroup}/${item1.titleEn.toLowerCase()}`) ? "inactive" : "active"}>{t(item1.title)}</span>
+                        {useEffect(() => {(window.location.pathname).includes(`/${item.categoryGroup}/${item1.title.toLowerCase()}`) && setDropdownOpen(true) }, [])}                        
+                        <DropdownItem  href={`/${item.categoryGroup}/${item1.title.toLowerCase()}`}>                        
+                          <span className={(window.location.pathname).includes(`/${item.categoryGroup}/${item1.title.toLowerCase()}`) ? "active" : "inactive"}>{t(item1.title)}</span>                          
                         </DropdownItem>
                       </div>
                     ))} 

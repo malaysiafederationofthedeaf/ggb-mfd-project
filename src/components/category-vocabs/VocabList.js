@@ -16,7 +16,7 @@ const VocabList = ({vocabs, group, category}) => {
                     <Link key={key} to={`/${groupTitle}/${categoryTitle}/${vocab.word.toLowerCase()}`}>                  
                         <ListGroupItem>
                             <Row data-aos="fade-up" data-aos-delay="200" className="vocab-word">
-                                <Col sm="12" md="4" lg="2">
+                                <Col sm="12" md="4" lg="3">
                                     <strong className="text-muted d-block mb-2">
                                         {vocab.wordMalay}
                                     </strong>
