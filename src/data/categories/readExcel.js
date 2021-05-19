@@ -21,7 +21,6 @@ const restructureJSON = (data) => {
     Kategori: item.Kategori,
     Word: item.Word,
     Perkataan: item.Perkataan,
-    Image: item.Image,
     Video: item.Video,
   }));
 
