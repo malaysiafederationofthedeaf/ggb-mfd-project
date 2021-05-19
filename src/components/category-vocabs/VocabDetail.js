@@ -21,15 +21,15 @@ const VocabDetail = ({vocab}) => {
                     </Col>
                 </Row>
                 <Row>        
-                    <Col lg="5" md="12" sm="12">
+                    <Col lg="12" md="12" sm="12">
                         <div className="selected-vocab-image-wrapper">
                             <img src={vocabImgSrc} alt={vocab.word} className="selected-vocab-image" />
                         </div>
                     </Col>                                
-                    <Col lg="7" md="12" sm="12" >
-                        <div className="selected-vocab-video-player">
+                    <Col lg="12" md="12" sm="12" >
+                        <div className="selected-vocab-video-wrapper">
                             <ReactPlayer url={vocab.video} playing={true} controls={true} loop={true} width="100%"/>
-                        </div>
+                        </div>                        
                     </Col>                    
                 </Row>
             </ListGroupItem>
