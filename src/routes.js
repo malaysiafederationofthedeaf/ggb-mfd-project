@@ -5,7 +5,8 @@ import { Redirect } from "react-router-dom";
 import { DefaultLayout, SideCategoryLayout } from "./layouts";
 
 // Route Views
-import Errors from "./views/Errors";
+import ComingSoon from "./views/ComingSoon";
+import UnderMaintenance from "./views/UnderMaintenance";
 import AboutUs from "./views/AboutUs";
 import Home from "./views/Home";
 import BrowseByCategory from "./views/BrowseByCategory";
@@ -27,10 +28,16 @@ export default [
     component: Home,
   },
   {
-    path: "/errors",
+    path: "/comingsoon",
     exact: true,
     layout: DefaultLayout,
-    component: Errors,
+    component: ComingSoon,
+  },
+  {
+    path: "/maintenance",
+    exact: true,
+    layout: DefaultLayout,
+    component: UnderMaintenance,
   },
   {
     path: "/about-us",
@@ -49,7 +56,7 @@ export default [
     exact: true,
     layout: SideCategoryLayout,
     component: SelectedGroup,
-  },   
+  },
   {
     path: "/:group/:category",
     exact: true,
