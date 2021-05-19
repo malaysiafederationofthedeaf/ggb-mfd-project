@@ -15,13 +15,14 @@ const fetchData = async (url) => {
 
 const restructureJSON = (data) => {
   const reconData = data.map((item) => ({
-    group: item.Group,
-    kumpulan: item.Kumpulan,
-    category: item.Category,
-    kategori: item.Kategori,
-    word: item.Word,
-    perkataan: item.Perkataan,
-    video: item.Video,
+    Group: item.Group,
+    Kumpulan: item.Kumpulan,
+    Category: item.Category,
+    Kategori: item.Kategori,
+    Word: item.Word,
+    Perkataan: item.Perkataan,
+    Image: item.Image,
+    Video: item.Video,
   }));
 
   return reconData;
