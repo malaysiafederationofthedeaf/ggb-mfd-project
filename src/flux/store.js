@@ -35,6 +35,7 @@ class Store extends EventEmitter {
     this.registerToActions = this.registerToActions.bind(this);
     this.toggleSidebar = this.toggleSidebar.bind(this);
     this.toggleSearch = this.toggleSearch.bind(this);
+    this.closeSearch = this.closeSearch.bind(this);
     this.searchTerm = this.searchTerm.bind(this);
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.storeExcel = this.storeExcel.bind(this);
@@ -50,6 +51,14 @@ class Store extends EventEmitter {
 
       case "TOGGLE_SEARCH":
         this.toggleSearch();
+        break;
+
+      case "CLOSE_SEARCH":
+        this.closeSearch();
+        break;
+
+      case "OPEN_SEARCH":
+        this.openSearch();
         break;
 
       case "SEARCH_TERM":
@@ -74,6 +83,19 @@ class Store extends EventEmitter {
 
   toggleSearch() {
     _store.signListVisible = !_store.signListVisible;
+    _store.searchTerm =
+      _store.signListVisible === false ? "" : _store.searchTerm;
+    this.emit(Constants.CHANGE);
+  }
+
+  closeSearch() {
+    _store.signListVisible = false;
+    _store.searchTerm = "";
+    this.emit(Constants.CHANGE);
+  }
+
+  openSearch() {
+    _store.signListVisible = true;
     this.emit(Constants.CHANGE);
   }
 
@@ -153,7 +175,7 @@ class Store extends EventEmitter {
   getVocabList(categoryEng) {
     for (let group of allVocabsItems) {
       for (let category of group["categories"]) {
-        if (category["titleEn"].toString().toLowerCase() === categoryEng) {
+        if (category["title"].toString().toLowerCase() === categoryEng) {
           return category;
         }
       }
@@ -163,7 +185,7 @@ class Store extends EventEmitter {
   getVocabDetail(categoryEng, signEng) {
     for (let group of allVocabsItems) {
       for (let category of group["categories"]) {
-        if (category["titleEn"].toString().toLowerCase() === categoryEng) {
+        if (category["title"].toString().toLowerCase() === categoryEng) {
           var categoryMatch = category;
           for (let vocab of category["vocabs"]) {
             if (vocab["word"].toString().toLowerCase() === signEng) {
@@ -176,6 +198,20 @@ class Store extends EventEmitter {
         }
       }
     }
+  }
+
+  getVocabsOnly() {
+    const vocabsOnly = [];
+    allVocabsItems.map((categoryItem, key) =>
+      categoryItem.categories.map((category) =>
+        category.vocabs.map((vocab) => {
+          vocab.group = categoryItem.categoryGroup;
+          vocab.category = category.title;
+          return vocabsOnly.push(vocab);
+        })
+      )
+    );
+    return vocabsOnly;
   }
 
   addChangeListener(callback) {

@@ -4,7 +4,7 @@ import { Container, Row, Col } from "shards-react";
 
 import Dispatcher from "../flux/dispatcher";
 import MainNavbar from "../components/layout/MainNavbar/MainNavbar";
-import MainFooter from "../components/layout/MainFooter";
+import ChildrenFooter from "./Children-Footer";
 
 const DefaultLayout = ({ children, noNavbar, noFooter }) => {
   const search = (e) => {
@@ -13,11 +13,19 @@ const DefaultLayout = ({ children, noNavbar, noFooter }) => {
       payload: e,
     });
   };
+
   const showSearch = () => {
     Dispatcher.dispatch({
-      actionType: "TOGGLE_SEARCH",
+      actionType: "OPEN_SEARCH",
     });
   };
+
+  const closeSearch = () => {
+    Dispatcher.dispatch({
+      actionType: "CLOSE_SEARCH",
+    });
+  };  
+
   const toggleDropdown = () => {
     Dispatcher.dispatch({
       actionType: "TOGGLE_DROPDOWN",
@@ -25,21 +33,21 @@ const DefaultLayout = ({ children, noNavbar, noFooter }) => {
   };
 
   return (
-    <Container fluid>
+    <Container fluid>      
       <Row>
         <Col
           className="main-content p-0"
           tag="main"
         >
           {!noNavbar && (
-            <MainNavbar
+            <MainNavbar 
+              toggle={toggleDropdown} 
               onChange={search}
               onFocus={showSearch}
-              toggle={toggleDropdown}
+              onBlur={closeSearch}
             />
           )}
-          {children}
-          {!noFooter && <MainFooter />}
+          <ChildrenFooter children={children} noFooter={noFooter} />
         </Col>
       </Row>
     </Container>

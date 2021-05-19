@@ -2,13 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Col, ListGroup, ListGroupItem, Row } from "shards-react";
 
-import { Store } from "../../flux";
-
-const VocabList = ({vocabs, group, category}) => {
+const SearchVocabList = ({vocabs, group, category}) => {
     return(
         <ListGroup flush>    
             {vocabs.map((vocab, key) => {
-            const vocabImgSrc = Store.getSignImgSrc(vocab.wordMalay.toLowerCase());
             const groupTitle = group === undefined ? vocab.group : group;
             const categoryTitle = category === undefined ? vocab.category : category;
 
@@ -24,14 +21,6 @@ const VocabList = ({vocabs, group, category}) => {
                                         {vocab.word}
                                     </strong>
                                 </Col>
-                                <Col>
-                                    <button className="vocab-play-button" >
-                                        <i className="material-icons">play_circle_filled</i>    
-                                    </button>                            
-                                </Col>                        
-                                <Col>
-                                    <img src={vocabImgSrc} alt={vocab.word} className="vocab-image" />
-                                </Col>
                             </Row>
                         </ListGroupItem>
                     </Link>
@@ -41,4 +30,4 @@ const VocabList = ({vocabs, group, category}) => {
     );
 }
 
-export default VocabList;
+export default SearchVocabList;

@@ -5,15 +5,14 @@ import { useTranslation } from "react-i18next";
 
 import { Store } from "../../flux";
 
-const GroupDetail = ({category}) => {
+const GroupDetail = ({group, category}) => {
     const { t } = useTranslation();
-
     const categoryImgSrc = Store.getCategoryImgSrc(category.titleMalay);
 
     return(
         <Col lg="6" sm="12">
             <div className="category-detail-card-wrapper">
-                <Link to={`/category/${category.titleEn.toLowerCase()}`}>
+                <Link to={`/${group}/${category.title}`}>
                     <Card small className="card-post card-post--aside card-post--1">
                         <Col lg="6" md="6" sm="6">
                         <div
