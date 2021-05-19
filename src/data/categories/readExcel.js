@@ -28,8 +28,17 @@ const restructureJSON = (data) => {
   return reconData;
 };
 
+const getBaseURL = () => {
+  const baseURL = window.location.origin;
+  const filePathname = "/assets/BIM_Test_1.xlsx"; // Test file
+  // const filePathname = "/assets/BIM_Test_1.xlsx"
+
+  return baseURL + filePathname;
+};
+
 const readExcel = async () => {
-  const file = await fetchData("http://localhost:3001/assets/BIM_Test_1.xlsx");
+  const url = getBaseURL();
+  const file = await fetchData(url);
   //Export def
   const promise = new Promise((resolve, reject) => {
     const fileReader = new FileReader();
