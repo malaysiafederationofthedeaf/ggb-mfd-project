@@ -11,6 +11,7 @@ import { Store } from "./flux";
 
 import Dispatcher from "../src/flux/dispatcher";
 import readExcel from "../src/data/categories/readExcel";
+import UnderMaintenance from "./views/UnderMaintenance";
 
 readExcel.then(
   // Promise status 200
@@ -73,7 +74,13 @@ readExcel.then(
     );
   },
   // Promise status 400
-  (error) => console.log(error)
+  (error) =>
+    ReactDOM.render(
+      <Suspense fallback="Loading">
+        <UnderMaintenance />
+      </Suspense>,
+      document.getElementById("root")
+    )
 );
 
 // If you want to start measuring performance in your app, pass a function
