@@ -8,6 +8,9 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import HttpApi from "i18next-http-backend";
 import { initReactI18next } from "react-i18next";
 
+import Dispatcher from "../src/flux/dispatcher";
+import readExcel from "../src/data/categories/readExcel";
+
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .use(LanguageDetector)
@@ -25,11 +28,22 @@ i18n
     },
   });
 
-ReactDOM.render(
-  <Suspense fallback="Loading">
-    <App />
-  </Suspense>,
-  document.getElementById("root")
+readExcel.then(
+  // Promise status 200
+  (value) => {
+    Dispatcher.dispatch({
+      actionType: "STORE_EXCEL",
+      payload: value,
+    });
+    ReactDOM.render(
+      <Suspense fallback="Loading">
+        <App />
+      </Suspense>,
+      document.getElementById("root")
+    );
+  },
+  // Promise status 400
+  (error) => console.log(error)
 );
 
 // If you want to start measuring performance in your app, pass a function
