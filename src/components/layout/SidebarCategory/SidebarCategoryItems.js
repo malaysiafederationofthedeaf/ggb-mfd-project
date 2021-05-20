@@ -25,7 +25,6 @@ class SidebarCategoryItems extends React.Component {
 
   onChange() {
     this.setState({
-      ...this.state,
       vocabsItems: Store.getSidebarVocabItems(),
     });
   }
