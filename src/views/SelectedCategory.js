@@ -15,7 +15,7 @@ const SelectedCategory = ({ match }) => {
   const { t } = useTranslation();
 
   const vocabs = Store.getVocabList(categoryEng.toLowerCase());
-  if (vocabs["vocabs"].length === 0) return <Errors />;
+  if (vocabs["vocabs"].length === 0) return <ComingSoon />;
 
   return (
     <>
