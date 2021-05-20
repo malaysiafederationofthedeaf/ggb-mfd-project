@@ -1,23 +1,25 @@
 import React from "react";
 import { Container } from "shards-react";
+import { useTranslation } from "react-i18next";
 
 import BackButton from "../components/common/BackButton";
 import ToolsIcon from "../images/general/icon/tools-maintenance-icon";
 
-const UnderMaintenance = () => (
-  <Container fluid className="main-content-container px-4 pb-4">
-    <div className="error">
-      <div className="error__content">
-        <ToolsIcon height={150} width={150} />
-        <h1>Under Maintenance</h1>
-        <h2>We'll be back!</h2>
-        <p>
-          The site is currently under maintenance. Please visit again later.
-        </p>
-        <BackButton />
+const UnderMaintenance = () => {
+  const { t } = useTranslation();
+  return (
+    <Container fluid className="main-content-container px-4 pb-4">
+      <div className="error">
+        <div className="error__content">
+          <ToolsIcon height={150} width={150} />
+          <h1>{t("under_maintenance")}</h1>
+          <h2>{t("be_back")}</h2>
+          <p>{t("visit_again")}</p>
+          <BackButton />
+        </div>
       </div>
-    </div>
-  </Container>
-);
+    </Container>
+  );
+};
 
 export default UnderMaintenance;
