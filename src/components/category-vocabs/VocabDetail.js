@@ -9,8 +9,8 @@ const VocabDetail = ({vocab}) => {
 
     return (
         <ListGroup flush className="py-2">    
-            <ListGroupItem>
-                <Row>
+            <ListGroupItem className="p-0">
+                <Row className="selected-vocab-title">
                     <Col>
                         <strong className="text-muted d-block mb-2">
                             {vocab.wordMalay}
@@ -19,12 +19,18 @@ const VocabDetail = ({vocab}) => {
                             {vocab.word}
                         </strong>
                     </Col>
-                    <Col>
-                        <img src={vocabImgSrc} alt={vocab.word} className="vocab-image" />
-                    </Col>
                 </Row>
-                <Row>
-                    <ReactPlayer url={vocab.video} playing={true} controls={true} loop={true} width="100%"/>
+                <Row>        
+                    <Col lg="12" md="12" sm="12">
+                        <div className="selected-vocab-image-wrapper">
+                            <img src={vocabImgSrc} alt={vocab.word} className="selected-vocab-image" />
+                        </div>
+                    </Col>                                
+                    <Col lg="12" md="12" sm="12" >
+                        <div className="selected-vocab-video-wrapper">
+                            <ReactPlayer url={vocab.video} playing={true} controls={true} loop={true} width="100%"/>
+                        </div>                        
+                    </Col>                    
                 </Row>
             </ListGroupItem>
         </ListGroup>

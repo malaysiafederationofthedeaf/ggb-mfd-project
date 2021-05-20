@@ -66,7 +66,7 @@ export default [
   {
     path: "/:group/:category/:vocab",
     exact: true,
-    layout: DefaultLayout,
+    layout: SideCategoryLayout,
     component: SelectedVocab,
   },
 ];

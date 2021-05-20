@@ -9,7 +9,7 @@ import signSample from "../data/sign-sample/sign-sample-items";
 let _store = {
   menuVisible: false,
   navItems: getSidebarNavItems(),
-  vocabsItems: allVocabsItems,
+  vocabsItems: [],
   signSampleItems: signSample,
   searchTerm: "",
   signListVisible: false,
@@ -38,6 +38,7 @@ class Store extends EventEmitter {
     this.closeSearch = this.closeSearch.bind(this);
     this.searchTerm = this.searchTerm.bind(this);
     this.toggleDropdown = this.toggleDropdown.bind(this);
+    this.storeExcel = this.storeExcel.bind(this);
 
     Dispatcher.register(this.registerToActions.bind(this));
   }
@@ -54,11 +55,11 @@ class Store extends EventEmitter {
 
       case "CLOSE_SEARCH":
         this.closeSearch();
-        break;      
-        
+        break;
+
       case "OPEN_SEARCH":
         this.openSearch();
-        break;        
+        break;
 
       case "SEARCH_TERM":
         this.searchTerm(payload);
@@ -68,6 +69,9 @@ class Store extends EventEmitter {
         this.toggleDropdown();
         break;
 
+      case "STORE_EXCEL":
+        this.storeExcel(payload);
+        break;
       default:
     }
   }
@@ -79,20 +83,21 @@ class Store extends EventEmitter {
 
   toggleSearch() {
     _store.signListVisible = !_store.signListVisible;
-    _store.searchTerm = _store.signListVisible === false ? '' : _store.searchTerm;
+    _store.searchTerm =
+      _store.signListVisible === false ? "" : _store.searchTerm;
     this.emit(Constants.CHANGE);
   }
 
   closeSearch() {
     _store.signListVisible = false;
-    _store.searchTerm = '';    
-    this.emit(Constants.CHANGE);    
-  }  
+    _store.searchTerm = "";
+    this.emit(Constants.CHANGE);
+  }
 
   openSearch() {
     _store.signListVisible = true;
     this.emit(Constants.CHANGE);
-  }     
+  }
 
   searchTerm(e) {
     _store.searchTerm = e.target.value;
@@ -102,6 +107,15 @@ class Store extends EventEmitter {
   toggleDropdown() {
     _store.openDropdown = !_store.openDropdown;
     this.emit(Constants.CHANGE);
+  }
+
+  storeExcel(value) {
+    _store.vocabsItems = value;
+    this.emit(Constants.CHANGE);
+  }
+
+  getVocabsItems() {
+    return _store.vocabsItems;
   }
 
   getMenuState() {
@@ -137,29 +151,31 @@ class Store extends EventEmitter {
   }
 
   getCategoryImgSrc(categoryMalay) {
-    try{
-      return require(`../images/bim/category/${categoryMalay.replace(/\s+/g, "-").toLowerCase()}.jpg`);
-    }
-    catch(err){
+    try {
+      return require(`../images/bim/category/${categoryMalay
+        .replace(/\s+/g, "-")
+        .toLowerCase()}.jpg`);
+    } catch (err) {
       //default img (placeholder only)*
       return require(`../images/bim/category/abjad.jpg`);
-    }       
+    }
   }
 
   getSignImgSrc(signMalay) {
-    try{
-      return require(`../images/bim/vocab/${signMalay.replace(/\s+/g, "-").toLowerCase()}.jpg`);
-    }
-    catch(err){
+    try {
+      return require(`../images/bim/vocab/${signMalay
+        .replace(/\s+/g, "-")
+        .toLowerCase()}.jpg`);
+    } catch (err) {
       //default img (placeholder only)*
       return require(`../images/bim/vocab/hai.jpg`);
-    }    
+    }
   }
 
   getVocabList(categoryEng) {
-    for (let group of allVocabsItems){
-      for (let category of group['categories']){
-        if(category['title'].toString().toLowerCase() === categoryEng){
+    for (let group of allVocabsItems) {
+      for (let category of group["categories"]) {
+        if (category["title"].toString().toLowerCase() === categoryEng) {
           return category;
         }
       }
@@ -167,12 +183,12 @@ class Store extends EventEmitter {
   }
 
   getVocabDetail(categoryEng, signEng) {
-    for (let group of allVocabsItems){
-      for (let category of group['categories']){
-        if(category['title'].toString().toLowerCase() === categoryEng){   
-          var categoryMatch = category;         
-          for (let vocab of category['vocabs']){
-            if(vocab['word'].toString().toLowerCase() === signEng){
+    for (let group of allVocabsItems) {
+      for (let category of group["categories"]) {
+        if (category["title"].toString().toLowerCase() === categoryEng) {
+          var categoryMatch = category;
+          for (let vocab of category["vocabs"]) {
+            if (vocab["word"].toString().toLowerCase() === signEng) {
               return {
                 category: categoryMatch,
                 vocab: vocab,
@@ -186,17 +202,15 @@ class Store extends EventEmitter {
 
   getVocabsOnly() {
     const vocabsOnly = [];
-    allVocabsItems.map((categoryItem, key) => (
-      categoryItem.categories.map((category) => (
+    allVocabsItems.map((categoryItem, key) =>
+      categoryItem.categories.map((category) =>
         category.vocabs.map((vocab) => {
-        vocab.group = categoryItem.categoryGroup;
-        vocab.category = category.title;
-        return(
-          vocabsOnly.push(vocab)
-        )
+          vocab.group = categoryItem.categoryGroup;
+          vocab.category = category.title;
+          return vocabsOnly.push(vocab);
         })
-      ))
-    ))
+      )
+    );
     return vocabsOnly;
   }
 
