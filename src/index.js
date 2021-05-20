@@ -10,6 +10,7 @@ import { initReactI18next } from "react-i18next";
 
 import Dispatcher from "../src/flux/dispatcher";
 import readExcel from "../src/data/categories/readExcel";
+import UnderMaintenance from "./views/UnderMaintenance";
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
@@ -43,7 +44,13 @@ readExcel.then(
     );
   },
   // Promise status 400
-  (error) => console.log(error)
+  (error) =>
+    ReactDOM.render(
+      <Suspense fallback="Loading">
+        <UnderMaintenance />
+      </Suspense>,
+      document.getElementById("root")
+    )
 );
 
 // If you want to start measuring performance in your app, pass a function
