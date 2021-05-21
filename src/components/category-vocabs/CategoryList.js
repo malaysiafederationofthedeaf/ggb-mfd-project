@@ -2,16 +2,25 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Col } from "shards-react";
 import ItemsCarousel from "react-items-carousel";
+import { useTranslation } from "react-i18next";
 
 import PageTitle from "../common/PageTitle";
 import CategoryDetail from "./CategoryDetail";
-import { useTranslation } from "react-i18next";
+import { Store } from "../../flux";
 
 const CategoryList = ({ category }) => {
-  const [noOfCards, setNoOfCards] = useState((window.innerWidth > 1200 && Object.keys(category.categories).length >= 3) ? 3 : 2);
+  // get total number of categories
+  const noOfCategories = Object.keys(category).length;
+
+  // determine number of cards to be displayed (categories) based on Screen Size
+  const getNoOfCardsToDisplay = (noOfCategories) => {
+    return (window.innerWidth > 1200 && noOfCategories >= 3) ? 3 : (noOfCategories < 3 ? noOfCategories : 2)
+  }  
+
+  const [noOfCards, setNoOfCards] = useState(getNoOfCardsToDisplay(noOfCategories));
   useEffect(() => {
     function handleResize() {
-      setNoOfCards((window.innerWidth > 1200 && Object.keys(category.categories).length >= 3) ? 3 : 2)  
+      setNoOfCards(getNoOfCardsToDisplay(noOfCategories))  
     }
     window.addEventListener('resize', handleResize)
 
@@ -21,13 +30,15 @@ const CategoryList = ({ category }) => {
   })
 
   const [activeItemIndex, setActiveItemIndex] = useState(0);
-  const { t } = useTranslation();
+  const { t } = useTranslation('group-category');
+
+  const groupFormatted = Store.formatString(category[0].group);
 
   return (
       <Col sm="12" md="6" lg="4">
-        <div className="category-card-wrapper">
-          <Link to={`/${category.categoryGroup.toLowerCase()}`}>
-            <PageTitle title={t(category.categoryGroup)}/>     
+        <div className="category-card-wrapper">          
+          <Link to={`/${groupFormatted}`}>
+            <PageTitle title={t(groupFormatted)}/>     
           </Link>
             <ItemsCarousel
               // Carousel configurations
@@ -47,13 +58,14 @@ const CategoryList = ({ category }) => {
               leftChevron={"<"}
               outsideChevron={false}
             >
-              {category.categories.map((categoryItem, key) => (
-                <CategoryDetail categoryItem={categoryItem} group={category.categoryGroup} key={key} />
+              {category.map((categoryItem, key) => (
+                <CategoryDetail categoryItem={categoryItem} group={categoryItem.group} key={key} />
               ))}
             </ItemsCarousel>
         </div>
       </Col>
   );
+  
 };
 
 export default CategoryList;

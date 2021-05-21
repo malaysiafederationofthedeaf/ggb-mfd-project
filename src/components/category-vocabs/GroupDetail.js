@@ -5,14 +5,17 @@ import { useTranslation } from "react-i18next";
 
 import { Store } from "../../flux";
 
-const GroupDetail = ({group, category}) => {
-    const { t } = useTranslation();
-    const categoryImgSrc = Store.getCategoryImgSrc(category.titleMalay);
+const GroupDetail = ({category}) => {
+    const { t } = useTranslation('group-category');
+    const categoryImgSrc = Store.getCategoryImgSrc(category.kategori);
+
+    const groupFormatted = Store.formatString(category.group);
+    const categoryFormatted = Store.formatString(category.category);
 
     return(
         <Col lg="6" sm="12">
             <div className="category-detail-card-wrapper">
-                <Link to={`/${group}/${category.title}`}>
+                <Link to={`/${groupFormatted}/${categoryFormatted}`}>
                     <Card small className="card-post card-post--aside card-post--1">
                         <Col lg="6" md="6" sm="6">
                         <div
@@ -25,7 +28,7 @@ const GroupDetail = ({group, category}) => {
                         <Col lg="6" md="6" sm="6">
                         <CardBody>
                             <h5 className="card-title">
-                                {t(category.title)}
+                                {t(categoryFormatted)}
                             </h5>
                         </CardBody>
                         </Col>

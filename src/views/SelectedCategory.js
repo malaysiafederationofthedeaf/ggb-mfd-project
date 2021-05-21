@@ -12,21 +12,23 @@ const SelectedCategory = ({match}) => {
     const group = match.params.group;
     const categoryEng = match.params.category;
 
-    const { t } = useTranslation();
+    const { t } = useTranslation('group-category');
 
-    const vocabs = Store.getVocabList(categoryEng.toLowerCase());
-    if (vocabs['vocabs'].length === 0) return <Errors />
+    const categoryFormatted = Store.formatString(categoryEng);
+    const vocabs = Store.getVocabList(categoryFormatted);
+    // return Error page if no Vocabs are returned
+    if (vocabs.length === 0) return <Errors />
     
     return(
         <>
         <Breadcrumbs />
         <Container fluid className="main-content-container px-4 vocab-list-wrapper">
             <Row noGutters className="page-header py-4">
-                <PageTitle title={t(vocabs.title)} md="12" className="ml-sm-auto mr-sm-auto" />
+                <PageTitle title={t(categoryFormatted)} md="12" className="ml-sm-auto mr-sm-auto" />
             </Row>
             <Row className="py-4">
                 <Col md="12" lg="11">
-                    <VocabList vocabs={vocabs.vocabs} group={group} category={categoryEng}/>
+                    <VocabList vocabs={vocabs} group={group} category={categoryEng}/>
                 </Col>
             </Row>
       </Container>

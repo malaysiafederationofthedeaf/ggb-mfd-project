@@ -14,24 +14,33 @@ const fetchData = async (url) => {
 };
 
 const restructureJSON = (data) => {
-  const reconData = data.map((item) => ({
-    Group: item.Group,
-    Kumpulan: item.Kumpulan,
-    Category: item.Category,
-    Kategori: item.Kategori,
-    Word: item.Word,
-    Perkataan: item.Perkataan,
-    Video: item.Video,
+  const reconData = data.map((item) => ((item.Group !== undefined && item.Kumpulan !== undefined && item.Category !== undefined && item.Word !== undefined && item.Perkataan !== undefined )&& {
+    group: item.Group,
+    kumpulan: item.Kumpulan,
+    category: item.Category,
+    kategori: item.Kategori,
+    word: item.Word.toString(),
+    perkataan: item.Perkataan.toString(),
+    video: item.Video,
+    tag: item.Tag,
+    release: item.Release,
   }));
 
-  return reconData;
+  return filterExcelData(reconData, "Release 1");
 };
+
+const filterExcelData = (excelData, release) => {
+  return excelData
+    .filter((group) => (group !== false)) // filter out those without any value
+    .filter((group) => (group.release === release)) // filter out those that are not in "Release 1"
+    .sort((a, b) => (a.perkataan).localeCompare(b.perkataan) // sort the entries alphabetically based on the Word (English)
+    );
+}
 
 const getBaseURL = () => {
   const baseURL = window.location.origin;
-  const filePathname = "/assets/BIM_Test_1.xlsx"; // Test file
-  // const filePathname = "/assets/BIM_Test_1.xlsx"
-
+  // const filePathname = "/assets/BIM_Test_1.xlsx"; // Test file
+  const filePathname = "/assets/GGB-MFD-BIM-SignBank-Category.xlsx";
   return baseURL + filePathname;
 };
 

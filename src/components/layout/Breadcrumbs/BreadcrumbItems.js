@@ -5,8 +5,7 @@ import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 
 const BreadcrumbItems = ({vocab}) => {
-
-  const { t } = useTranslation();
+  const { t } = useTranslation(['' ,'group-category']);
 
   const Breadcrumbs = (props) => (
     <div className="breadcrumbs">
@@ -27,12 +26,12 @@ const BreadcrumbItems = ({vocab}) => {
         <BreadcrumbItem className={match.isExact ? 'active' : undefined}>
           {match.isExact ? 
             i18next.language==="en" || vocab === undefined ?
-              <>{t(match.params.path)}</> 
+              <>{t(`group-category:${match.params.path}`)}</> 
               :
-              <>{vocab.wordMalay}</>
+              <>{t(`word:${match.params.path}`)}</> 
             : 
             <Link to={match.url || ''}>
-                {t(match.params.path)}
+              <>{t(`group-category:${match.params.path}`)}</> 
             </Link>
           }
         </BreadcrumbItem>

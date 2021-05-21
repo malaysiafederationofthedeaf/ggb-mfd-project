@@ -3,7 +3,6 @@ import { EventEmitter } from "events";
 import Dispatcher from "./dispatcher";
 import Constants from "./constants";
 import getSidebarNavItems from "../data/sidebar-nav-items";
-import allVocabsItems from "../data/categories/all-vocabs-items";
 import signSample from "../data/sign-sample/sign-sample-items";
 
 let _store = {
@@ -150,68 +149,77 @@ class Store extends EventEmitter {
     return _store.languages;
   }
 
-  getCategoryImgSrc(categoryMalay) {
-    try {
-      return require(`../images/bim/category/${categoryMalay
-        .replace(/\s+/g, "-")
-        .toLowerCase()}.jpg`);
-    } catch (err) {
-      //default img (placeholder only)*
-      return require(`../images/bim/category/abjad.jpg`);
+  // get image for Category (fileName naming std: kategori.jpg)
+  getCategoryImgSrc(kategori) {
+    try{
+      return require(`../images/bim/category/${kategori}.jpg`);
     }
+    catch(err){
+      //default img (placeholder only)*
+      return require(`../images/general/image-coming-soon.jpg`);
+    }       
   }
 
-  getSignImgSrc(signMalay) {
-    try {
-      return require(`../images/bim/vocab/${signMalay
-        .replace(/\s+/g, "-")
-        .toLowerCase()}.jpg`);
-    } catch (err) {
-      //default img (placeholder only)*
-      return require(`../images/bim/vocab/hai.jpg`);
+  // get image for Sign Word (fileName naming std: category/perkataan.jpg)
+  getSignImgSrc(kategori, signMalay) {
+    try{
+      return require(`../images/bim/vocab/${kategori}/${signMalay}.jpg`);
     }
+    catch(err){
+      //default img (placeholder only)*
+      return require(`../images/general/image-coming-soon.jpg`);
+    }    
+  }  
+
+  // get all the (unique) Groups 
+  getGroups() {
+    let lookup = new Set();
+    const groups = this.getVocabsItems().filter(obj => !lookup.has(obj.group) && lookup.add(obj.group))
+    return groups;
   }
 
+  // get all the (unique) Categories 
+  getCategories() {
+    let lookup = new Set();
+    const groups = this.getVocabsItems().filter(obj => !lookup.has(obj.category) && lookup.add(obj.category))
+    return groups;   
+  }
+
+  // get category list based on Group
+  getCategoriesOfGroup(group) {
+    let lookup = new Set();
+    const categories = this.getVocabsItems().filter(category => !this.formatString(category.group).localeCompare(this.formatString(group)))
+      .filter(obj => !lookup.has(obj.category) && lookup.add(obj.category));
+    return categories;
+  }
+
+  // get vocabs list based on Category
   getVocabList(categoryEng) {
-    for (let group of allVocabsItems) {
-      for (let category of group["categories"]) {
-        if (category["title"].toString().toLowerCase() === categoryEng) {
-          return category;
-        }
-      }
-    }
+    const vocabs = this.getVocabsItems().filter(category => !this.formatString(category.category).localeCompare(this.formatString(categoryEng)));
+    return vocabs;
   }
 
-  getVocabDetail(categoryEng, signEng) {
-    for (let group of allVocabsItems) {
-      for (let category of group["categories"]) {
-        if (category["title"].toString().toLowerCase() === categoryEng) {
-          var categoryMatch = category;
-          for (let vocab of category["vocabs"]) {
-            if (vocab["word"].toString().toLowerCase() === signEng) {
-              return {
-                category: categoryMatch,
-                vocab: vocab,
-              };
-            }
-          }
-        }
-      }
-    }
+  // get vocabs detail (word, perkataan, image, video) based on Word
+  getVocabDetail(signEng) {    
+    const vocabs = this.getVocabsItems().filter(category => !this.formatString(category.word).localeCompare(this.formatString(signEng)));
+    return vocabs;     
+  } 
+
+  // get Top 3 Commonly Referred Groups to display in Home page
+  // look for Tag with 'Home' in Excel 
+  getTop3Groups() {
+    return this.getGroups()
+      .filter(group => (group.tag !== undefined) && !(group.tag).localeCompare("Home"));  
   }
 
-  getVocabsOnly() {
-    const vocabsOnly = [];
-    allVocabsItems.map((categoryItem, key) =>
-      categoryItem.categories.map((category) =>
-        category.vocabs.map((vocab) => {
-          vocab.group = categoryItem.categoryGroup;
-          vocab.category = category.title;
-          return vocabsOnly.push(vocab);
-        })
-      )
-    );
-    return vocabsOnly;
+  // format string to lower case and replace space with dash (for link path name)
+  formatString(string) {
+    try {
+      return string.toLowerCase().replace(/\s+/g, "-");
+    }
+    catch(err){
+      return string;
+    }
   }
 
   addChangeListener(callback) {

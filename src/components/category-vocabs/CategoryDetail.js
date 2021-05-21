@@ -6,24 +6,26 @@ import { useTranslation } from "react-i18next";
 import { Store } from "../../flux";
 
 const CategoryDetail = ({ categoryItem, group }) => {
-  const { t } = useTranslation();
-  const categoryImgSrc = Store.getCategoryImgSrc(categoryItem.titleMalay);
+  const { t } = useTranslation('group-category');
+  const categoryImgSrc = Store.getCategoryImgSrc(categoryItem.kategori);
+
+  const groupFormatted = Store.formatString(categoryItem.group);
+  const categoryFormatted = Store.formatString(categoryItem.category)  
 
   return (
-    <Link to={`/${group.toLowerCase()}/${categoryItem.title.toLowerCase()}`}>
+    <Link to={`/${groupFormatted}/${categoryFormatted}`}>
       <Card
         small
         className="card-post card-post--1"
-        key={t(categoryItem.title)}
       >
         <div
           className="card-post__image"
           data-aos="zoom-in" data-aos-delay="200"          
-          style={{ backgroundImage: `url(${categoryImgSrc})` }}
+          style={{ backgroundImage: `url('${categoryImgSrc}')` }}
         ></div>
         <CardBody>
           <CardTitle className="card-title">
-            {t(categoryItem.title)}
+            {t(categoryFormatted)}
           </CardTitle>
         </CardBody>
       </Card>
