@@ -32,8 +32,8 @@ const restructureJSON = (data) => {
 const filterExcelData = (excelData, release) => {
   return excelData
     .filter((group) => (group !== false)) // filter out those without any value
-    .filter((group) => (group.release === release)) // filter out those that are not in "Release 1"
-    .sort((a, b) => (a.perkataan).localeCompare(b.perkataan) // sort the entries alphabetically based on the Word (English)
+    .filter((group) => (group.release === release)) // filter out those that are not in 'release'
+    .sort((a, b) => (a.perkataan).localeCompare(b.perkataan) // sort the entries alphabetically based on the Perkataan
     );
 }
 
