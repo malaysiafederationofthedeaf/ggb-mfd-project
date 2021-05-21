@@ -160,10 +160,10 @@ class Store extends EventEmitter {
     }       
   }
 
-  // get image for Sign Word (fileName naming std: category/perkataan.jpg)
-  getSignImgSrc(kategori, signMalay) {
+  // get image for Sign Word (fileName naming std: kategori/perkataan.jpg)
+  getSignImgSrc(kategori, perkataan) {
     try{
-      return require(`../images/bim/vocab/${kategori}/${signMalay}.jpg`);
+      return require(`../images/bim/vocab/${kategori}/${perkataan}.jpg`);
     }
     catch(err){
       //default img (placeholder only)*
