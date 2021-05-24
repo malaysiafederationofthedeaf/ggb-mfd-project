@@ -5,13 +5,13 @@ import Store from "../../../flux/store";
 import SearchVocabList from '../../category-vocabs/SearchVocabList';
 
 const SearchResults = ({ filter }) => {
-  const vocabsOnly = Store.getVocabsOnly()
+  const vocabsOnly = Store.getVocabsItems()
     // eslint-disable-next-line array-callback-return
     .filter((val) => {
       if (filter === "") {
         return val;
       } else if (
-        val.wordMalay.toLowerCase().includes(filter.toLowerCase()) ||
+        val.perkataan.toLowerCase().includes(filter.toLowerCase()) ||
         val.word.toLowerCase().includes(filter.toLowerCase())
       ) {
         return val;
