@@ -3,17 +3,17 @@ import { Container } from "shards-react";
 
 import BackButton from "../components/common/BackButton";
 
-const Errors = () => (
+const ComingSoon = () => (
   <Container fluid className="main-content-container px-4 pb-4">
     <div className="error">
       <div className="error__content">
-        <h1>500</h1>
-        <h2>Something went wrong!</h2>
-        <p>There was a problem on our end. Please try again later.</p>
+        <h1>Coming Soon</h1>
+        <h2>Stay tuned! </h2>
+        <p>New content is around the corner.</p>
         <BackButton />
       </div>
     </div>
   </Container>
 );
 
-export default Errors;
+export default ComingSoon;
