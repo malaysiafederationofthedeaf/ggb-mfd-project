@@ -3,13 +3,12 @@ import { EventEmitter } from "events";
 import Dispatcher from "./dispatcher";
 import Constants from "./constants";
 import getSidebarNavItems from "../data/sidebar-nav-items";
-import allVocabsItems from "../data/categories/all-vocabs-items";
 import signSample from "../data/sign-sample/sign-sample-items";
 
 let _store = {
   menuVisible: false,
   navItems: getSidebarNavItems(),
-  vocabsItems: allVocabsItems,
+  vocabsItems: [],
   signSampleItems: signSample,
   searchTerm: "",
   signListVisible: false,
@@ -38,6 +37,7 @@ class Store extends EventEmitter {
     this.closeSearch = this.closeSearch.bind(this);
     this.searchTerm = this.searchTerm.bind(this);
     this.toggleDropdown = this.toggleDropdown.bind(this);
+    this.storeExcel = this.storeExcel.bind(this);
 
     Dispatcher.register(this.registerToActions.bind(this));
   }
@@ -54,11 +54,11 @@ class Store extends EventEmitter {
 
       case "CLOSE_SEARCH":
         this.closeSearch();
-        break;      
-        
+        break;
+
       case "OPEN_SEARCH":
         this.openSearch();
-        break;        
+        break;
 
       case "SEARCH_TERM":
         this.searchTerm(payload);
@@ -68,6 +68,9 @@ class Store extends EventEmitter {
         this.toggleDropdown();
         break;
 
+      case "STORE_EXCEL":
+        this.storeExcel(payload);
+        break;
       default:
     }
   }
@@ -79,20 +82,21 @@ class Store extends EventEmitter {
 
   toggleSearch() {
     _store.signListVisible = !_store.signListVisible;
-    _store.searchTerm = _store.signListVisible === false ? '' : _store.searchTerm;
+    _store.searchTerm =
+      _store.signListVisible === false ? "" : _store.searchTerm;
     this.emit(Constants.CHANGE);
   }
 
   closeSearch() {
     _store.signListVisible = false;
-    _store.searchTerm = '';    
-    this.emit(Constants.CHANGE);    
-  }  
+    _store.searchTerm = "";
+    this.emit(Constants.CHANGE);
+  }
 
   openSearch() {
     _store.signListVisible = true;
     this.emit(Constants.CHANGE);
-  }     
+  }
 
   searchTerm(e) {
     _store.searchTerm = e.target.value;
@@ -102,6 +106,15 @@ class Store extends EventEmitter {
   toggleDropdown() {
     _store.openDropdown = !_store.openDropdown;
     this.emit(Constants.CHANGE);
+  }
+
+  storeExcel(value) {
+    _store.vocabsItems = value;
+    this.emit(Constants.CHANGE);
+  }
+
+  getVocabsItems() {
+    return _store.vocabsItems;
   }
 
   getMenuState() {
@@ -136,68 +149,77 @@ class Store extends EventEmitter {
     return _store.languages;
   }
 
-  getCategoryImgSrc(categoryMalay) {
+  // get image for Category (fileName naming std: kategori.jpg)
+  getCategoryImgSrc(kategori) {
     try{
-      return require(`../images/bim/category/${categoryMalay.replace(/\s+/g, "-").toLowerCase()}.jpg`);
+      return require(`../images/bim/category/${kategori}.jpg`);
     }
     catch(err){
       //default img (placeholder only)*
-      return require(`../images/bim/category/abjad.jpg`);
+      return require(`../images/general/image-coming-soon.jpg`);
     }       
   }
 
-  getSignImgSrc(signMalay) {
+  // get image for Sign Word (fileName naming std: kategori/perkataan.jpg)
+  getSignImgSrc(kategori, perkataan) {
     try{
-      return require(`../images/bim/vocab/${signMalay.replace(/\s+/g, "-").toLowerCase()}.jpg`);
+      return require(`../images/bim/vocab/${kategori}/${perkataan}.jpg`);
     }
     catch(err){
       //default img (placeholder only)*
-      return require(`../images/bim/vocab/hai.jpg`);
+      return require(`../images/general/image-coming-soon.jpg`);
     }    
+  }  
+
+  // get all the (unique) Groups 
+  getGroups() {
+    let lookup = new Set();
+    const groups = this.getVocabsItems().filter(obj => !lookup.has(obj.group) && lookup.add(obj.group))
+    return groups;
   }
 
+  // get all the (unique) Categories 
+  getCategories() {
+    let lookup = new Set();
+    const groups = this.getVocabsItems().filter(obj => !lookup.has(obj.category) && lookup.add(obj.category))
+    return groups;   
+  }
+
+  // get category list based on Group
+  getCategoriesOfGroup(group) {
+    let lookup = new Set();
+    const categories = this.getVocabsItems().filter(category => !this.formatString(category.group).localeCompare(this.formatString(group)))
+      .filter(obj => !lookup.has(obj.category) && lookup.add(obj.category));
+    return categories;
+  }
+
+  // get vocabs list based on Category
   getVocabList(categoryEng) {
-    for (let group of allVocabsItems){
-      for (let category of group['categories']){
-        if(category['title'].toString().toLowerCase() === categoryEng){
-          return category;
-        }
-      }
-    }
+    const vocabs = this.getVocabsItems().filter(category => !this.formatString(category.category).localeCompare(this.formatString(categoryEng)));
+    return vocabs;
   }
 
-  getVocabDetail(categoryEng, signEng) {
-    for (let group of allVocabsItems){
-      for (let category of group['categories']){
-        if(category['title'].toString().toLowerCase() === categoryEng){   
-          var categoryMatch = category;         
-          for (let vocab of category['vocabs']){
-            if(vocab['word'].toString().toLowerCase() === signEng){
-              return {
-                category: categoryMatch,
-                vocab: vocab,
-              };
-            }
-          }
-        }
-      }
-    }
+  // get vocabs detail (word, perkataan, image, video) based on Word
+  getVocabDetail(signEng) {    
+    const vocabs = this.getVocabsItems().filter(category => !this.formatString(category.word).localeCompare(this.formatString(signEng)));
+    return vocabs;     
+  } 
+
+  // get Top 3 Commonly Referred Groups to display in Home page
+  // look for Tag with 'Home' in Excel 
+  getTop3Groups() {
+    return this.getGroups()
+      .filter(group => (group.tag !== undefined) && !(group.tag).localeCompare("Home"));  
   }
 
-  getVocabsOnly() {
-    const vocabsOnly = [];
-    allVocabsItems.map((categoryItem, key) => (
-      categoryItem.categories.map((category) => (
-        category.vocabs.map((vocab) => {
-        vocab.group = categoryItem.categoryGroup;
-        vocab.category = category.title;
-        return(
-          vocabsOnly.push(vocab)
-        )
-        })
-      ))
-    ))
-    return vocabsOnly;
+  // format string to lower case and replace space with dash (for link path name)
+  formatString(string) {
+    try {
+      return string.toLowerCase().replace(/\s+/g, "-");
+    }
+    catch(err){
+      return string;
+    }
   }
 
   addChangeListener(callback) {

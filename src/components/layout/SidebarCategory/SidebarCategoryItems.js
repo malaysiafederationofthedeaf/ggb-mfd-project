@@ -9,7 +9,7 @@ class SidebarCategoryItems extends React.Component {
     super(props);
 
     this.state = {
-      vocabsItems: Store.getSidebarVocabItems(),
+      vocabsItems: Store.getGroups(),
     };
 
     this.onChange = this.onChange.bind(this);
@@ -25,8 +25,7 @@ class SidebarCategoryItems extends React.Component {
 
   onChange() {
     this.setState({
-      ...this.state,
-      vocabsItems: Store.getSidebarVocabItems(),
+      vocabsItems: Store.getGroups(),
     });
   }
 

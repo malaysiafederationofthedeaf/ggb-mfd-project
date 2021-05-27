@@ -3,12 +3,11 @@ import { Container, Row, Col } from "shards-react";
 import { useTranslation } from "react-i18next";
 
 import AboutUsPreview from "../components/about-us/AboutUsPreview";
-import allVocabsItems from "../data/categories/all-vocabs-items";
 import CategoryList from "../components/category-vocabs/CategoryList";
+import { Store } from "../flux";
 
 const Home = () => {
   const { t } = useTranslation();
-
   return (
     <>
       <AboutUsPreview />
@@ -20,10 +19,10 @@ const Home = () => {
               </Col>
             </Row>
             <Row>             
-              {/* Signs Blocks */}
-              {allVocabsItems.slice(0, 3).map((category, key) => (
-                  <CategoryList category={category} key={key} />
-              ))}                
+              {/* Top 3 Sign Groups */}
+              {Store.getTop3Groups().map((group, key) => (
+                <CategoryList category={Store.getCategoriesOfGroup(group.group)} key={key} />
+              ))}                          
             </Row>
           </div>
         </Container>
