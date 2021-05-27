@@ -5,28 +5,9 @@ import { Container, Row, Col } from "shards-react";
 import Dispatcher from "../flux/dispatcher";
 import MainNavbar from "../components/layout/MainNavbar/MainNavbar";
 import SidebarCategory from "../components/layout/SidebarCategory/SidebarCategory";
-import ChildrenFooter from "./Children-Footer";
+import MainFooter from "../components/layout/MainFooter";
 
 const SideCategoryLayout = ({ children, noNavbar, noFooter }) => {
-  const search = (e) => {
-    Dispatcher.dispatch({
-      actionType: "SEARCH_TERM",
-      payload: e,
-    });
-  };
-  
-  const showSearch = () => {
-    Dispatcher.dispatch({
-      actionType: "OPEN_SEARCH",
-    });
-  };
-
-  const closeSearch = () => {
-    Dispatcher.dispatch({
-      actionType: "CLOSE_SEARCH",
-    });
-  };  
-
   const toggleDropdown = () => {
     Dispatcher.dispatch({
       actionType: "TOGGLE_DROPDOWN",
@@ -42,10 +23,7 @@ const SideCategoryLayout = ({ children, noNavbar, noFooter }) => {
         >
           {!noNavbar && (
             <MainNavbar
-            toggle={toggleDropdown} 
-            onChange={search}
-            onFocus={showSearch}
-            onBlur={closeSearch}
+            toggle={toggleDropdown}
             />
           )}   
           <Row>
@@ -55,11 +33,12 @@ const SideCategoryLayout = ({ children, noNavbar, noFooter }) => {
               </div>
             </Col>
             <Col xl="10" lg="9" md="9" sm="8">
-              <ChildrenFooter children={children} noFooter={noFooter}/>       
+              {children}
             </Col>
           </Row>       
         </Col>
       </Row>
+      {!noFooter && <MainFooter />}
     </Container>  
 );
 }

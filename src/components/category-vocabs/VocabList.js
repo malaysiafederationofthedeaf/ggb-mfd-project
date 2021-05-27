@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Col, ListGroup, ListGroupItem, Row } from "shards-react";
-import i18next from "i18next";
 
 import { Store } from "../../flux";
+import VocabWordPerkataan from "./VocabWordPerkataan";
 
 const VocabList = ({vocabs, group, category}) => {    
     return(
@@ -23,12 +23,7 @@ const VocabList = ({vocabs, group, category}) => {
                         <ListGroupItem>
                             <Row data-aos="fade-up" data-aos-delay="200" className="vocab-word">
                                 <Col sm="12" md="4" lg="3">
-                                    <strong className="text d-block mb-2">
-                                        {i18next.language==="en" ? vocab.word : vocab.perkataan}
-                                    </strong>
-                                    <strong className="text-muted d-block mb-2">
-                                        {i18next.language==="en" ? vocab.perkataan : vocab.word}
-                                    </strong>
+                                    <VocabWordPerkataan word={vocab.word} perkataan={vocab.perkataan} />
                                 </Col>
                                 <Col>
                                     <button className="vocab-play-button" >

@@ -1,9 +1,9 @@
 import React from "react";
 import { ListGroup, ListGroupItem, Col, Row } from "shards-react";
 import ReactPlayer from 'react-player';
-import i18next from "i18next";
 
 import { Store } from "../../flux";
+import VocabWordPerkataan from "./VocabWordPerkataan";
 
 const VocabDetail = ({vocab}) => {
     const vocabImgSrc = Store.getSignImgSrc(vocab.kategori, vocab.perkataan);
@@ -13,12 +13,7 @@ const VocabDetail = ({vocab}) => {
             <ListGroupItem className="p-0">
                 <Row className="selected-vocab-title">
                     <Col>
-                        <strong className="text-muted d-block mb-2">
-                            {i18next.language==="en" ? vocab.word : vocab.perkataan}
-                        </strong>
-                        <strong className="text d-block mb-2">
-                            {i18next.language==="en" ? vocab.perkataan : vocab.word}
-                        </strong>
+                        <VocabWordPerkataan word={vocab.word} perkataan={vocab.perkataan} />
                     </Col>
                 </Row>
                 <Row>        
