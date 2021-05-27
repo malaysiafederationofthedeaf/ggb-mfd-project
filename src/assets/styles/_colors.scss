@@ -1,22 +1,22 @@
 // Primary Colors
-$color-primary: #0367B9;
-$color-primary-dark: #024C8B;
-$color-primary-light:#098EFB;
+$color-primary: #0367b9;
+$color-primary-dark: #024c8b;
+$color-primary-light: #098efb;
 
 // Secondary Colors
-$color-secondary: #8AC4BC;
-$color-secondary-dark: #5A9C97;
-$color-secondary-light: #CFE7E4;
+$color-secondary: #8ac4bc;
+$color-secondary-dark: #5a9c97;
+$color-secondary-light: #cfe7e4;
 
 // Background Color
 // $color-background: #EDDED9;
-$color-background: #FFFFFF;
-$color-surface: #FFFFFF;
-$color-error: #D12C00;
+$color-background: #ffffff;
+$color-surface: #ffffff;
+$color-error: #d12c00;
 
 // Fonts Color
 $color-font-dark: #000000;
-$color-font-light: #FFFFFF;
+$color-font-light: #ffffff;
 
 // Shadow Colors
 $color-dark-shadow: rgba(90, 97, 105, 0.1);
@@ -33,7 +33,7 @@ $title-font-light-color: $color-secondary;
 $subtitle-font-light-color: $color-secondary-dark;
 $body-font-light-color: $color-font-light;
 
-// Background 
+// Background
 $background-color: $color-background;
 
 // Navbar
@@ -49,3 +49,7 @@ $a-hover-color: $color-primary-light;
 // Button
 $button-text-color: $color-secondary-light;
 $button-background-color: $color-primary;
+
+:export {
+  color: $color-primary-dark;
+}
