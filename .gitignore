@@ -22,4 +22,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# VS Code Settings
 .vscode
+
+# Firebase Init
+.firebase
