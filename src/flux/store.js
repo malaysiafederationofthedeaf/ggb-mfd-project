@@ -10,7 +10,6 @@ let _store = {
   navItems: getSidebarNavItems(),
   vocabsItems: [],
   signSampleItems: signSample,
-  searchTerm: "",
   signListVisible: false,
   openDropdown: false,
   languages: [
@@ -33,9 +32,6 @@ class Store extends EventEmitter {
 
     this.registerToActions = this.registerToActions.bind(this);
     this.toggleSidebar = this.toggleSidebar.bind(this);
-    this.toggleSearch = this.toggleSearch.bind(this);
-    this.closeSearch = this.closeSearch.bind(this);
-    this.searchTerm = this.searchTerm.bind(this);
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.storeExcel = this.storeExcel.bind(this);
 
@@ -46,22 +42,6 @@ class Store extends EventEmitter {
     switch (actionType) {
       case Constants.TOGGLE_SIDEBAR:
         this.toggleSidebar();
-        break;
-
-      case "TOGGLE_SEARCH":
-        this.toggleSearch();
-        break;
-
-      case "CLOSE_SEARCH":
-        this.closeSearch();
-        break;
-
-      case "OPEN_SEARCH":
-        this.openSearch();
-        break;
-
-      case "SEARCH_TERM":
-        this.searchTerm(payload);
         break;
 
       case "TOGGLE_DROPDOWN":
@@ -77,29 +57,6 @@ class Store extends EventEmitter {
 
   toggleSidebar() {
     _store.menuVisible = !_store.menuVisible;
-    this.emit(Constants.CHANGE);
-  }
-
-  toggleSearch() {
-    _store.signListVisible = !_store.signListVisible;
-    _store.searchTerm =
-      _store.signListVisible === false ? "" : _store.searchTerm;
-    this.emit(Constants.CHANGE);
-  }
-
-  closeSearch() {
-    _store.signListVisible = false;
-    _store.searchTerm = "";
-    this.emit(Constants.CHANGE);
-  }
-
-  openSearch() {
-    _store.signListVisible = true;
-    this.emit(Constants.CHANGE);
-  }
-
-  searchTerm(e) {
-    _store.searchTerm = e.target.value;
     this.emit(Constants.CHANGE);
   }
 
@@ -121,10 +78,6 @@ class Store extends EventEmitter {
     return _store.menuVisible;
   }
 
-  getSearchState() {
-    return _store.signListVisible;
-  }
-
   getSidebarItems() {
     return _store.navItems;
   }
@@ -135,10 +88,6 @@ class Store extends EventEmitter {
 
   getSignItems() {
     return _store.signSampleItems;
-  }
-
-  getSearchTerm() {
-    return _store.searchTerm;
   }
 
   getOpenDropdown() {
@@ -193,9 +142,12 @@ class Store extends EventEmitter {
     return categories;
   }
 
-  // get vocabs list based on Category
-  getVocabList(categoryEng) {
-    const vocabs = this.getVocabsItems().filter(category => !this.formatString(category.category).localeCompare(this.formatString(categoryEng)));
+  // get vocabs list based on Category and Group
+  getVocabList(groupEng, categoryEng) {
+    const vocabs = this.getVocabsItems().filter(category => 
+      (!this.formatString(category.group).localeCompare(this.formatString(groupEng))) 
+      && 
+      (!this.formatString(category.category).localeCompare(this.formatString(categoryEng))));
     return vocabs;
   }
 

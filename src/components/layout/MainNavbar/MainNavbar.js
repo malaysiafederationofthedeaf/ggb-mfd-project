@@ -13,7 +13,6 @@ import NavbarBackButton from "../../common/NavbarBackButton"
 import NavbarNavItems from "./NavbarNavItems";
 import NavbarTranslate from "./NavbarTranslate";
 import SearchInput from "../Searchbar/SearchInput";
-import { Store } from "../../../flux";
 
 class MainNavbar extends React.Component {
   constructor(props) {
@@ -21,8 +20,6 @@ class MainNavbar extends React.Component {
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.state = {
       collapseOpen: false,
-      searchTerm: Store.getSearchTerm(),
-      searchState: Store.getSearchState(),
     };
   }
 
@@ -46,7 +43,7 @@ class MainNavbar extends React.Component {
             alt="BIM Logo"
             /> 
         </NavbarBrand>
-        <SearchInput onChange={this.props.onChange} onFocus={this.props.onFocus} onBlur={this.props.onBlur} />
+        <SearchInput />
         <NavbarTranslate toggle={this.props.toggle} /> 
         <NavbarToggler onClick={this.toggleNavbar} />  
 

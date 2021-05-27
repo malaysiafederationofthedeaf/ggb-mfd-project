@@ -15,7 +15,8 @@ const SelectedCategory = ({ match }) => {
   const { t } = useTranslation("group-category");
 
   const categoryFormatted = Store.formatString(categoryEng);
-  const vocabs = Store.getVocabList(categoryFormatted);
+  const groupFormatted = Store.formatString(group);
+  const vocabs = Store.getVocabList(groupFormatted, categoryFormatted);
   // return Error page if no Vocabs are returned
   if (vocabs.length === 0) return <ComingSoon />;
 
