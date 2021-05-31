@@ -34,7 +34,7 @@ const NavbarTranslate = ({ toggle }) => {
         <DropdownToggle>
           <GlobeIcon />
         </DropdownToggle>
-        <DropdownMenu left>
+        <DropdownMenu>
           <DropdownItem disabled>
             <span className="dropdown-item-text font-weight-bold">
               {t("languages")}
