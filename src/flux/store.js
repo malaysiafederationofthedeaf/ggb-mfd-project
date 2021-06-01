@@ -3,6 +3,8 @@ import { EventEmitter } from "events";
 import Dispatcher from "./dispatcher";
 import Constants from "./constants";
 import getSidebarNavItems from "../data/sidebar-nav-items";
+import getAlphabets from "../data/alphabets/alphabets-arrays";
+import getCurrentLocale from "../data/alphabets/currentLocale";
 import signSample from "../data/sign-sample/sign-sample-items";
 
 let _store = {
@@ -12,6 +14,7 @@ let _store = {
   signSampleItems: signSample,
   signListVisible: false,
   openDropdown: false,
+  alphabets: getAlphabets(),
   languages: [
     {
       code: "en",
@@ -94,84 +97,116 @@ class Store extends EventEmitter {
     return _store.openDropdown;
   }
 
+  getAlphabetsList() {
+    return _store.alphabets;
+  }
+
   getLanguages() {
     return _store.languages;
   }
 
   // get image for Category (fileName naming std: kategori.jpg)
   getCategoryImgSrc(kategori) {
-    try{
+    try {
       return require(`../images/bim/category/${kategori}.jpg`);
-    }
-    catch(err){
+    } catch (err) {
       //default img (placeholder only)*
       return require(`../images/general/image-coming-soon.jpg`);
-    }       
+    }
   }
 
   // get image for Sign Word (fileName naming std: kategori/perkataan.jpg)
   getSignImgSrc(kategori, perkataan) {
-    try{
+    try {
       return require(`../images/bim/vocab/${kategori}/${perkataan}.jpg`);
-    }
-    catch(err){
+    } catch (err) {
       //default img (placeholder only)*
       return require(`../images/general/image-coming-soon.jpg`);
-    }    
-  }  
+    }
+  }
 
-  // get all the (unique) Groups 
+  // get all the (unique) Groups
   getGroups() {
     let lookup = new Set();
-    const groups = this.getVocabsItems().filter(obj => !lookup.has(obj.group) && lookup.add(obj.group))
+    const groups = this.getVocabsItems().filter(
+      (obj) => !lookup.has(obj.group) && lookup.add(obj.group)
+    );
     return groups;
   }
 
-  // get all the (unique) Categories 
+  // get all the (unique) Categories
   getCategories() {
     let lookup = new Set();
-    const groups = this.getVocabsItems().filter(obj => !lookup.has(obj.category) && lookup.add(obj.category))
-    return groups;   
+    const groups = this.getVocabsItems().filter(
+      (obj) => !lookup.has(obj.category) && lookup.add(obj.category)
+    );
+    return groups;
   }
 
   // get category list based on Group
   getCategoriesOfGroup(group) {
     let lookup = new Set();
-    const categories = this.getVocabsItems().filter(category => !this.formatString(category.group).localeCompare(this.formatString(group)))
-      .filter(obj => !lookup.has(obj.category) && lookup.add(obj.category));
+    const categories = this.getVocabsItems()
+      .filter(
+        (category) =>
+          !this.formatString(category.group).localeCompare(
+            this.formatString(group)
+          )
+      )
+      .filter((obj) => !lookup.has(obj.category) && lookup.add(obj.category));
     return categories;
   }
 
   // get vocabs list based on Category and Group
   getVocabList(groupEng, categoryEng) {
-    const vocabs = this.getVocabsItems().filter(category => 
-      (!this.formatString(category.group).localeCompare(this.formatString(groupEng))) 
-      && 
-      (!this.formatString(category.category).localeCompare(this.formatString(categoryEng))));
+    const vocabs = this.getVocabsItems().filter(
+      (category) =>
+        !this.formatString(category.group).localeCompare(
+          this.formatString(groupEng)
+        ) &&
+        !this.formatString(category.category).localeCompare(
+          this.formatString(categoryEng)
+        )
+    );
     return vocabs;
   }
 
   // get vocabs detail (word, perkataan, image, video) based on Word
-  getVocabDetail(signEng) {    
-    const vocabs = this.getVocabsItems().filter(category => !this.formatString(category.word).localeCompare(this.formatString(signEng)));
-    return vocabs;     
-  } 
+  getVocabDetail(signEng) {
+    const vocabs = this.getVocabsItems().filter(
+      (category) =>
+        !this.formatString(category.word).localeCompare(
+          this.formatString(signEng)
+        )
+    );
+    return vocabs;
+  }
 
   // get Top 3 Commonly Referred Groups to display in Home page
-  // look for Tag with 'Home' in Excel 
+  // look for Tag with 'Home' in Excel
   getTop3Groups() {
-    return this.getGroups()
-      .filter(group => (group.tag !== undefined) && !(group.tag).localeCompare("Home"));  
+    return this.getGroups().filter(
+      (group) => group.tag !== undefined && !group.tag.localeCompare("Home")
+    );
   }
 
   // format string to lower case and replace space with dash (for link path name)
   formatString(string) {
     try {
       return string.toLowerCase().replace(/\s+/g, "-");
-    }
-    catch(err){
+    } catch (err) {
       return string;
     }
+  }
+
+  // get vocabs through matching first alphabet
+  getVocabsAlphabet(alphabetFirst) {
+    const vocabAlpha = this.getVocabsItems().filter((vocAl) =>
+      getCurrentLocale() === "ms"
+        ? this.formatString(vocAl.perkataan).startsWith(alphabetFirst)
+        : this.formatString(vocAl.word).startsWith(alphabetFirst)
+    );
+    return vocabAlpha;
   }
 
   addChangeListener(callback) {
