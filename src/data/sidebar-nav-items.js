@@ -15,5 +15,10 @@ export default function() {
       htmlBefore: '<i class="material-icons">category</i>',
       to: "/browse-by-category",
     },
+    {
+      title: "nav_item_4_title",
+      htmlBefore: '<i class="material-icons">alphabet</i>',
+      to: "/alphabets",
+    },
   ];
 }

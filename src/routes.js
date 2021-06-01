@@ -13,6 +13,8 @@ import BrowseByCategory from "./views/BrowseByCategory";
 import SelectedGroup from "./views/SelectedGroup";
 import SelectedCategory from "./views/SelectedCategory";
 import SelectedVocab from "./views/SelectedVocab";
+import Alphabets from "./views/Alphabets";
+import SelectedAlphabets from "./views/SelectedAlphabet";
 
 export default [
   {
@@ -50,6 +52,24 @@ export default [
     exact: true,
     layout: DefaultLayout,
     component: BrowseByCategory,
+  },
+  {
+    path: "/alphabets",
+    exact: true,
+    layout: DefaultLayout,
+    component: Alphabets,
+  },
+  {
+    path: "/alphabets/:alphabet",
+    exact: true,
+    layout: SideCategoryLayout,
+    component: SelectedAlphabets,
+  },
+  {
+    path: "/alphabets/:alphabet/:vocab",
+    exact: true,
+    layout: SideCategoryLayout,
+    component: SelectedVocab,
   },
   {
     path: "/:group",
