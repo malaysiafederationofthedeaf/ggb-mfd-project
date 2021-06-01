@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import PageTitle from "../components/common/PageTitle";
 import AlphabetsGrid from "../components/alphabets-vocabs/AlphabetsGrid";
+import Breadcrumbs from "../components/layout/Breadcrumbs/Breadcrumbs";
 import { Store } from "../flux";
 
 const Alphabets = () => {
@@ -11,6 +12,7 @@ const Alphabets = () => {
   const alphabets = Store.getAlphabetsList();
   return (
     <>
+      <Breadcrumbs />
       <Container
         fluid
         className="main-content-container px-4 vocab-list-wrapper"
@@ -23,8 +25,8 @@ const Alphabets = () => {
           />
         </Row>
         <Row>
-          {alphabets.map((alpha, key) => (
-            <AlphabetsGrid alphabets={alpha} key={key} />
+          {alphabets.map((alpha) => (
+            <AlphabetsGrid alphabets={alpha} />
           ))}
         </Row>
       </Container>

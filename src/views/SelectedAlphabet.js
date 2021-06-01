@@ -16,7 +16,7 @@ const SelectedAlphabets = ({ match }) => {
 
   return (
     <>
-      <Breadcrumbs vocab={vocabs} />
+      <Breadcrumbs />
       <Container
         fluid
         className="main-content-container px-4 vocab-list-wrapper"
@@ -26,7 +26,7 @@ const SelectedAlphabets = ({ match }) => {
         </Row>
         <Row className="py-4">
           <Col md="12" lg="11">
-            <AlphabetsList vocabs={vocabs} alphabet={alphas} />
+            <AlphabetsList vocabs={vocabs} alphabets={alphas} />
           </Col>
         </Row>
       </Container>

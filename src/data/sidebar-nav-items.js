@@ -20,5 +20,10 @@ export default function() {
       htmlBefore: '<i class="material-icons">alphabet</i>',
       to: "/alphabets",
     },
+    {
+      title: "nav_item_4_title",
+      htmlBefore: '<i class="material-icons">alphabet</i>',
+      to: "/alphabets",
+    },
   ];
 }

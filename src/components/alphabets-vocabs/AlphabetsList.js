@@ -14,6 +14,7 @@ const AlphabetsList = ({ vocabs, alphabet }) => {
           vocab.perkataan
         );
         const wordFormatted = Store.formatString(vocab.word);
+
         return (
           <Link key={key} to={`/alphabets/${alphabet}/${wordFormatted}`}>
             <ListGroupItem>
