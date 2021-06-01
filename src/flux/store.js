@@ -3,7 +3,7 @@ import { EventEmitter } from "events";
 import Dispatcher from "./dispatcher";
 import Constants from "./constants";
 import getSidebarNavItems from "../data/sidebar-nav-items";
-import getAlphabets from "../data/alphabets/alphabets-items";
+import getAlphabets from "../data/alphabets/alphabets-arrays";
 import getCurrentLocale from "../data/alphabets/currentLocale";
 import signSample from "../data/sign-sample/sign-sample-items";
 
