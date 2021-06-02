@@ -14,58 +14,67 @@ const CategoryList = ({ category }) => {
 
   // determine number of cards to be displayed (categories) based on Screen Size
   const getNoOfCardsToDisplay = (noOfCategories) => {
-    return (window.innerWidth > 1200 && noOfCategories >= 3) ? 3 : (noOfCategories < 3 ? noOfCategories : 2)
-  }  
+    return window.innerWidth > 1200 && noOfCategories >= 3
+      ? 3
+      : noOfCategories < 3
+      ? noOfCategories
+      : 2;
+  };
 
-  const [noOfCards, setNoOfCards] = useState(getNoOfCardsToDisplay(noOfCategories));
+  const [noOfCards, setNoOfCards] = useState(
+    getNoOfCardsToDisplay(noOfCategories)
+  );
   useEffect(() => {
     function handleResize() {
-      setNoOfCards(getNoOfCardsToDisplay(noOfCategories))  
+      setNoOfCards(getNoOfCardsToDisplay(noOfCategories));
     }
-    window.addEventListener('resize', handleResize)
+    window.addEventListener("resize", handleResize);
 
-    return _ => {
-      window.removeEventListener('resize', handleResize)
-    }
-  })
+    return (_) => {
+      window.removeEventListener("resize", handleResize);
+    };
+  });
 
   const [activeItemIndex, setActiveItemIndex] = useState(0);
-  const { t } = useTranslation('group-category');
+  const { t } = useTranslation("group-category");
 
   const groupFormatted = Store.formatString(category[0].group);
 
   return (
-      <Col sm="12" md="6" lg="4">
-        <div className="category-card-wrapper">          
-          <Link to={`/${groupFormatted}`}>
-            <PageTitle title={t(groupFormatted)}/>     
-          </Link>
-            <ItemsCarousel
-              // Carousel configurations
-              numberOfCards={noOfCards}
-              gutter={12}
-              showSlither={true}
-              firstAndLastGutter={true}
-              freeScrolling={false}
-              // Active item configurations
-              requestToChangeActive={(activeItemIndex) =>
-                setActiveItemIndex(activeItemIndex)
-              }
-              activeItemIndex={activeItemIndex}
-              activePosition={"center"}
-              chevronWidth={30}
-              rightChevron={">"}
-              leftChevron={"<"}
-              outsideChevron={false}
-            >
-              {category.map((categoryItem, key) => (
-                <CategoryDetail categoryItem={categoryItem} group={categoryItem.group} key={key} />
-              ))}
-            </ItemsCarousel>
-        </div>
-      </Col>
+    <Col sm="12" md="6" lg="4">
+      <div className="category-card-wrapper">
+        <Link to={`/groups/${groupFormatted}`}>
+          <PageTitle title={t(groupFormatted)} />
+        </Link>
+        <ItemsCarousel
+          // Carousel configurations
+          numberOfCards={noOfCards}
+          gutter={12}
+          showSlither={true}
+          firstAndLastGutter={true}
+          freeScrolling={false}
+          // Active item configurations
+          requestToChangeActive={(activeItemIndex) =>
+            setActiveItemIndex(activeItemIndex)
+          }
+          activeItemIndex={activeItemIndex}
+          activePosition={"center"}
+          chevronWidth={30}
+          rightChevron={">"}
+          leftChevron={"<"}
+          outsideChevron={false}
+        >
+          {category.map((categoryItem, key) => (
+            <CategoryDetail
+              categoryItem={categoryItem}
+              group={categoryItem.group}
+              key={key}
+            />
+          ))}
+        </ItemsCarousel>
+      </div>
+    </Col>
   );
-  
 };
 
 export default CategoryList;
