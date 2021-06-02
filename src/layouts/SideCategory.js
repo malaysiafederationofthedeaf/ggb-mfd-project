@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Container, Row, Col } from "shards-react";
+import { useParams } from "react-router-dom";
 
 import Dispatcher from "../flux/dispatcher";
 import MainNavbar from "../components/layout/MainNavbar/MainNavbar";
@@ -12,36 +13,31 @@ const SideCategoryLayout = ({ children, noNavbar, noFooter }) => {
     Dispatcher.dispatch({
       actionType: "TOGGLE_DROPDOWN",
     });
-  };  
- 
-  return(    
+  };
+
+  const { alphabet } = useParams();
+
+  return (
     <Container fluid>
       <Row>
-        <Col
-          className="main-content p-0"
-          tag="main"
-        >
-          {!noNavbar && (
-            <MainNavbar
-            toggle={toggleDropdown}
-            />
-          )}   
+        <Col className="main-content p-0" tag="main">
+          {!noNavbar && <MainNavbar toggle={toggleDropdown} />}
           <Row>
-            <Col xl="2" lg="3" md="3" sm="4">          
+            <Col xl="2" lg="3" md="3" sm="4">
               <div className="sidebar-category-wrapper">
-                <SidebarCategory />
+                <SidebarCategory urlParam={alphabet} />
               </div>
             </Col>
             <Col xl="10" lg="9" md="9" sm="8">
               {children}
             </Col>
-          </Row>       
+          </Row>
         </Col>
       </Row>
       {!noFooter && <MainFooter />}
-    </Container>  
-);
-}
+    </Container>
+  );
+};
 
 SideCategoryLayout.propTypes = {
   /**
@@ -51,12 +47,12 @@ SideCategoryLayout.propTypes = {
   /**
    * Whether to display the footer, or not.
    */
-  noFooter: PropTypes.bool
+  noFooter: PropTypes.bool,
 };
 
 SideCategoryLayout.defaultProps = {
   noNavbar: false,
-  noFooter: false
+  noFooter: false,
 };
 
 export default SideCategoryLayout;
