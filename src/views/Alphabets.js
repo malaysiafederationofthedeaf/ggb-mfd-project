@@ -23,8 +23,8 @@ const Alphabets = () => {
           />
         </Row>
         <Row>
-          {alphabets.map((alpha) => (
-            <AlphabetsGrid alphabets={alpha} />
+          {alphabets.map((alpha, key) => (
+            <AlphabetsGrid alphabets={alpha} key={key} />
           ))}
         </Row>
       </Container>
