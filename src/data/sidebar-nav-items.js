@@ -13,7 +13,12 @@ export default function() {
     {
       title: "nav_item_3_title",
       htmlBefore: '<i class="material-icons">category</i>',
-      to: "/browse-by-category",
+      to: "/groups",
+    },
+    {
+      title: "nav_item_4_title",
+      htmlBefore: '<i class="material-icons">alphabet</i>',
+      to: "/alphabets",
     },
   ];
 }

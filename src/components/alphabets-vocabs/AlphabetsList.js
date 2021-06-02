@@ -3,30 +3,19 @@ import { Link } from "react-router-dom";
 import { Col, ListGroup, ListGroupItem, Row } from "shards-react";
 
 import { Store } from "../../flux";
-import VocabWordPerkataan from "./VocabWordPerkataan";
+import VocabWordPerkataan from "../category-vocabs/VocabWordPerkataan";
 
-const VocabList = ({ vocabs, group, category }) => {
+const AlphabetsList = ({ vocabs, alphabet }) => {
   return (
     <ListGroup flush>
       {vocabs.map((vocab, key) => {
-        const groupTitle = group === undefined ? vocab.group : group;
-        const categoryTitle =
-          category === undefined ? vocab.category : category;
-
         const vocabImgSrc = Store.getSignImgSrc(
           vocab.kategori,
           vocab.perkataan
         );
-
-        const groupFormatted = Store.formatString(groupTitle);
-        const categoryFormatted = Store.formatString(categoryTitle);
         const wordFormatted = Store.formatString(vocab.word);
-
         return (
-          <Link
-            key={key}
-            to={`/groups/${groupFormatted}/${categoryFormatted}/${wordFormatted}`}
-          >
+          <Link key={key} to={`/alphabets/${alphabet}/${wordFormatted}`}>
             <ListGroupItem>
               <Row
                 data-aos="fade-up"
@@ -60,4 +49,4 @@ const VocabList = ({ vocabs, group, category }) => {
   );
 };
 
-export default VocabList;
+export default AlphabetsList;

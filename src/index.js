@@ -13,23 +13,6 @@ import Dispatcher from "../src/flux/dispatcher";
 import readExcel from "../src/data/categories/readExcel";
 import UnderMaintenance from "./views/UnderMaintenance";
 
-i18n
-  .use(initReactI18next) // passes i18n down to react-i18next
-  .use(LanguageDetector)
-  .use(HttpApi)
-  .init({
-    supportedLngs: ["en", "ms"],
-    fallbackLng: "en",
-    detection: {
-      order: ["path", "cookie", "htmlTag", "localStorage", "subdomain"],
-      caches: ["cookie"],
-    },
-    backend: { loadPath: "/assets/locales/{{lng}}/translation.json" },
-    interpolation: {
-      escapeValue: false,
-    },
-  });
-
 readExcel.then(
   // Promise status 200
   (value) => {
