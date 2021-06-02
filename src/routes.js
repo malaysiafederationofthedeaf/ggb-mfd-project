@@ -48,10 +48,28 @@ export default [
     component: AboutUs,
   },
   {
-    path: "/browse-by-category",
+    path: "/groups",
     exact: true,
     layout: DefaultLayout,
     component: BrowseByCategory,
+  },
+  {
+    path: "/groups/:group",
+    exact: true,
+    layout: SideCategoryLayout,
+    component: SelectedGroup,
+  },
+  {
+    path: "/groups/:group/:category",
+    exact: true,
+    layout: SideCategoryLayout,
+    component: SelectedCategory,
+  },
+  {
+    path: "/groups/:group/:category/:vocab",
+    exact: true,
+    layout: SideCategoryLayout,
+    component: SelectedVocab,
   },
   {
     path: "/alphabets",
@@ -67,24 +85,6 @@ export default [
   },
   {
     path: "/alphabets/:alphabet/:vocab",
-    exact: true,
-    layout: SideCategoryLayout,
-    component: SelectedVocab,
-  },
-  {
-    path: "/:group",
-    exact: true,
-    layout: SideCategoryLayout,
-    component: SelectedGroup,
-  },
-  {
-    path: "/:group/:category",
-    exact: true,
-    layout: SideCategoryLayout,
-    component: SelectedCategory,
-  },
-  {
-    path: "/:group/:category/:vocab",
     exact: true,
     layout: SideCategoryLayout,
     component: SelectedVocab,
