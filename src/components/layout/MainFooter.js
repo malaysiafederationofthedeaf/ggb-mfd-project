@@ -10,12 +10,10 @@ const MainFooter = ({ contained, menuItems, copyright, footerLinks }) => {
     <footer className="main-footer d-flex p-2 px-3 bg-white border-top">
       <Container fluid={contained}>
           <Nav>
-            {menuItems.map((item, key) => (
-              <NavItem key={key}>
-                <NavLink tag={Link} to={item.to}>
+            {menuItems.map((item, key) => (              
+                <a href={item.href} key={key} className="main-footer-items">
                   {t(item.title)}
-                </NavLink>
-              </NavItem>
+                </a>
             ))}
           </Nav>
           <span className="copyright ml-auto my-auto mr-2">
@@ -60,16 +58,16 @@ MainFooter.defaultProps = {
   copyright: "copyright",
   menuItems: [
     {
-      title: "nav_item_1_title",
-      to: "/home",
+      title: "footer_item_1_title",
+      href: "https://www.mymfdeaf.org/hubungi-kami",
     },
     {
-      title: "nav_item_2_title",
-      to: "/about-us",
+      title: "footer_item_2_title",
+      href: "https://www.mymfdeaf.org/",
     },
     {
-      title: "nav_item_3_title",
-      to: "/browse-by-category",
+      title: "footer_item_3_title",
+      href: "https://careers.guidewire.com/guidewire-gives-back",
     },
   ],
   footerLinks: [
@@ -84,7 +82,7 @@ MainFooter.defaultProps = {
       imgAlt: "IG Logo",
     }, 
     {
-      href: "https://www.youtube.com/channel/UCcTR3G_8WDv3V7MqnYtN1gw",
+      href: "https://www.youtube.com/channel/UC0jqY7pMc7iKE4TqsKWellw",
       imgSrc: require("../../images/general/logo/youtube-logo.jpg"),
       imgAlt: "Youtube Logo",
     },     

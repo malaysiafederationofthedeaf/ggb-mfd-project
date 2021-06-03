@@ -14,11 +14,6 @@ const Home = () => {
       <Container fluid>
         <div className="category-list-wrapper">
           <Row>
-            <Col sm="12" md="12" lg="12" className="btn-view-all-categories">
-              <a href="/groups">{t("view_all_category_btn")} &rarr;</a>
-            </Col>
-          </Row>
-          <Row>
             {/* Top 3 Sign Groups */}
             {Store.getTop3Groups().map((group, key) => (
               <CategoryList
@@ -27,6 +22,11 @@ const Home = () => {
               />
             ))}
           </Row>
+          <Row>
+            <Col sm="12" md="12" lg="12" className="btn-view-all-categories">
+              <a href="/groups">{t("view_all_category_btn")} &rarr;</a>
+            </Col>
+          </Row>          
         </div>
       </Container>
     </>
