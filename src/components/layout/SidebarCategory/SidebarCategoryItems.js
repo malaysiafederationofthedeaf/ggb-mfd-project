@@ -10,6 +10,7 @@ class SidebarCategoryItems extends React.Component {
 
     this.state = {
       vocabsItems: Store.getGroups(),
+      alphabets: Store.getAlphabetsList(),
     };
 
     this.onChange = this.onChange.bind(this);
@@ -26,19 +27,26 @@ class SidebarCategoryItems extends React.Component {
   onChange() {
     this.setState({
       vocabsItems: Store.getGroups(),
+      alphabets: Store.getAlphabetsList(),
     });
   }
 
   render() {
-    const { vocabsItems: items } = this.state;
+    const { vocabsItems: items, alphabets: alphas } = this.state;
     return (
       <div className="sidebar-category">
         <Nav className="nav--no-borders flex-column">
-          {items.map((item, key) => (
-            <ul key={key}>
-              <SidebarCategoryItem item={item} />
-            </ul>
-          ))}
+          {!this.props.param
+            ? items.map((item, key) => (
+                <ul key={key}>
+                  <SidebarCategoryItem item={item} />
+                </ul>
+              ))
+            : alphas.map((alpha, key) => (
+                <ul key={key}>
+                  <SidebarCategoryItem alpha={alpha} param={this.props.param} />
+                </ul>
+              ))}
         </Nav>
       </div>
     );
