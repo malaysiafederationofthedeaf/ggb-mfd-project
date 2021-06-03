@@ -396,23 +396,49 @@ p {
   }
 }  
 
-.vocab-word {
-  .vocab-play-button {
-    @include icon-button;
-  }  
-  &:hover{
-    img {
-      @include hover-scale-up;
+.vocab-list-wrapper {
+    .list-group {
+      display: inline-block;  
+      .list-group-item {
+        display: inline-block;
+        height: 280px;
+        width: 100%;
+      }
     }
-    .vocab-play-button {
-      color: $a-hover-color;
+  @media (min-width: $breakpoint-xl) {
+    .list-group {
+      display: inline-block;
+      list-style-type: disc;
+      -webkit-columns: 2;
+      -moz-columns: 2;
+      columns: 2;
+      list-style-position: inside;
+      .list-group-item {
+        display: inline-block;
+      }
     }
   }
 }
 
+.vocab-word {
+  &:hover{
+    img {
+      @include hover-scale-up;
+    }
+  }
+}
+
+.vocab-word-perkataan {
+  ::first-letter {
+    text-transform: uppercase;
+  }
+}
+
 .vocab-image {
-  width: 180px;
+  width: 100%;
   height: auto;
+  max-width: 200px;
+  min-height: 200px;
   float: right;        
 }
 

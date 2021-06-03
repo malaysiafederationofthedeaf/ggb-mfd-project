@@ -34,9 +34,9 @@ const SelectedCategory = ({ match }) => {
             className="ml-sm-auto mr-sm-auto"
           />
         </Row>
-        <Row className="py-4">
-          <Col md="12" lg="11">
-            <VocabList vocabs={vocabs} group={group} category={categoryEng} />
+        <Row>
+          <Col>
+            <VocabList vocabs={vocabs} group={group} category={categoryEng}/>
           </Col>
         </Row>
       </Container>
