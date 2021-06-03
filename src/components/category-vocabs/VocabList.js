@@ -33,13 +33,13 @@ const VocabList = ({ vocabs, group, category }) => {
                 data-aos-delay="200"
                 className="vocab-word"
               >
-                <Col>
+                <Col xs="5" sm="5" md="5" lg="5">
                   <VocabWordPerkataan
                     word={vocab.word}
                     perkataan={vocab.perkataan}
                   />
                 </Col>
-                <Col>
+                <Col xs="7" sm="7" md="7" lg="7" className="vocab-image-wrapper">
                   <img
                     src={vocabImgSrc}
                     alt={vocab.word}

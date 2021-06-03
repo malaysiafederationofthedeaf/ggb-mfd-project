@@ -169,12 +169,12 @@ p {
 .sidebar-category-wrapper {
   height: 100%;
   min-height: 100vh;
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: $breakpoint-md) {
     min-height: 0vh;
   }  
   .main-sidebar {
     height: 100%;
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: $breakpoint-md) {
       display: none
     }
   }
@@ -373,7 +373,7 @@ p {
   .category-breadcrumbs {
     display: inline;
   }
-  @media (min-width: $breakpoint-sm) {
+  @media (min-width: $breakpoint-md) {
     display: none;
   }  
 }
@@ -384,7 +384,7 @@ p {
   .breadcrumb {
     margin: 0;
   }
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: $breakpoint-md) {
     display: inline;
   }
 }
@@ -403,6 +403,27 @@ p {
         display: inline-block;
         height: 280px;
         width: 100%;
+        margin-bottom: 12px;
+        .vocab-word {
+          height: 100%;
+          .vocab-image-wrapper {
+            height: 100%;
+            width: 100%;
+            text-align: center;
+            .vocab-image {
+              width: auto;
+              height: 100%;
+              max-width: 90%;
+              max-height: 280px;
+              min-height: 180px;
+            }
+          }
+          &:hover{
+            img {
+              @include hover-scale-up;
+            }
+          }
+        }
       }
     }
   @media (min-width: $breakpoint-xl) {
@@ -415,31 +436,29 @@ p {
       list-style-position: inside;
       .list-group-item {
         display: inline-block;
+        .vocab-word {
+          .vocab-image-wrapper {
+            .vocab-image {
+              max-width: 250px;
+            }
+          }
+        }
       }
     }
   }
 }
 
-.vocab-word {
-  &:hover{
-    img {
-      @include hover-scale-up;
-    }
-  }
-}
 
 .vocab-word-perkataan {
   ::first-letter {
     text-transform: uppercase;
   }
-}
-
-.vocab-image {
-  width: 100%;
-  height: auto;
-  max-width: 200px;
-  min-height: 200px;
-  float: right;        
+  .vocab-word-perkataan-title {
+    @include h3;
+  }
+  .vocab-word-perkataan-subtitle {
+    @include h4;
+  }  
 }
 
 .selected-vocab-title {

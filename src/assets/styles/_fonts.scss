@@ -96,13 +96,25 @@ $font-button: $font-body;
 @mixin h3 {
     font: {
         family: $font-body;
-        weight: 500;
+        weight: 300;
         size: 26px;
+    }
+    margin-bottom: 10px;   
+    @media (max-width: $breakpoint-md) {
+        size: 20px;
+    }      
+}
+
+@mixin h4 {
+    font: {
+        family: $font-body;
+        weight: 250;
+        size: 22px;
     }
     color: $title-font-color;
     margin-bottom: 10px;   
     @media (max-width: $breakpoint-md) {
-        size: 20px;
+        size: 18px;
     }      
 }
 
