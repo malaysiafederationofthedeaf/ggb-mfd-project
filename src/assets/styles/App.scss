@@ -137,7 +137,7 @@ p {
 .main-content > .main-content-container.container-fluid {
   min-height: calc(100vh - 120px); }
 
-.main-footer {
+.main-footer {  
   @media (max-width: $breakpoint-md) {
     .main-footer {
       display: block !important;
@@ -151,9 +151,12 @@ p {
         width: 100%;
         display: inline-block;
         text-align: center; 
-      }    
-    }
+      }                  
+    }         
   }
+  .main-footer-items {
+    margin-right: 20px;
+  }  
   .footer-logo {
     float: right;
     a img {
@@ -388,7 +391,6 @@ p {
 
 .btn-view-all-categories {
   a {
-    float: right;
     padding: 10px;
     font-size: 120%;
   }
