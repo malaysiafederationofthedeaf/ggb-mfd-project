@@ -24,8 +24,8 @@ const SelectedAlphabets = ({ match }) => {
         <Row noGutters className="page-header py-4">
           <PageTitle title={alphas} md="12" className="ml-sm-auto mr-sm-auto" />
         </Row>
-        <Row className="py-4">
-          <Col md="12" lg="11">
+        <Row>
+          <Col>
             <AlphabetsList vocabs={vocabs} alphabet={alphas} />
           </Col>
         </Row>

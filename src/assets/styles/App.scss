@@ -166,6 +166,11 @@ p {
   }
 }
 
+.side-layout {
+  width: 100%;
+  margin: 0;
+}
+
 .sidebar-category-wrapper {
   height: 100%;
   min-height: 100vh;
@@ -365,8 +370,9 @@ p {
   }
 }
 
-.category-list-wrapper, .vocab-list-wrapper, .vocab-detail-wrapper {
+.category-list-wrapper, .vocab-detail-wrapper {
   margin: 10px;
+  padding: 0;
 }
 
 .breadcrumbs-selected-vocab {
