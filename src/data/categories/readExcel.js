@@ -14,34 +14,43 @@ const fetchData = async (url) => {
 };
 
 const restructureJSON = (data) => {
-  const reconData = data.map((item) => ((item.Group !== undefined && item.Kumpulan !== undefined && item.Category !== undefined && item.Word !== undefined && item.Perkataan !== undefined )&& {
-    group: item.Group,
-    kumpulan: item.Kumpulan,
-    category: item.Category,
-    kategori: item.Kategori,
-    word: item.Word.toString(),
-    perkataan: item.Perkataan.toString(),
-    video: item.Video,
-    tag: item.Tag,
-    release: item.Release,
-  }));
+  const reconData = data.map(
+    (item) =>
+      item.Group !== undefined &&
+      item.Kumpulan !== undefined &&
+      item.Category !== undefined &&
+      item.Word !== undefined &&
+      item.Perkataan !== undefined && {
+        group: item.Group,
+        kumpulan: item.Kumpulan,
+        category: item.Category,
+        kategori: item.Kategori,
+        word: item.Word.toString(),
+        perkataan: item.Perkataan.toString(),
+        video: item.Video,
+        tag: item.Tag,
+        release: item.Release,
+      }
+  );
 
   return filterExcelData(reconData, "Release 1");
 };
 
 const filterExcelData = (excelData, release) => {
   return excelData
-    .filter((group) => (group !== false)) // filter out those without any value
-    .filter((group) => (group.release === release)) // filter out those that are not in 'release'
-    .sort((a, b) => (a.perkataan).localeCompare(b.perkataan)) // sort the entries alphabetically based on the Perkataan
-    .sort((a, b) => (a.kategori).localeCompare(b.kategori) // sort the entries alphabetically based on the Kategori
+    .filter((group) => group !== false) // filter out those without any value
+    .filter((group) => group.release === release) // filter out those that are not in 'release'
+    .sort((a, b) => a.perkataan.localeCompare(b.perkataan)) // sort the entries alphabetically based on the Perkataan
+    .sort(
+      (a, b) => a.kategori.localeCompare(b.kategori) // sort the entries alphabetically based on the Kategori
     );
-}
+};
 
 const getBaseURL = () => {
   const baseURL = window.location.origin;
   // const filePathname = "/assets/BIM_Test_1.xlsx"; // Test file
-  const filePathname = "/assets/GGB-MFD-BIM-SignBank-Category.xlsx";
+  // const filePathname = "/assets/GGB-MFD-BIM-SignBank-Category.xlsx";
+  const filePathname = "/assets/BIM.xlsx";
   return baseURL + filePathname;
 };
 
