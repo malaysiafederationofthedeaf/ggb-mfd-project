@@ -5,13 +5,11 @@ import Constants from "./constants";
 import getSidebarNavItems from "../data/sidebar-nav-items";
 import getAlphabets from "../data/alphabets/alphabets-arrays";
 import getCurrentLocale from "../data/alphabets/currentLocale";
-import signSample from "../data/sign-sample/sign-sample-items";
 
 let _store = {
   menuVisible: false,
   navItems: getSidebarNavItems(),
   vocabsItems: [],
-  signSampleItems: signSample,
   signListVisible: false,
   openDropdown: false,
   alphabets: getAlphabets(),
@@ -47,11 +45,11 @@ class Store extends EventEmitter {
         this.toggleSidebar();
         break;
 
-      case "TOGGLE_DROPDOWN":
+      case Constants.TOGGLE_DROPDOWN:
         this.toggleDropdown();
         break;
 
-      case "STORE_EXCEL":
+      case Constants.STORE_EXCEL:
         this.storeExcel(payload);
         break;
       default:
@@ -87,10 +85,6 @@ class Store extends EventEmitter {
 
   getSidebarVocabItems() {
     return _store.vocabsItems;
-  }
-
-  getSignItems() {
-    return _store.signSampleItems;
   }
 
   getOpenDropdown() {
