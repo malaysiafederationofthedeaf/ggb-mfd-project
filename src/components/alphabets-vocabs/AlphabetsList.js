@@ -22,18 +22,13 @@ const AlphabetsList = ({ vocabs, alphabet }) => {
                 data-aos-delay="200"
                 className="vocab-word"
               >
-                <Col sm="12" md="4" lg="3">
+                <Col xs="5" sm="5" md="5" lg="5">
                   <VocabWordPerkataan
                     word={vocab.word}
                     perkataan={vocab.perkataan}
                   />
                 </Col>
-                <Col>
-                  <button className="vocab-play-button">
-                    <i className="material-icons">play_circle_filled</i>
-                  </button>
-                </Col>
-                <Col>
+                <Col xs="7" sm="7" md="7" lg="7" className="vocab-image-wrapper">
                   <img
                     src={vocabImgSrc}
                     alt={vocab.word}

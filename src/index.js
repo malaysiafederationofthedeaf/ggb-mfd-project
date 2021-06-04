@@ -62,6 +62,20 @@ readExcel.then(
       return i18n;
     });
 
+    // Add translation for Browse by Category and Alphabet
+    i18n.addResourceBundle("en", "group-category", {
+      "groups": "Categories",
+    }); 
+    i18n.addResourceBundle("ms", "group-category", {
+      "groups": "Kategori-Kategori",
+    });  
+    i18n.addResourceBundle("en", "group-category", {
+      "alphabets": "Alphabets",
+    }); 
+    i18n.addResourceBundle("ms", "group-category", {
+      "alphabets": "Abjad",
+    });      
+
     ReactDOM.render(
       <Suspense fallback="Loading">
         <App />
