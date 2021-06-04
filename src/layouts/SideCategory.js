@@ -22,13 +22,13 @@ const SideCategoryLayout = ({ children, noNavbar, noFooter }) => {
       <Row>
         <Col className="main-content p-0" tag="main">
           {!noNavbar && <MainNavbar toggle={toggleDropdown} />}
-          <Row>
-            <Col xl="2" lg="3" md="3" sm="4">
+          <Row className="side-layout">
+            <Col xl="2" lg="3" md="3" className="p-0">
               <div className="sidebar-category-wrapper">
                 <SidebarCategory urlParam={alphabet} />
               </div>
             </Col>
-            <Col xl="10" lg="9" md="9" sm="8">
+            <Col xl="10" lg="9" md="9" sm="12">
               {children}
             </Col>
           </Row>

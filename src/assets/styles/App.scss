@@ -166,15 +166,20 @@ p {
   }
 }
 
+.side-layout {
+  width: 100%;
+  margin: 0;
+}
+
 .sidebar-category-wrapper {
   height: 100%;
   min-height: 100vh;
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: $breakpoint-md) {
     min-height: 0vh;
   }  
   .main-sidebar {
     height: 100%;
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: $breakpoint-md) {
       display: none
     }
   }
@@ -365,15 +370,16 @@ p {
   }
 }
 
-.category-list-wrapper, .vocab-list-wrapper, .vocab-detail-wrapper {
+.category-list-wrapper, .vocab-detail-wrapper {
   margin: 10px;
+  padding: 0;
 }
 
 .breadcrumbs-selected-vocab {
   .category-breadcrumbs {
     display: inline;
   }
-  @media (min-width: $breakpoint-sm) {
+  @media (min-width: $breakpoint-md) {
     display: none;
   }  
 }
@@ -384,7 +390,7 @@ p {
   .breadcrumb {
     margin: 0;
   }
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: $breakpoint-md) {
     display: inline;
   }
 }
@@ -396,24 +402,69 @@ p {
   }
 }  
 
-.vocab-word {
-  .vocab-play-button {
-    @include icon-button;
-  }  
-  &:hover{
-    img {
-      @include hover-scale-up;
+.vocab-list-wrapper {
+    .list-group {
+      display: inline-block;  
+      .list-group-item {
+        display: inline-block;
+        height: 280px;
+        width: 100%;
+        margin-bottom: 12px;
+        .vocab-word {
+          height: 100%;
+          .vocab-image-wrapper {
+            height: 100%;
+            width: 100%;
+            text-align: center;
+            .vocab-image {
+              width: auto;
+              height: 100%;
+              max-width: 90%;
+              max-height: 280px;
+              min-height: 180px;
+            }
+          }
+          &:hover{
+            img {
+              @include hover-scale-up;
+            }
+          }
+        }
+      }
     }
-    .vocab-play-button {
-      color: $a-hover-color;
+  @media (min-width: $breakpoint-xl) {
+    .list-group {
+      display: inline-block;
+      list-style-type: disc;
+      -webkit-columns: 2;
+      -moz-columns: 2;
+      columns: 2;
+      list-style-position: inside;
+      .list-group-item {
+        display: inline-block;
+        .vocab-word {
+          .vocab-image-wrapper {
+            .vocab-image {
+              max-width: 250px;
+            }
+          }
+        }
+      }
     }
   }
 }
 
-.vocab-image {
-  width: 180px;
-  height: auto;
-  float: right;        
+
+.vocab-word-perkataan {
+  ::first-letter {
+    text-transform: uppercase;
+  }
+  .vocab-word-perkataan-title {
+    @include h3;
+  }
+  .vocab-word-perkataan-subtitle {
+    @include h4;
+  }  
 }
 
 .selected-vocab-title {
