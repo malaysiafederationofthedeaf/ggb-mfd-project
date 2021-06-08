@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 
 import Button from "../common/Button";
+import { Link } from "react-router-dom";
 
 const AboutUsPreview = ({ bimDetails }) => {
   const { t } = useTranslation();
@@ -14,7 +15,9 @@ const AboutUsPreview = ({ bimDetails }) => {
             <h1 data-aos="fade-up">{t(bimDetails.name).toLocaleUpperCase()}</h1>
             <div data-aos="fade-up" data-aos-delay="600">
               <div className="text-center text-lg-start">
-                <Button text={t("category_btn")} href="/groups" />
+                <Link to="/groups" >
+                  <Button text={t("category_btn")}/>
+                </Link>
               </div>
             </div>
           </div>

@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 
 const Button = ({ text, href, ...attrs }) => {
   return (
-    <a href={href} className="btn-primary scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+      <div href={href} className="btn-primary scrollto d-inline-flex align-items-center justify-content-center align-self-center">
         <span>{text}</span>
-    </a>    
+      </div>
   )
 };
 
@@ -17,7 +17,7 @@ Button.propTypes = {
   /**
    * The button link
    */
-   href: PropTypes.string,  
+  href: PropTypes.string,
 };
 
 export default Button;

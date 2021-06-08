@@ -8,7 +8,7 @@ const NavbarNavItem = ({ item }) => {
   const { t } = useTranslation();
   return (
     <NavItem className="navbar-menu-item">
-      <NavLink tag={RouteNavLink} to={item.to}>
+      <NavLink tag={(props) => <RouteNavLink {...props} />} to={item.to}>
         {t(item.title) && <span>{t(item.title)}</span>}
       </NavLink>
     </NavItem>

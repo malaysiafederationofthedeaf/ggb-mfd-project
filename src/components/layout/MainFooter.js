@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Container, Nav, NavItem, NavLink } from "shards-react";
-import { Link } from "react-router-dom";
+import { Container, Nav } from "shards-react";
 import { useTranslation } from "react-i18next";
 
 const MainFooter = ({ contained, menuItems, copyright, footerLinks }) => {
