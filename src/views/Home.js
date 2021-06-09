@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import AboutUsPreview from "../components/about-us/AboutUsPreview";
 import CategoryList from "../components/category-vocabs/CategoryList";
 import { Store } from "../flux";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -25,7 +26,7 @@ const Home = () => {
           </Row>
           <Row>
             <Col sm="12" md="12" lg="12" className="btn-view-all-categories">
-              <a href="/groups">{t("view_all_category_btn")} &rarr;</a>
+              <Link to="/groups">{t("view_all_category_btn")} &rarr;</Link>
             </Col>
           </Row>          
         </div>
