@@ -15,7 +15,7 @@ const BrowseByCategory = () => {
         </Row>
         <Row>
           {Store.getGroups().map((group, key) => (
-              <CategoryList category={Store.getCategoriesOfGroup(group.group)} key={key} />
+              <CategoryList category={Store.getCategoriesOfGroup(group.group)} group={group.group} key={key} />
           ))}
         </Row>
       </Container>

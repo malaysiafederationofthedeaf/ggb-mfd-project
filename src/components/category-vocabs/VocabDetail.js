@@ -6,7 +6,7 @@ import { Store } from "../../flux";
 import VocabWordPerkataan from "./VocabWordPerkataan";
 
 const VocabDetail = ({vocab}) => {
-    const vocabImgSrc = Store.getSignImgSrc(vocab.kategori, vocab.perkataan);
+    const vocabImgSrc = Store.getSignImgSrc(vocab.perkataan);
 
     return (
         <ListGroup flush className="py-2">    
