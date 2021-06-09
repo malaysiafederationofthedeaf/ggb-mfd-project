@@ -9,17 +9,19 @@ class NavbarNavItems extends React.Component {
 
     this.state = {
       navItems: Store.getSidebarItems(),
-    };    
+    };
   }
 
   render() {
     const { navItems: items } = this.state;
     return (
-        <>
-          {items.map((item, key) => (
+      <>
+        {
+          items.map((item, key) => (
             <NavbarNavItem key={key} item={item} />
-          ))}
-        </>
+          ))
+        }
+      </>
     );
   }
 }
