@@ -13,10 +13,7 @@ const VocabList = ({ vocabs, group, category }) => {
         const categoryTitle =
           category === undefined ? vocab.category : category;
 
-        const vocabImgSrc = Store.getSignImgSrc(
-          vocab.kategori,
-          vocab.perkataan
-        );
+        const vocabImgSrc = Store.getSignImgSrc(vocab.perkataan);
 
         const groupFormatted = Store.formatString(groupTitle);
         const categoryFormatted = Store.formatString(categoryTitle);
