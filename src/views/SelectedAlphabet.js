@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Col, Row, Breadcrumb } from "shards-react";
+import { Container, Col, Row } from "shards-react";
 import ItemsCarousel from "react-items-carousel";
 
 import ComingSoon from "./ComingSoon";
