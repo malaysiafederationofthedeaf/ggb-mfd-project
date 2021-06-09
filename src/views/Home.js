@@ -14,10 +14,11 @@ const Home = () => {
       <Container fluid>
         <div className="category-list-wrapper">
           <Row>
-            {/* Top 3 Sign Groups */}
-            {Store.getTop3Groups().map((group, key) => (
+            {/* Top 3 Sign Groups to be displayed in Home Page*/}
+            {Store.getGroupsHome().map((group, key) => (
               <CategoryList
                 category={Store.getCategoriesOfGroup(group.group)}
+                group={group.group}
                 key={key}
               />
             ))}
