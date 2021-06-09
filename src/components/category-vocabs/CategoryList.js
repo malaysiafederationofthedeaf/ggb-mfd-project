@@ -8,7 +8,7 @@ import PageTitle from "../common/PageTitle";
 import CategoryDetail from "./CategoryDetail";
 import { Store } from "../../flux";
 
-const CategoryList = ({ category }) => {
+const CategoryList = ({ category, group }) => {
   // get total number of categories
   const noOfCategories = Object.keys(category).length;
 
@@ -38,7 +38,7 @@ const CategoryList = ({ category }) => {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const { t } = useTranslation("group-category");
 
-  const groupFormatted = Store.formatString(category[0].group);
+  const groupFormatted = Store.formatString(group);
 
   return (
     <Col sm="12" md="6" lg="4">
@@ -67,7 +67,7 @@ const CategoryList = ({ category }) => {
           {category.map((categoryItem, key) => (
             <CategoryDetail
               categoryItem={categoryItem}
-              group={categoryItem.group}
+              group={group}
               key={key}
             />
           ))}

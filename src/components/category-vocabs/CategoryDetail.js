@@ -9,7 +9,7 @@ const CategoryDetail = ({ categoryItem, group }) => {
   const { t } = useTranslation("group-category");
   const categoryImgSrc = Store.getCategoryImgSrc(categoryItem.kategori);
 
-  const groupFormatted = Store.formatString(categoryItem.group);
+  const groupFormatted = Store.formatString(group);
   const categoryFormatted = Store.formatString(categoryItem.category);
 
   return (
