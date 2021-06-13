@@ -31,7 +31,7 @@ const SelectedGroup = ({ match }) => {
         </Row>
         <Row>
           <Col>
-            <GroupList categories={categories} />
+            <GroupList categories={categories} group={group}/>
           </Col>
         </Row>
       </Container>

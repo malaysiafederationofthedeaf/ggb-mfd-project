@@ -9,10 +9,7 @@ const AlphabetsList = ({ vocabs, alphabet }) => {
   return (
     <ListGroup flush>
       {vocabs.map((vocab, key) => {
-        const vocabImgSrc = Store.getSignImgSrc(
-          vocab.kategori,
-          vocab.perkataan
-        );
+        const vocabImgSrc = Store.getSignImgSrc(vocab.perkataan);
         const wordFormatted = Store.formatString(vocab.word);
         return (
           <Link key={key} to={`/alphabets/${alphabet}/${wordFormatted}`}>

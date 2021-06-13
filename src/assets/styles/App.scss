@@ -216,22 +216,22 @@ p {
           background-color: $color-light-shadow;
           padding: 0;
           margin: 0;
-          a {
-            padding: 0;
-            span {
-              padding: 5px;
-              display: flex;
-            }
-          }
           .dropdown-item {
             &:active {
               border: none;
-              background-color: $color-dark-shadow;
+              background-color: $color-secondary-light;
               color: $body-font-color;
             } 
-            .active {
+            &.active {
               background-color: $color-secondary-light;
-            }           
+            }     
+            a {
+              padding: 0;
+              padding: 5px;
+              display: flex;
+              color: $color-font-dark;
+              text-decoration: none;
+            }
           }
         }        
       }  
