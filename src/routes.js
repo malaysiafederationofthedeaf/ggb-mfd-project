@@ -13,7 +13,6 @@ import BrowseByCategory from "./views/BrowseByCategory";
 import SelectedGroup from "./views/SelectedGroup";
 import SelectedCategory from "./views/SelectedCategory";
 import SelectedVocab from "./views/SelectedVocab";
-import Alphabets from "./views/Alphabets";
 import SelectedAlphabets from "./views/SelectedAlphabet";
 
 export default [
@@ -75,7 +74,7 @@ export default [
     path: "/alphabets",
     exact: true,
     layout: DefaultLayout,
-    component: Alphabets,
+    component: () => <Redirect to="alphabets/a" />,
   },
   {
     path: "/alphabets/:alphabet",

@@ -5,11 +5,11 @@ import { useTranslation } from "react-i18next";
 
 import { Store } from "../../flux";
 
-const GroupDetail = ({ category }) => {
+const GroupDetail = ({ category, group }) => {
   const { t } = useTranslation("group-category");
   const categoryImgSrc = Store.getCategoryImgSrc(category.kategori);
 
-  const groupFormatted = Store.formatString(category.group);
+  const groupFormatted = Store.formatString(group);
   const categoryFormatted = Store.formatString(category.category);
 
   return (

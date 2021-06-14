@@ -11,9 +11,13 @@ const SearchInput = () => {
 
   const history = useHistory();
   const onSelectChange = (value) => {
-    let path = `/groups/${Store.formatString(value.group)}/${Store.formatString(
-      value.category
-    )}/${Store.formatString(value.word)}`;
+    const groupCat = value.groupCategory.toString().includes(",") ? 
+      value.groupCategory.toString().substring(0, value.groupCategory.indexOf(",")) : // get the first group&category pair if there are multiple group&category pairs
+      value.groupCategory.toString(); 
+    const group = Store.formatString(groupCat.split("/")[0]);
+    const category = Store.formatString(groupCat.split("/")[1]);
+
+    let path = `/groups/${group}/${category}/${Store.formatString(value.word)}`;
     history.push(path);
   };
 

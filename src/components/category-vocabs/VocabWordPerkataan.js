@@ -4,12 +4,12 @@ import i18next from "i18next";
 const VocabWordPerkataan = ({word, perkataan}) => {
   return(
       <div className="vocab-word-perkataan">
-            <strong className="text-muted d-block mb-2">
+            <div className="vocab-word-perkataan-title">
                 {i18next.language==="en" ? word : perkataan}
-            </strong>
-            <strong className="text d-block mb-2">
+            </div>
+            <div className="vocab-word-perkataan-subtitle">
                 {i18next.language==="en" ? perkataan : word}
-            </strong>
+            </div>
       </div>        
   );
 }

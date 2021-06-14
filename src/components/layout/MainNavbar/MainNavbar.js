@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import {
   Navbar,
   NavbarToggler,
-  NavbarBrand,
   Nav,
   Collapse,
 } from "shards-react";
@@ -13,6 +12,7 @@ import NavbarBackButton from "../../common/NavbarBackButton";
 import NavbarNavItems from "./NavbarNavItems";
 import NavbarTranslate from "./NavbarTranslate";
 import SearchInput from "../Searchbar/SearchInput";
+import { NavLink } from 'react-router-dom'
 
 class MainNavbar extends React.Component {
   constructor(props) {
@@ -36,9 +36,9 @@ class MainNavbar extends React.Component {
     return (
       <Navbar type="light" expand="md" className="main-navbar">
         {window.location.pathname !== "/home" && <NavbarBackButton />}
-        <NavbarBrand href="/home">
+        <NavLink to="/home" className="navbar-brand">
           <img className="navbar-logo" src={bimLogo} alt="BIM Logo" />
-        </NavbarBrand>
+        </NavLink>
         <SearchInput />
         <NavbarTranslate toggle={this.props.toggle} />
         <NavbarToggler onClick={this.toggleNavbar} />
