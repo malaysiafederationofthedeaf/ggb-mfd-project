@@ -30,7 +30,7 @@ const VocabList = ({ vocabs, group, category }) => {
                 data-aos-delay="200"
                 className="vocab-word"
               >
-                <Col xs="5" sm="5" md="5" lg="5">
+                <Col xs="5" sm="5" md="5" lg="5" className="pl-2 pr-0">
                   <VocabWordPerkataan
                     word={vocab.word}
                     perkataan={vocab.perkataan}

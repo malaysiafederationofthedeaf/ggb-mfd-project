@@ -287,10 +287,12 @@ p {
   .card-body {
     padding: 10px; 
     .card-title {
+      margin-bottom: 0px;
       color: $color-secondary-dark;
       text-transform: uppercase;
-      height: 30px;   
+      height: 50px;   
       text-align: center;   
+      overflow: hidden;
     }  
   }
   .card-footer, .card-header {
@@ -410,8 +412,26 @@ p {
         height: 280px;
         width: 100%;
         margin-bottom: 12px;
+        @media (max-width: $breakpoint-md) {
+          height: 230px;
+        }        
         .vocab-word {
           height: 100%;
+          .vocab-word-perkataan {
+            ::first-letter {
+              text-transform: uppercase;
+            }
+            .vocab-word-perkataan-title {
+              @include h3;  
+              overflow-wrap: break-word;
+            }
+            .vocab-word-perkataan-subtitle {
+              @include h4;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;   
+            }  
+          }          
           .vocab-image-wrapper {
             height: 100%;
             width: 100%;
@@ -452,19 +472,6 @@ p {
       }
     }
   }
-}
-
-
-.vocab-word-perkataan {
-  ::first-letter {
-    text-transform: uppercase;
-  }
-  .vocab-word-perkataan-title {
-    @include h3;
-  }
-  .vocab-word-perkataan-subtitle {
-    @include h4;
-  }  
 }
 
 .selected-vocab-title {
