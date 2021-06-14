@@ -416,22 +416,7 @@ p {
           height: 230px;
         }        
         .vocab-word {
-          height: 100%;
-          .vocab-word-perkataan {
-            ::first-letter {
-              text-transform: uppercase;
-            }
-            .vocab-word-perkataan-title {
-              @include h3;  
-              overflow-wrap: break-word;
-            }
-            .vocab-word-perkataan-subtitle {
-              @include h4;
-              overflow: hidden;
-              white-space: nowrap;
-              text-overflow: ellipsis;   
-            }  
-          }          
+          height: 100%;         
           .vocab-image-wrapper {
             height: 100%;
             width: 100%;
@@ -477,6 +462,22 @@ p {
 .selected-vocab-title {
   padding-bottom: 30px;
 }
+
+.vocab-word-perkataan {
+  ::first-letter {
+    text-transform: uppercase;
+  }
+  .vocab-word-perkataan-title {
+    @include h3;  
+    overflow-wrap: break-word;
+  }
+  .vocab-word-perkataan-subtitle {
+    @include h4;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;   
+  }  
+} 
 
 .selected-vocab-image-wrapper{
   text-align: center; 
