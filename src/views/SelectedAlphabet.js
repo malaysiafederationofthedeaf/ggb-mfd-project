@@ -32,8 +32,8 @@ const SelectedAlphabets = ({ match }) => {
           activeItemIndex={activeItemIndex}
           outsideChevron={false}
         >
-          {alphasLists.map((alpha) => (
-            <AlphabetsGrid alphabets={alpha} />
+          {alphasLists.map((alpha, key) => (
+            <AlphabetsGrid alphabets={alpha} key={key} />
           ))}
         </ItemsCarousel>
       </div>
