@@ -25,11 +25,7 @@ const VocabList = ({ vocabs, group, category }) => {
             to={`/groups/${groupFormatted}/${categoryFormatted}/${wordFormatted}`}
           >
             <ListGroupItem>
-              <Row
-                data-aos="fade-up"
-                data-aos-delay="200"
-                className="vocab-word"
-              >
+              <Row className="vocab-word">
                 <Col xs="5" sm="5" md="5" lg="5" className="pl-2 pr-0">
                   <VocabWordPerkataan
                     word={vocab.word}
