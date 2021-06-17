@@ -20,7 +20,7 @@ const SelectedAlphabets = ({ match }) => {
 
   return (
     <>
-      <div className=" breadcrumb d-lg-none d-xl-none d-block px-3">
+      <div className="breadcrumb d-md-none d-lg-none d-xl-none d-block px-3">
         <ItemsCarousel
           numberOfCards={10}
           gutter={10}
