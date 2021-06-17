@@ -1,70 +1,49 @@
-# Getting Started with Create React App
+# BIM Sign Bank by MFD
+Bahasa Isyarat Malaysia (BIM) is the official [Malaysian Sign Language](https://www.mymfdeaf.org/bahasa-isyarat-malaysia-bim), recognized by the Persons with Disabilities Act 2008 in Malaysia. The [Malaysia Federation of The Deaf (MFD)](https://www.mymfdeaf.org/), a national organization that offers helps and services to the Deaf community in Malaysia, has played a crucial role in the development of BIM since 1997.<br>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+In order to educate and promote the use of BIM, MFD intended to develop a BIM Sign Bank application to provide the official source of reference on the digital platform. As a non-profit organization, MFD needs a simple, sustainable and self-maintainable solution for the Deaf Community in Malaysia, as well as the students, teachers, parents and the general public in the digital age.<br>
 
-## Available Scripts
+As a "Friend of MFD" and in the spirit of social responsibility, the employees of [Guidewire Software](https://careers.guidewire.com/guidewire-gives-back) have stepped in and volunteered their time to help MFD to develop a simple and easy to maintain web application, and to host it on a sustainable and cost effective platform at [Vercel](https://vercel.com) for long run.<br>
 
-In the project directory, you can run:
+## Project Features
+The project consists of fundamental features that support the objective of education and official source of reference for BIM.
 
-### `npm start`
+### Release 1 Features:
+* Displaying of BIM Words in two languages (Malay by default, English) and the Sign Images and Videos
+* Browsing of BIM Words by Groups and Categories
+* Browsing of BIM Words by Alphabets
+* Searching of BIM Words by keywords
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Technology Stack
+* React.Js – Main framework
+* Shards, Bootstrap, SASS – Web styling
+* react-i18next – Localization
+* Other tools: YouTube, Google Sheets 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Installation Guide
+### Pre-Installation:
+* Due to a package dependency, installation of Visual Studio C++ Development Workload through the Visual Studio Build Tools is necessary.
+* Ensure that your device has Node.js installed by typing `node -v` in the command prompt. Npm will be automatically included with Node.js.
+* Npm version can be checked with `npm -v`.
+* The recomended IDE for this project is Visual Studio Code.
+* The recommended extensions for this project are as follows:
+    * ES7 React/Redux/GraphQL/React-Native snippets
+    * Prettier - Code formatter
+        * To automatically format file on save, go to settings.json and add the following line: `"editor.formatOnSave": true`
+    * React Extension Pack
+    * Git Easy
+    * Auto-Save on Window Change
 
-### `npm test`
+### Installation:
+* Clone the project repository.
+* Run `npm install` in the terminal to install the required node modules.
+* Run `npm start` in the terminal to start the development server.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<p align="center">
+  <a href="https://vercel.com/?utm_source=[team-slug]&utm_campaign=oss">
+    <img
+      alt="Powered by Vercel"
+      src="https://raw.githubusercontent.com/amohdsharfuddin/ggb-mfd-project/1853d1589cb0d77a3b2a57c3144496f2cddd5f3d/src/images/general/logo/powered-by-vercel.svg"
+    />
+  </a>
+</p>
