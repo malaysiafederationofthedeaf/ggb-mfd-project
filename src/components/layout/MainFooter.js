@@ -80,6 +80,11 @@ MainFooter.defaultProps = {
       imgSrc: require("../../images/general/logo/youtube-logo.jpg"),
       imgAlt: "Youtube Logo",
     },
+    {
+      href: "https://vercel.com/?utm_source=[team-slug]&utm_campaign=oss",
+      imgSrc: require("../../images/general/logo/powered-by-vercel.svg"),
+      imgAlt: "Powered by Vercel Logo",
+    },    
   ],
 };
 
