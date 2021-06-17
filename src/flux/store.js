@@ -260,16 +260,18 @@ class Store extends EventEmitter {
 
   // check if a group&category pair is in release
   isGroupCategoryInRelease(groupEng, categoryEng) {
-    const vocabs = this.getVocabsItems();
+    const vocabs = this.getVocabItem();
     for(let obj of vocabs) {
-        if (obj.groupCategory !== undefined &&
-        !this.formatString(obj.groupCategory.toString().split("/")[0]).localeCompare(
-          (groupEng)) &&
-          !this.formatString(obj.groupCategory.toString().split("/")[1]).localeCompare(
-            (categoryEng))          
-        ) {
-          return true;
-        }
+      for(let groupCat of obj.groupCategory) {
+        if (groupCat !== undefined &&
+          !this.formatString(groupCat.toString().split("/")[0]).localeCompare(
+            (groupEng)) &&
+            !this.formatString(groupCat.toString().split("/")[1]).localeCompare(
+              (categoryEng))          
+          ) {
+            return true;
+          }
+      }
     }
     return false;
   }
