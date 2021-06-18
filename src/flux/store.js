@@ -17,18 +17,8 @@ let _store = {
   openDropdown: false,
   alphabets: getAlphabets(),
   filePathBIMSheet: "/assets/BIM.xlsx",
-  languages: [
-    {
-      code: "en",
-      name: "English",
-      country_code: "gb",
-    },
-    {
-      code: "ms",
-      name: "Melayu",
-      country_code: "my",
-    },
-  ],
+  languages: ["en","ms"],
+  countryCode: ["gb","my"],
 };
 
 class Store extends EventEmitter {
@@ -159,6 +149,10 @@ class Store extends EventEmitter {
 
   getLanguages() {
     return _store.languages;
+  }
+
+  getCountryCode() {
+    return _store.countryCode;
   }
 
   // get image for Category (fileName naming std: kategori.jpg)
