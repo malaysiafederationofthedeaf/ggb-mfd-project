@@ -52,9 +52,11 @@ const SidebarCategoryItem = ({ item, alpha, param }) => {
             {!param ? (
               <>
                 <Link to={`/groups/${groupFormatted}`}>
+                  <div>
                   {t(groupFormatted)}
+                  <DropdownToggle nav caret className="d-inline" />
+                  </div>
                 </Link>
-                <DropdownToggle nav caret className="d-inline" />
                 <DropdownMenu>
                   {item.group &&
                     items.map((item1, key) => (
@@ -75,9 +77,10 @@ const SidebarCategoryItem = ({ item, alpha, param }) => {
                   to={`/alphabets/${alpha}`}
                   className="text-decoration-none"
                 >
+                  <div>
                   {alpha.toUpperCase()}
+                  </div>
                 </Link>
-                <DropdownToggle nav className="d-inline" />
               </>
             )}
           </div>
