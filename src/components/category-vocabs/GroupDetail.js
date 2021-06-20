@@ -11,11 +11,12 @@ const GroupDetail = ({ category, group }) => {
 
   const groupFormatted = Store.formatString(group);
   const categoryFormatted = Store.formatString(category.category);
+  const basePath = `/groups/${groupFormatted}`
 
   return (
     <Col lg="6" sm="12">
       <div className="category-detail-card-wrapper">
-        <Link to={`/groups/${groupFormatted}/${categoryFormatted}`}>
+        <Link to={`${basePath}/${categoryFormatted}`}>
           <Card small className="card-post card-post--aside card-post--1">
             <Col lg="6" md="6" sm="6">
               <div
