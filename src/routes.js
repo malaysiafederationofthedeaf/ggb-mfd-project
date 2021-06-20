@@ -53,6 +53,18 @@ export default [
     component: BrowseByCategory,
   },
   {
+    path: "/groups/new-signs",
+    exact: true,
+    layout: SideCategoryLayout,
+    component: SelectedCategory
+  },
+  {
+    path: "/groups/new-signs/:vocab",
+    exact: true,
+    layout: SideCategoryLayout,
+    component: SelectedVocab
+  },
+  {
     path: "/groups/:group",
     exact: true,
     layout: SideCategoryLayout,

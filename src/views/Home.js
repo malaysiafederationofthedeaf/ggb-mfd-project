@@ -28,7 +28,7 @@ const Home = () => {
             <Col sm="12" md="12" lg="12" className="btn-view-all-categories">
               <Link to="/groups">{t("view_all_category_btn")} &rarr;</Link>
             </Col>
-          </Row>          
+          </Row>
         </div>
       </Container>
     </>
