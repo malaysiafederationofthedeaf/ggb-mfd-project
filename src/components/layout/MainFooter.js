@@ -10,7 +10,7 @@ const MainFooter = ({ contained, menuItems, copyright, footerLinks }) => {
       <Container fluid={contained}>
         <Nav>
           {menuItems.map((item, key) => (
-            <a href={item.href} key={key} className="main-footer-items">
+            <a href={item.href} target="_blank" rel="noopener noreferrer" key={key} className="main-footer-items">
               {t(item.title)}
             </a>
           ))}
@@ -18,7 +18,7 @@ const MainFooter = ({ contained, menuItems, copyright, footerLinks }) => {
         <span className="copyright ml-auto my-auto mr-2">{t(copyright)}</span>
         <div className="footer-logo d-inline ml-auto my-auto mr-2">
           {footerLinks.map((link, key) => (
-            <a href={link.href} key={key}>
+            <a href={link.href} target="_blank" rel="noopener noreferrer" key={key}>
               <img src={link.imgSrc} alt={link.imgAlt} />
             </a>
           ))}

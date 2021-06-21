@@ -54,7 +54,7 @@ class MainNavbar extends React.Component {
           {!this.state.collapseOpen && (
             <div className="navbar-right-logo">
               {this.props.linkDetails.map((link, key) => (
-                <a href={link.href} key={key}>
+                <a href={link.href} target="_blank" rel="noopener noreferrer" key={key}>
                   <img src={link.imgSrc} alt={link.imgAlt} />
                 </a>
               ))}
