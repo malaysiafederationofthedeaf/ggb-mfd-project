@@ -40,7 +40,7 @@ class MainNavbar extends React.Component {
           <img className="navbar-logo" src={bimLogo} alt="BIM Logo" />
         </NavLink>
         <SearchInput />
-        <NavbarTranslate toggle={this.props.toggle} />
+        <NavbarTranslate />
         <NavbarToggler onClick={this.toggleNavbar} />
 
         <Collapse
