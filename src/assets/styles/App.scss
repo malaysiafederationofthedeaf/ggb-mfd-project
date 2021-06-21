@@ -287,12 +287,10 @@ p {
   .card-body {
     padding: 10px; 
     .card-title {
+      @include card-title;  
       margin-bottom: 0px;
-      color: $color-secondary-dark;
-      text-transform: uppercase;
-      height: 50px;   
-      text-align: center;   
-      overflow: hidden;
+      height: 40px;
+      text-align: center; 
     }  
   }
   .card-footer, .card-header {
