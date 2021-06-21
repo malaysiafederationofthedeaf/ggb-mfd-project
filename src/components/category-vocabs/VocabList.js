@@ -26,13 +26,13 @@ const VocabList = ({ vocabs, group, category }) => {
           >
             <ListGroupItem>
               <Row className="vocab-word">
-                <Col xs="5" sm="5" md="5" lg="5" className="pl-2 pr-0">
+                <Col sm="3" md="4" lg="4" className="pl-2 pr-0">
                   <VocabWordPerkataan
                     word={vocab.word}
                     perkataan={vocab.perkataan}
                   />
                 </Col>
-                <Col xs="7" sm="7" md="7" lg="7" className="vocab-image-wrapper">
+                <Col sm="9" md="8" lg="8" className="vocab-image-wrapper">
                   <img
                     src={vocabImgSrc}
                     alt={vocab.word}

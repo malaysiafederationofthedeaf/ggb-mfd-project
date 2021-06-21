@@ -413,10 +413,10 @@ p {
         width: 100%;
         margin-bottom: 12px;
         @media (max-width: $breakpoint-md) {
-          height: 230px;
+          height: fit-content;
         }        
         .vocab-word {
-          height: 100%;         
+          height: 100%;      
           .vocab-image-wrapper {
             height: 100%;
             width: 100%;
@@ -424,9 +424,12 @@ p {
             .vocab-image {
               width: auto;
               height: 100%;
-              max-width: 90%;
-              max-height: 280px;
+              max-width: 100%;
+              max-height: 250px;
               min-height: 180px;
+              @media (max-width: $breakpoint-sm) {
+                max-height: 200px;
+              }
             }
           }
           &:hover{
@@ -450,7 +453,7 @@ p {
         .vocab-word {
           .vocab-image-wrapper {
             .vocab-image {
-              max-width: 250px;
+              max-width: 100%;
             }
           }
         }
