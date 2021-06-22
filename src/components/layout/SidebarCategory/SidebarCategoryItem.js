@@ -21,23 +21,21 @@ const SidebarCategoryItem = ({ item, alpha, param }) => {
   };
 
   const { t } = useTranslation("group-category");
-  const items = !param ? Store.getCategoriesOfGroup(item.group) : null;
+  const isNewSign = !param && item.group === "New Signs";
+  const items = !param && !isNewSign ? Store.getCategoriesOfGroup(item.group) : [];
   const groupFormatted = !param ? Store.formatString(item.group) : null;
+  const basePath = `/groups/${groupFormatted}`
 
   const isDropDownActive = () => {
     return window.location.pathname.search(
-      !param ? `/groups/${groupFormatted}` : `/alphabets/${param}`
+      !param ? `${basePath}` : `/alphabets/${param}`
     )
       ? "inactive"
       : "active"
   }
 
-  const isDropDownItemActive = (category) => {
-    return window.location.pathname.includes(
-      `/groups/${groupFormatted}/${Store.formatString(
-        category
-      )}`
-    )
+  const isDropDownItemActive = (item) => {
+    return window.location.pathname.includes(`${basePath}/${Store.formatString(item.category)}`)
       ? "active"
       : "inactive"
   }
@@ -51,18 +49,16 @@ const SidebarCategoryItem = ({ item, alpha, param }) => {
             {/* render according to the url parameter passed */}
             {!param ? (
               <>
-                <Link to={`/groups/${groupFormatted}`}>
+                <Link to={`${basePath}`}>
                   {t(groupFormatted)}
                 </Link>
-                <DropdownToggle nav caret className="d-inline" />
+                {items.length > 0 && <DropdownToggle nav caret className="d-inline" />}
                 <DropdownMenu>
                   {item.group &&
                     items.map((item1, key) => (
-                      <DropdownItem key={key} className={isDropDownItemActive(item1.category)}>
+                      <DropdownItem key={key} className={isDropDownItemActive(item1)}>
                         {/* set className to active to highlight current active Category in Side Navbar */}
-                        <Link
-                          to={`/groups/${groupFormatted}/${Store.formatString(item1.category)}`}
-                        >
+                        <Link to={`${basePath}/${Store.formatString(item1.category)}`}>
                           {t(Store.formatString(item1.category))}
                         </Link>
                       </DropdownItem>

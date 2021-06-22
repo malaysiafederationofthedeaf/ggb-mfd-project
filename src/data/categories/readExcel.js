@@ -24,6 +24,7 @@ const restructureJSON = (data) => {
     video: item.Video,
     tag: item.Tag,
     release: item.Release,
+    new: item.New,
   }));
 
   // if there is only 1 Release to include
