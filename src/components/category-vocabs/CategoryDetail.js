@@ -2,11 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Card, CardBody, CardTitle } from "shards-react";
 import { useTranslation } from "react-i18next";
-<<<<<<< HEAD
 import styled, { keyframes } from 'styled-components';
 import { zoomIn } from 'react-animations';
-=======
->>>>>>> 6771f166027b518b6f22960b115d788a72359ee0
 import VocabWordPerkataan from "./VocabWordPerkataan";
 
 import { Store } from "../../flux";
