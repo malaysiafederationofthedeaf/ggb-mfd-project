@@ -330,9 +330,13 @@ class Store extends EventEmitter {
   // get Top 3 Commonly Referred Groups to display in Home page
   // look for Remark with 'Home' in Group Excel
   getGroupsHome() {
-    return this.getGroups().filter(
+    let groups = this.getGroups().filter(
       (group) => group.remark !== undefined && !group.remark.localeCompare("Home")
-    );
+    )
+    
+    groups.push(groups.splice(groups.findIndex(item => item.group === "New Signs"), 1).pop()) // always making "new-signs" cat the last index of the list
+
+    return groups
   }
 
   // format string to lower case and replace space with dash (for link path name)
