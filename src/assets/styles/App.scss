@@ -474,9 +474,7 @@ p {
   }
   .vocab-word-perkataan-subtitle {
     @include h4;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;   
+    overflow-wrap: break-word; 
   }  
 } 
 
