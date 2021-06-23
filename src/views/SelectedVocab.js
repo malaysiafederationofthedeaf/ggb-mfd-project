@@ -1,17 +1,14 @@
 import React from "react";
-import { Container, Row } from "shards-react";
+import { Container } from "shards-react";
 import { useTranslation } from "react-i18next";
 
 import ComingSoon from "./ComingSoon";
-import PageTitle from "../components/common/PageTitle";
 import VocabDetail from "../components/category-vocabs/VocabDetail";
 import { Store } from "../flux";
 import Breadcrumbs from "../components/layout/Breadcrumbs/Breadcrumbs";
 
 const SelectedVocab = ({ match }) => {
   const signEng = match.params.vocab;
-
-  const { t } = useTranslation("group-category");
 
   const categoryVocab = Store.getVocabDetail(signEng);
   // return Error page if no Vocab Details are returned
