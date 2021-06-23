@@ -1,6 +1,5 @@
 import React from "react";
 import { Container } from "shards-react";
-import { useTranslation } from "react-i18next";
 
 import ComingSoon from "./ComingSoon";
 import VocabDetail from "../components/category-vocabs/VocabDetail";
