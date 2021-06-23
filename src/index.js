@@ -12,6 +12,7 @@ import { Store } from "./flux";
 import Dispatcher from "../src/flux/dispatcher";
 import readExcel from "../src/data/categories/readExcel";
 import readExcelGroup from "../src/data/categories/readExcelGroup";
+import readFeaturedVideos from "./data/readFeaturedVideos";
 import UnderMaintenance from "./views/UnderMaintenance";
 
 // read BIM (main) sheet
@@ -85,14 +86,38 @@ readExcel.then(
       }); 
       i18n.addResourceBundle("ms", "group-category", {
         "alphabets": "Abjad",
-      });        
-  
+      });  
+      
+      readFeaturedVideos.then(
+        // Promise status 200
+        (value) => {
+          Dispatcher.dispatch({
+            actionType: "STORE_FEATURED_VIDEOS",
+            payload: value,
+          });
+
+          ReactDOM.render(
+            <Suspense fallback="Loading">
+              <App />
+            </Suspense>,
+            document.getElementById("root")
+          );
+        },
+          // Promise status 400
+          (error) =>
+          ReactDOM.render(
+            <Suspense fallback="Loading">
+              <UnderMaintenance />
+            </Suspense>,
+            document.getElementById("root")
+          )
+      ); 
       ReactDOM.render(
         <Suspense fallback="Loading">
           <App />
         </Suspense>,
         document.getElementById("root")
-      );
+      ); 
       },
       // Promise status 400
       (error) =>

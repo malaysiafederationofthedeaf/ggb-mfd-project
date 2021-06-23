@@ -2,14 +2,14 @@ import { EventEmitter } from "events";
 
 import Dispatcher from "./dispatcher";
 import Constants from "./constants";
-import getSidebarNavItems from "../data/sidebar-nav-items";
+import getMainNavItems from "../data/main-nav-items";
 import getAlphabets from "../data/alphabets/alphabets-arrays";
 import getCurrentLocale from "../data/alphabets/currentLocale";
 import cookies from "js-cookie";
 
 let _store = {
   menuVisible: false,
-  navItems: getSidebarNavItems(),
+  mainNavItems: getMainNavItems(),
   vocabsItems: [],        // to store all entries from BIM sheet
   groupCategoryItems: [], // to store all entries from Group sheet
   groupItems: [],         // to store groups (unique) only
@@ -20,6 +20,9 @@ let _store = {
   filePathBIMSheet: "/assets/BIM.xlsx",
   languages: ["en","ms"],
   countryCode: ["gb","my"],
+  featuredVideosPlaylistId: "PLEztM-ga58Y4s6t5pac5uJKLeSSuspioQ",
+  youtubeAPIKey: "AIzaSyBIk86nsIH0h4HSEgHPLI8bku6WKQlizDk",
+  featuredVideos: [],
 };
 
 class Store extends EventEmitter {
@@ -31,6 +34,7 @@ class Store extends EventEmitter {
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.storeExcel = this.storeExcel.bind(this);
     this.storeExcelGroup = this.storeExcelGroup.bind(this);
+    this.storeFeaturedVideos = this.storeFeaturedVideos.bind(this);
 
     Dispatcher.register(this.registerToActions.bind(this));
   }
@@ -52,6 +56,10 @@ class Store extends EventEmitter {
       case Constants.STORE_EXCEL_GROUP: // store all the entries from Group sheet
         this.storeExcelGroup(payload);
         break;
+
+      case Constants.STORE_FEATURED_VIDEOS: // store all the entries from Group sheet
+        this.storeFeaturedVideos(payload);
+        break;        
 
       default:
     }
@@ -79,6 +87,11 @@ class Store extends EventEmitter {
     this.emit(Constants.CHANGE);
     _store.groupItems = this.getGroupItems();       // get groups (unique)
     _store.categoryItems = this.getCategoryItems(); // get groups and categories pair (unique)
+  }
+
+  storeFeaturedVideos(value) {
+    _store.featuredVideos = value;
+    this.emit(Constants.CHANGE);
   }
 
   // get all entries from BIM sheet
@@ -134,9 +147,9 @@ class Store extends EventEmitter {
     return _store.menuVisible;
   }
 
-  getSidebarItems() {
-    return _store.navItems;
-  }
+  getMainNavItems() {
+    return _store.mainNavItems;
+  }  
 
   getSidebarVocabItems() {
     return _store.vocabsItems;
@@ -156,6 +169,21 @@ class Store extends EventEmitter {
 
   getCountryCode() {
     return _store.countryCode;
+  }
+
+  getFeaturedVideosList() {
+    return _store.featuredVideos;
+  }
+
+  getFeaturedVideosPlaylistUrl() {
+    return "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId="
+    + _store.featuredVideosPlaylistId
+    + "&key="
+    + _store.youtubeAPIKey;
+  }
+
+  getFeaturedVideoUrl(videoId) {
+    return "https://youtu.be/" + videoId;
   }
 
   // get image for Category (fileName naming std: kategori.jpg)

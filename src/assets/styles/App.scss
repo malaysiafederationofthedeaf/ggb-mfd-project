@@ -100,6 +100,23 @@ p {
     &:hover {
       cursor: pointer;
     }   
+    .dropdown {
+      a {
+        @include nav-item-font;
+        @media (max-width: $breakpoint-lg) {
+          font-size: 90%;
+        }
+      }
+      .nav-dropdown active {
+        @include nav-link-hover-active;
+      }
+      .dropdown-menu {
+        padding: 0;
+        button {
+          padding: 0;
+        }
+      }
+    }
     .navbar-menu-item {
       span {
         @include nav-item-font;
@@ -108,7 +125,7 @@ p {
           font-size: 90%;
         }
       }      
-      &:hover, .active{
+      &:hover, .active {
         @include nav-link-hover-active;
       }
     }
@@ -286,12 +303,21 @@ p {
   border-radius: $border-radius;
   .card-body {
     padding: 10px; 
-    .card-title {
-      @include card-title;  
+    .card-title, .card-title-featured-video{
       margin-bottom: 0px;
-      height: 40px;
-      text-align: center; 
+      color: $color-secondary-dark;
+      text-transform: uppercase;
+      text-align: center;   
+      overflow: hidden;      
     }  
+    .card-title {
+      height: 50px;
+    }
+    .card-title-featured-video {
+      height: 20px;  
+      white-space: nowrap;
+      text-overflow: ellipsis;       
+    }
   }
   .card-footer, .card-header {
     padding-left: 20px;
@@ -396,15 +422,16 @@ p {
 }
 
 .btn-view-all-categories {
+  margin-bottom: 30px;
   a {
-    padding: 10px;
     font-size: 120%;
+    text-decoration: underline;
   }
 }  
 
 .vocab-list-wrapper {
     .list-group {
-      display: inline-block;  
+      display: block;  
       .list-group-item {
         display: inline-block;
         height: 280px;
@@ -440,8 +467,6 @@ p {
     }
   @media (min-width: $breakpoint-xl) {
     .list-group {
-      display: inline-block;
-      list-style-type: disc;
       -webkit-columns: 2;
       -moz-columns: 2;
       columns: 2;
@@ -494,10 +519,23 @@ p {
     }
   }  
 }
-
-.selected-vocab-video-wrapper {
+ 
+.selected-vocab-video-wrapper, .featured-video-wrapper {
   max-width: 560px;
-  margin: 0 auto;
+  margin: 0 auto; 
+  div {
+    @media (max-width: $breakpoint-sm) {
+      max-height: 250px;
+    }
+  }  
+}
+
+.featured-video-title {
+  h3 {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 50px;
+  }
 }
 
 .about-us {
