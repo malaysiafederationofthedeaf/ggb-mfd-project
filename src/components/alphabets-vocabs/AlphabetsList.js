@@ -14,11 +14,7 @@ const AlphabetsList = ({ vocabs, alphabet }) => {
         return (
           <Link key={key} to={`/alphabets/${alphabet}/${wordFormatted}`}>
             <ListGroupItem>
-              <Row
-                data-aos="fade-up"
-                data-aos-delay="200"
-                className="vocab-word"
-              >
+              <Row className="vocab-word">
                 <Col sm="3" md="4" lg="4" className="pl-2 pr-0">
                   <VocabWordPerkataan
                     word={vocab.word}

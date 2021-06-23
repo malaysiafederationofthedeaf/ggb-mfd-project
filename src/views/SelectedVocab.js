@@ -25,15 +25,8 @@ const SelectedVocab = ({ match }) => {
       </div>
       <Container
         fluid
-        className="main-content-container px-4 vocab-detail-wrapper"
+        className="main-content-container"
       >
-        <Row noGutters className="page-header py-4">
-          <PageTitle
-            title={t(Store.formatString(vocab.category))}
-            md="12"
-            className="ml-sm-auto mr-sm-auto"
-          />
-        </Row>
         <VocabDetail vocab={vocab} />
       </Container>
     </>
