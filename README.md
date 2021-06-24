@@ -40,7 +40,7 @@ The project consists of fundamental features that support the objective of educa
 * Run `npm start` in the terminal to start the development server.
 
 <p align="center">
-  <a href="https://vercel.com/?utm_source=[team-slug]&utm_campaign=oss">
+  <a href="https://vercel.com/?utm_source=ggb-mfd&utm_campaign=oss">
     <img
       alt="Powered by Vercel"
       src="https://raw.githubusercontent.com/amohdsharfuddin/ggb-mfd-project/1853d1589cb0d77a3b2a57c3144496f2cddd5f3d/src/images/general/logo/powered-by-vercel.svg"
