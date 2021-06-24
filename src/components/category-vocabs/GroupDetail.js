@@ -7,6 +7,8 @@ import { zoomIn } from 'react-animations';
 
 import { Store } from "../../flux";
 
+const ZoomIn = styled.div`animation: .5s ${keyframes `${zoomIn}`}`;
+
 const GroupDetail = ({ category, group }) => {
   const { t } = useTranslation("group-category");
   const categoryImgSrc = Store.getCategoryImgSrc(category.kategori);
@@ -15,7 +17,6 @@ const GroupDetail = ({ category, group }) => {
   const categoryFormatted = Store.formatString(category.category);
   const basePath = `/groups/${groupFormatted}`
 
-  const ZoomIn = styled.div`animation: .5s ${keyframes `${zoomIn}`}`;
  
   return (
     <Col lg="6" sm="12">

@@ -8,6 +8,8 @@ import VocabWordPerkataan from "./VocabWordPerkataan";
 
 import { Store } from "../../flux";
 
+const ZoomIn = styled.div`animation: .5s ${keyframes `${zoomIn}`}`;  
+
 const CategoryDetail = ({ categoryItem, group }) => {
   const { t } = useTranslation("group-category");
 
@@ -16,8 +18,6 @@ const CategoryDetail = ({ categoryItem, group }) => {
   const basePath = `/groups/${groupFormatted}`
   const linkToPath = categoryItem.new ? `${basePath}/${Store.formatString(categoryItem.word)}` : `${basePath}/${categoryFormatted}`;
   const imgSrc = categoryItem.new ? Store.getSignImgSrc(categoryItem.perkataan) : Store.getCategoryImgSrc(categoryItem.kategori);
-
-  const ZoomIn = styled.div`animation: .5s ${keyframes `${zoomIn}`}`;  
 
   return (
     <Link to={linkToPath}>
