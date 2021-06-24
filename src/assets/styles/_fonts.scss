@@ -136,3 +136,13 @@ $font-button: $font-body;
         font-size: 25px;
     }
 }
+
+@mixin card-title { 
+    font: {
+        weight: bold;
+        size: 17px;
+    }
+    color: $color-secondary-dark;
+    text-transform: uppercase;
+    overflow: hidden;    
+}

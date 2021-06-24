@@ -27,7 +27,7 @@ $border-radius: 10px;
 // Nav Link Hover & Active
 @mixin nav-link-hover-active {
   background-color: $navbar-active-link-background-color;
-  span {
+  span, a {
     color: $navbar-active-link-font-color;
     font-weight: 600;
   }

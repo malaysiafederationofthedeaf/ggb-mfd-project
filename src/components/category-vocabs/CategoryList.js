@@ -14,7 +14,7 @@ const CategoryList = ({ category, group }) => {
 
   // determine number of cards to be displayed (categories) based on Screen Size
   const getNoOfCardsToDisplay = (noOfCategories) => {
-    return window.innerWidth > 1200 && noOfCategories >= 3
+    return window.innerWidth > 1500 && noOfCategories >= 3
       ? 3
       : noOfCategories < 3
       ? noOfCategories
@@ -41,7 +41,7 @@ const CategoryList = ({ category, group }) => {
   const groupFormatted = Store.formatString(group);
 
   return (
-    <Col sm="12" md="6" lg="4">
+    <Col sm="12" md="6" lg="6" xl="4">
       <div className="category-card-wrapper">
         <Link to={`/groups/${groupFormatted}`}>
           <PageTitle title={t(groupFormatted)} />
@@ -60,8 +60,8 @@ const CategoryList = ({ category, group }) => {
           activeItemIndex={activeItemIndex}
           activePosition={"center"}
           chevronWidth={30}
-          rightChevron={">"}
-          leftChevron={"<"}
+          rightChevron={<i className="material-icons">arrow_forward_ios</i>}
+          leftChevron={<i className="material-icons">arrow_back_ios</i>}
           outsideChevron={false}
         >
           {category.map((categoryItem, key) => (

@@ -2,13 +2,14 @@ import { EventEmitter } from "events";
 
 import Dispatcher from "./dispatcher";
 import Constants from "./constants";
-import getSidebarNavItems from "../data/sidebar-nav-items";
+import getMainNavItems from "../data/main-nav-items";
 import getAlphabets from "../data/alphabets/alphabets-arrays";
 import getCurrentLocale from "../data/alphabets/currentLocale";
+import cookies from "js-cookie";
 
 let _store = {
   menuVisible: false,
-  navItems: getSidebarNavItems(),
+  mainNavItems: getMainNavItems(),
   vocabsItems: [],        // to store all entries from BIM sheet
   groupCategoryItems: [], // to store all entries from Group sheet
   groupItems: [],         // to store groups (unique) only
@@ -17,18 +18,11 @@ let _store = {
   openDropdown: false,
   alphabets: getAlphabets(),
   filePathBIMSheet: "/assets/BIM.xlsx",
-  languages: [
-    {
-      code: "en",
-      name: "English",
-      country_code: "gb",
-    },
-    {
-      code: "ms",
-      name: "Melayu",
-      country_code: "my",
-    },
-  ],
+  languages: ["en","ms"],
+  countryCode: ["gb","my"],
+  featuredVideosPlaylistId: "PLEztM-ga58Y4s6t5pac5uJKLeSSuspioQ",
+  youtubeAPIKey: "AIzaSyBIk86nsIH0h4HSEgHPLI8bku6WKQlizDk",
+  featuredVideos: [],
 };
 
 class Store extends EventEmitter {
@@ -40,6 +34,7 @@ class Store extends EventEmitter {
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.storeExcel = this.storeExcel.bind(this);
     this.storeExcelGroup = this.storeExcelGroup.bind(this);
+    this.storeFeaturedVideos = this.storeFeaturedVideos.bind(this);
 
     Dispatcher.register(this.registerToActions.bind(this));
   }
@@ -60,8 +55,12 @@ class Store extends EventEmitter {
 
       case Constants.STORE_EXCEL_GROUP: // store all the entries from Group sheet
         this.storeExcelGroup(payload);
+        break;
+
+      case Constants.STORE_FEATURED_VIDEOS: // store all the entries from Group sheet
+        this.storeFeaturedVideos(payload);
         break;        
-               
+
       default:
     }
   }
@@ -88,12 +87,17 @@ class Store extends EventEmitter {
     this.emit(Constants.CHANGE);
     _store.groupItems = this.getGroupItems();       // get groups (unique)
     _store.categoryItems = this.getCategoryItems(); // get groups and categories pair (unique)
-  }  
+  }
+
+  storeFeaturedVideos(value) {
+    _store.featuredVideos = value;
+    this.emit(Constants.CHANGE);
+  }
 
   // get all entries from BIM sheet
   getVocabsItems() {
     return _store.vocabsItems;
-  }  
+  }
 
   // get all entries from Group sheet
   getGroupCategoryItems() {
@@ -102,20 +106,22 @@ class Store extends EventEmitter {
 
   // get groups (unique)  
   getGroupItems() {
+    const specialGroups = ["New Signs"]
+
     let lookup = new Set();
     const groups = this.getGroupCategoryItems()
-    .map(
-      (obj) => (
-        {
-          "group": obj.groupCategory.toString().split("/")[0],
-          "kumpulan": obj.kumpulanKategori.toString().split("/")[0],
-          "remark": obj.remark
-        }
+      .map(
+        (obj) => (
+          {
+            "group": obj.groupCategory.toString().split("/")[0],
+            "kumpulan": obj.kumpulanKategori.toString().split("/")[0],
+            "remark": obj.remark
+          }
+        )
       )
-    )
-    .filter(
-      (obj) => (!lookup.has(obj.group) && this.isGroupInRelease(this.formatString(obj.group))) && lookup.add(obj.group)
-    );
+      .filter(
+        (obj) => (!lookup.has(obj.group) && (this.isGroupInRelease(this.formatString(obj.group)) || specialGroups.includes(obj.group))) && lookup.add(obj.group)
+      );
     return groups;
   }
 
@@ -134,16 +140,16 @@ class Store extends EventEmitter {
         )
       )
       .filter((obj) => !lookup.has(obj.category) && lookup.add(obj.category));
-    return categories;    
+    return categories;
   }
 
   getMenuState() {
     return _store.menuVisible;
   }
 
-  getSidebarItems() {
-    return _store.navItems;
-  }
+  getMainNavItems() {
+    return _store.mainNavItems;
+  }  
 
   getSidebarVocabItems() {
     return _store.vocabsItems;
@@ -159,6 +165,25 @@ class Store extends EventEmitter {
 
   getLanguages() {
     return _store.languages;
+  }
+
+  getCountryCode() {
+    return _store.countryCode;
+  }
+
+  getFeaturedVideosList() {
+    return _store.featuredVideos;
+  }
+
+  getFeaturedVideosPlaylistUrl() {
+    return "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId="
+    + _store.featuredVideosPlaylistId
+    + "&key="
+    + _store.youtubeAPIKey;
+  }
+
+  getFeaturedVideoUrl(videoId) {
+    return "https://youtu.be/" + videoId;
   }
 
   // get image for Category (fileName naming std: kategori.jpg)
@@ -191,8 +216,44 @@ class Store extends EventEmitter {
     return _store.categoryItems;
   }
 
+  getNewSigns() {
+    const currentLanguageCode = cookies.get("i18next");
+    const NewEnum = {
+      YES: "Yes",
+      NO: "No"
+    }
+    let vocabs = this.getVocabsItems();
+
+    if (vocabs.length) {
+      vocabs = vocabs.filter(vocab => vocab.new === NewEnum.YES)
+        .map(obj => (
+          {
+            ...obj,
+            "category": obj.groupCategory.toString().split("/")[1],
+            "kategori": obj.kumpulanKategori.toString().split("/")[1]
+          }))
+
+      if (currentLanguageCode === "en") {
+        vocabs.sort((a, b) => (a.word).localeCompare(b.word));
+      }
+      else {
+        vocabs.sort((a, b) => (a.perkataan).localeCompare(b.perkataan));
+      }
+
+      return vocabs;
+    }
+    else {
+      return []
+    }
+  }
+
   // get category list based on Group
   getCategoriesOfGroup(group) {
+
+    if (this.formatString(group) === this.formatString("New Signs")) {
+      return this.getNewSigns()
+    }
+
     let lookup = new Set();
     const categories = this.getGroupCategoryItems()
       .filter(
@@ -210,6 +271,7 @@ class Store extends EventEmitter {
         )
       )
       .filter((obj) => (!lookup.has(obj.category) && this.isGroupCategoryInRelease(this.formatString(group), this.formatString(obj.category))) && lookup.add(obj.category));
+
     return categories;
   }
 
@@ -226,8 +288,8 @@ class Store extends EventEmitter {
     // check if a vocab belongs to the group&category pair
     const isInGroupCategory = a => {
       var isGroup = false;
-      for(let i = 0; i < a.length; i ++) {
-        if(!((this.formatGroupCategory(a[i].toString())).localeCompare(groupCategoryPair))){
+      for (let i = 0; i < a.length; i++) {
+        if (!((this.formatGroupCategory(a[i].toString())).localeCompare(groupCategoryPair))) {
           isGroup = true;
         }
       }
@@ -235,11 +297,11 @@ class Store extends EventEmitter {
     };
 
     const vocabs = this.getVocabItem()                        // get vocabItem with splitted group&category pairs
-    .filter(
-      (obj) => obj.groupCategory !== undefined)               // filter out those of undefined
-    .filter(
-      (obj) => isInGroupCategory(obj.groupCategory))          // check if a vocab belongs to the desired group&category pair
-    .sort((a, b) => (a.perkataan).localeCompare(b.perkataan)) // sort the list alphabetically based on perkataan
+      .filter(
+        (obj) => obj.groupCategory !== undefined)               // filter out those of undefined
+      .filter(
+        (obj) => isInGroupCategory(obj.groupCategory))          // check if a vocab belongs to the desired group&category pair
+      .sort((a, b) => (a.perkataan).localeCompare(b.perkataan)) // sort the list alphabetically based on perkataan
 
     return vocabs;
   }
@@ -247,29 +309,31 @@ class Store extends EventEmitter {
   // check if a group is in release
   isGroupInRelease(groupEng) {
     const vocabs = this.getVocabsItems();
-    for(let obj of vocabs) {
-        if (obj.groupCategory !== undefined &&
+    for (let obj of vocabs) {
+      if (obj.groupCategory !== undefined &&
         !this.formatString(obj.groupCategory.toString().split("/")[0]).localeCompare(
           (groupEng)
         )) {
-          return true;
-        }
+        return true;
+      }
     }
     return false;
   }
 
   // check if a group&category pair is in release
   isGroupCategoryInRelease(groupEng, categoryEng) {
-    const vocabs = this.getVocabsItems();
-    for(let obj of vocabs) {
-        if (obj.groupCategory !== undefined &&
-        !this.formatString(obj.groupCategory.toString().split("/")[0]).localeCompare(
-          (groupEng)) &&
-          !this.formatString(obj.groupCategory.toString().split("/")[1]).localeCompare(
-            (categoryEng))          
+    const vocabs = this.getVocabItem();
+    for (let obj of vocabs) {
+      for (let groupCat of obj.groupCategory) {
+        if (groupCat !== undefined &&
+          !this.formatString(groupCat.toString().split("/")[0]).localeCompare(
+            (groupEng)) &&
+          !this.formatString(groupCat.toString().split("/")[1]).localeCompare(
+            (categoryEng))
         ) {
           return true;
         }
+      }
     }
     return false;
   }
@@ -288,9 +352,13 @@ class Store extends EventEmitter {
   // get Top 3 Commonly Referred Groups to display in Home page
   // look for Remark with 'Home' in Group Excel
   getGroupsHome() {
-    return this.getGroups().filter(
+    let groups = this.getGroups().filter(
       (group) => group.remark !== undefined && !group.remark.localeCompare("Home")
-    );
+    )
+    
+    groups.push(groups.splice(groups.findIndex(item => item.group === "New Signs"), 1).pop()) // always making "new-signs" cat the last index of the list
+
+    return groups
   }
 
   // format string to lower case and replace space with dash (for link path name)
@@ -324,13 +392,13 @@ class Store extends EventEmitter {
   }
 
   getFilePathBIMSheet() {
-    return _store.filePathBIMSheet; 
+    return _store.filePathBIMSheet;
   }
 
   getBaseURLBIMSheet() {
     const baseURL = window.location.origin;
     const filePathname = _store.filePathBIMSheet;
-    return baseURL + filePathname;    
+    return baseURL + filePathname;
   }
 
   addChangeListener(callback) {

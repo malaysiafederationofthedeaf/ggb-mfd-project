@@ -9,14 +9,18 @@ import { Store } from "../flux";
 import Breadcrumbs from "../components/layout/Breadcrumbs/Breadcrumbs";
 
 const SelectedCategory = ({ match }) => {
-  const group = match.params.group;
+  const pathTail = match.path.split("/").pop()
+  const isNewSignCategory = pathTail === "new-signs"; // for new-sign category
+  const group = isNewSignCategory ? pathTail : match.params.group;
   const categoryEng = match.params.category;
 
   const { t } = useTranslation("group-category");
 
   const categoryFormatted = Store.formatString(categoryEng);
   const groupFormatted = Store.formatString(group);
-  const vocabs = Store.getVocabList(groupFormatted, categoryFormatted);
+  const vocabs = isNewSignCategory ? Store.getNewSigns() : Store.getVocabList(groupFormatted, categoryFormatted);
+  const title = isNewSignCategory ? groupFormatted : categoryFormatted
+
   // return Error page if no Vocabs are returned
   if (vocabs.length === 0) return <ComingSoon />;
 
@@ -29,7 +33,7 @@ const SelectedCategory = ({ match }) => {
       >
         <Row noGutters className="page-header py-4">
           <PageTitle
-            title={t(categoryFormatted)}
+            title={t(title)}
             md="12"
             className="ml-sm-auto mr-sm-auto"
           />

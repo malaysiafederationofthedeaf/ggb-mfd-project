@@ -40,7 +40,7 @@ class MainNavbar extends React.Component {
           <img className="navbar-logo" src={bimLogo} alt="BIM Logo" />
         </NavLink>
         <SearchInput />
-        <NavbarTranslate toggle={this.props.toggle} />
+        <NavbarTranslate />
         <NavbarToggler onClick={this.toggleNavbar} />
 
         <Collapse
@@ -54,7 +54,7 @@ class MainNavbar extends React.Component {
           {!this.state.collapseOpen && (
             <div className="navbar-right-logo">
               {this.props.linkDetails.map((link, key) => (
-                <a href={link.href} key={key}>
+                <a href={link.href} target="_blank" rel="noopener noreferrer" key={key}>
                   <img src={link.imgSrc} alt={link.imgAlt} />
                 </a>
               ))}
