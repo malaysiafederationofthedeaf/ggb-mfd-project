@@ -8,7 +8,7 @@ class NavbarNavItems extends React.Component {
     super(props);
 
     this.state = {
-      navItems: Store.getSidebarItems(),
+      navItems: Store.getMainNavItems(),
     };
   }
 

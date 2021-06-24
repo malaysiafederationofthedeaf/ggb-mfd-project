@@ -14,6 +14,7 @@ import SelectedGroup from "./views/SelectedGroup";
 import SelectedCategory from "./views/SelectedCategory";
 import SelectedVocab from "./views/SelectedVocab";
 import SelectedAlphabets from "./views/SelectedAlphabet";
+import FeaturedVideos from "./views/FeaturedVideos";
 
 export default [
   {
@@ -100,4 +101,10 @@ export default [
     layout: SideCategoryLayout,
     component: SelectedVocab,
   },
+  {
+    path: "/featured-videos",
+    exact: true,
+    layout: DefaultLayout,
+    component: FeaturedVideos,
+  },   
 ];

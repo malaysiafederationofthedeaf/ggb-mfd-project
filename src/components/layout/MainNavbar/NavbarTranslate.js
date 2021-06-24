@@ -25,8 +25,6 @@ const NavbarTranslate = () => {
       setFlag(countryCode[1]);
     }
   };
-  console.log(flag);
-  console.log(currentLanguageCode);
   return (
     <div className="navbar-translate-btn">
       <Button onClick={toggleLocale}>
