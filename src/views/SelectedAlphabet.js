@@ -20,27 +20,29 @@ const SelectedAlphabets = ({ match }) => {
 
   return (
     <>
-      <div className="breadcrumb d-md-none d-lg-none d-xl-none d-block px-3">
-        <ItemsCarousel
-          numberOfCards={10}
-          gutter={10}
-          slidesToScroll={4}
-          showSlither={false}
-          freeScrolling={false}
-          leftChevron={"<"}
-          rightChevron={">"}
-          requestToChangeActive={(activeItemIndex) =>
-            setActiveItemIndex(activeItemIndex)
-          }
-          activeItemIndex={activeItemIndex}
-          outsideChevron={true}
-          disableSwipe={false}
-          chevronWidth={10}
-        >
-          {alphasLists.map((alpha, key) => (
-            <AlphabetsGrid alphabets={alpha} key={key} />
-          ))}
-        </ItemsCarousel>
+      <div className="alphabet-breadcrumbs">
+        <nav className="breadcrumb d-md-none d-lg-none d-xl-none d-block">
+          <ItemsCarousel
+            numberOfCards={10}
+            gutter={10}
+            slidesToScroll={4}
+            showSlither={false}
+            freeScrolling={false}
+            leftChevron={"<"}
+            rightChevron={">"}
+            requestToChangeActive={(activeItemIndex) =>
+              setActiveItemIndex(activeItemIndex)
+            }
+            activeItemIndex={activeItemIndex}
+            outsideChevron={true}
+            disableSwipe={false}
+            chevronWidth={10}
+          >
+            {alphasLists.map((alpha, key) => (
+              <AlphabetsGrid alphabets={alpha} key={key} />
+            ))}
+          </ItemsCarousel>
+        </nav>
       </div>
 
       <Container

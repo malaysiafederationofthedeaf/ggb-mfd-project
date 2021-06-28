@@ -7,7 +7,7 @@ import AboutUsDetails from "../components/about-us/AboutUsDetails";
 const AboutUs = () => {
   const { t } = useTranslation();
   return (
-    <Container fluid className="main-content-container px-4">
+    <Container fluid className="main-content-container">
       <AboutUsDetails t={t} />
     </Container>
   );

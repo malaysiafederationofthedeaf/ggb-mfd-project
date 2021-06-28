@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 const MainFooter = ({ contained, menuItems, copyright, footerLinks }) => {
   const { t } = useTranslation();
   return (
-    <footer className="main-footer d-flex p-2 px-3 bg-white border-top">
+    <footer className="main-footer p-2 bg-white border-top">
       <Container fluid={contained}>
         <Nav>
           {menuItems.map((item, key) => (

@@ -11,7 +11,9 @@ const FeaturedVideos = () => {
     <div className="category-list-wrapper">
       <Container fluid className="main-content-container">
         <Row>
+        <section id={Store.getFeaturedVideosList()[0].id}>
           <h1>{t("featured_videos")}</h1>
+        </section>
         </Row>
         {Store.getFeaturedVideosList().map((video, key) => (
           <FeaturedVideoFrame video={video} key={key} id={video}/>
