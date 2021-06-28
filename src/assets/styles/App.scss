@@ -561,6 +561,9 @@ p {
     justify-content: center;
     align-items: center;    
     padding-top: 40px;
+    @media (max-width: $breakpoint-md) {
+      padding-top: 10px;
+    }    
     .selected-vocab-image-wrapper{
       max-width: 100%;
       .selected-vocab-image {
@@ -568,10 +571,17 @@ p {
         max-width: inherit;
         min-height: 250px;
         height: auto;
+        @media (max-width: $breakpoint-md) {
+          max-height: 300px;
+          max-width: inherit;
+          min-height: 230px;
+          height: auto;
+          margin-bottom: 20px;
+        }
       }  
       @media (max-width: $breakpoint-lg) {
         margin-top: 20px;
-      }      
+      }
     }
     
     .selected-vocab-video-wrapper, .featured-video-wrapper {
