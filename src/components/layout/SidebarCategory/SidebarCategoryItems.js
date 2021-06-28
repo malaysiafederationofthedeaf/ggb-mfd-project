@@ -1,5 +1,4 @@
 import React from "react";
-import { Nav } from "shards-react";
 
 import { Store } from "../../../flux";
 import SidebarCategoryItem from "./SidebarCategoryItem";
