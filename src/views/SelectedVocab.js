@@ -21,7 +21,7 @@ const SelectedVocab = ({ match }) => {
       </div>
       <Container
         fluid
-        className="main-content-container"
+        className="main-content-container vocab-list-wrapper"
       >
         <VocabDetail vocab={vocab} />
       </Container>
