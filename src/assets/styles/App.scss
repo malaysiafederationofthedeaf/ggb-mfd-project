@@ -538,8 +538,23 @@ p {
 .about-us {
   background-color: $color-surface;
   margin: 20px;
+  margin-bottom: 50px;
   .about-us-img {
     text-align: right;
     display: flex;
   }  
+  .about-us-title {  
+    border-bottom: 1px solid $color-dark-shadow; 
+    .about-us-title-logo { 
+      img { 
+        padding-right: 50px;
+        max-height: 60px;
+        width: auto;
+        max-width: 200px;
+      }
+    }
+    .about-us-title-text {    
+      display: inline;
+    }
+  }
 }
