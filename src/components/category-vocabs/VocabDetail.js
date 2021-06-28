@@ -9,19 +9,19 @@ const VocabDetail = ({vocab}) => {
     const vocabImgSrc = Store.getSignImgSrc(vocab.perkataan);
 
     return (
-        <>
+        <div className="selected-vocab">
             <Row className="selected-vocab-title">
                 <Col>
                     <VocabWordPerkataan word={vocab.word} perkataan={vocab.perkataan} />
                 </Col>
             </Row>
-            <Row>        
-                <Col lg="12" md="12" sm="12">
+            <Row className="selected-vocab-detail">        
+                <Col xl="6" lg="12" md="12" sm="12">
                     <div className="selected-vocab-image-wrapper">
                         <img src={vocabImgSrc} alt={vocab.word} className="selected-vocab-image" />
                     </div>
                 </Col>                                
-                <Col lg="12" md="12" sm="12" >
+                <Col xl="6" lg="12" md="12" sm="12" >
                     <div>
                         {vocab.video === undefined ? 
                             // if there is no video url
@@ -35,7 +35,7 @@ const VocabDetail = ({vocab}) => {
                     </div>
                 </Col>                    
             </Row>
-        </>
+        </div>
     );
 }
 

@@ -7,6 +7,7 @@ import CategoryList from "../components/category-vocabs/CategoryList";
 import FeaturedVideoList from "../components/featured-videos/FeaturedVideoList";
 import { Store } from "../flux";
 import { Link } from "react-router-dom";
+import FacebookFeed from "./FacebookFeed";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -38,8 +39,9 @@ const Home = () => {
               group={"New Signs"}
             />
             {/* Featured Videos List to be displayed in Home Page */}
-            <FeaturedVideoList videoItems={Store.getFeaturedVideosList()}/>                
-          </Row>          
+            <FeaturedVideoList videoItems={Store.getFeaturedVideosList()}/>
+            <FacebookFeed/>             
+          </Row>
         </div>
       </Container>
     </>

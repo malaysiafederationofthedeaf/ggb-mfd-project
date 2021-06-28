@@ -34,7 +34,7 @@ class MainNavbar extends React.Component {
 
   render() {
     return (
-      <Navbar type="light" expand="md" className="main-navbar">
+      <Navbar type="light" expand="md" className="main-navbar" fixed="top">
         {window.location.pathname !== "/home" && <NavbarBackButton />}
         <NavLink to="/home" className="navbar-brand">
           <img className="navbar-logo" src={bimLogo} alt="BIM Logo" />
