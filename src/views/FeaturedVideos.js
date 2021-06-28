@@ -10,7 +10,7 @@ const FeaturedVideos = () => {
   return (
     <div className="category-list-wrapper">
       <Container fluid className="main-content-container">
-        <Row>
+        <Row className="p-4">
         <section id={Store.getFeaturedVideosList()[0].id}>
           <h1>{t("featured_videos")}</h1>
         </section>

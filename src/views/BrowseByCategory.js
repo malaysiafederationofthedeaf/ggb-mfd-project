@@ -10,7 +10,7 @@ const BrowseByCategory = () => {
   return (
     <div className="category-list-wrapper">
       <Container fluid className="main-content-container">
-        <Row>
+      <Row className="p-4">
           <h1>{t("category")}</h1>
         </Row>
         <Row>
