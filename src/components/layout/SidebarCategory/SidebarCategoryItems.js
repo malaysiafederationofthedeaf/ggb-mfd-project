@@ -34,20 +34,19 @@ class SidebarCategoryItems extends React.Component {
   render() {
     const { vocabsItems: items, alphabets: alphas } = this.state;
     return (
-      <div className="sidebar-category">
-        <Nav className="nav--no-borders flex-column">
-          {!this.props.param
-            ? items.map((item, key) => (
-                <ul key={key}>
-                  <SidebarCategoryItem item={item} />
-                </ul>
-              ))
-            : alphas.map((alpha, key) => (
-                <ul key={key}>
-                  <SidebarCategoryItem alpha={alpha} param={this.props.param} />
-                </ul>
-              ))}
-        </Nav>
+      <div className="sidebar-category m-0">
+        {!this.props.param
+          ? items.map((item, key) => (
+              <ul key={key}>
+                <SidebarCategoryItem item={item} />
+              </ul>
+            ))
+          : alphas.map((alpha, key) => (
+            <ul key={key}>
+              <SidebarCategoryItem alpha={alpha} param={this.props.param} />
+            </ul>
+          ))
+        }
       </div>
     );
   }

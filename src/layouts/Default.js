@@ -25,10 +25,12 @@ const DefaultLayout = ({ children, noNavbar, noFooter }) => {
               toggle={toggleDropdown} 
             />
           )}
-          { children }
+          <div className="main-content-wrapper">
+            { children }
+          </div>
+          {!noFooter && <MainFooter />}
         </Col>
       </Row>
-      {!noFooter && <MainFooter />}
     </Container>
   );
 };
