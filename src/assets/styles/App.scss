@@ -617,10 +617,29 @@ p {
 .about-us {
   background-color: $color-surface;
   margin: 20px;
-  .about-us-img {
-    text-align: right;
-    display: flex;
-  }  
+  margin-top: 40px;
+  .about-us-title {  
+    border-bottom: 1px solid $color-dark-shadow; 
+    @media (max-width: $breakpoint-sm) {
+        text-align: center; 
+        align-items: center; 
+    }         
+    .about-us-title-logo { 
+      img { 
+        padding-right: 70px;
+        max-height: 60px;
+        width: auto;
+        max-width: 200px;
+        @media (max-width: $breakpoint-sm) {
+          padding-right: 0
+        }
+      }
+    }
+    .about-us-title-text {    
+      display: inline;
+      margin-top: 10px;
+    }
+  }
 }
 
 .mfd-fb-iframe {
