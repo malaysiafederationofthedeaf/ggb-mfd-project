@@ -3,7 +3,7 @@
 @import "variables";
 
 $font-title: "Libre Baskerville", serif;
-$font-size-title: 45px;
+$font-size-title: 38px;
 $font-weight-title: 700;
 
 $font-body-monospace: "Roboto Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; 
@@ -73,12 +73,11 @@ $font-button: $font-body;
 
 @mixin h1 {
     @include title-font;  
-    margin: 20px;
     @media (max-width: $breakpoint-md) {
-        font-size: 40px;
+        font-size: 35px;
     }    
     @media (max-width: $breakpoint-sm) {
-        font-size: 35px;
+        font-size: 32px;
     }      
 } 
  
