@@ -1,23 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Container, Row, Col } from "shards-react";
+import { Row, Col } from "shards-react";
 
 const AboutUsDetails = ({ aboutUsDetails, t }) => 
-<Container>
 <Row>
   {aboutUsDetails.map((vocab, key) => {
     return (
-      <div className="about-us d-flex align-items-center">
-        <Col className="d-flex flex-column">
+      <div className="about-us">
+        <Col>
           {/* logo & title */}
           <Row className="about-us-title">
-            <Col lg="2" md="12" sm="12">
+            <Col lg="2" md="12" sm="12" xs="12">
               <div className="about-us-title-logo">
                 <img src={vocab.logo} alt={vocab.name} />
               </div>
             </Col>
-            <Col lg="10" md="12" sm="12">
+            <Col lg="10" md="12" sm="12" xs="12">
               <h1 className="about-us-title-text" data-aos="fade-up">{t(vocab.metaTitle)}</h1>
             </Col>
           </Row>
@@ -39,9 +38,7 @@ const AboutUsDetails = ({ aboutUsDetails, t }) =>
       </div> 
     )
   })}
-            </Row>     
-        </Container>
-
+</Row>     
 
 AboutUsDetails.propTypes = {
   /**
