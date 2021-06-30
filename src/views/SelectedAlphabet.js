@@ -49,7 +49,7 @@ const SelectedAlphabets = ({ match }) => {
         fluid
         className="main-content-container px-4 vocab-list-wrapper"
       >
-        <Row noGutters className="page-header py-4">
+        <Row noGutters className="page-header">
           <PageTitle title={alphas} md="12" className="ml-sm-auto mr-sm-auto" />
         </Row>
         <Row>

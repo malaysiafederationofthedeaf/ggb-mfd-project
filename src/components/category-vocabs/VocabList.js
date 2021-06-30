@@ -27,18 +27,18 @@ const VocabList = ({ vocabs, group, category }) => {
             to={`${linkToPath}`}
           >
             <ListGroupItem>
-              <Row className="vocab-word">
-                <Col sm="3" md="4" lg="4" className="pl-2 pr-0">
-                  <VocabWordPerkataan
-                    word={vocab.word}
-                    perkataan={vocab.perkataan}
-                  />
-                </Col>
-                <Col sm="9" md="8" lg="8" className="vocab-image-wrapper">
+              <Row className="vocab-word">              
+                <Col xs="3" sm="5" md="5" lg="5" className="vocab-image-wrapper">
                   <img
                     src={vocabImgSrc}
                     alt={vocab.word}
                     className="vocab-image"
+                  />
+                </Col>   
+                <Col xs="9" sm="7" md="7" lg="7" className="pl-2 pr-0">
+                  <VocabWordPerkataan
+                    word={vocab.word}
+                    perkataan={vocab.perkataan}
                   />
                 </Col>
               </Row>

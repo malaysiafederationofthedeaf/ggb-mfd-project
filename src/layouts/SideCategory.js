@@ -26,7 +26,7 @@ const SideCategoryLayout = ({ children, noNavbar, noFooter }) => {
             <Col xl="2" lg="3" md="3" className="p-0">
               <SidebarCategory urlParam={alphabet} />
             </Col>
-            <Col xl="10" lg="9" md="9" sm="12" className="p-0">
+            <Col xl="10" lg="9" md="9" sm="12" xs="12" className="p-0">
               <div className="main-content-wrapper">
                 {children}
               </div>
