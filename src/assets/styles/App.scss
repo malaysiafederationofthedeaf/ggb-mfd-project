@@ -71,6 +71,12 @@ p {
 .main-navbar{
   background-color: $navbar-background-color;  
   border-bottom: 1px solid $color-dark-shadow;  
+  display: flex;
+  min-height: 80px;
+  .navbar-brand {
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
   .search-bar {
     padding: 10px;
     min-width: 300px;
@@ -78,6 +84,7 @@ p {
       padding: 5px;
       min-width: 50%;
     }
+    text-overflow: ellipsis;
   }
   .navbar-back-button{
     @include icon-button;
@@ -91,9 +98,22 @@ p {
   }  
   .navbar-logo {
     height: $navbar-logo-height;
+    @media (max-width: $breakpoint-xs) {
+      height: $navbar-logo-height - 5px;
+    }    
   }  
   .navbar-translate-btn {
     margin: 5px;
+    button {
+      @media (max-width: $breakpoint-xs) {
+        padding: 8px;
+      }
+    } 
+  }
+  .navbar-toggler {
+    @media (max-width: $breakpoint-xs) {
+      padding: 5px;
+    }
   }
   .navbar-menu-items {
     float: right;
@@ -149,9 +169,13 @@ p {
 
 .main-content-wrapper {
   width: 100%;
-  margin-top: 70px;
+  margin-top: 80px;
   margin-bottom: 80px;  
-  min-height: calc(100vh - 150px);
+  min-height: calc(100vh - 160px);
+  @media (min-width: $breakpoint-md) {
+    margin-bottom: 150px;  
+    min-height: calc(100vh - 250px);  
+  }
 }
 
 .main-footer {  
@@ -443,6 +467,7 @@ p {
   text-transform: capitalize;
   .breadcrumb {
     margin: 0;
+    padding: 8px;
   }
   @media (max-width: $breakpoint-md) {
     display: inline-block;
@@ -460,6 +485,14 @@ p {
   max-width: inherit;
   .breadcrumb {
     margin: 0;
+    padding: 5px;
+    padding-left: 8px;
+    padding-right: 12px;
+    @media (max-width: $breakpoint-xs) {
+      padding: 0px;
+      padding-left: 8px;
+      padding-right: 12px;      
+    }
   }
   .alphabet-breadcrumbs-item {
     display: block;
@@ -476,41 +509,59 @@ p {
 }  
 
 .vocab-list-wrapper, .alphabet-list-wrapper {
-    .list-group {
-      display: block;  
-      .list-group-item {
-        display: inline-block;
-        height: 280px;
-        width: 100%;
-        margin-bottom: 12px;
-        @media (max-width: $breakpoint-md) {
-          height: fit-content;
-        }        
-        .vocab-word {
-          height: 100%;      
-          .vocab-image-wrapper {
-            height: 100%;
-            width: 100%;
+  .list-group {
+    display: block;  
+    .list-group-item {
+      display: inline-block;
+      width: 100%;
+      margin-bottom: 12px;
+      @media (max-width: $breakpoint-xl) {
+        height: fit-content;
+      }
+      @media (max-width: $breakpoint-xs) {
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
+      .vocab-word {
+        height: 100%;      
+        .vocab-image-wrapper {
+          height: 100%;
+          width: 100%;
+          text-align: center;
+          @media (max-width: $breakpoint-sm) {
+            height: auto;
+            width: auto;
             text-align: center;
-            .vocab-image {
-              width: auto;
-              height: 100%;
-              max-width: 100%;
-              max-height: 250px;
-              min-height: 180px;
-              @media (max-width: $breakpoint-sm) {
-                max-height: 200px;
-              }
-            }
+            padding: 0;
           }
-          &:hover{
-            img {
-              @include hover-scale-up;
+          .vocab-image {
+            width: auto;
+            height: 100%;
+            max-width: 100%;
+            max-height: 150px;
+            min-height: 50px;
+            @media (max-width: $breakpoint-sm) {
+              max-height: 70px;
+              min-height: 40px;
+              display: inline;                
             }
+            @media (max-width: $breakpoint-xs) {
+              padding-top: 5px;
+              max-height: 55px;
+              min-height: 30px;
+              width: auto;
+              display: inline;                
+            }            
+          }
+        }
+        &:hover{
+          img {
+            @include hover-scale-up;
           }
         }
       }
     }
+  }
   @media (min-width: $breakpoint-xl) {
     .list-group {
       -webkit-columns: 2;
@@ -529,6 +580,14 @@ p {
       }
     }
   }
+  .page-header {
+    padding-top: 24px;
+    padding-bottom: 24px;
+    @media (max-width: $breakpoint-xs) {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }    
+  }
 }
 
 .vocab-list-wrapper {
@@ -537,6 +596,10 @@ p {
     padding-top: 70px;
     min-height: calc(100vh - 140px);
   }
+  @media (max-width: $breakpoint-sm) {
+    padding-top: 60px;
+    min-height: calc(100vh - 130px);
+  }  
 }
 
 .vocab-word-perkataan {
@@ -554,15 +617,25 @@ p {
 } 
 
 .selected-vocab {
-  padding: 40px;
+  padding-top: 20px;
+  margin: 20px;
+  margin-top: 10px;
+  @media (max-width: $breakpoint-md) {
+    padding-top: 10px;
+  }
+  @media (max-width: $breakpoint-xs) {
+    padding-top: 0px;
+  }
   .selected-vocab-detail {
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;    
-    padding-top: 40px;
+    @media (min-width: $breakpoint-lg) {
+      padding: 30px;
+    }
     @media (max-width: $breakpoint-md) {
-      padding-top: 10px;
+      padding-top: 0;
     }    
     .selected-vocab-image-wrapper{
       max-width: 100%;
@@ -571,6 +644,7 @@ p {
         max-width: inherit;
         min-height: 250px;
         height: auto;
+        margin-bottom: 20px;
         @media (max-width: $breakpoint-md) {
           max-height: 300px;
           max-width: inherit;
@@ -578,9 +652,19 @@ p {
           height: auto;
           margin-bottom: 20px;
         }
+        @media (max-width: $breakpoint-sm) {
+          max-height: 230px;
+          max-width: inherit;
+          min-height: 160px;
+          height: auto;
+          margin-bottom: 20px;
+        }        
       }  
       @media (max-width: $breakpoint-lg) {
         margin-top: 20px;
+      }
+      @media (max-width: $breakpoint-sm) {
+        margin-top: 0;
       }
     }
     
@@ -590,7 +674,10 @@ p {
       div {
         @media (max-width: $breakpoint-sm) {
           max-height: 250px;
-        }
+        }        
+        @media (max-width: $breakpoint-xs) {
+          max-height: 180px;
+        }       
       }    
     }
   }

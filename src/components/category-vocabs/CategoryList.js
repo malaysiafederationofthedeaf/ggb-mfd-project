@@ -14,11 +14,20 @@ const CategoryList = ({ category, group }) => {
 
   // determine number of cards to be displayed (categories) based on Screen Size
   const getNoOfCardsToDisplay = (noOfCategories) => {
-    return window.innerWidth > 1500 && noOfCategories >= 3
-      ? 3
-      : noOfCategories < 3
-      ? noOfCategories
-      : 2;
+    if(window.innerWidth <= 320) {
+      return 1;
+    }
+    else if(window.innerWidth > 1500 && noOfCategories >= 3) {
+      return 3;
+    }
+    else {
+      if(noOfCategories < 3) {
+        return noOfCategories;
+      }
+      else {
+        return 2;
+      }
+    }
   };
 
   const [noOfCards, setNoOfCards] = useState(
