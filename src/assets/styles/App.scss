@@ -708,24 +708,33 @@ p {
   }
 }
 
+.about-us-wrapper {
+  margin-top: 120px;
+}
 .about-us {
   background-color: $color-surface;
-  margin: 20px;
-  margin-top: 40px;
+  margin: 50px;
+  @media (max-width: $breakpoint-sm) {
+    margin: 15px;
+    margin-bottom: 50px;
+  }
   .about-us-title {  
     border-bottom: 1px solid $color-dark-shadow; 
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: $breakpoint-lg) {
         text-align: center; 
         align-items: center; 
     }         
     .about-us-title-logo { 
       img { 
-        padding-right: 70px;
+        padding-right: 80px;
         max-height: 60px;
         width: auto;
-        max-width: 200px;
-        @media (max-width: $breakpoint-sm) {
-          padding-right: 0
+        max-width: 180px;
+        @media (max-width: $breakpoint-lg) {
+          padding-right: 0;
+          max-height: 60px;
+          width: auto;
+          max-width: 100px;
         }
       }
     }
