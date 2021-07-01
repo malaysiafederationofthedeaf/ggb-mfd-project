@@ -1,23 +1,93 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardBody, CardTitle } from "shards-react";
 import { useTranslation } from "react-i18next";
 import styled, { keyframes } from 'styled-components';
 import { zoomIn } from 'react-animations';
-import VocabWordPerkataan from "./VocabWordPerkataan";
 
 import { Store } from "../../flux";
 
 const ZoomIn = styled.div`animation: .5s ${keyframes `${zoomIn}`}`;  
 
-const CategoryDetail = ({ categoryItem, group }) => {
-  const { t } = useTranslation("group-category");
+const CategoryDetail = ({ categoryItem, group, noOfCard }) => {
+  const { t } = useTranslation(["word", "group-category"]);
 
   const groupFormatted = Store.formatString(group);
   const categoryFormatted = Store.formatString(categoryItem.category);
   const basePath = `/groups/${groupFormatted}`
   const linkToPath = categoryItem.new ? `${basePath}/${Store.formatString(categoryItem.word)}` : `${basePath}/${categoryFormatted}`;
   const imgSrc = categoryItem.new ? Store.getSignImgSrc(categoryItem.perkataan) : Store.getCategoryImgSrc(categoryItem.kategori);
+
+  // determine if the word to be displayed is Word from New Sign; or a Category
+  const categoryWord = categoryItem.new ? t(`word:${Store.formatString(categoryItem.word)}`) : t(`group-category:${categoryFormatted}`);
+  const fontSizeTemp = 30-(categoryWord.length);
+
+  // to set the font size of card title dynamically
+  // based on window.width, number of cards, length of the word, and whether the word contains spaces
+  const getFontSize = () => {
+    // 1. Three cards
+    if(noOfCard >= 3 ) {
+      if(categoryWord.length >= 10) {
+        return (/\s/.test(categoryWord) ? "14px" : (window.innerWidth > 1500) ? (fontSizeTemp-6+"px") : (fontSizeTemp-5+"px"));
+      }
+      else { return "17px"; }
+    }
+    // 2. Two cards
+    else if(noOfCard === 2) {
+      if((window.innerWidth > 1200)) {
+        if(categoryWord.length >= 10) {
+          return (/\s/.test(categoryWord) ? "17px" : (fontSizeTemp-3+"px"));
+        }
+        else { return "17px"; }          
+      }           
+      else if((window.innerWidth <= 1200 && window.innerWidth >= 875)) {
+        if(categoryWord.length >= 10) {
+          return (/\s/.test(categoryWord) ? "18px" : "16px");
+        }
+        else { return "18px"; }
+      }
+      else if((window.innerWidth > 875)) { return "15px"; }        
+      else if(window.innerWidth >= 765) {
+          if(categoryWord.length >= 10) {
+            return (/\s/.test(categoryWord) ? "16px" : (fontSizeTemp-5+"px"));
+          }
+          else { return "16px"; }
+        }                 
+        else if((window.innerWidth <= 765 && window.innerWidth >= 500)) {
+          if(categoryWord.length >= 10) {
+            return (/\s/.test(categoryWord) ? "18px" : (fontSizeTemp-2+"px"));
+          }
+          else { return "20px"; }
+        }
+        else if((window.innerWidth <= 460 && window.innerWidth > 320)) {
+          if(categoryWord.length >= 10) {
+            return (/\s/.test(categoryWord) ? "14px" : (fontSizeTemp-6+"px"));
+          }
+          else { return "16px"; }
+        }
+        else { return "18px"; }
+    }
+    // 3. One card
+    else if(noOfCard === 1) { return "18px"; }
+  }
+
+  const [fontSize, setFontSize] = useState(
+    getFontSize()
+  );
+
+  // setFontSize when window resizes
+  function handleResize() {
+    setFontSize(getFontSize());
+  }
+  window.addEventListener("resize", handleResize);
+
+  // setFontSize when category/ word to be displayed changes (switched language)
+  useEffect(() => {
+    setFontSize(getFontSize());
+    return (_) => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [categoryWord]);
 
   return (
     <Link to={linkToPath}>
@@ -30,11 +100,7 @@ const CategoryDetail = ({ categoryItem, group }) => {
         </ZoomIn>
         <CardBody>
           <CardTitle className="card-title">
-            {
-              categoryItem.new
-                ? <VocabWordPerkataan word={categoryItem.word} perkataan={categoryItem.perkataan} showTitleOnly={true} />
-                : t(categoryFormatted)
-            }
+            { <span style={{fontSize: fontSize}}>{categoryWord}</span> }
           </CardTitle>
         </CardBody>
       </Card>
