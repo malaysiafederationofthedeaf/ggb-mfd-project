@@ -13,7 +13,7 @@ const AlphabetsList = ({ vocabs, alphabet }) => {
         const wordFormatted = Store.formatString(vocab.word);
         return (
           <Link key={key} to={`/alphabets/${alphabet}/${wordFormatted}`}>
-            <ListGroupItem>
+            <ListGroupItem className="double">
               <Row className="vocab-word">
               <Col xs="3" sm="5" md="5" lg="5" className="vocab-image-wrapper">
                   <img

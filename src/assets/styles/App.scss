@@ -571,10 +571,6 @@ p {
   }
   @media (min-width: $breakpoint-xl) {
     .list-group {
-      -webkit-columns: 2;
-      -moz-columns: 2;
-      columns: 2;
-      list-style-position: inside;
       .list-group-item {
         display: inline-block;
         .vocab-word {
@@ -585,7 +581,11 @@ p {
           }
         }
       }
-    }
+      .double {
+        width: 47.9%;
+        margin: 10px;
+      }
+    }    
   }
   .page-header {
     padding-top: 24px;
