@@ -72,12 +72,10 @@ p {
   background-color: $navbar-background-color;  
   .search-bar {
     padding: 10px;
-    @media (max-width: $breakpoint-md) {
-      width: 40%;    
-    }
+    min-width: 300px;
     @media (max-width: $breakpoint-sm) {
-      width: 50%;      
-      padding: 2px;
+      padding: 5px;
+      min-width: 50%;
     }
   }
   .navbar-back-button{
@@ -139,7 +137,7 @@ p {
 .main-content > .main-content-container.container-fluid {
   min-height: calc(100vh - 120px); }
 
-.main-footer {
+.main-footer {  
   @media (max-width: $breakpoint-md) {
     .main-footer {
       display: block !important;
@@ -153,9 +151,12 @@ p {
         width: 100%;
         display: inline-block;
         text-align: center; 
-      }    
-    }
+      }                  
+    }         
   }
+  .main-footer-items {
+    margin-right: 20px;
+  }  
   .footer-logo {
     float: right;
     a img {
@@ -165,15 +166,20 @@ p {
   }
 }
 
+.side-layout {
+  width: 100%;
+  margin: 0;
+}
+
 .sidebar-category-wrapper {
   height: 100%;
   min-height: 100vh;
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: $breakpoint-md) {
     min-height: 0vh;
   }  
   .main-sidebar {
     height: 100%;
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: $breakpoint-md) {
       display: none
     }
   }
@@ -210,22 +216,22 @@ p {
           background-color: $color-light-shadow;
           padding: 0;
           margin: 0;
-          a {
-            padding: 0;
-            span {
-              padding: 5px;
-              display: flex;
-            }
-          }
           .dropdown-item {
             &:active {
               border: none;
-              background-color: $color-dark-shadow;
+              background-color: $color-secondary-light;
               color: $body-font-color;
             } 
-            .active {
+            &.active {
               background-color: $color-secondary-light;
-            }           
+            }     
+            a {
+              padding: 0;
+              padding: 5px;
+              display: flex;
+              color: $color-font-dark;
+              text-decoration: none;
+            }
           }
         }        
       }  
@@ -281,10 +287,10 @@ p {
   .card-body {
     padding: 10px; 
     .card-title {
-      color: $color-secondary-dark;
-      text-transform: uppercase;
-      height: 30px;   
-      text-align: center;   
+      @include card-title;  
+      margin-bottom: 0px;
+      height: 40px;
+      text-align: center; 
     }  
   }
   .card-footer, .card-header {
@@ -364,15 +370,16 @@ p {
   }
 }
 
-.category-list-wrapper, .vocab-list-wrapper, .vocab-detail-wrapper {
+.category-list-wrapper, .vocab-detail-wrapper {
   margin: 10px;
+  padding: 0;
 }
 
 .breadcrumbs-selected-vocab {
   .category-breadcrumbs {
     display: inline;
   }
-  @media (min-width: $breakpoint-sm) {
+  @media (min-width: $breakpoint-md) {
     display: none;
   }  
 }
@@ -383,42 +390,95 @@ p {
   .breadcrumb {
     margin: 0;
   }
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: $breakpoint-md) {
     display: inline;
   }
 }
 
 .btn-view-all-categories {
   a {
-    float: right;
     padding: 10px;
     font-size: 120%;
   }
 }  
 
-.vocab-word {
-  .vocab-play-button {
-    @include icon-button;
-  }  
-  &:hover{
-    img {
-      @include hover-scale-up;
+.vocab-list-wrapper {
+    .list-group {
+      display: inline-block;  
+      .list-group-item {
+        display: inline-block;
+        height: 280px;
+        width: 100%;
+        margin-bottom: 12px;
+        @media (max-width: $breakpoint-md) {
+          height: fit-content;
+        }        
+        .vocab-word {
+          height: 100%;      
+          .vocab-image-wrapper {
+            height: 100%;
+            width: 100%;
+            text-align: center;
+            .vocab-image {
+              width: auto;
+              height: 100%;
+              max-width: 100%;
+              max-height: 250px;
+              min-height: 180px;
+              @media (max-width: $breakpoint-sm) {
+                max-height: 200px;
+              }
+            }
+          }
+          &:hover{
+            img {
+              @include hover-scale-up;
+            }
+          }
+        }
+      }
     }
-    .vocab-play-button {
-      color: $a-hover-color;
+  @media (min-width: $breakpoint-xl) {
+    .list-group {
+      display: inline-block;
+      list-style-type: disc;
+      -webkit-columns: 2;
+      -moz-columns: 2;
+      columns: 2;
+      list-style-position: inside;
+      .list-group-item {
+        display: inline-block;
+        .vocab-word {
+          .vocab-image-wrapper {
+            .vocab-image {
+              max-width: 100%;
+            }
+          }
+        }
+      }
     }
   }
-}
-
-.vocab-image {
-  width: 180px;
-  height: auto;
-  float: right;        
 }
 
 .selected-vocab-title {
   padding-bottom: 30px;
 }
+
+.vocab-word-perkataan {
+  ::first-letter {
+    text-transform: uppercase;
+  }
+  .vocab-word-perkataan-title {
+    @include h3;  
+    overflow-wrap: break-word;
+  }
+  .vocab-word-perkataan-subtitle {
+    @include h4;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;   
+  }  
+} 
 
 .selected-vocab-image-wrapper{
   text-align: center; 

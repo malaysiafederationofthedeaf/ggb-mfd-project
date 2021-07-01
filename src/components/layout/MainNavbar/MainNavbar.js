@@ -3,17 +3,16 @@ import PropTypes from "prop-types";
 import {
   Navbar,
   NavbarToggler,
-  NavbarBrand,
   Nav,
-  Collapse
+  Collapse,
 } from "shards-react";
 
 import bimLogo from "../../../images/bim/logo/bim-logo.jpg";
-import NavbarBackButton from "../../common/NavbarBackButton"
+import NavbarBackButton from "../../common/NavbarBackButton";
 import NavbarNavItems from "./NavbarNavItems";
 import NavbarTranslate from "./NavbarTranslate";
 import SearchInput from "../Searchbar/SearchInput";
-import { Store } from "../../../flux";
+import { NavLink } from 'react-router-dom'
 
 class MainNavbar extends React.Component {
   constructor(props) {
@@ -21,8 +20,6 @@ class MainNavbar extends React.Component {
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.state = {
       collapseOpen: false,
-      searchTerm: Store.getSearchTerm(),
-      searchState: Store.getSearchState(),
     };
   }
 
@@ -30,54 +27,50 @@ class MainNavbar extends React.Component {
     this.setState({
       ...this.state,
       ...{
-        collapseOpen: !this.state.collapseOpen
-      }
+        collapseOpen: !this.state.collapseOpen,
+      },
     });
   }
 
   render() {
     return (
-      <Navbar type="light" expand="md" className="main-navbar">    
+      <Navbar type="light" expand="md" className="main-navbar">
         {window.location.pathname !== "/home" && <NavbarBackButton />}
-        <NavbarBrand href="/home">
-            <img
-            className="navbar-logo"
-            src={bimLogo}
-            alt="BIM Logo"
-            /> 
-        </NavbarBrand>
-        <SearchInput onChange={this.props.onChange} onFocus={this.props.onFocus} onBlur={this.props.onBlur} />
-        <NavbarTranslate toggle={this.props.toggle} /> 
-        <NavbarToggler onClick={this.toggleNavbar} />  
+        <NavLink to="/home" className="navbar-brand">
+          <img className="navbar-logo" src={bimLogo} alt="BIM Logo" />
+        </NavLink>
+        <SearchInput />
+        <NavbarTranslate />
+        <NavbarToggler onClick={this.toggleNavbar} />
 
-        <Collapse open={this.state.collapseOpen} className="navbar-menu-items" navbar>
+        <Collapse
+          open={this.state.collapseOpen}
+          className="navbar-menu-items"
+          navbar
+        >
           <Nav navbar>
-              <NavbarNavItems />                             
+            <NavbarNavItems />
           </Nav>
-            {!this.state.collapseOpen &&         
-              <div className="navbar-right-logo">
-                {this.props.linkDetails.map((link, key) => 
-                  <a href={link.href} key={key}>
-                    <img
-                      src={link.imgSrc}
-                      alt={link.imgAlt}
-                    />         
-                  </a>         
-                )}               
-              </div>  
-            }           
-        </Collapse>     
+          {!this.state.collapseOpen && (
+            <div className="navbar-right-logo">
+              {this.props.linkDetails.map((link, key) => (
+                <a href={link.href} target="_blank" rel="noopener noreferrer" key={key}>
+                  <img src={link.imgSrc} alt={link.imgAlt} />
+                </a>
+              ))}
+            </div>
+          )}
+        </Collapse>
       </Navbar>
     );
   }
 }
 
-
 MainNavbar.propTypes = {
   /**
    * The about MFD preview object.
    */
-   linkDetails: PropTypes.array,
+  linkDetails: PropTypes.array,
 };
 
 MainNavbar.defaultProps = {
@@ -91,7 +84,7 @@ MainNavbar.defaultProps = {
       href: "https://careers.guidewire.com/guidewire-gives-back",
       imgSrc: require("../../../images/ggb/ggb-logo.jpg"),
       imgAlt: "GGB Logo",
-    },    
+    },
   ],
 };
 

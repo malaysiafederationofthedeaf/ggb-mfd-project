@@ -1,6 +1,8 @@
 import XLSX from "xlsx";
 import axios from "axios";
 
+import { Store } from "../../flux";
+
 const fetchData = async (url) => {
   const data = await axios({
     method: "get",
@@ -14,38 +16,36 @@ const fetchData = async (url) => {
 };
 
 const restructureJSON = (data) => {
-  const reconData = data.map((item) => ((item.Group !== undefined && item.Kumpulan !== undefined && item.Category !== undefined && item.Word !== undefined && item.Perkataan !== undefined )&& {
-    group: item.Group,
-    kumpulan: item.Kumpulan,
-    category: item.Category,
-    kategori: item.Kategori,
+  const reconData = data.map((item) => ((item.KumpulanKategori !== undefined && item.GroupCategory !== undefined && item.Word !== undefined && item.Perkataan !== undefined )&& {
+    kumpulanKategori: item.KumpulanKategori.toString().replaceAll(/(\r\n|\n|\r)/gm, ''),    
+    groupCategory: item.GroupCategory.toString().replaceAll(/(\r\n|\n|\r)/gm, ''),    
     word: item.Word.toString(),
     perkataan: item.Perkataan.toString(),
     video: item.Video,
     tag: item.Tag,
     release: item.Release,
+    new: item.New,
   }));
 
+  // if there is only 1 Release to include
   return filterExcelData(reconData, "Release 1");
+
+  // if there are multiple Releases to include, use an array
+  // return filterExcelData(reconData, ["Release 1", "Release 2"]);
 };
 
-const filterExcelData = (excelData, release) => {
+const filterExcelData = (excelData, releases) => {
   return excelData
     .filter((group) => (group !== false)) // filter out those without any value
-    .filter((group) => (group.release === release)) // filter out those that are not in 'release'
-    .sort((a, b) => (a.perkataan).localeCompare(b.perkataan) // sort the entries alphabetically based on the Perkataan
+    .filter((group) => 
+      Array.isArray(releases) ? (releases.includes(group.release)) : (group.release === releases)
+    ) // filter out those that are not in 'release'
+    .sort((a, b) => (a.kumpulanKategori).localeCompare(b.kumpulanKategori) // sort the entries alphabetically based on the Kategori
     );
 }
 
-const getBaseURL = () => {
-  const baseURL = window.location.origin;
-  // const filePathname = "/assets/BIM_Test_1.xlsx"; // Test file
-  const filePathname = "/assets/GGB-MFD-BIM-SignBank-Category.xlsx";
-  return baseURL + filePathname;
-};
-
 const readExcel = async () => {
-  const url = getBaseURL();
+  const url = Store.getBaseURLBIMSheet();
   const file = await fetchData(url);
   //Export def
   const promise = new Promise((resolve, reject) => {
@@ -54,7 +54,7 @@ const readExcel = async () => {
     fileReader.onload = (e) => {
       const arrayBuffer = e.target.result;
       const wb = XLSX.read(arrayBuffer, { type: "binary" });
-      const ws = wb.Sheets[wb.SheetNames[0]];
+      const ws = wb.Sheets[wb.SheetNames[0]]; // first sheet: BIM sheet
       const data = XLSX.utils.sheet_to_json(ws);
       const reconData = restructureJSON(data);
       resolve(reconData);

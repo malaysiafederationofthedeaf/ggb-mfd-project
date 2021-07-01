@@ -2,11 +2,11 @@ import React from "react";
 import { Row } from "shards-react";
 import GroupDetail from "./GroupDetail";
 
-const GroupList = ({group, categories}) => {
+const GroupList = ({categories, group}) => {
   return(
       <Row>
         {categories.map((category, key) => (
-          <GroupDetail group={group} category={category} key={key} />
+          <GroupDetail category={category} group={group} key={key} />
         ))}
       </Row>        
   );
