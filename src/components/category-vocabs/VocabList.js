@@ -26,7 +26,7 @@ const VocabList = ({ vocabs, group, category }) => {
             key={key}
             to={`${linkToPath}`}
           >
-            <ListGroupItem>
+            <ListGroupItem className="double">
               <Row className="vocab-word">              
                 <Col xs="3" sm="5" md="5" lg="5" className="vocab-image-wrapper">
                   <img

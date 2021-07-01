@@ -301,7 +301,7 @@ class Store extends EventEmitter {
         (obj) => obj.groupCategory !== undefined)               // filter out those of undefined
       .filter(
         (obj) => isInGroupCategory(obj.groupCategory))          // check if a vocab belongs to the desired group&category pair
-      .sort((a, b) => (a.perkataan).localeCompare(b.perkataan)) // sort the list alphabetically based on perkataan
+      .sort((a, b) => b.order !== undefined ? (a.order)-(b.order) : (a.perkataan).localeCompare(b.perkataan)) // sort the list based on 'Order' column in ascending order, if applicable; if not, alphabetically based on perkataan
 
     return vocabs;
   }
@@ -387,7 +387,8 @@ class Store extends EventEmitter {
       getCurrentLocale() === "ms"
         ? this.formatString(vocAl.perkataan).startsWith(alphabetFirst)
         : this.formatString(vocAl.word).startsWith(alphabetFirst)
-    );
+    )
+    .sort((a, b) => cookies.get("i18next") === "ms" ? a.perkataan.localeCompare(b.perkataan) : a.word.localeCompare(b.word));
     return vocabAlpha;
   }
 
