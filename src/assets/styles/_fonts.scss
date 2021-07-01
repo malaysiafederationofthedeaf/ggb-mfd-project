@@ -75,9 +75,12 @@ $font-button: $font-body;
     @include title-font;  
     @media (max-width: $breakpoint-md) {
         font-size: 35px;
+    }     
+    @media (max-width: $breakpoint-md) {
+        font-size: 32px;
     }    
     @media (max-width: $breakpoint-sm) {
-        font-size: 32px;
+        font-size: 30px;
     }      
     @media (max-width: $breakpoint-xs) {
         font-size: 28px;
