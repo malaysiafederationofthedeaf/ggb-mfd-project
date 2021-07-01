@@ -20,50 +20,36 @@ const CategoryDetail = ({ categoryItem, group, noOfCard }) => {
 
   // determine if the word to be displayed is Word from New Sign; or a Category
   const categoryWord = categoryItem.new ? t(`word:${Store.formatString(categoryItem.word)}`) : t(`group-category:${categoryFormatted}`);
-  const fontSizeTemp = 30-(categoryWord.length);
+  // get the length of word; or the longest substring if it contains space
+  const length = categoryWord.split(" ").sort((a, b) => (b.length-a.length))[0].length;
+  const fontSizeTemp = 30-(length);
 
   // to set the font size of card title dynamically
   // based on window.width, number of cards, length of the word, and whether the word contains spaces
   const getFontSize = () => {
     // 1. Three cards
     if(noOfCard >= 3 ) {
-      if(categoryWord.length >= 10) {
-        return (/\s/.test(categoryWord) ? "14px" : (window.innerWidth > 1500) ? (fontSizeTemp-6+"px") : (fontSizeTemp-5+"px"));
+      if(length >= 10) {
+        return (window.innerWidth >= 1500) ? (fontSizeTemp-5+"px") : (fontSizeTemp-4+"px");
       }
       else { return "17px"; }
     }
     // 2. Two cards
     else if(noOfCard === 2) {
       if((window.innerWidth > 1200)) {
-        if(categoryWord.length >= 10) {
-          return (/\s/.test(categoryWord) ? "17px" : (fontSizeTemp-3+"px"));
-        }
-        else { return "17px"; }          
+        return (length >= 10) ? (fontSizeTemp-2+"px") : "17px";
       }           
       else if((window.innerWidth <= 1200 && window.innerWidth >= 875)) {
-        if(categoryWord.length >= 10) {
-          return (/\s/.test(categoryWord) ? "18px" : "16px");
-        }
-        else { return "18px"; }
-      }
-      else if((window.innerWidth > 875)) { return "15px"; }        
+        return (length >= 10) ? "16px" : "18px";
+      }    
       else if(window.innerWidth >= 765) {
-          if(categoryWord.length >= 10) {
-            return (/\s/.test(categoryWord) ? "16px" : (fontSizeTemp-5+"px"));
-          }
-          else { return "16px"; }
+          return (length >= 10) ? (fontSizeTemp-3+"px") : "16px";
         }                 
         else if((window.innerWidth <= 765 && window.innerWidth >= 500)) {
-          if(categoryWord.length >= 10) {
-            return (/\s/.test(categoryWord) ? "18px" : (fontSizeTemp-2+"px"));
-          }
-          else { return "20px"; }
+          return "19px";
         }
         else if((window.innerWidth <= 460 && window.innerWidth > 320)) {
-          if(categoryWord.length >= 10) {
-            return (/\s/.test(categoryWord) ? "14px" : (fontSizeTemp-6+"px"));
-          }
-          else { return "16px"; }
+          return (length >= 10) ? (fontSizeTemp-4+"px") : "17px";
         }
         else { return "18px"; }
     }

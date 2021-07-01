@@ -363,7 +363,10 @@ p {
       overflow: hidden;      
     }  
     .card-title {
-      height: 45px;     
+      height: 50px;   
+      span {
+        font-weight: 500;
+      }  
     }
     .card-title-featured-video {
       height: 20px;  
