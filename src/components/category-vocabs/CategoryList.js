@@ -14,7 +14,7 @@ const CategoryList = ({ category, group }) => {
 
   // determine number of cards to be displayed (categories) based on Screen Size
   const getNoOfCardsToDisplay = (noOfCategories) => {
-    if(window.innerWidth <= 320) {
+    if(window.innerWidth < 375) {
       return 1;
     }
     else if(window.innerWidth > 1500 && noOfCategories >= 3) {
@@ -77,6 +77,7 @@ const CategoryList = ({ category, group }) => {
             <CategoryDetail
               categoryItem={categoryItem}
               group={group}
+              noOfCard={noOfCards}
               key={key}
             />
           ))}

@@ -66,7 +66,7 @@ readExcel.then(
       //Add Sign Words Translation to namespace: 'word'
       Store.getVocabsItems().map((group) => {
         i18n.addResourceBundle("en", "word", {
-          [Store.formatString(group.word)]: group.perkataan,
+          [Store.formatString(group.word)]: group.word,
         });
         i18n.addResourceBundle("ms", "word", {
           [Store.formatString(group.word)]: group.perkataan,
