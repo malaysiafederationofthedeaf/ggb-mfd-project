@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Row, Col } from "shards-react";
 
 const AboutUsDetails = ({ aboutUsDetails, t }) => 
-<Row>
+<div className="about-us-wrapper">
   {aboutUsDetails.map((vocab, key) => {
     return (
       <div className="about-us">
@@ -33,12 +33,12 @@ const AboutUsDetails = ({ aboutUsDetails, t }) =>
               {vocab.forMoreLink}
             </a>
             .
-          </p>                           
+          </p>                               
         </Col>
       </div> 
     )
   })}
-</Row>     
+</div>     
 
 AboutUsDetails.propTypes = {
   /**
@@ -77,7 +77,7 @@ AboutUsDetails.defaultProps = {
     },
     {
       name: "ggb_name",
-      logo: require("./../../images/ggb/ggb-logo-1.jpg"),
+      logo: require("./../../images/ggb/ggb-logo.jpg"),
       metaTitle: "about_ggb_title",
       metaValue: [ 
         "about_ggb_1", 
