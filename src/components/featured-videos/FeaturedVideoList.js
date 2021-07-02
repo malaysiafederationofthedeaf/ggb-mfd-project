@@ -31,8 +31,8 @@ const FeaturedVideoList = ({videoItems}) => {
           activeItemIndex={activeItemIndex}
           activePosition={"center"}
           chevronWidth={30}
-          rightChevron={">"}
-          leftChevron={"<"}
+          rightChevron={<i className="material-icons">arrow_forward_ios</i>}
+          leftChevron={<i className="material-icons">arrow_back_ios</i>}
           outsideChevron={false}
         >
           {videoItems.map((videoItem, key) => (
