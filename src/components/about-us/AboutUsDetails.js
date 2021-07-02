@@ -7,7 +7,7 @@ const AboutUsDetails = ({ aboutUsDetails, t }) =>
 <div className="about-us-wrapper">
   {aboutUsDetails.map((vocab, key) => {
     return (
-      <div className="about-us">
+      <div className="about-us" key={key}>
         <Col>
           {/* logo & title */}
           <Row className="about-us-title">
@@ -23,11 +23,11 @@ const AboutUsDetails = ({ aboutUsDetails, t }) =>
 
           {/* paragraph texts */}
           {vocab.metaValue.map((paragraph, key) =>
-            <p data-aos="fade-up" data-aos-delay="400">{t(paragraph)}</p>         
+            <p data-aos="fade-up" data-aos-delay="400" key={key}>{t(paragraph)}</p>         
           )} 
 
           {/* for more */}
-          <p data-aos="fade-up" data-aos-delay="400">
+          <p data-aos="fade-up" data-aos-delay="400" className="about-us-for-more">
             {t(vocab.forMore)}
             <a href={vocab.forMoreLink} target="_blank" rel="noopener noreferrer" key={key}>
               {vocab.forMoreLink}
