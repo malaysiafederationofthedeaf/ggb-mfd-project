@@ -17,8 +17,8 @@ const fetchData = async (url) => {
 
 const restructureJSONGroup = (data) => {
   const reconData = data.map((item) => ((item.KumpulanKategori !== undefined && item.GroupCategory !== undefined )&& {
-    kumpulanKategori: item.KumpulanKategori,    
-    groupCategory: item.GroupCategory,
+    kumpulanKategori: item.KumpulanKategori.trim(),    
+    groupCategory: item.GroupCategory.trim(),
     remark: item.Remark,
   }));
   return reconData
