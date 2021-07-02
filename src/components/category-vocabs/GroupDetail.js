@@ -17,6 +17,7 @@ const GroupDetail = ({ category, group }) => {
   const categoryFormatted = Store.formatString(category.category);
   const basePath = `/groups/${groupFormatted}`
 
+  const ZoomIn = styled.div`animation: .5s ${keyframes `${zoomIn}`}`;
  
   return (
     <Col lg="6" sm="12">

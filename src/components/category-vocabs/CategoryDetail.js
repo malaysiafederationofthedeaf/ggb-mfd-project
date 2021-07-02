@@ -75,6 +75,8 @@ const CategoryDetail = ({ categoryItem, group, noOfCard }) => {
     };
   }, [categoryWord]);
 
+  const ZoomIn = styled.div`animation: .5s ${keyframes `${zoomIn}`}`;  
+
   return (
     <Link to={linkToPath}>
       <Card small className="card-post card-post--1">
