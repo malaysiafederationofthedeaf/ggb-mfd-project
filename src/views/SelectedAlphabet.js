@@ -28,15 +28,15 @@ const SelectedAlphabets = ({ match }) => {
             slidesToScroll={4}
             showSlither={false}
             freeScrolling={false}
-            leftChevron={"<"}
-            rightChevron={">"}
+            chevronWidth={30}
+            rightChevron={<i className="material-icons">chevron_right</i>}
+            leftChevron={<i className="material-icons">chevron_left</i>}
             requestToChangeActive={(activeItemIndex) =>
               setActiveItemIndex(activeItemIndex)
             }
             activeItemIndex={activeItemIndex}
             outsideChevron={true}
             disableSwipe={false}
-            chevronWidth={10}
           >
             {alphasLists.map((alpha, key) => (
               <AlphabetsGrid alphabets={alpha} key={key} />
