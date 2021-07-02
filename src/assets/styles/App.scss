@@ -85,6 +85,9 @@ p {
       min-width: 50%;
     }
     text-overflow: ellipsis;
+    strong {
+      text-transform: capitalize;
+    }
   }
   .navbar-back-button{
     @include icon-button;
