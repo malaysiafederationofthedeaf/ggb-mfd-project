@@ -427,6 +427,12 @@ p {
   &:hover {
     @include hover-scale-up;
   }
+  .card-body {
+    padding-top: 10px;
+    @media (max-width: $breakpoint-sm) {
+      padding-top: 5px;
+    }
+  }
 }
 
 .category-card-wrapper {
