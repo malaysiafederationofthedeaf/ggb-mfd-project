@@ -85,6 +85,9 @@ p {
       min-width: 50%;
     }
     text-overflow: ellipsis;
+    strong {
+      text-transform: capitalize;
+    }
   }
   .navbar-back-button{
     @include icon-button;
@@ -424,6 +427,12 @@ p {
   &:hover {
     @include hover-scale-up;
   }
+  .card-body {
+    padding-top: 10px;
+    @media (max-width: $breakpoint-sm) {
+      padding-top: 5px;
+    }
+  }
 }
 
 .category-card-wrapper {
@@ -493,17 +502,18 @@ p {
   .breadcrumb {
     margin: 0;
     padding: 5px;
-    padding-left: 8px;
-    padding-right: 12px;
+    padding-left: 30px;
+    padding-right: 30px;
     @media (max-width: $breakpoint-xs) {
       padding: 0px;
-      padding-left: 8px;
-      padding-right: 12px;      
+      padding-left: 30px;
+      padding-right: 30px;      
     }
   }
   .alphabet-breadcrumbs-item {
     display: block;
     padding: 5px;
+    padding-top: 10px;
   }
 }
 

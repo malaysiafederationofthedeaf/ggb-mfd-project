@@ -19,8 +19,8 @@ const restructureJSON = (data) => {
   const reconData = data.map((item) => ((item.KumpulanKategori !== undefined && item.GroupCategory !== undefined && item.Word !== undefined && item.Perkataan !== undefined )&& {
     kumpulanKategori: item.KumpulanKategori.toString().replaceAll(/(\r\n|\n|\r)/gm, ''),    
     groupCategory: item.GroupCategory.toString().replaceAll(/(\r\n|\n|\r)/gm, ''),    
-    word: item.Word.toString(),
-    perkataan: item.Perkataan.toString(),
+    word: item.Word.toString().trim(),
+    perkataan: item.Perkataan.toString().trim(),
     video: item.Video,
     tag: item.Tag,
     release: item.Release,

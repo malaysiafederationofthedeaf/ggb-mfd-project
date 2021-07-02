@@ -42,7 +42,7 @@ const CategoryList = ({ category, group }) => {
     return (_) => {
       window.removeEventListener("resize", handleResize);
     };
-  });
+  }, []);
 
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const { t } = useTranslation("group-category");
