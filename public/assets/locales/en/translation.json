@@ -10,9 +10,12 @@
   "nav_menu_2_title": "Featured",
   "nav_item_2_1_title": "New Signs",
   "nav_item_2_2_title": "Featured Videos",
+  "nav_item_2_3_title": "One Sign A Day",  
   "nav_menu_3_title": "About BIM",
+
   "alphabets_title": "Alphabets",
   "featured_videos": "Featured Videos",
+  "one_sign_a_day": "#OneSignADay",
   "search_placeholder": "Search BIM Sign",
   "copyright": "Copyright © Malaysia Federation of The Deaf. In Collaboration with Guidewire Gives Back",
   "about_us_btn": "About BIM",
@@ -54,8 +57,8 @@
   "stay_tuned": "Stay tuned!",
   "new_content": "New content is around the corner.",
   "go_back": "Go Back",
+
   "footer_item_1_title": "Contact Us",
   "footer_item_2_title": "Malaysia Federation of The Deaf",
-  "footer_item_3_title": "Guidewire Gives Back",
-  "one_sign_a_day": "#OneSignADay"
+  "footer_item_3_title": "Guidewire Gives Back"
 }

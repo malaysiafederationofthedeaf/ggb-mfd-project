@@ -23,7 +23,7 @@ let _store = {
   featuredVideosPlaylistId: "PLEztM-ga58Y4s6t5pac5uJKLeSSuspioQ",
   youtubeAPIKey: "AIzaSyBIk86nsIH0h4HSEgHPLI8bku6WKQlizDk",
   featuredVideos: [],
-  facebookPageReadVideosToken: "EAAEyl0CQlS4BAB5dJzcpQET57uYpI7w6fs3h0Qybwo73Fj1fHBm13Bbg3vufh9c2vHHBed1SuOoqRn6VZCe8qa7n6liUenCrnWk4O2TuTE12UYyrJlQq4eDkcnG49FmZCZCsozyz3ZAkRPDWZBIzJegeaCatVbkMUTU44QiVt2aq0UbNZBQXxWHoXe5AjYhe4ZD",
+  facebookPageReadVideosToken: "EAAEyl0CQlS4BAHI8awzF7RjBZCaDbh26EEddgL1ZBwexNmq8XvZBY2psRsUPN99zwvdtFbB52pnWUFGSEpOEfVfh48lQA8WZAzc4JNu7ZARheYhbQXGZCqfiVhw1HPzTJyZBtdFUXxOE6ZAHSooxLetBCLjNUeQdOXrOZBF2ybvaN7wpusbEPcXfwVZCF48cS02tsZD",
   facebookPageEndpoint: "https://graph.facebook.com/v11.0/BahasaIsyaratMalaysiaMFD",
   baseFacebookVideoUrl: "https://www.facebook.com/facebook/videos"
 };
@@ -213,8 +213,7 @@ class Store extends EventEmitter {
 
   getFacebookVideosList() {
     return _store.facebookVideos || [];
-  }
-
+  }  
 
   // get image for Category (fileName naming std: kategori.jpg)
   getCategoryImgSrc(kategori) {

@@ -10,9 +10,12 @@
   "nav_menu_2_title": "Tumpuan",
   "nav_item_2_1_title": "Isyarat Baru",
   "nav_item_2_2_title": "Video Tumpuan",
-  "nav_menu_3_title": "Mengenai BIM",  
+  "nav_item_2_3_title": "Satu Hari Satu Isyarat",
+  "nav_menu_3_title": "Mengenai BIM",
+
   "alphabets_title": "Abjad",
   "featured_videos": "Video Tumpuan",
+  "one_sign_a_day": "#SatuHariSatuIsyarat",
   "search_placeholder": "Cari Isyarat BIM",
   "copyright": "Hak Cipta © Persekutuan Orang Pekak Malaysia. Kerjasama dengan Guidewire Gives Back",
   "about_us_btn": "Mengenai BIM",
@@ -53,8 +56,8 @@
   "stay_tuned": "Nantikan!",
   "new_content": "Kandungan baru tidak lama lagi.",
   "go_back": "Kembali",
+
   "footer_item_1_title": "Hubungi Kami",
   "footer_item_2_title": "Persekutuan Orang Pekak Malaysia",
-  "footer_item_3_title": "Guidewire Gives Back",
-  "one_sign_a_day": "#SatuHariSatuIsyarat"
+  "footer_item_3_title": "Guidewire Gives Back"
 }

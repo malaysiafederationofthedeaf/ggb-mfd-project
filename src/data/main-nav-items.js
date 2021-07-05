@@ -23,7 +23,11 @@ export default function() {
             {
                 title: "nav_item_2_2_title",
                 to: "/featured-videos"
-            },                       
+            },  
+            {
+              title: "nav_item_2_3_title",
+              to: "/one-sign-a-day"
+            },                                  
         ]
       },
       {

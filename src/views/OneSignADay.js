@@ -22,7 +22,6 @@ const OneSignADay = () => {
         {fbVideos.map((video) => (
           <OneSignADayVideoFrame video={video} key={video.id}/>
         ))}
-
       </Container>
     </div>
   );
