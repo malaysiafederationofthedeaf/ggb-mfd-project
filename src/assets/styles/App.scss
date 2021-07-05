@@ -141,11 +141,14 @@ p {
         }
         .dropdown-item {
           span {
-            margin-left: 10px;
-            margin-right: 10px;
+            margin-left: 5px;
+            margin-right: 5px;
             font-size: 90%;
+            @media (max-width: $breakpoint-md) {
+              font-size: 85%;
+            }
           }
-        }   
+        }
       }
     } 
     .navbar-menu-item {
