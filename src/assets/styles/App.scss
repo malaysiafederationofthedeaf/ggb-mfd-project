@@ -407,13 +407,20 @@ p {
   display: flex;
   flex-flow: row; 
   margin: 10px;
-  .card-post__image {
-    border-top-right-radius: 0;
-    border-top-left-radius: $border-radius;
-    border-bottom-left-radius: $border-radius;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+  @media (max-width: $breakpoint-sm) {  
+    height: 80px;
+    overflow: hidden;
+  }
+  div {
+    .card-post__image {
+      border-top-right-radius: 0;
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: block;
+    }    
   }
   div {
     padding: 0;
@@ -431,6 +438,14 @@ p {
     padding-top: 10px;
     @media (max-width: $breakpoint-sm) {
       padding-top: 5px;
+    }
+  }
+  .card-title {
+    @media (max-width: $breakpoint-md) {
+      font-size: 17px;
+    }    
+    @media (max-width: $breakpoint-xs) {
+      font-size: 13px;
     }
   }
 }

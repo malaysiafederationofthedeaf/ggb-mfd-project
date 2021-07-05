@@ -49,7 +49,7 @@ const CategoryDetail = ({ categoryItem, group, noOfCard }) => {
           return "19px";
         }
         else if((window.innerWidth <= 460 && window.innerWidth > 320)) {
-          return (length >= 10) ? (fontSizeTemp-4+"px") : "17px";
+          return (length >= 10) ? (fontSizeTemp-5+"px") : "17px";
         }
         else { return "18px"; }
     }
