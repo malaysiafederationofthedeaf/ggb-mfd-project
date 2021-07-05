@@ -15,6 +15,7 @@ import SelectedCategory from "./views/SelectedCategory";
 import SelectedVocab from "./views/SelectedVocab";
 import SelectedAlphabets from "./views/SelectedAlphabet";
 import FeaturedVideos from "./views/FeaturedVideos";
+import OneSignADay from "./views/OneSignADay";
 
 export default [
   {
@@ -106,5 +107,11 @@ export default [
     exact: true,
     layout: DefaultLayout,
     component: FeaturedVideos,
-  },   
+  },
+  {
+    path: "/one-sign-a-day",
+    exact: true,
+    layout: DefaultLayout,
+    component: OneSignADay
+  }
 ];
