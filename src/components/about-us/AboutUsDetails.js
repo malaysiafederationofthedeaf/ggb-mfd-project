@@ -82,6 +82,7 @@ AboutUsDetails.defaultProps = {
       metaValue: [ 
         "about_ggb_1", 
         "about_ggb_2", 
+        "about_ggb_3", 
       ],
       forMore: "about_ggb_more",
       forMoreLink: "https://careers.guidewire.com/guidewire-gives-back"
@@ -93,6 +94,7 @@ AboutUsDetails.defaultProps = {
       metaValue: [ 
         "about_vercel_1", 
         "about_vercel_2", 
+        "about_vercel_3", 
       ],
       forMore: "about_vercel_more",
       forMoreLink: "https://vercel.com/"
