@@ -139,8 +139,15 @@ p {
         button {
           padding: 0;
         }
+        .dropdown-item {
+          span {
+            margin-left: 10px;
+            margin-right: 10px;
+            font-size: 90%;
+          }
+        }   
       }
-    }
+    } 
     .navbar-menu-item {
       span {
         @include nav-item-font;
