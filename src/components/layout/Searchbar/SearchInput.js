@@ -42,17 +42,19 @@ const SearchInput = () => {
     );
   };
 
+  const currentLanguage = i18next.language;
+
   return (
     <div className="search-bar">
       <form>
         <Select
           onChange={(value) => onSelectChange(value)}
-          options={Store.getVocabsItems()}
-          getOptionValue={(option) => i18next.language === "en" ? option.word : option.perkataan}
+          options={Store.getSortedVocabsItems(currentLanguage)}
+          getOptionValue={(option) => currentLanguage === "en" ? option.word : option.perkataan}
           getOptionLabel={(option) => (
             <>
               <strong className="text-m-2">
-                {i18next.language === "en" ? option.word : option.perkataan}
+                {currentLanguage === "en" ? option.word : option.perkataan}
               </strong>
             </>
           )}

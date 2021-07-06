@@ -99,6 +99,10 @@ class Store extends EventEmitter {
     return _store.vocabsItems;
   }
 
+  getSortedVocabsItems(language) {
+    return _store.vocabsItems.sort((a, b) => language === "en" ? (a.word).localeCompare(b.word) : (a.perkataan).localeCompare(b.perkataan));
+  }
+
   // get all entries from Group sheet
   getGroupCategoryItems() {
     return _store.groupCategoryItems;
