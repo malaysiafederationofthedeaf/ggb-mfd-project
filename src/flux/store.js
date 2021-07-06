@@ -251,6 +251,16 @@ class Store extends EventEmitter {
     }
   }
 
+  // get word of the day 'randomly' for each day based on date
+  getSignOfTheDay() {
+    var time = new Date().getTime();
+    var days = Math.floor(time/ 86400000);
+    const vocabsItems = this.getVocabsItems().sort((a, b) => (a.word).localeCompare(b.word))
+    .sort(() => .5 - days);  
+    var index = days % vocabsItems.length;
+    return vocabsItems[index] !== undefined ? vocabsItems[index] : vocabsItems[80];
+  }
+
   // get category list based on Group
   getCategoriesOfGroup(group) {
 

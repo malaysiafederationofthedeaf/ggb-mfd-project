@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import AboutUsPreview from "../components/about-us/AboutUsPreview";
 import CategoryList from "../components/category-vocabs/CategoryList";
 import FeaturedVideoList from "../components/featured-videos/FeaturedVideoList";
+import SignOfTheDay from "../components/category-vocabs/SignOfTheDay";
 import { Store } from "../flux";
 import { Link } from "react-router-dom";
 
@@ -38,7 +39,10 @@ const Home = () => {
               group={"New Signs"}
             />
             {/* Featured Videos List to be displayed in Home Page */}
-            <FeaturedVideoList videoItems={Store.getFeaturedVideosList()}/>         
+            <FeaturedVideoList videoItems={Store.getFeaturedVideosList()}/> 
+
+            {/* Sign of The Day to be displayed in Home Page */}
+            <SignOfTheDay wordItem={Store.getSignOfTheDay()} />       
           </Row>
         </div>
       </Container>
