@@ -14,7 +14,6 @@ import readExcel from "../src/data/categories/readExcel";
 import readExcelGroup from "../src/data/categories/readExcelGroup";
 import readFeaturedVideos from "./data/readFeaturedVideos";
 import UnderMaintenance from "./views/UnderMaintenance";
-import readFacebookVideos from "./data/readFacebookVideos";
 
 // read BIM (main) sheet
 readExcel.then(
@@ -112,33 +111,7 @@ readExcel.then(
             </Suspense>,
             document.getElementById("root")
           )
-      );
-
-      readFacebookVideos.then(
-        // Promise status 200
-        (value) => {
-          Dispatcher.dispatch({
-            actionType: "STORE_FACEBOOK_VIDEOS",
-            payload: value,
-          });
-
-          ReactDOM.render(
-            <Suspense fallback="Loading">
-              <App />
-            </Suspense>,
-            document.getElementById("root")
-          );
-        },
-          // Promise status 400
-          (error) =>
-          ReactDOM.render(
-            <Suspense fallback="Loading">
-              <UnderMaintenance />
-            </Suspense>,
-            document.getElementById("root")
-          )
-      );
-
+      ); 
       ReactDOM.render(
         <Suspense fallback="Loading">
           <App />
