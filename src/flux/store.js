@@ -23,9 +23,6 @@ let _store = {
   featuredVideosPlaylistId: "PLEztM-ga58Y4s6t5pac5uJKLeSSuspioQ",
   youtubeAPIKey: "AIzaSyBIk86nsIH0h4HSEgHPLI8bku6WKQlizDk",
   featuredVideos: [],
-  facebookPageReadVideosToken: "EAAEyl0CQlS4BAB5dJzcpQET57uYpI7w6fs3h0Qybwo73Fj1fHBm13Bbg3vufh9c2vHHBed1SuOoqRn6VZCe8qa7n6liUenCrnWk4O2TuTE12UYyrJlQq4eDkcnG49FmZCZCsozyz3ZAkRPDWZBIzJegeaCatVbkMUTU44QiVt2aq0UbNZBQXxWHoXe5AjYhe4ZD",
-  facebookPageEndpoint: "https://graph.facebook.com/v11.0/BahasaIsyaratMalaysiaMFD",
-  baseFacebookVideoUrl: "https://www.facebook.com/facebook/videos"
 };
 
 class Store extends EventEmitter {
@@ -64,10 +61,6 @@ class Store extends EventEmitter {
         this.storeFeaturedVideos(payload);
         break;        
 
-      case Constants.STORE_FACEBOOK_VIDEOS: // Store all Facebook Videos
-        this.storeFacebookVideos(payload);
-        break;
-
       default:
     }
   }
@@ -98,11 +91,6 @@ class Store extends EventEmitter {
 
   storeFeaturedVideos(value) {
     _store.featuredVideos = value;
-    this.emit(Constants.CHANGE);
-  }
-
-  storeFacebookVideos(value) {
-    _store.facebookVideos = value;
     this.emit(Constants.CHANGE);
   }
 
@@ -197,24 +185,6 @@ class Store extends EventEmitter {
   getFeaturedVideoUrl(videoId) {
     return "https://youtu.be/" + videoId;
   }
-
-  // Facebook Videos
-  getFacebookVideosUrl() {
-    return `${_store.facebookPageEndpoint}/videos?access_token=${_store.facebookPageReadVideosToken}`;
-  }
-
-  generateFacebookVideoUrl(id) {
-    return `${_store.baseFacebookVideoUrl}/${id}`;
-  }
-
-  getLatestFacebookVideo() {
-    return _store.facebookVideos && _store.facebookVideos[0];
-  }
-
-  getFacebookVideosList() {
-    return _store.facebookVideos || [];
-  }
-
 
   // get image for Category (fileName naming std: kategori.jpg)
   getCategoryImgSrc(kategori) {
