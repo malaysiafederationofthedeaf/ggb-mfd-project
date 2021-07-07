@@ -529,12 +529,7 @@ p {
     .card-title {
       padding-left: 20px;
       padding-top: 10px;
-      color: $color-secondary-dark;
-      @media (min-width: $breakpoint-md) {
-        .vocab-word-perkataan-title, .vocab-word-perkataan-subtitle {
-          font-size: 20px;
-        }
-      }      
+      color: $color-secondary-dark;      
       .vocab-word-perkataan-subtitle {
         color: $color-font-dark;
       }

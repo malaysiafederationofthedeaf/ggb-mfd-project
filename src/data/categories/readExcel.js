@@ -26,6 +26,7 @@ const restructureJSON = (data) => {
     release: item.Release,
     new: item.New,
     order: item.Order,
+    sotd: item.SOTD
   }));
 
   // if there is only 1 Release to include
