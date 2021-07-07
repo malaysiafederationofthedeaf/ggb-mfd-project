@@ -253,12 +253,42 @@ class Store extends EventEmitter {
 
   // get word of the day 'randomly' for each day based on date
   getSignOfTheDay() {
-    var time = new Date().getTime();
-    var days = Math.floor(time/ 86400000);
-    const vocabsItems = this.getVocabsItems().sort((a, b) => (a.word).localeCompare(b.word))
-    .sort(() => .5 - days);  
-    var index = days % vocabsItems.length;
-    return vocabsItems[index] !== undefined ? vocabsItems[index] : vocabsItems[80];
+    const sotd = this.checkSignOfTheDay();
+    if(sotd !== undefined) {
+      return sotd;
+    }
+    else {
+      var time = new Date().getTime();
+      var days = Math.floor(time/ 86400000);
+      const vocabsItems = this.getVocabsItems().sort((a, b) => (a.word).localeCompare(b.word))
+      .sort(() => .5 - days);  
+      var index = days % vocabsItems.length;
+      return vocabsItems[index] !== undefined ? vocabsItems[index] : vocabsItems[80];
+    }
+  }
+
+  // check if sign of the day exists in SOTD column (check for today's date)
+  checkSignOfTheDay() {
+    const signsOfTheDay = this.getVocabsItems()
+      .filter((obj) => obj.sotd !== undefined)
+      .filter((obj) => obj.sotd.toString() === this.formatDate())
+      .sort((a, b) => (a.word).localeCompare(b.word));
+    return signsOfTheDay[0]; // return the first SOTD, if there are multiple
+  }
+
+  // get date in yyyy-mm-dd format 
+  formatDate(date) {
+    var d = date !== undefined ? new Date(date) : new Date(); // if no date is passed, get current date
+    var month = '' + (d.getMonth() + 1);
+    var day = '' + d.getDate();
+    var year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
   }
 
   // get category list based on Group
