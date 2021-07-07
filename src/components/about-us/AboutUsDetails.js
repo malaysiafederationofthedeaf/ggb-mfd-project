@@ -29,8 +29,8 @@ const AboutUsDetails = ({ aboutUsDetails, t }) =>
           {/* for more */}
           <p data-aos="fade-up" data-aos-delay="400" className="about-us-for-more">
             {t(vocab.forMore)}
-            <a href={vocab.forMoreLink} target="_blank" rel="noopener noreferrer" key={key}>
-              {vocab.forMoreLink}
+            <a href={t(vocab.forMoreLink)} target="_blank" rel="noopener noreferrer" key={key}>
+              {t(vocab.forMoreLink)}
             </a>
             .
           </p>                               
@@ -61,7 +61,7 @@ AboutUsDetails.defaultProps = {
         "about_bim_4",
       ],
       forMore: "about_bim_more",
-      forMoreLink: "https://infomfd.wixsite.com/website-5/malaysia-sign-language"
+      forMoreLink: "about_bim_more_link"
     },    
     {
       name: "mfd_name",
@@ -73,7 +73,7 @@ AboutUsDetails.defaultProps = {
         "about_mfd_2", 
       ],   
       forMore: "about_mfd_more",
-      forMoreLink: "https://www.mymfdeaf.org"
+      forMoreLink: "about_mfd_more_link"
     },
     {
       name: "ggb_name",
@@ -85,7 +85,7 @@ AboutUsDetails.defaultProps = {
         "about_ggb_3", 
       ],
       forMore: "about_ggb_more",
-      forMoreLink: "https://careers.guidewire.com/guidewire-gives-back"
+      forMoreLink: "about_ggb_more_link"
     },
     {
       name: "vercel_name",
@@ -97,7 +97,7 @@ AboutUsDetails.defaultProps = {
         "about_vercel_3", 
       ],
       forMore: "about_vercel_more",
-      forMoreLink: "https://vercel.com/"
+      forMoreLink: "about_vercel_more_link"
     },        
   ],
 };
