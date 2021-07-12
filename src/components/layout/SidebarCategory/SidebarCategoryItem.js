@@ -8,6 +8,7 @@ import {
   DropdownItem,
   Nav,
   Navbar,
+  Fade
 } from "shards-react";
 import { useTranslation } from "react-i18next";
 
@@ -26,18 +27,23 @@ const SidebarCategoryItem = ({ item, alpha, param }) => {
   const groupFormatted = !param ? Store.formatString(item.group) : null;
   const basePath = `/groups/${groupFormatted}`
 
+  const className = {
+    ACTIVE: "active",
+    INACTIVE: "inactive"
+  }
+
   const isDropDownActive = () => {
     return window.location.pathname.search(
       !param ? `${basePath}` : `/alphabets/${param}`
     )
-      ? "inactive"
-      : "active"
+      ? className.INACTIVE
+      : className.ACTIVE
   }
 
   const isDropDownItemActive = (item) => {
     return window.location.pathname.includes(`${basePath}/${Store.formatString(item.category)}`)
-      ? "active"
-      : "inactive"
+      ? className.ACTIVE
+      : className.INACTIVE
   }
 
   return (
@@ -45,25 +51,30 @@ const SidebarCategoryItem = ({ item, alpha, param }) => {
       <Nav navbar>
         <Dropdown open={dropdownOpen} toggle={toggleDropdown}>
           {/* set className to active to highlight current active Group in Side Navbar */}
-          <div className={isDropDownActive()} >
+          <div className={isDropDownActive()}>
             {/* render according to the url parameter passed */}
             {!param ? (
               <>
+                {items.length > 0 && <DropdownToggle nav caret />}
                 <Link to={`${basePath}`}>
-                  {t(groupFormatted)}
+                  <div>
+                    {t(groupFormatted)}
+                  </div>
                 </Link>
-                {items.length > 0 && <DropdownToggle nav caret className="d-inline" />}
-                <DropdownMenu>
-                  {item.group &&
-                    items.map((item1, key) => (
-                      <DropdownItem key={key} className={isDropDownItemActive(item1)}>
-                        {/* set className to active to highlight current active Category in Side Navbar */}
-                        <Link to={`${basePath}/${Store.formatString(item1.category)}`}>
-                          {t(Store.formatString(item1.category))}
-                        </Link>
-                      </DropdownItem>
-                    ))}
-                </DropdownMenu>
+                <Fade in={isDropDownActive() === className.ACTIVE || dropdownOpen}>
+                  <DropdownMenu>
+                    {
+                      item.group &&
+                      items.map((item1, key) => (
+                        <DropdownItem key={key} className={isDropDownItemActive(item1)}>
+                          {/* set className to active to highlight current active Category in Side Navbar */}
+                          <Link to={`${basePath}/${Store.formatString(item1.category)}`}>
+                            {t(Store.formatString(item1.category))}
+                          </Link>
+                        </DropdownItem>
+                      ))}
+                  </DropdownMenu>
+                </Fade>
               </>
             ) : (
               <>
@@ -71,7 +82,9 @@ const SidebarCategoryItem = ({ item, alpha, param }) => {
                   to={`/alphabets/${alpha}`}
                   className="text-decoration-none"
                 >
-                  {alpha.toUpperCase()}
+                  <div>
+                    {alpha.toUpperCase()}
+                  </div>
                 </Link>
                 <DropdownToggle nav className="d-inline" />
               </>
