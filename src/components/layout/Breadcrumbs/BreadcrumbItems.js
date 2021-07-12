@@ -2,10 +2,9 @@ import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "shards-react";
 import { Route, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import i18next from "i18next";
 
 const BreadcrumbItems = ({ vocab }) => {
-  const { t } = useTranslation(["", "group-category"]);
+  const { t } = useTranslation(["word", "group-category"]);
 
   const Breadcrumbs = (props) => (
     <div className="breadcrumbs">
@@ -20,7 +19,7 @@ const BreadcrumbItems = ({ vocab }) => {
       <React.Fragment>
         <BreadcrumbItem className={match.isExact ? "active" : undefined}>
           {match.isExact ? (
-            i18next.language === "en" || vocab === undefined ? (
+            vocab === undefined ? (
               <>{t(`group-category:${match.params.path}`)}</>
             ) : (
               <>{t(`word:${match.params.path}`)}</>
