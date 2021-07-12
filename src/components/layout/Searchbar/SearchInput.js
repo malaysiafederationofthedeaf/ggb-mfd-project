@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Select, { components } from "react-select";
 import { useHistory } from "react-router-dom";
@@ -23,10 +23,12 @@ const SearchInput = () => {
   };
 
   const [openMenu, setOpenMenu] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
   
   const handleInputChange = (query, {action}) => {
     if(action === "input-change") {
       setOpenMenu(true);
+      setSearchInput(query === null ? '' : query); 
     }
   }
 
@@ -36,9 +38,9 @@ const SearchInput = () => {
 
   const Menu = (props) => {
     return (
-      <Fragment>
+      <div>
         <components.Menu {...props}>{props.children}</components.Menu>
-      </Fragment>
+      </div>
     );
   };
 
@@ -63,6 +65,7 @@ const SearchInput = () => {
           onInputChange={handleInputChange}
           onBlur={hideMenu}
           menuIsOpen={openMenu}
+          value={searchInput}
         />
       </form>
     </div>
