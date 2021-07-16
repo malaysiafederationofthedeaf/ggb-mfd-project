@@ -95,9 +95,7 @@ test("Test 1: BIM.xlsx should exist at public/assets/BIM.xlsx ", () => {
     expect.extend({
         fileExist(dir) {
             try {
-                const pass = existsSync(dir);
-
-                if (pass) {
+                if (existsSync(dir)) {
                     return {
                         message: () => `BIM.xlsx is in the correct directory.`,
                         pass: true,
@@ -109,9 +107,7 @@ test("Test 1: BIM.xlsx should exist at public/assets/BIM.xlsx ", () => {
                         pass: false,
                     };
                 }
-            } catch (error) {
-                console.error(error);
-            }
+            } catch (error) {}
         },
     });
     expect(dirBIM).fileExist();
@@ -136,9 +132,7 @@ test("Test 2: Image jpg file should exist corresponding to the bim words", () =>
                         pass: false,
                     };
                 }
-            } catch (error) {
-                console.error(error);
-            }
+            } catch (error) {}
         },
     });
 
@@ -153,9 +147,7 @@ test("Test 3: Category in BIM Tab should exist according to Category in Group Ta
     const cat = Store.getGroupCategoryItems().map((item) => item.groupCategory);
     expect.extend({
         toHaveOneOf(cat, groupCat) {
-            const pass = cat.includes(groupCat);
-
-            if (pass) {
+            if (cat.includes(groupCat)) {
                 return {
                     message: () => `All categories matches correctly.`,
                     pass: true,
@@ -191,9 +183,7 @@ test("Test 4: Youtube video link is a URL", () => {
 
     expect.extend({
         isValid(uri) {
-            const pass = isValidHttpUrl(uri);
-
-            if (pass) {
+            if (isValidHttpUrl(uri)) {
                 return {
                     message: `All links are valid.`,
                     pass: true,
@@ -222,24 +212,4 @@ test("Test 5:SignOfTheDay date should be written according to standard format", 
     sotdDate.forEach((date) =>
         expect(date).toEqual(expect.stringMatching(regEx))
     );
-
-    expect.extend({
-        toBeDistinct(sotd) {
-            const pass =
-                Array.isArray(sotd) && new Set(sotd).size === sotd.length;
-            if (pass) {
-                return {
-                    message: () => `SOTD array is unique. No repeated dates.`,
-                    pass: true,
-                };
-            } else {
-                return {
-                    message: () =>
-                        `SOTD array is not unique. There are repeated dates.`,
-                    pass: false,
-                };
-            }
-        },
-    });
-    expect(sotdDate).toBeDistinct();
 });
