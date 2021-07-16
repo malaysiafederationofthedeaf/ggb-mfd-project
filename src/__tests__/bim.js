@@ -28,6 +28,7 @@ const restructureJSON = (data) => {
                 new: item.New,
                 order: item.Order,
                 sotd: item.SOTD,
+                imgStatus: item.ImageStatus,
             }
     );
     return filterExcelData(reconData, ["Release 1", "Release 2"]);
@@ -135,9 +136,12 @@ test("Test 2: Image jpg file should exist corresponding to the bim words", () =>
             } catch (error) {}
         },
     });
-
     Store.getVocabsItems().forEach((vocab) => {
-        expect(vocab.perkataan).toExist();
+        if (vocab.imgStatus === "Pending") {
+            return;
+        } else {
+            expect(vocab.perkataan).toExist();
+        }
     });
 });
 
@@ -209,7 +213,20 @@ test("Test 5:SignOfTheDay date should be written according to standard format", 
         .map((date) => date.sotd.toString());
     const regEx = /^\d{4}-\d{2}-\d{2}$/;
 
-    sotdDate.forEach((date) =>
-        expect(date).toEqual(expect.stringMatching(regEx))
-    );
+    expect.extend({
+        matches(date, regex) {
+            if (date.match(regex)) {
+                return {
+                    message: "All date format is valid.",
+                    pass: true,
+                };
+            } else {
+                return {
+                    message: `${date} format is invalid. Please write according to the correct format (yyyy-mm-dd).`,
+                    pass: false,
+                };
+            }
+        },
+    });
+    sotdDate.forEach((date) => expect(date).matches(regEx));
 });
