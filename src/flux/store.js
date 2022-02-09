@@ -203,7 +203,9 @@ class Store extends EventEmitter {
   // get image for Sign Word (fileName naming std: perkataan.jpg)
   getSignImgSrc(perkataan) {
     try {
-      return require(`../images/bim/vocab/${perkataan}.jpg`);
+      var perkataanTrimmed = perkataan.replace(/[!/]/g, "-")  //replace '!' and '/' to '-'
+      perkataanTrimmed = perkataanTrimmed.replace("?", "")  //remove '?'
+      return require(`../images/bim/vocab/${perkataanTrimmed}.jpg`);
     } catch (err) {
       //default img (placeholder only)*
       return require(`../images/general/image-coming-soon.jpg`);
@@ -405,10 +407,12 @@ class Store extends EventEmitter {
     return groups
   }
 
-  // format string to lower case and replace space with dash (for link path name)
+  // format string to lower case, replace space with dash, and remove '?' and '/' (for link path name)
   formatString(string) {
     try {
-      return string.toLowerCase().replace(/\s+/g, "-");
+      var stringFormatted = string.toLowerCase().replace(/\s+/g, "-")
+      stringFormatted = stringFormatted.replace(/[?/]/g, "")
+      return stringFormatted
     } catch (err) {
       return string;
     }
