@@ -1,43 +1,76 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { useState } from 'react';
+import { ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {BrowserRouter, Route, Link, Routes} from 'react-router-dom';
 
-import routes from "./routes";
-import withTracker from "./withTracker";
+// views component
+import { ExcelUploader } from './views/ExcelUploader';
+import { FileUploader } from './views/FileUploader';
+import { Preview } from './views/ExcelPreview';
+import Logout from './views/Logout';
+// import Login from './views/Login';
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./assets/styles/App.scss";
-import Aos from "aos";
-import "aos/dist/aos.css";
-import ScrollToTop from "./components/common/ScrollToTop";
+
+import './App.css';
 
 function App() {
-  Aos.init();
-  return (
-      <Router basename={process.env.REACT_APP_BASENAME || ""}>
-          <div>
-          <ScrollToTop>
-            <Switch>
-              {routes.map((route, index) => {
-                return (
-                  <Route
-                    key={index}
-                    path={route.path}
-                    exact={route.exact}
-                    component={withTracker((props) => {
-                      return (
-                        <route.layout {...props}>
-                          <route.component {...props} />
-                        </route.layout>
-                      );
-                    })}
-                  />
-                );
-              })}
-            </Switch>
-            </ScrollToTop>
-          </div>
-        </Router>
-  );
+  
+    var [excel, setExcel] = useState([]);
+    const [files, setFiles] = useState([]);
+    const onSuccess = (savedFiles) => {
+        setFiles(savedFiles)
+    };
+
+    const signout = () => {
+      console.log("signout button clicked");
+      // refresh the page
+      //google.accounts.id.disableAutoSelect();
+      sessionStorage.setItem('email',null);
+      window.location.reload();
+      
+    };
+    
+    return (
+      <div className="App">
+  {console.log("[App] "+sessionStorage.getItem("email"))}
+        <BrowserRouter>
+        <h1>BIM Sign Bank Administrative Page </h1>
+        <div className="#"> 
+          <Link to="/Excel">
+              <button type="button">
+                Upload Excel
+              </button>
+          </Link>
+          {/* <Link to="/Excel">Excel</Link><br/> */}
+          <Link to="/ImageUploader">
+              <button type="button">
+                Upload Image
+              </button>
+          </Link>
+          {/* <Link to="/ImageUploader">Uploadimage</Link> */}
+          <Link to="/Logout" onClick={() => signout()}>
+            <button type="button">
+              Sign Out
+              </button>
+          </Link>
+          {/* <div id="buttonLogout" onClick={() => signout()}>
+            <p>Sign Out</p>
+          </div> */}
+          
+          <br></br>
+        </div>
+        
+        <Routes>
+          {/* <Route exact path="/" element    = {<Login/>} /> */}
+          <Route path="/preview" element = {<Preview files={files}/>} />
+          <Route path="/Excel" element   = {<ExcelUploader onSuccess={onSuccess}/>} />
+          <Route path="/ImageUploader" element = {<FileUploader onSuccess={excel} />} />
+          <Route exact path="/Logout" element  = {<Logout/>} />
+        </Routes>
+        </BrowserRouter>
+        <ToastContainer/>
+      </div>
+    );
 }
 
 export default App;
