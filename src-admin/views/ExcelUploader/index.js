@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import axios from 'axios';
-import { toast} from 'react-toastify';
+import {toast} from 'react-toastify';
 // import {ProgressBar} from 'react-bootstrap';
 // import { IsEqual, StartCase } from 'react-lodash'
 import * as XLSX from 'xlsx';

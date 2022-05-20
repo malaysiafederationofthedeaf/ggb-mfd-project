@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {BrowserRouter, Route, Link, Routes} from 'react-router-dom';
@@ -32,7 +32,7 @@ function App() {
     
     return (
       <div className="App">
-  {console.log("[App] "+sessionStorage.getItem("email"))}
+        {console.log("[App] "+sessionStorage.getItem("email"))}
         <BrowserRouter>
         <h1>BIM Sign Bank Administrative Page </h1>
         <div className="#"> 

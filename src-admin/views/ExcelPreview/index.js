@@ -1,3 +1,4 @@
+import React from 'react'; //quick fix 
 export const Preview = ({files}) => {
     if (!files.length) {
         return null
