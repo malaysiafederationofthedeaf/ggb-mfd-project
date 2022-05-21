@@ -1,6 +1,5 @@
-import XLSX from "xlsx";
+import * as XLSX from 'xlsx';
 import axios from "axios";
-
 import { Store } from "../../flux";
 
 const fetchData = async (url) => {
