@@ -1,0 +1,179 @@
+#main{
+    text-align: center;
+}
+#mainerror{
+    text-align: center;
+}
+#displayerror{
+    width: 50%;
+    height: 200px;
+    text-align: center;
+    background-color: #FFABAB;
+    border-radius: 30px;
+    padding:90px 0px;
+    margin:100px 0px;
+
+
+}
+#errormsg{
+    color: white;
+}
+
+#btn-choose{
+    background-color: #0367b9;
+    color:white;
+    width: 200px;
+    height: 40px;
+    padding:7px;
+    border-radius: 10px;
+    cursor: pointer;
+
+}
+#bapakbutton{
+    width: fit-content;
+    height: fit-content;
+    display: table;
+}
+#btn-upload{
+    background-color: #0367b9;
+    color:white;
+    width: 150px;
+    height: 40px;
+    padding:7px;
+    border-radius: 10px;
+    display: table-cell;
+    margin: 5px;
+    cursor: pointer;
+
+}
+
+#gap{
+    display: table-cell;
+    width: 20px;
+}
+
+#btn-cancel{
+    background-color: gray;
+    color:white;
+    width: 150px;
+    height: 40px;
+    padding:7px;
+    border-radius: 10px;
+    display: table-cell;
+    margin: 5px;
+    cursor: pointer;
+
+}
+
+
+#kotakputih{
+    background-color: white;
+    width: 50%;
+    height: fit-content;
+    margin:20px;
+    border-style: solid;
+    border-color: grey;
+    border-width: 1px;
+    border-radius: 10px;
+
+}
+
+#withoutitem{
+    height: 300px;
+}
+
+#kotakerror{
+    background-color: #FFABAB;
+    width: 50%;
+    height: fit-content;
+    margin:20px;
+    border-style: solid;
+    border-color: grey;
+    border-width: 1px;
+    border-radius: 10px;
+
+}
+#kotaksuccess{
+    background-color: #A3FF83;
+    width: 50%;
+    height: fit-content;
+    margin:20px;
+    border-style: solid;
+    border-color: grey;
+    border-width: 1px;
+    border-radius: 10px;
+
+}
+
+#errorlistitem{
+    width: 95;
+    height: fit-content;
+    margin:10px 5px;
+    border-radius: 8px;
+    background-color: red;
+    color: white;
+
+}
+
+#bapakexist{
+    display:table;
+}
+
+#gapre{
+    width: 130px;
+    height: 20px;
+}
+
+#replacebutton{
+    background-color: white;
+    border-radius: 10px;
+    padding: 4px;
+    height: fit-content;
+    width: 80px;
+    color: red;
+    bottom: 50%;
+    -ms-transform: translateY(30%);
+    transform: translateY(30%);
+    margin:0px 0px 0px 50px
+}
+
+#anakexist{
+    display:table-cell;  
+
+}
+#successlistitem{
+    width: 95;
+    height: fit-content;
+    margin:10px 5px;
+    border-radius: 8px;
+    background-color: #45C418;
+    color: white;
+
+}
+#filelist{
+    display:table;
+    background-color: #E8E8E8;
+    margin: 10px;
+    border-radius: 8px;
+    height: 30px;
+    padding: 2px;
+    width: 95%;
+}
+
+#itemname{
+    display:table-cell
+}
+
+#itemremove{
+    color: white;
+    width: 23px;
+    background-color: red;
+    display:table-cell;
+    margin:5px;
+    border-radius: 10px;
+}
+
+#gaptepilist{
+    display:table-cell;
+    width: 3px;
+}
