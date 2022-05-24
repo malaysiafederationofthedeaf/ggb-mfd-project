@@ -1,0 +1,19 @@
+.LoginGoogle {
+    text-align: center;
+    display: block;
+    margin: auto;
+    /* background-color: black; */
+    background-image: url("../images/general/background/home-background.jpg");
+    background-attachment: 100%;
+    background-position: center;
+    background-repeat: repeat;
+    background-size: cover;
+    height: 960px;
+    /* margin-top: -15%; */
+  }
+
+  #h1{
+    color: #00aaffa7;
+    text-align: center;
+    display: block;
+  }
