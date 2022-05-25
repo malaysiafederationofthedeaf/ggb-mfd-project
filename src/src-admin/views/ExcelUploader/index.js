@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
 
@@ -101,7 +101,7 @@ export const ExcelUploader = ({onSuccess}) => {
             msg += ("\nColumn not found\n");
         }
         message = msg;
-        <div>{message}</div>
+        // <div>{message}</div>
 
         // console.log("msg: ", msg);        
         // console.log("message: ", message);

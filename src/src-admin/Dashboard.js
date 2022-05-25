@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import {BrowserRouter, Route, Link, Routes} from 'react-router-dom';
+import React, { useState } from 'react';
+import {BrowserRouter, Route, Link, Switch} from 'react-router-dom';
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -41,12 +41,12 @@ function App() {
             </div><br/>
           </Link>
 
-          <Routes>
+          <Switch>
             <Route path="/preview" element = {<Preview files={files}/>} />
             <Route path="/Excel" element   = {<ExcelUploader onSuccess={onSuccess}/>} />
             <Route path="/ImageUploader" element = {<ImageUpload onSuccess={excel} />} />
             <Route exact path="/Logout" element  = {<Logout/>} />
-          </Routes>
+          </Switch>
         </BrowserRouter>
         <ToastContainer/>
       </div>

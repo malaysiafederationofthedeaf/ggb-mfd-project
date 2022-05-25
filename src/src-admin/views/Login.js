@@ -103,7 +103,7 @@ const Login = (props) => {
   
   return (
     <div>
-        <div className="LoginGoogle">
+        <div id="LoginGoogle">
         <header className='navbar'>
         <div className='navbar__title navbar_item'>
           <a href="https://www.bimsignbank.org/home" target="_blank" rel="noopener noreferrer">
@@ -157,7 +157,7 @@ const Login = (props) => {
             ) : (
               <div>
                 <div>
-                  <h2><code>Welcome to BIM Sign Bank Administration</code></h2>           
+                  <h1><code>Welcome to BIM Sign Bank Administration</code></h1>           
                 </div>
                 <div><center>{loadGoogleButton()}</center></div>
               </div>

@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const Preview = ({files}) => {
     if (!files.length) {
         return null
