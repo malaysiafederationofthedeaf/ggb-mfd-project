@@ -10,7 +10,11 @@
   "nav_menu_2_title": "Tumpuan",
   "nav_item_2_1_title": "Isyarat Baru",
   "nav_item_2_2_title": "Video Tumpuan",
-  "nav_menu_3_title": "Mengenai BIM",  
+  "nav_menu_3_title": "Mengenai BIM", 
+  "nav_menu_4_title": "Upload", 
+  "nav_item_4_1_title": "Upload BIM Worksheet",
+  "nav_item_4_2_title": "Upload Sign Images",
+  "nav_item_5_title": "BIM Sign Bank",
 
   "alphabets_title": "Abjad",
   "featured_videos": "Video Tumpuan",

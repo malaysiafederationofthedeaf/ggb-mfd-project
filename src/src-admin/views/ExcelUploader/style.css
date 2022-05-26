@@ -17,7 +17,7 @@ h5{
     outline-offset: -10px; */
     -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
     transition: outline-offset .15s ease-in-out, background-color .15s linear;
-    padding: 100px 0px 85px 44%;
+    padding: 50px 0px 85px 44%;
     text-align: center !important;
     
     margin: 0;

@@ -267,8 +267,8 @@ export const ExcelUploader = ({onSuccess}) => {
         <form method="post" action="#" id="#" onSubmit={onSubmit}>
             <div className="form-group files">
                 <h1>Upload Your BIM.xlsx File </h1>
-                <p>Only BIM.xlsx file will be accepted</p>
-                <p>Please ensure that the BIM.xlsx has no unresolved conflict.</p>
+                <center><p>Only BIM.xlsx file will be accepted</p>
+                <p>Please ensure that the BIM.xlsx has no unresolved conflict.</p></center>
                 <input directory="BIM.xlsx" type="file"
                 id="BIM"
                 name="BIM"
