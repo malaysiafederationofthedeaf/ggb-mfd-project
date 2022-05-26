@@ -104,7 +104,29 @@ const Login = (props) => {
   return (
     <div>
         <div id="LoginGoogle">
+        <header className='navbar'>
+        <div className='navbar__title navbar_item'>
+          <a href="https://www.bimsignbank.org/home" target="_blank" rel="noopener noreferrer">
+            <img src="https://www.bimsignbank.org/static/media/bim-logo.95848318.jpg" alt="bimlogo" width="15%" height="5%"/>
+          </a><br/><br/>
+        </div>
+
+        <div className='navbar__item' id="headerright">
+          <h2>BIM Sign Bank Administration</h2>
+        </div>
+      
+        <div className='navbar__item' >
+          <a href="https://www.mymfdeaf.org/pengenalan">
+            <img src="https://www.bimsignbank.org/static/media/mfd-logo.9567e887.jpg" alt="link" width="60%" height="10%" />
+          </a>
+        </div>
         
+        <div className='navbar__item' >
+          <a href="https://careers.guidewire.com/guidewire-gives-back">
+            <img src="https://www.bimsignbank.org/static/media/ggb-logo.d044fc73.jpg" alt="link" width="20%" />
+          </a>
+        </div>
+    </header>
             {other === 1 ? (
                 <div>
                     {/* { if signed in: show page App, else show login button */
@@ -135,7 +157,7 @@ const Login = (props) => {
             ) : (
               <div>
                 <div>
-                  <h1><code>Please Log in to Google account first</code></h1>           
+                  <h1><code>Welcome to BIM Sign Bank Administration</code></h1>           
                 </div>
                 <div><center>{loadGoogleButton()}</center></div>
               </div>

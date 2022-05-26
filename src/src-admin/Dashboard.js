@@ -8,7 +8,7 @@ import { ExcelUploader } from './views/ExcelUploader';
 import { Preview } from './views/ExcelPreview';
 import { ImageUpload } from './views/ImageUpload';
 import Logout from './views/Logout';
-//import Navbar from "./views/Navbar.js";
+import Navbar from "./views/Navbar.js";
 
 import './App.css';
 
@@ -25,7 +25,7 @@ function App() {
   {console.log("[App] "+sessionStorage.getItem("email"))}
   
         <BrowserRouter>
-        
+        <Navbar/>
         
           <h1>BIM Sign Bank Administrative Page </h1><br></br>
 

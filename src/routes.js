@@ -2,7 +2,7 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 
 // Layout Types
-import { DefaultLayout, SideCategoryLayout, AdminBar } from "./layouts";
+import { DefaultLayout, SideCategoryLayout } from "./layouts";
 
 // Route Views
 import ComingSoon from "./views/ComingSoon";
@@ -115,19 +115,19 @@ export default [
   {
     path: "/admin",
     exact: true,
-    layout: AdminBar,
+    layout: DefaultLayout,
     component: Login,
   },
   {
-    path: "/admin/excelupload",
+    path: "/admin/excel",
     exact: true,
-    layout: AdminBar,
+    layout: DefaultLayout,
     component: ExcelUploader,
   },
   {
-    path: "/admin/imageupload",
+    path: "/admin/image",
     exact: true,
-    layout: AdminBar,
+    layout: DefaultLayout,
     component: ImageUpload,
   },
 ];
