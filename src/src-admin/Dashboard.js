@@ -12,6 +12,13 @@ import Logout from './views/Logout';
 
 import './App.css';
 
+const signout = () => {
+  console.log("signout button clicked");
+
+  sessionStorage.setItem('email',null);
+  window.location.reload();
+};
+
 function Dashboard() {
 
     var [excel, setExcel] = useState([]);
@@ -29,16 +36,12 @@ function Dashboard() {
         
           <h1>BIM Sign Bank Administrative Page </h1><br></br>
 
-          <Link id="button-link" to="/Excel" onClick={ExcelUploader}>
-            <div className="excelButton" >
-              Upload Excel
-            </div><br/>
+          <Link id="button-link" to="/Excel" onClick={signout()}>
+            <div>test</div>
           </Link><br/><br/>
 
           <Link id="button-link" to="/ImageUploader" onClick={ImageUpload}>
-            <div className="imageButton" >
-                Upload Image
-            </div><br/>
+            
           </Link>
 
           <Switch>

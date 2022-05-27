@@ -130,10 +130,20 @@ const Login = (props) => {
                             ) : ("")
                             }
                         </div>
-                    ) : ( {displayLayout} )
+                    ) :  (<div>
+                      <div id="h1">
+                        <h1>Welcome to BIM Sign Bank Administration</h1>
+                      </div>
+                      <center>{loadGoogleButton()}</center>
+                    </div>)
                     } 
                 </div>
-            ) : ( {displayLayout} )}
+            ) :  (<div>
+              <div id="h1">
+                <h1>Welcome to BIM Sign Bank Administration</h1>
+              </div>
+              <center>{loadGoogleButton()}</center>
+            </div>) }
         </div>
    </div>
 );
