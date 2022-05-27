@@ -1,6 +1,7 @@
 /* global google */
 import React, { useState, useEffect } from "react";
 import GoogleLogin from "react-google-login";
+
 import Dashboard from "../Dashboard";
 
 // import "../App.css";
@@ -72,6 +73,17 @@ const Login = (props) => {
     );
   };
 
+  function displayLayout() {
+    return(
+      <div>
+        <div id="h1">
+          <h1>Welcome to BIM Sign Bank Administration</h1>
+        </div>
+        <center>{loadGoogleButton()}</center>
+      </div>
+    );
+  }
+
   useEffect(() => {
     window.onGoogleLibraryLoad = () => {
       google.accounts.id.initialize({
@@ -118,28 +130,10 @@ const Login = (props) => {
                             ) : ("")
                             }
                         </div>
-                    ) : (
-                        <div>
-                          <div id="h1">
-                            <h1>Welcome to BIM Sign Bank Administration</h1>
-                          </div>
-                          <center>
-                            <div>
-                              {loadGoogleButton()}
-                            </div>
-                          </center>
-                        </div>
-                        )
+                    ) : ( {displayLayout} )
                     } 
                 </div>
-            ) : (
-              <div>
-                <div>
-                  <h1><code>Please Log in to Google account first</code></h1>           
-                </div>
-                <div><center>{loadGoogleButton()}</center></div>
-              </div>
-              )}
+            ) : ( {displayLayout} )}
         </div>
    </div>
 );

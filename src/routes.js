@@ -17,10 +17,9 @@ import SelectedAlphabets from "./views/SelectedAlphabet";
 import FeaturedVideos from "./views/FeaturedVideos";
 
 import App from "./src-admin/App";
-import Login from "./src-admin/views/Login";
-import Dashboard from "./src-admin/Dashboard"
 import { ExcelUploader } from "./src-admin/views/ExcelUploader";
 import { ImageUpload } from "./src-admin/views/ImageUpload";
+// import Logout from "./src-admin/views/Logout";
 
 export default [
   {
@@ -131,4 +130,10 @@ export default [
     layout: AdminBar,
     component: ImageUpload,
   },
+  // {
+  //   path: "/admin/signout",
+  //   exact: true,
+  //   layout: AdminBar,
+  //   component: Logout,
+  // },
 ];

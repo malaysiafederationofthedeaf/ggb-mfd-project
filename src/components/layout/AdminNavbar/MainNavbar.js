@@ -2,13 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import {
   Navbar,
-  NavbarToggler,
   Nav,
   Collapse,
 } from "shards-react";
 
 import bimLogo from "../../../images/bim/logo/bim-logo.jpg";
-import NavbarBackButton from "../../common/NavbarBackButton";
 import NavbarNavItems from "./NavbarNavItems";
 
 import { NavLink } from 'react-router-dom'
