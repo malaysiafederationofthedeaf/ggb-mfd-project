@@ -2,7 +2,7 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 
 // Layout Types
-import { DefaultLayout, SideCategoryLayout, AdminBar } from "./layouts";
+import { DefaultLayout, SideCategoryLayout, AdminBar, LoginBar } from "./layouts";
 
 // Route Views
 import ComingSoon from "./views/ComingSoon";
@@ -116,7 +116,7 @@ export default [
   {
     path: "/admin",
     exact: true,
-    layout: AdminBar,
+    layout: LoginBar,
     component: App,
   },
   {
