@@ -29,6 +29,7 @@ const restructureJSON = (data) => {
                 order: item.Order,
                 sotd: item.SOTD,
                 imgStatus: item.ImageStatus,
+                sotdrec: item.SOTDREC,
             }
     );
     return filterExcelData(reconData, ["Release 1", "Release 2"]);

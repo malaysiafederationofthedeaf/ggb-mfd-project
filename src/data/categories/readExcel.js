@@ -1,5 +1,6 @@
-import * as XLSX from 'xlsx';
+import XLSX from "xlsx";
 import axios from "axios";
+
 import { Store } from "../../flux";
 
 const fetchData = async (url) => {
@@ -25,7 +26,8 @@ const restructureJSON = (data) => {
     release: item.Release,
     new: item.New,
     order: item.Order,
-    sotd: item.SOTD
+    sotd: item.SOTD,
+    sotdrec: item.SOTDREC,
   }));
 
   // if there is only 1 Release to include

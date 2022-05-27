@@ -256,8 +256,17 @@ class Store extends EventEmitter {
   // get word of the day 'randomly' for each day based on date
   getSignOfTheDay() {
     const sotd = this.checkSignOfTheDay();
-    if(sotd !== undefined) {
-      return sotd;
+    const sotdRecurrence = this.checkSignOfTheDayRecurrence()
+
+    
+    if(sotd !== undefined||sotdRecurrence!==undefined) {
+      console.log("sotd and sotdr have ");
+      if(sotd!==undefined){
+        return sotd;
+      }else{
+        return sotdRecurrence;
+      }
+      
     }
     else {
       var time = new Date().getTime();
@@ -278,6 +287,15 @@ class Store extends EventEmitter {
     return signsOfTheDay[0]; // return the first SOTD, if there are multiple
   }
 
+  checkSignOfTheDayRecurrence() {
+    console.log(this.getVocabsItems());
+    const signsOfTheDayRecurrence = this.getVocabsItems()
+      .filter((obj) => obj.sotdrec !== undefined)
+      .filter((obj) => obj.sotdrec.toString() === this.formatDateRecurrence())
+      .sort((a, b) => (a.word).localeCompare(b.word));
+    return signsOfTheDayRecurrence[0]; // return the first SOTDREC, if there are multiple
+  }
+
   // get date in yyyy-mm-dd format 
   formatDate(date) {
     var d = date !== undefined ? new Date(date) : new Date(); // if no date is passed, get current date
@@ -292,6 +310,21 @@ class Store extends EventEmitter {
 
     return [year, month, day].join('-');
   }
+
+  // get date only mm-dd format 
+  formatDateRecurrence(date) {
+    var d = date !== undefined ? new Date(date) : new Date(); // if no date is passed, get current date
+    var month = '' + (d.getMonth() + 1);
+    var day = '' + d.getDate();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [month, day].join('-');
+  }
+  
 
   // get category list based on Group
   getCategoriesOfGroup(group) {
