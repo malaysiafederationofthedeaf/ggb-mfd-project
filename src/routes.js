@@ -19,6 +19,7 @@ import FeaturedVideos from "./views/FeaturedVideos";
 import App from "./src-admin/App";
 import { ExcelUploader } from "./src-admin/views/ExcelUploader";
 import { ImageUpload } from "./src-admin/views/ImageUpload";
+import Dashboard from "./src-admin/Dashboard";
 // import Logout from "./src-admin/views/Logout";
 
 export default [
@@ -117,6 +118,12 @@ export default [
     exact: true,
     layout: AdminBar,
     component: App,
+  },
+  {
+    path: "/admin/home",
+    exact: true,
+    layout: AdminBar,
+    component: Dashboard,
   },
   {
     path: "/admin/excelupload",

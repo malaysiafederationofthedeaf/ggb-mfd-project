@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {BrowserRouter} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -28,6 +28,11 @@ function Dashboard() {
         <br/><br/><br/><br/><br/><br/><br/>
         <h1>Welcome To BIM Sign Bank Administration</h1><br/>
         <br/>
+        <Link id="button-link" to="/admin" onClick={signout}>
+            <div className="imageButton" >
+                Sign Out
+            </div><br/>
+          </Link>
       </div>
     );
 }
