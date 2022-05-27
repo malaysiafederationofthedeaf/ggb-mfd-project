@@ -2,15 +2,30 @@
 // import React, { useState } from "react";
 // import { GoogleLogout } from "react-google-login";
 // import jwt_decode from "jwt-decode";
+import React from "react";
+
 import "../App.css";
-// import Login from './Login';
+import Dashboard from "../Dashboard";
+
+import Login from './Login';
 
 const Logout = (props) => {
+
+    console.log("[Logout] sessionStorage: "+sessionStorage.getItem("email"));
     
-    google.accounts.id.disableAutoSelect();
+    // google.accounts.id.disableAutoSelect();
     sessionStorage.setItem("email",null);
-    console.log(sessionStorage.getItem("email"))
-    //window.location.reload();
+    console.log(sessionStorage.getItem("email"));
+    window.location.reload();
+
+    if (sessionStorage.getItem("email")==='null' || sessionStorage.getItem("email")===null) {
+        console.log("Redirect to Login page");
+        return <Login />
+      }else {
+      console.log("Redirect to Dashboard page");
+      return <Dashboard />
+      }
+
 //   const [isSignedIn, setIsSignedIn] = useState(false);
 //   const [userInfo, setUserInfo] = useState(null);
 //   const [other, setOther] = useState(null);
