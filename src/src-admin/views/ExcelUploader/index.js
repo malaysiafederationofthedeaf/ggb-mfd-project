@@ -5,6 +5,7 @@ import * as XLSX from 'xlsx';
 import Login from '../../views/Login';
 
 import './style.css';
+import App from '../../App';
 
 var t;
 
@@ -267,7 +268,7 @@ export const ExcelUploader = ({onSuccess}) => {
     
     return (
         <div>
-            {sessionStorage.getItem('email') === 'null' || sessionStorage.getItem('email') === null ? <div><Login />  {window.alert("You are not log in into the admin page")}</div> :
+            {sessionStorage.getItem('email') === 'null' || sessionStorage.getItem('email') === null ? <div><App /></div> :
         <form method="post" action="#" id="#" onSubmit={onSubmit}>
             <div className="form-group files">
                 <h1>Upload Your BIM.xlsx File </h1>

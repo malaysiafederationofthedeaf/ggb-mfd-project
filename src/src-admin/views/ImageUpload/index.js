@@ -277,7 +277,7 @@ export const ImageUpload=()=>{
 
     return(
         <div>
-            {sessionStorage.getItem('email') === 'null' || sessionStorage.getItem('email') === null ? <div><Login />  {window.alert("You are not log in into the admin page")}</div> :
+            {sessionStorage.getItem('email') === 'null' || sessionStorage.getItem('email') === null ? <div>{window.alert("ImageUpload/Index: You are not log in into the admin page")}<Login /></div> :
         
         <div id="main">
             <h1>Upload sign images</h1>

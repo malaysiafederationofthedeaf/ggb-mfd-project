@@ -73,17 +73,6 @@ const Login = (props) => {
     );
   };
 
-  function displayLayout() {
-    return(
-      <div>
-        <div id="h1">
-          <h1>Welcome to BIM Sign Bank Administration</h1>
-        </div>
-        <center>{loadGoogleButton()}</center>
-      </div>
-    );
-  }
-
   useEffect(() => {
     window.onGoogleLibraryLoad = () => {
       google.accounts.id.initialize({
@@ -132,7 +121,7 @@ const Login = (props) => {
                         </div>
                     ) :  (<div>
                       <div id="h1">
-                        <h1>Welcome to BIM Sign Bank Administration</h1>
+                        <h1>BIM Sign Bank Administrative Page</h1>
                       </div>
                       <center>{loadGoogleButton()}</center>
                     </div>)
@@ -140,7 +129,7 @@ const Login = (props) => {
                 </div>
             ) :  (<div>
               <div id="h1">
-                <h1>Welcome to BIM Sign Bank Administration</h1>
+                <h1>BIM Sign Bank Administrative Page</h1>
               </div>
               <center>{loadGoogleButton()}</center>
             </div>) }
