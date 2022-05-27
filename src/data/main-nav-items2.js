@@ -2,7 +2,7 @@ export default function() {
     return [
       {
         title: "nav_item_5_title",
-        to: "/admin"
+        to: "/admin/home"
       }, 
       {
         title: "nav_menu_4_title",
