@@ -12,7 +12,7 @@ import Logout from './views/Logout';
 
 import './App.css';
 
-function App() {
+function Dashboard() {
 
     var [excel, setExcel] = useState([]);
     const [files, setFiles] = useState([]);
@@ -22,7 +22,7 @@ function App() {
 
     return (
       <div className="App">
-  {console.log("[App] "+sessionStorage.getItem("email"))}
+        {console.log("[Dashboard] "+sessionStorage.getItem("email"))}
   
         <BrowserRouter>
         
@@ -42,9 +42,9 @@ function App() {
           </Link>
 
           <Switch>
-            <Route path="/preview" element = {<Preview files={files}/>} />
-            <Route path="/Excel" element   = {<ExcelUploader onSuccess={onSuccess}/>} />
-            <Route path="/ImageUploader" element = {<ImageUpload onSuccess={excel} />} />
+            <Route exact path="/preview" element = {<Preview files={files}/>} />
+            <Route exact path="/Excel" element   = {<ExcelUploader onSuccess={onSuccess}/>} />
+            <Route exact path="/ImageUploader" element = {<ImageUpload onSuccess={excel} />} />
             <Route exact path="/Logout" element  = {<Logout/>} />
           </Switch>
         </BrowserRouter>
@@ -53,4 +53,4 @@ function App() {
     );
 }
 
-export default App;
+export default Dashboard;

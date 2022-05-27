@@ -16,10 +16,10 @@ import SelectedVocab from "./views/SelectedVocab";
 import SelectedAlphabets from "./views/SelectedAlphabet";
 import FeaturedVideos from "./views/FeaturedVideos";
 
-import Login from "./src-admin/views/Login";
-import Dashboard from "./src-admin/Dashboard"
+import App from "./src-admin/App";
 import { ExcelUploader } from "./src-admin/views/ExcelUploader";
 import { ImageUpload } from "./src-admin/views/ImageUpload";
+// import Logout from "./src-admin/views/Logout";
 
 export default [
   {
@@ -116,7 +116,7 @@ export default [
     path: "/admin",
     exact: true,
     layout: AdminBar,
-    component: Login,
+    component: App,
   },
   {
     path: "/admin/excelupload",
@@ -130,4 +130,10 @@ export default [
     layout: AdminBar,
     component: ImageUpload,
   },
+  // {
+  //   path: "/admin/signout",
+  //   exact: true,
+  //   layout: AdminBar,
+  //   component: Logout,
+  // },
 ];
