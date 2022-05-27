@@ -16,6 +16,7 @@ import SelectedVocab from "./views/SelectedVocab";
 import SelectedAlphabets from "./views/SelectedAlphabet";
 import FeaturedVideos from "./views/FeaturedVideos";
 
+import App from "./src-admin/App";
 import Login from "./src-admin/views/Login";
 import Dashboard from "./src-admin/Dashboard"
 import { ExcelUploader } from "./src-admin/views/ExcelUploader";
@@ -116,7 +117,7 @@ export default [
     path: "/admin",
     exact: true,
     layout: AdminBar,
-    component: Login,
+    component: App,
   },
   {
     path: "/admin/excelupload",

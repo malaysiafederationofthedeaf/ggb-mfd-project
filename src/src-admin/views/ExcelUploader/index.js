@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
 
+import Login from '../../views/Login';
+
 import './style.css';
 
 var t;
@@ -264,6 +266,8 @@ export const ExcelUploader = ({onSuccess}) => {
     };
     
     return (
+        <div>
+            {sessionStorage.getItem('email') === 'null' || sessionStorage.getItem('email') === null ? <div><Login />  {window.alert("You are not log in into the admin page")}</div> :
         <form method="post" action="#" id="#" onSubmit={onSubmit}>
             <div className="form-group files">
                 <h1>Upload Your BIM.xlsx File </h1>
@@ -292,5 +296,7 @@ export const ExcelUploader = ({onSuccess}) => {
             
             {/* <center><div id="btn-choose"><button >Submit</button></div></center> */}<br/><br/>
         </form>
+        }
+        </div>
     )
 };

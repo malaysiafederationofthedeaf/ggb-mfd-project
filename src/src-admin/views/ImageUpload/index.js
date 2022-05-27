@@ -2,6 +2,8 @@ import React,{ useState, useRef } from "react";
 import axios from 'axios';
 import * as XLSX from 'xlsx';
 
+import Login from '../../views/Login';
+
 import "./style.css";
 
 export const ImageUpload=()=>{
@@ -274,6 +276,9 @@ export const ImageUpload=()=>{
     }
 
     return(
+        <div>
+            {sessionStorage.getItem('email') === 'null' || sessionStorage.getItem('email') === null ? <div><Login />  {window.alert("You are not log in into the admin page")}</div> :
+        
         <div id="main">
             <h1>Upload sign images</h1>
             <p>Each image size must not exceed 5MB</p>
@@ -319,6 +324,8 @@ export const ImageUpload=()=>{
                 </div>
             </center>
             <br/>
+        </div>
+        }
         </div>
         
     )
