@@ -43,7 +43,7 @@ const Login = (props) => {
     if (userInfo.email === 'athirahsn.hassan@gmail.com') {
       setUserInfo({...userInfo});
       sessionStorage.setItem("email",userInfo.email);
-      window.location.reload();
+      window.location.replace('http://localhost:3000/admin/home');
     } else {
       setUserInfo({...userInfo});
       setIsSignedIn(true);
@@ -114,7 +114,7 @@ const Login = (props) => {
                             {/* {if correct account: grant access, else no access} */
                             userInfo.email === 'athirahsn.hassan@gmail.com' ? (
                               <div>
-                                <Dashboard />
+                                {console.log("yeay dapat")}
                               </div>
                             ) : ("")
                             }
@@ -129,7 +129,7 @@ const Login = (props) => {
                 </div>
             ) :  (<div>
               <div id="h1">
-                <h1>BIM Sign Bank Administrative Page</h1>
+                <h1>--BIM Sign Bank Administrative Page</h1>
               </div>
               <center>{loadGoogleButton()}</center>
             </div>) }

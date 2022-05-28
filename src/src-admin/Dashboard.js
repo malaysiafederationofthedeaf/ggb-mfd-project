@@ -16,7 +16,7 @@ const signout = () => {
   console.log("signout button clicked");
 
   sessionStorage.setItem('email',null);
-  window.location.href ='localhost:3000/admin';
+  window.location.replace('http://localhost:3000/admin');
 };
 
 function Dashboard() {

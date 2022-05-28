@@ -16,7 +16,7 @@ import SelectedVocab from "./views/SelectedVocab";
 import SelectedAlphabets from "./views/SelectedAlphabet";
 import FeaturedVideos from "./views/FeaturedVideos";
 
-import App from "./src-admin/App";
+import Login from "./src-admin/views/Login";
 import { ExcelUploader } from "./src-admin/views/ExcelUploader";
 import { ImageUpload } from "./src-admin/views/ImageUpload";
 import Dashboard from "./src-admin/Dashboard";
@@ -114,33 +114,31 @@ export default [
     component: FeaturedVideos,
   },   
   {
-    path: "/admin",
-    exact: true,
-    layout: LoginBar,
-    component: App,
-  },
-  {
-    path: "/admin/home",
-    exact: true,
-    layout: AdminBar,
-    component: Dashboard,
-  },
-  {
     path: "/admin/excelupload",
     exact: true,
     layout: AdminBar,
-    component: ExcelUploader,
+    component: sessionStorage.getItem("email")==='null' || sessionStorage.getItem("email")===null 
+    ? () => <Redirect to= "/admin"/> : ExcelUploader,
   },
   {
     path: "/admin/imageupload",
     exact: true,
     layout: AdminBar,
-    component: ImageUpload,
+    component: sessionStorage.getItem("email")==='null' || sessionStorage.getItem("email")===null 
+    ? () => <Redirect to= "/admin"/> : ImageUpload,
   },
-  // {
-  //   path: "/admin/signout",
-  //   exact: true,
-  //   layout: AdminBar,
-  //   component: Logout,
-  // },
+  {
+    path: "/admin/home",
+    exact: true,
+    layout: AdminBar,
+    component: sessionStorage.getItem("email")==='null' || sessionStorage.getItem("email")===null 
+    ?  () => <Redirect to= "/admin"/>: Dashboard,
+  },
+  {
+    path: "/admin",
+    exact: true,
+    layout: LoginBar,
+    component: sessionStorage.getItem("email")==='null' || sessionStorage.getItem("email")===null 
+    ? Login : () => <Redirect to= "/admin/home"/>,
+  },
 ];
