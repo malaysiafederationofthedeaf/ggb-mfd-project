@@ -13,23 +13,24 @@ h5{
 }
 
 .files input {
-    /* outline: 2px dashed #0367b9;
-    outline-offset: -10px; */
     -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
     transition: outline-offset .15s ease-in-out, background-color .15s linear;
     padding: 50px 0px 85px 44%;
     text-align: center !important;
-    
     margin: 0;
     width: 100% !important;
 }
-.files input:focus{     outline: 2px dashed #92b0b3;  outline-offset: -10px;
+.files input:focus{
+    outline: 2px dashed #92b0b3;  outline-offset: -10px;
     -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
     transition: outline-offset .15s ease-in-out, background-color .15s linear; border:1px solid #92b0b3;
-    
 }
-.files{ position:relative}
-.files:after {  pointer-events: none;
+.files{
+    position:relative
+}
+
+.files:after {
+    pointer-events: none;
     position: absolute;
     top: 60px;
     left: 0;
@@ -37,14 +38,16 @@ h5{
     right: 0;
     height: 56px;
     content: "";
-    /* background-image: url(https://image.flaticon.com/icons/png/128/109/109612.png); */
     display: block;
     margin: 0 auto;
     background-size: 100%;
-    
     background-repeat: no-repeat;
 }
-.color input{ background-color:#f1f1f1;}
+
+.color input{
+    background-color:#f1f1f1;
+}
+
 .files:before {
     position: absolute;
     bottom: 10px;
@@ -52,7 +55,6 @@ h5{
     width: 100%;
     right: 0;
     height: 57px;
-    /* content: " or drag BIM.xlsx file here "; */
     display: block;
     margin: 0 auto;
     color: #0367b9;
@@ -60,6 +62,7 @@ h5{
     text-transform: capitalize;
     text-align: center;
 }
+
 h1{
     margin-top: 10%;
     display: block;
@@ -69,7 +72,6 @@ h1{
 }
 
 button{
-    
     background-color: #0367b9;
     border: 2px #0367b9;
     color:white;
@@ -78,13 +80,11 @@ button{
     padding:7px;
     border-radius: 10px;
     cursor: pointer;
-    
 }
 
 #ve{
     background-color: white;
     width: 50%;
-    
     line-height: 200%;
     height: fit-content;
     margin:20px;

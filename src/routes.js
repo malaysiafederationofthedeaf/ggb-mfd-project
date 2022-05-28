@@ -15,12 +15,10 @@ import SelectedCategory from "./views/SelectedCategory";
 import SelectedVocab from "./views/SelectedVocab";
 import SelectedAlphabets from "./views/SelectedAlphabet";
 import FeaturedVideos from "./views/FeaturedVideos";
-
 import Login from "./src-admin/views/Login";
 import { ExcelUploader } from "./src-admin/views/ExcelUploader";
 import { ImageUpload } from "./src-admin/views/ImageUpload";
 import Dashboard from "./src-admin/Dashboard";
-// import Logout from "./src-admin/views/Logout";
 
 export default [
   {

@@ -1,9 +1,11 @@
 #main{
     text-align: center;
 }
+
 #mainerror{
     text-align: center;
 }
+
 #displayerror{
     width: 50%;
     height: 200px;
@@ -12,9 +14,8 @@
     border-radius: 30px;
     padding:90px 0px;
     margin:100px 0px;
-
-
 }
+
 #errormsg{
     color: white;
 }
@@ -27,13 +28,14 @@
     padding:7px;
     border-radius: 10px;
     cursor: pointer;
-
 }
+
 #bapakbutton{
     width: fit-content;
     height: fit-content;
     display: table;
 }
+
 #btn-upload{
     background-color: #0367b9;
     color:white;
@@ -44,7 +46,6 @@
     display: table-cell;
     margin: 5px;
     cursor: pointer;
-
 }
 
 #gap{
@@ -62,9 +63,7 @@
     display: table-cell;
     margin: 5px;
     cursor: pointer;
-
 }
-
 
 #kotakputih{
     background-color: white;
@@ -75,7 +74,6 @@
     border-color: grey;
     border-width: 1px;
     border-radius: 10px;
-
 }
 
 #withoutitem{
@@ -91,8 +89,8 @@
     border-color: grey;
     border-width: 1px;
     border-radius: 10px;
-
 }
+
 #kotaksuccess{
     background-color: #A3FF83;
     width: 50%;
@@ -102,7 +100,6 @@
     border-color: grey;
     border-width: 1px;
     border-radius: 10px;
-
 }
 
 #errorlistitem{
@@ -112,7 +109,6 @@
     border-radius: 8px;
     background-color: red;
     color: white;
-
 }
 
 #bapakexist{
@@ -148,8 +144,8 @@
     border-radius: 8px;
     background-color: #45C418;
     color: white;
-
 }
+
 #filelist{
     display:table;
     background-color: #E8E8E8;

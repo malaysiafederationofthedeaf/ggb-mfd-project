@@ -260,13 +260,11 @@ class Store extends EventEmitter {
 
     
     if(sotd !== undefined||sotdRecurrence!==undefined) {
-      console.log("sotd and sotdr have ");
       if(sotd!==undefined){
         return sotd;
       }else{
         return sotdRecurrence;
       }
-      
     }
     else {
       var time = new Date().getTime();

@@ -2,9 +2,6 @@
 import React, { useState, useEffect } from "react";
 import GoogleLogin from "react-google-login";
 
-import Dashboard from "../Dashboard";
-
-// import "../App.css";
 import './Login.css';
 
 const Login = (props) => {
@@ -104,36 +101,32 @@ const Login = (props) => {
   
   return (
     <div>
-        <div id="LoginGoogle">
-        
-            {other === 1 ? (
-                <div>
-                    {/* { if signed in: show page App, else show login button */
-                    isSignedIn ? (
-                        <div>
-                            {/* {if correct account: grant access, else no access} */
-                            userInfo.email === 'athirahsn.hassan@gmail.com' ? (
-                              <div>
-                                {console.log("yeay dapat")}
-                              </div>
-                            ) : ("")
-                            }
-                        </div>
-                    ) :  (<div>
-                      <div id="h1">
-                        <h1>BIM Sign Bank Administrative Page</h1>
-                      </div>
-                      <center>{loadGoogleButton()}</center>
-                    </div>)
-                    } 
+      <div id="LoginGoogle">
+          {other === 1 ? 
+          <div>
+            {isSignedIn ? 
+            <div>
+              {userInfo.email === 'athirahsn.hassan@gmail.com' ?
+                <div>{console.log("yeay dapat")}</div>
+                :""
+              }
+            </div>
+            :<div>
+                <div id="h1">
+                  <h1>BIM Sign Bank Administrative Page</h1>
                 </div>
-            ) :  (<div>
-              <div id="h1">
-                <h1>--BIM Sign Bank Administrative Page</h1>
+                <center>{loadGoogleButton()}</center>
               </div>
-              <center>{loadGoogleButton()}</center>
-            </div>) }
-        </div>
+            }
+          </div>
+          :<div>
+            <div id="h1">
+              <h1>--BIM Sign Bank Administrative Page</h1>
+            </div>
+            <center>{loadGoogleButton()}</center>
+          </div>
+          }
+      </div>
    </div>
 );
 };

@@ -1,14 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-// views component
-// import { ExcelUploader } from './views/ExcelUploader';
-// import { Preview } from './views/ExcelPreview';
-// import { ImageUpload } from './views/ImageUpload';
-// import Logout from './views/Logout';
-//import Navbar from "./views/Navbar.js";
 
 import './App.css';
 
