@@ -112,6 +112,11 @@ export const ImageUpload=()=>{
             })
     }
 
+    function cancelbtn(){
+        const redirect = window.location.protocol + "//" + window.location.host + "/admin/home";
+        window.location.assign(redirect);
+    }
+
     const UploadImages=()=>{
         const ImageFile=[];
 
@@ -224,7 +229,7 @@ export const ImageUpload=()=>{
             <div id="main">
                 <h1>Upload sign images</h1>
                 <p>Each image size must not exceed 5MB</p>
-                <p>All image must be in .jpg format (not more than 10 images)</p>
+                <p>All image must be in .jpg format</p><br/>
                 <input  type="file" 
                         ref={inputFileRef}
                         accept='.jpg'
@@ -233,6 +238,7 @@ export const ImageUpload=()=>{
                         multiple/>
                 {mode==="not uploaded"?
                     <center><div id="btn-choose" onClick={ClickChooseImage}> + Choose Images</div>
+                    
                         <div id="kotakputih">
                             {filearray.length>0?
                                 filearray.map(item=>
@@ -256,12 +262,13 @@ export const ImageUpload=()=>{
                     </center>
                 }
                 <center>
+                <p>Note: Must not exceed 10 images</p>
                     <div id="bapakbutton">
                         {mode==="not uploaded"?
                         <div id="btn-upload" onClick={UploadImages}> Upload </div>
                         :<div id="btn-upload" onClick={UploadAgain}> Upload Again </div>}
                         <div id="gap"></div>
-                        <div id="btn-cancel"> Cancel </div>
+                        <div id="btn-cancel" onClick={cancelbtn}> Cancel </div>
                     </div>
                 </center>
                 <br/>
