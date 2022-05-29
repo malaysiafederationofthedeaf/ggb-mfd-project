@@ -6,10 +6,24 @@ h5{
     background-color: #0367b9;
     border-color: #0367b9;
     color:white;
-    width: 200px;
+    width: 150px;
     height: 40px;
     padding:7px;
     border-radius: 10px;
+    cursor: pointer;
+    
+}
+
+#btn-cancel{
+    background-color: gray;
+    color:white;
+    width: 150px;
+    height: 40px;
+    padding:7px;
+    border-radius: 10px;
+    display: table-cell;
+    margin: 5px;
+    cursor: pointer;
 }
 
 .files input {
@@ -94,4 +108,15 @@ button{
     border-radius: 10px;
     text-align: left;
     padding-left: 20px;
+}
+
+#inbox{
+    width: fit-content;
+    height: fit-content;
+    display: table;
+}
+
+#gap{
+    display: table-cell;
+    width: 20px;
 }
