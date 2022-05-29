@@ -92,4 +92,6 @@ button{
     border-color: grey;
     border-width: 1px;
     border-radius: 10px;
+    text-align: left;
+    padding-left: 20px;
 }

@@ -5,10 +5,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 const signout = () => {
-  console.log("signout button clicked");
-
   sessionStorage.setItem('email',null);
-  window.location.replace('http://localhost:3000/admin');
+  const redirect = window.location.protocol + "//" + window.location.host + "/admin";
+  window.location.assign(redirect);
 };
 
 function Dashboard() {

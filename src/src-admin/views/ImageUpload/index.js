@@ -72,7 +72,6 @@ export const ImageUpload=()=>{
     const ChooseImage =(event)=>{
 
         filetemparray=event.target.files;
-        console.log(filetemparray);
         setFilearray([...filearray,...filetemparray]);
     }
 
@@ -87,14 +86,12 @@ export const ImageUpload=()=>{
     }
 
     const Replaceitem=(itemfile)=>{
-        console.log(errorlist);
         var tempsuccesslist = [...successlist];
         var temperrorlist=[...errorlist];
         var dataImagesreplace = new FormData();
         dataImagesreplace.append('file',itemfile);
         axios.post("//localhost:8001/upload",dataImagesreplace)
             .then((e)=>{
-                console.log(itemfile.name+ " has been replaced");
                 for(let i=0;i<temperrorlist.length;i++){
                     if(temperrorlist[i].props.children[1].props.children[0].props.children===itemfile.name){
                         temperrorlist.splice(i,1);
@@ -148,9 +145,7 @@ export const ImageUpload=()=>{
 
                 for(let z=0;z<ImageFile.length;z++){
                     if(dataxlsx[i].Perkataan===(ImageFile[z].name.replace(".jpg",""))){
-                        console.log(ImageFile[z].name+" same with perkataan")
                         if(dataxlsx[i].Status==="RECEIVED"){
-                            console.log(ImageFile[z].name+" not success to upload since exist in excel")
                             ImageFileUnsuccess.push(ImageFile[z]);
                             errorlist.push(
                                 <div id="bapakexist">
@@ -167,7 +162,6 @@ export const ImageUpload=()=>{
                                 </div>
                             )
                         }else{
-                            console.log(ImageFile[z].name+" success to upload")
                             ImageFileSuccess.push(ImageFile[z]);
                         }
                     }
@@ -209,7 +203,6 @@ export const ImageUpload=()=>{
                         <div>Successfully uploaded the image</div>
                     </div>
                 );
-                console.log(ImageFileSuccess[i].name+" has been append to upload")
             }
 
             axios.post("//localhost:8001/upload",dataImages)
@@ -223,7 +216,6 @@ export const ImageUpload=()=>{
             })
         }else {
             window.alert("Please remove some files to not exceed 10 files");
-            console.log("Please remove some files to not exceed 10 files");
         }
     }
 

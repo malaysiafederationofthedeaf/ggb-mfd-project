@@ -286,7 +286,6 @@ class Store extends EventEmitter {
   }
 
   checkSignOfTheDayRecurrence() {
-    console.log(this.getVocabsItems());
     const signsOfTheDayRecurrence = this.getVocabsItems()
       .filter((obj) => obj.sotdrec !== undefined)
       .filter((obj) => obj.sotdrec.toString() === this.formatDateRecurrence())

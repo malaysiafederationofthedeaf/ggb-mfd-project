@@ -40,7 +40,8 @@ const Login = (props) => {
     if (userInfo.email === 'athirahsn.hassan@gmail.com') {
       setUserInfo({...userInfo});
       sessionStorage.setItem("email",userInfo.email);
-      window.location.replace('http://localhost:3000/admin/home');
+      const redirect = window.location.protocol + "//" + window.location.host + "/admin/home";
+      window.location.assign(redirect);
     } else {
       setUserInfo({...userInfo});
       setIsSignedIn(true);
