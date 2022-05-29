@@ -6,6 +6,7 @@ import './style.css';
 
 var t;
 var opi = 1;
+var opj = false;
 
 export const ExcelUploader = ({onSuccess}) => {
   
@@ -16,8 +17,9 @@ export const ExcelUploader = ({onSuccess}) => {
     var [files, setFiles] = useState([]);
     const [items, setItems] = useState([]);    
     const [itemsG, setItemsG] = useState([]);
-    const [showbtn, setShowbtn] = useState(false);
-    const [opj, setOpj] = useState(false)
+    
+    
+    
 
     const readReactFile=(file)=>{
       const inputPromise = new Promise((resolve, reject) => {
@@ -189,15 +191,15 @@ export const ExcelUploader = ({onSuccess}) => {
     }
 
     const verifyExcel = (e) => {
-        setShowbtn(false)
-        setOpj(true)
+       let showbtn = false;
+        opj = true;
 
         try {
             if (t === bim) {
                 if(checkFileUploaded(items, itemsG)){
                     if (checkColumnDefined(items, itemsG)){
                         if(checkDataDuplication(items, itemsG)){  
-                            setShowbtn(true)
+                            showbtn = true;
                             message += "\nNo file issue.";
                         }
                     }else {
