@@ -1,13 +1,14 @@
 #LoginGoogle {
     text-align: center;
+    width: auto;
     display: block;
-    margin: auto;
+    margin-top: -125px;
     background-image: url("../../images/general/background/home-background.jpg");
     background-attachment: 100%;
     background-position: center;
     background-repeat: repeat;
     background-size: cover;
-    height: 960px;
+    height: 500px;
   }
 
   #h1{

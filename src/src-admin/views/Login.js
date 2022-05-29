@@ -107,13 +107,12 @@ const Login = (props) => {
           <div>
             {isSignedIn ? 
             <div>
-              {userInfo.email === 'athirahsn.hassan@gmail.com' ?
-                <div>{console.log("yeay dapat")}</div>
+              {userInfo.email === 'athirahsn.hassan@gmail.com' ?""
                 :""
               }
             </div>
             :<div>
-                <div id="h1">
+                <div id="h1"><br/><br/><br/><br/><br/><br/>
                   <h1>BIM Sign Bank Administrative Page</h1>
                 </div>
                 <center>{loadGoogleButton()}</center>
@@ -121,8 +120,8 @@ const Login = (props) => {
             }
           </div>
           :<div>
-            <div id="h1">
-              <h1>--BIM Sign Bank Administrative Page</h1>
+            <div id="h1"><br/><br/><br/><br/><br/><br/>
+              <h1>BIM Sign Bank Administrative Page</h1>
             </div>
             <center>{loadGoogleButton()}</center>
           </div>
