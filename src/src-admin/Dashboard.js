@@ -14,8 +14,8 @@ function Dashboard() {
 
     return (
       <div className="App">
-        <br/><br/><br/><br/><br/><br/><br/>
-        <h1>Welcome to BIM Sign Bank</h1><br></br><h1>Administration Homepage</h1><br/>
+        <br/><br/><br/><br/>
+        <h1>Welcome to BIM Sign Bank<br></br>Administration Homepage</h1><br/>
         <br/>
         <Link id="button-link" to="/admin" onClick={signout}>
             <div className="imageButton" >
