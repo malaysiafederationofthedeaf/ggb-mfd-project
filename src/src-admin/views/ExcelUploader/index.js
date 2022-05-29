@@ -6,7 +6,6 @@ import './style.css';
 
 var t;
 var opi = 1;
-var opj = false;
 
 export const ExcelUploader = ({onSuccess}) => {
   
@@ -17,7 +16,9 @@ export const ExcelUploader = ({onSuccess}) => {
     var [files, setFiles] = useState([]);
     const [items, setItems] = useState([]);    
     const [itemsG, setItemsG] = useState([]);
-    
+    const [showbtn, setShowbtn] = useState(false);
+    const [opj, setOpj] = useState(false)
+
     const readReactFile=(file)=>{
       const inputPromise = new Promise((resolve, reject) => {
   
@@ -183,16 +184,20 @@ export const ExcelUploader = ({onSuccess}) => {
         }
     };
 
+    function cancelbtn(){
+        window.location.reload();
+    }
+
     const verifyExcel = (e) => {
-        let showbtn = false;
-        opj = true;
+        setShowbtn(false)
+        setOpj(true)
 
         try {
             if (t === bim) {
                 if(checkFileUploaded(items, itemsG)){
                     if (checkColumnDefined(items, itemsG)){
-                        if(checkDataDuplication(items, itemsG)){
-                            showbtn = true;
+                        if(checkDataDuplication(items, itemsG)){  
+                            setShowbtn(true)
                             message += "\nNo file issue.";
                         }
                     }else {
@@ -217,7 +222,8 @@ export const ExcelUploader = ({onSuccess}) => {
             opi = 1;
         }
         
-        setVe(message);
+        
+        setVe(message);         
         message = "";
     } 
    
@@ -261,7 +267,7 @@ export const ExcelUploader = ({onSuccess}) => {
     return (
         <form method="post" action="#" id="#" onSubmit={onSubmit}>
             <div className="form-group files">
-                <h1>Upload Your BIM.xlsx File </h1>
+                <h1>Upload BIM.xlsx File </h1>
                 <center><p>Only BIM.xlsx file will be accepted</p>
                 <p>Please ensure that the BIM.xlsx has no unresolved conflict.</p></center>
                 <input directory="BIM.xlsx" type="file"
@@ -272,7 +278,11 @@ export const ExcelUploader = ({onSuccess}) => {
                 />
             </div>
             <center>
-                <div id="btn-choose" onClick={verifyExcel}>Verify</div>
+                <div id="inbox">
+                    <div id="btn-choose" onClick={verifyExcel}>Verify</div>
+                    <div id="gap"></div>
+                    <div id="btn-cancel" onClick={cancelbtn}>Cancel</div>
+                </div>
             </center><br/><br/>
             <br/>
             
