@@ -112,7 +112,7 @@ const Login = (props) => {
               }
             </div>
             :<div>
-                <div id="h1"><br/><br/><br/><br/><br/><br/>
+                <div id="h1"><br/><br/><br/>
                   <h1>BIM Sign Bank Administrative</h1>
                 </div>
                 <center>{loadGoogleButton()}</center>
@@ -120,7 +120,7 @@ const Login = (props) => {
             }
           </div>
           :<div>
-            <div id="h1"><br/><br/><br/><br/><br/><br/>
+            <div id="h1"><br/><br/><br/>
               <h1>BIM Sign Bank Administrative</h1>
             </div>
             <center>{loadGoogleButton()}</center>
