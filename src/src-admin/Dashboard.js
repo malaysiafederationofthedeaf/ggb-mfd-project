@@ -14,10 +14,8 @@ function Dashboard() {
 
     return (
       <div className="App">
-        {console.log("[Dashboard] "+sessionStorage.getItem("email"))}
-        
         <br/><br/><br/><br/><br/><br/><br/>
-        <h1>Welcome To BIM Sign Bank Administration</h1><br/>
+        <h1>Welcome to BIM Sign Bank</h1><br></br><h1>Administration Homepage</h1><br/>
         <br/>
         <Link id="button-link" to="/admin" onClick={signout}>
             <div className="imageButton" >
