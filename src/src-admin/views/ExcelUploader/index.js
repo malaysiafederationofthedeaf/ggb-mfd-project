@@ -239,14 +239,15 @@ export const ExcelUploader = ({onSuccess}) => {
                 for(let i = 0; i < files.length; i++) {
                     data.append('file', files[i]);
                 }
-
-                axios.post(window.location.protocol + '//' + window.location.host +'/upload', data,
+                console.log(window.location.protocol + '//' + window.location.host +':8000/upload')    
+                axios.post('https://ggb-mfd-project-bim-git-user-athirahassandkip-147-ggb-mfd.vercel.app/:8000/upload', data,
                 {headers:
                     {
                         'Content-Disposition': "attachment;",
                         'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                     },
                     responseType: 'arraybuffer',
+                    
                 })
                 .then((response) => {
                     window.alert("Successfully uploaded BIM.xlsx.");
