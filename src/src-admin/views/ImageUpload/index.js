@@ -90,7 +90,7 @@ export const ImageUpload=()=>{
         var temperrorlist=[...errorlist];
         var dataImagesreplace = new FormData();
         dataImagesreplace.append('file',itemfile);
-        axios.post("//localhost:8001/upload",dataImagesreplace)
+        axios.post(window.location.protocol + '//' + window.location.host +'/upload',dataImagesreplace)
             .then((e)=>{
                 for(let i=0;i<temperrorlist.length;i++){
                     if(temperrorlist[i].props.children[1].props.children[0].props.children===itemfile.name){
@@ -210,7 +210,7 @@ export const ImageUpload=()=>{
                 );
             }
 
-            axios.post("//localhost:8001/upload",dataImages)
+            axios.post(window.location.protocol + '//' + window.location.host +'/upload',dataImages)
             .then((e)=>{
                 setErrordiv(errorlist);
                 setSuccessdiv(successlist);
