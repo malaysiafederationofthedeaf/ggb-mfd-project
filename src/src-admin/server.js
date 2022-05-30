@@ -5,12 +5,11 @@ const cors = require('cors');
 const app = express();
 
 app.use(cors());
-app.use(express.static('images/bim/vocab'));
-
+app.use(express.static('../images/bim/vocab'));
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'images/bim/vocab')
+        cb(null, '../images/bim/vocab')
     },
     filename: (req, file, cb) => {
         cb(null,file.originalname)

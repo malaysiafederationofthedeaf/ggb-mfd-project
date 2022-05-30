@@ -12,7 +12,7 @@ export const ImageUpload=()=>{
     const [errordiv,setErrordiv]=useState([]);
     const [successdiv,setSuccessdiv]=useState([]);
     const [wsheets,setWsheets] = useState([]);
-    const [setWsheetsnames]=useState([]);
+    const [wsheetsnames,setWsheetsnames]=useState([]);
 
     var excel;
     var ws=[];
@@ -25,7 +25,7 @@ export const ImageUpload=()=>{
 
         axios.request({
             responseType: 'arraybuffer',
-            url: "./assets/BIM.xlsx",
+            url: "http://localhost:3000/assets/BIM.xlsx",
             method: 'get',
             headers: {
             'Content-Type': 'blob',
@@ -210,7 +210,7 @@ export const ImageUpload=()=>{
                 );
             }
 
-            axios.post(window.location.protocol + '//' + window.location.host +'/upload',dataImages)
+            axios.post('http://localhost:8001/upload',dataImages)
             .then((e)=>{
                 setErrordiv(errorlist);
                 setSuccessdiv(successlist);
