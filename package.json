@@ -46,11 +46,13 @@
         "xlsx": "^0.16.9"
     },
     "scripts": {
-        "start": "react-scripts start",
+        "start-js": "react-scripts start",
+        "start": "concurrently \"npm run start-js\" \"npm run backend\"",
         "build": "react-scripts build",
         "test": "react-scripts test --reporters=jest-html-reporters",
         "eject": "react-scripts eject",
         "backend": "nodemon server.js"
+
     },
     "eslintConfig": {
         "extends": "react-app"
