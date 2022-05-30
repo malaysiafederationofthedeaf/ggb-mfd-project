@@ -240,7 +240,7 @@ export const ExcelUploader = ({onSuccess}) => {
                     data.append('file', files[i]);
                 }
                 console.log(window.location.protocol + '//' + window.location.host +':8000/upload')    
-                axios.post('https://ggb-mfd-project-bim-git-user-athirahassandkip-147-ggb-mfd.vercel.app/upload', data,
+                axios.post('//ggb-mfd-project-bim-git-user-athirahassandkip-147-ggb-mfd.vercel.app/upload', data,
                 {headers:
                     {
                         'Content-Disposition': "attachment;",
