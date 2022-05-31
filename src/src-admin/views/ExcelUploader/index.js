@@ -257,6 +257,10 @@ export const ExcelUploader = ({onSuccess}) => {
                 })
                 .catch((e) => {
                     console.log(e);
+                    console.log(e.code);
+                    console.log(e.message);
+                    console.log(e.stack);
+
                     window.alert("Upload Error: Connection Failed.\nPlease ensure you are connected to the internet.");
                 })
             }
