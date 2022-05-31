@@ -47,12 +47,12 @@
     },
     "scripts": {
         "start-js": "react-scripts start",
-        "start": "concurrently \"npm run start-js\" \"npm run backend\"",
+        "start": "concurrently \"npm run start-js\" \"npm run backend\" \"npm run dev\"",
         "build": "react-scripts build",
         "test": "react-scripts test --reporters=jest-html-reporters",
         "eject": "react-scripts eject",
-        "backend": "nodemon server.js"
-
+        "backend": "nodemon server.js",
+        "dev": "nodemon server2.js"
     },
     "eslintConfig": {
         "extends": "react-app"

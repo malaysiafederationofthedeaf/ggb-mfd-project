@@ -5,7 +5,7 @@ const cors = require('cors');
 const app = express();
 
 app.use(cors());
-app.use(express.static('./src/images/bim/vocab'));
+app.use(express.static('/vocab'));
 
 
 const storage = multer.diskStorage({

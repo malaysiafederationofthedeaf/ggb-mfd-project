@@ -20,6 +20,7 @@ export const ImageUpload=()=>{
     var wb;
     var errorlist=[];
     var successlist=[];
+    var urlprotocolhost=window.location.protocol +'//' + window.location.hostname + ':8001/upload';
     
     const ClickChooseImage = () => {
 
@@ -90,7 +91,7 @@ export const ImageUpload=()=>{
         var temperrorlist=[...errorlist];
         var dataImagesreplace = new FormData();
         dataImagesreplace.append('file',itemfile);
-        axios.post('//' + window.location.hostname + ':8001/upload',dataImagesreplace)
+        axios.post(urlprotocolhost,dataImagesreplace)
             .then((e)=>{
                 for(let i=0;i<temperrorlist.length;i++){
                     if(temperrorlist[i].props.children[1].props.children[0].props.children===itemfile.name){
@@ -113,7 +114,7 @@ export const ImageUpload=()=>{
     }
 
     function cancelbtn(){
-        const redirect = window.location.protocol + "//" + window.location.host + "/admin/home";
+        const redirect = window.location.origin + "/admin/home";
         window.location.assign(redirect);
     }
 
@@ -210,8 +211,7 @@ export const ImageUpload=()=>{
                 );
             }
 
-            console.log('//' + window.location.hostname + ':8001/upload')
-            axios.post('//' + window.location.hostname + ':8001/upload',dataImages)
+            axios.post(urlprotocolhost,dataImages)
             .then((e)=>{
                 setErrordiv(errorlist);
                 setSuccessdiv(successlist);

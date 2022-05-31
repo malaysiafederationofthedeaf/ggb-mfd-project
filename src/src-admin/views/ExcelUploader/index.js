@@ -240,7 +240,7 @@ export const ExcelUploader = ({onSuccess}) => {
                     data.append('file', files[i]);
                 }
                 console.log(window.location.protocol + '//' + window.location.host +':8000/upload')    
-                axios.post('http://localhost:8000/upload', data,
+                axios.post('//' + window.location.hostname + ':8001/upload', data,
                 {headers:
                     {
                         'Content-Disposition': "attachment;",
