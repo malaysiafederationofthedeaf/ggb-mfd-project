@@ -25,7 +25,7 @@ export const ImageUpload=()=>{
 
         axios.request({
             responseType: 'arraybuffer',
-            url: "http://localhost:3000/assets/BIM.xlsx",
+            url: window.location.origin + "/assets/BIM.xlsx",
             method: 'get',
             headers: {
             'Content-Type': 'blob',
@@ -90,7 +90,7 @@ export const ImageUpload=()=>{
         var temperrorlist=[...errorlist];
         var dataImagesreplace = new FormData();
         dataImagesreplace.append('file',itemfile);
-        axios.post('http://localhost:8001/upload',dataImagesreplace)
+        axios.post('//' + window.location.hostname + ':8001/upload',dataImagesreplace)
             .then((e)=>{
                 for(let i=0;i<temperrorlist.length;i++){
                     if(temperrorlist[i].props.children[1].props.children[0].props.children===itemfile.name){
@@ -210,7 +210,8 @@ export const ImageUpload=()=>{
                 );
             }
 
-            axios.post('http://localhost:8001/upload',dataImages)
+            console.log('//' + window.location.hostname + ':8001/upload')
+            axios.post('//' + window.location.hostname + ':8001/upload',dataImages)
             .then((e)=>{
                 setErrordiv(errorlist);
                 setSuccessdiv(successlist);
@@ -229,7 +230,8 @@ export const ImageUpload=()=>{
             <div id="main">
                 <h1>Upload sign images</h1>
                 <p>Each image size must not exceed 5MB</p>
-                <p>All image must be in .jpg format</p><br/>
+                <p>All image must be in .jpg format</p>
+                <p>Note: Must not exceed 10 images</p>
                 <input  type="file" 
                         ref={inputFileRef}
                         accept='.jpg'
@@ -262,7 +264,7 @@ export const ImageUpload=()=>{
                     </center>
                 }
                 <center>
-                <p>Note: Must not exceed 10 images</p>
+                
                     <div id="bapakbutton">
                         {mode==="not uploaded"?
                         <div id="btn-upload" onClick={UploadImages}> Upload </div>
