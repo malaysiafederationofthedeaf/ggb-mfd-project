@@ -20,10 +20,10 @@ export const ImageUpload=()=>{
     var wb;
     var errorlist=[];
     var successlist=[];
-    var urlprotocolhost='//' + window.location.hostname + ':8001/upload';
+    let urlprotocolhost=window.location.protocol +'//' + window.location.hostname + ':8001/upload';
     
     const ClickChooseImage = () => {
-
+        console.log(urlprotocolhost)
         axios.request({
             responseType: 'arraybuffer',
             url: window.location.origin + "/assets/BIM.xlsx",
