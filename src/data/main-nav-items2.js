@@ -17,10 +17,10 @@ export default function() {
             },                       
         ]
       },
-      // {
-      //   title: "nav_item_6_title",
-      //   to: "/admin/signout"
-      // }, 
+      {
+        title: "nav_item_6_title",
+        to: "/admin/signout"
+      }, 
       
                  
     ];
