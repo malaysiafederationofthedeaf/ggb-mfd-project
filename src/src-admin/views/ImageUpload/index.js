@@ -20,7 +20,7 @@ export const ImageUpload=()=>{
     var wb;
     var errorlist=[];
     var successlist=[];
-    let urlprotocolhost=window.location.protocol +'//' + window.location.hostname + '8000/upload';
+    let urlprotocolhost=window.location.protocol +'//' + window.location.hostname + '8001/upload';
     
     const ClickChooseImage = () => {
         console.log(urlprotocolhost)
