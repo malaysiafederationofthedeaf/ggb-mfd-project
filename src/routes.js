@@ -16,6 +16,7 @@ import SelectedVocab from "./views/SelectedVocab";
 import SelectedAlphabets from "./views/SelectedAlphabet";
 import FeaturedVideos from "./views/FeaturedVideos";
 import Login from "./src-admin/views/Login";
+import Logout from "./src-admin/views/Logout";
 import { ExcelUploader } from "./src-admin/views/ExcelUploader";
 import { ImageUpload } from "./src-admin/views/ImageUpload";
 import Dashboard from "./src-admin/Dashboard";
@@ -138,5 +139,12 @@ export default [
     layout: LoginBar,
     component: sessionStorage.getItem("email")==='null' || sessionStorage.getItem("email")===null 
     ? Login : () => <Redirect to= "/admin/home"/>,
+  },
+  {
+    path: "/admin/signout",
+    exact: true,
+    layout: LoginBar,
+    component: sessionStorage.getItem("email")==='null' || sessionStorage.getItem("email")===null 
+    ?  () => <Redirect to= "/admin"/>: Logout,
   },
 ];
