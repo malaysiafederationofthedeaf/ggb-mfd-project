@@ -626,7 +626,15 @@ p {
         padding-bottom: 5px;
       }
       .vocab-word {
-        height: 100%;      
+        @media (min-width: $breakpoint-lg) {
+          height: 145px;
+        } 
+        @media (max-width: $breakpoint-lg) {
+          height: 100px;
+        }      
+        @media (max-width: $breakpoint-sm) {
+          height: 100%;
+        }                 
         .vocab-image-wrapper {
           height: 100%;
           width: 100%;
