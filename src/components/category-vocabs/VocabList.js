@@ -6,6 +6,18 @@ import { Store } from "../../flux";
 import VocabWordPerkataan from "./VocabWordPerkataan";
 
 const VocabList = ({ vocabs, group, category }) => {
+  const trimWord = (word) => {
+    console.log("word: " + word)
+    const length = word.length
+    if(length >= 45) {
+      if(word.includes('(') && word.includes(')')) {
+        word = word.substring(0, word.indexOf('('));
+        console.log("trimmed: " + word)
+      }
+    } 
+    return word;
+  }
+
   return (
     <ListGroup flush>
       {vocabs.map((vocab, key) => {
@@ -37,8 +49,8 @@ const VocabList = ({ vocabs, group, category }) => {
                 </Col>   
                 <Col xs="9" sm="7" md="7" lg="7" className="pl-2 pr-0">
                   <VocabWordPerkataan
-                    word={vocab.word}
-                    perkataan={vocab.perkataan}
+                    word={trimWord(vocab.word)}
+                    perkataan={trimWord(vocab.perkataan)}
                   />
                 </Col>
               </Row>
