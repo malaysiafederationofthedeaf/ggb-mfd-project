@@ -105,14 +105,17 @@ $font-button: $font-body;
     font: {
         family: $font-body;
         weight: 300;
-        size: 26px;
+        size: 24px;
     }
     margin-bottom: 10px;   
-    @media (max-width: $breakpoint-md) {
+    @media (max-width: $breakpoint-lg) {
         font-size: 22px;
+    }    
+    @media (max-width: $breakpoint-md) {
+        font-size: 20px;
     }
     @media (max-width: $breakpoint-sm) {
-        font-size: 18px;
+        font-size: 17px;
     }     
 }
 
@@ -120,12 +123,15 @@ $font-button: $font-body;
     font: {
         family: $font-body;
         weight: 250;
-        size: 22px;
+        size: 21px;
     }
     color: $title-font-color;
     margin-bottom: 10px;   
-    @media (max-width: $breakpoint-md) {
+    @media (max-width: $breakpoint-lg) {
         font-size: 18px;
+    }    
+    @media (max-width: $breakpoint-md) {
+        font-size: 16px;
     }
     @media (max-width: $breakpoint-sm) {
         font-size: 14px;

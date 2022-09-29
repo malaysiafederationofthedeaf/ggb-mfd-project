@@ -33,7 +33,7 @@ const restructureJSON = (data) => {
   // return filterExcelData(reconData, "Release 1");
 
   // if there are multiple Releases to include, use an array
-  return filterExcelData(reconData, ["Release 1", "Release 2"]);
+  return filterExcelData(reconData, ["Release 1", "Release 2", "Release 3"]);
 };
 
 const filterExcelData = (excelData, releases) => {
