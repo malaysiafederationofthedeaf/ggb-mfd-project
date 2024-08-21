@@ -1,21 +1,21 @@
 import React from "react";
+import { useParams } from 'react-router-dom';
 import { Container } from "shards-react";
 
 import ComingSoon from "./ComingSoon";
 import VocabDetail from "../components/category-vocabs/VocabDetail";
 import { Store } from "../flux";
 import Breadcrumbs from "../components/layout/Breadcrumbs/Breadcrumbs";
-import { useTranslation } from "react-i18next";
 
 const SelectedVocab = ({ match }) => {
-  const signEng = match.params.vocab;
+  const { vocab } = useParams();
 
-  const categoryVocab = Store.getVocabDetail(signEng);
+  const categoryVocab = Store.getVocabDetail(vocab);
+
   // return Error page if no Vocab Details are returned
   if (!categoryVocab) return <ComingSoon />;
-  const vocab = categoryVocab[0];
 
-  useTranslation();
+  const vocabDetails = categoryVocab[0];
 
   return (
     <>
@@ -26,7 +26,7 @@ const SelectedVocab = ({ match }) => {
         fluid
         className="main-content-container vocab-list-wrapper"
       >
-        <VocabDetail vocab={vocab} />
+        <VocabDetail vocab={vocabDetails} />
       </Container>
     </>
   );

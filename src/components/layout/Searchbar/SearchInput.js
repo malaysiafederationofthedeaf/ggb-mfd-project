@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Select, { components } from "react-select";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import i18next from "i18next";
 
 import { Store } from "../../../flux";
 
 const SearchInput = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
-  const history = useHistory();
   const onSelectChange = (value) => {
     const groupCat = value.groupCategory.toString().includes(",") ? 
       value.groupCategory.toString().substring(0, value.groupCategory.indexOf(",")) : // get the first group&category pair if there are multiple group&category pairs
@@ -17,8 +17,8 @@ const SearchInput = () => {
     const group = Store.formatString(groupCat.split("/")[0]);
     const category = Store.formatString(groupCat.split("/")[1]);
 
-    let path = `/groups/${group}/${category}/${Store.formatString(value.word)}`;
-    history.push(path);
+    const path = `/groups/${group}/${category}/${Store.formatString(value.word)}`;
+    navigate(path);
     setOpenMenu(false);
   };
 
