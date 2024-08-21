@@ -40,14 +40,14 @@ const VocabList = ({ vocabs, group, category }) => {
           >
             <ListGroupItem className="double">
               <Row className="vocab-word">              
-                <Col xs="3" sm="5" md="5" lg="5" className="vocab-image-wrapper">
+                <Col className="vocab-image-wrapper">
                   <img
                     src={vocabImgSrc}
                     alt={vocab.word}
                     className="vocab-image"
                   />
                 </Col>   
-                <Col xs="9" sm="7" md="7" lg="7" className="pl-2 pr-0">
+                <Col className="pl-2 pr-0">
                   <VocabWordPerkataan
                     word={trimWord(vocab.word)}
                     perkataan={trimWord(vocab.perkataan)}

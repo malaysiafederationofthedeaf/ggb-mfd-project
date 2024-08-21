@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import routes from "./routes";
 import withTracker from "./withTracker";
@@ -13,30 +13,28 @@ import ScrollToTop from "./components/common/ScrollToTop";
 function App() {
   Aos.init();
   return (
-      <Router basename={process.env.REACT_APP_BASENAME || ""}>
-          <div>
-          <ScrollToTop>
-            <Switch>
-              {routes.map((route, index) => {
-                return (
-                  <Route
-                    key={index}
-                    path={route.path}
-                    exact={route.exact}
-                    component={withTracker((props) => {
-                      return (
-                        <route.layout {...props}>
-                          <route.component {...props} />
-                        </route.layout>
-                      );
-                    })}
-                  />
-                );
-              })}
-            </Switch>
-            </ScrollToTop>
-          </div>
-        </Router>
+    <Router>
+      <ScrollToTop>
+        <Routes>
+          {routes.map((route, index) => {
+            const Layout = route.layout || React.Fragment;
+            const Component = route.component;
+            const TrackedComponent = withTracker(Component);
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  <Layout>
+                    <TrackedComponent />
+                  </Layout>
+                }
+              />
+            );
+          })}
+        </Routes>
+      </ScrollToTop>
+    </Router>
   );
 }
 

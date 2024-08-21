@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Col, Row } from "shards-react";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 import ComingSoon from "./ComingSoon";
 import PageTitle from "../components/common/PageTitle";
@@ -8,17 +9,18 @@ import VocabList from "../components/category-vocabs/VocabList";
 import { Store } from "../flux";
 import Breadcrumbs from "../components/layout/Breadcrumbs/Breadcrumbs";
 
-const SelectedCategory = ({ match }) => {
-  const pathTail = match.path.split("/").pop()
+const SelectedCategory = () => {
+  const { group, category } = useParams();
+  const pathTail = window.location.pathname.split("/").pop()
   const isNewSignCategory = pathTail === "new-signs"; // for new-sign category
-  const group = isNewSignCategory ? pathTail : match.params.group;
-  const categoryEng = match.params.category;
+  const groupSelected = isNewSignCategory ? pathTail : group;
+  const categoryEng = category;
 
   const { t } = useTranslation("group-category");
 
   const categoryFormatted = Store.formatString(categoryEng);
   const groupFormatted = Store.formatString(group);
-  const vocabs = isNewSignCategory ? Store.getNewSigns() : Store.getVocabList(groupFormatted, categoryFormatted);
+  const vocabs = isNewSignCategory ? Store.getNewSigns() : Store.getVocabList(groupSelected, categoryFormatted);
   const title = isNewSignCategory ? groupFormatted : categoryFormatted
 
   // return Error page if no Vocabs are returned
@@ -40,7 +42,7 @@ const SelectedCategory = ({ match }) => {
         </Row>
         <Row>
           <Col>
-            <VocabList vocabs={vocabs} group={group} category={categoryEng}/>
+            <VocabList vocabs={vocabs} group={groupSelected} category={categoryEng}/>
           </Col>
         </Row>
       </Container>

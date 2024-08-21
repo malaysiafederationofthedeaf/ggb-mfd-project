@@ -1,53 +1,53 @@
 import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "shards-react";
-import { Route, Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-const BreadcrumbItems = ({ vocab }) => {
-  const trimWord = (word) => {
-    console.log("word: " + word)
-    const length = word.length
-    if(length >= 45) {
-      if(word.includes('(') && word.includes(')')) {
-        word = word.substring(0, word.indexOf('(')-1);
-        console.log("trimmed: " + word)
-      }
-    } 
-    return word;
+// Function to trim words for display
+const trimWord = (word) => {
+  const length = word.length;
+  if (length >= 45) {
+    if (word.includes('(') && word.includes(')')) {
+      word = word.substring(0, word.indexOf('(') - 1);
+    }
   }
+  return word;
+};
 
+const BreadcrumbItems = ({ vocab }) => {
   const { t } = useTranslation(["word", "group-category"]);
+  const location = useLocation();
+  const { pathname } = location;
 
-  const Breadcrumbs = (props) => (
+  // Split the pathname into breadcrumb parts
+  const pathParts = pathname.split('/').filter(part => part);
+
+  return (
     <div className="breadcrumbs">
       <Breadcrumb>
-        <Route path="/:path" component={BreadcrumbsItem} />
+        {pathParts.map((part, index) => {
+          const breadcrumbPath = `/${pathParts.slice(0, index + 1).join('/')}`;
+          const isLast = index === pathParts.length - 1;
+
+          return (
+            <BreadcrumbItem key={breadcrumbPath} active={isLast}>
+              {isLast ? (
+                vocab === undefined ? (
+                  <>{t(`group-category:${part}`)}</>
+                ) : (
+                  <>{t(`word:${trimWord(part)}`)}</>
+                )
+              ) : (
+                <Link to={breadcrumbPath}>
+                  <>{t(`group-category:${part}`)}</>
+                </Link>
+              )}
+            </BreadcrumbItem>
+          );
+        })}
       </Breadcrumb>
     </div>
   );
-
-  const BreadcrumbsItem = ({ match, ...rest }) => {
-    return (
-      <React.Fragment>
-        <BreadcrumbItem className={match.isExact ? "active" : undefined}>
-          {match.isExact ? (
-            vocab === undefined ? (
-              <>{t(`group-category:${match.params.path}`)}</>
-            ) : (
-              <>{t(`word:${trimWord(match.params.path)}`)}</>
-            )
-          ) : (
-            <Link to={match.url || ""}>
-              <>{t(`group-category:${match.params.path}`)}</>
-            </Link>
-          )}
-        </BreadcrumbItem>
-        <Route path={`${match.url}/:path`} component={BreadcrumbsItem} />
-      </React.Fragment>
-    );
-  };
-
-  return <Breadcrumbs />;
 };
 
 export default BreadcrumbItems;

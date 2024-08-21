@@ -1,13 +1,14 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-const BackButton = ({ history }) => {
+const BackButton = () => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   return (
     <button
       className="btn-primary scrollto d-inline-flex align-items-center justify-content-center align-self-center"
-      onClick={() => history.goBack()}
+      onClick={() => navigate(-1)}
     >
       <span>&larr; {t("go_back")}</span>
       <i className="bi bi-arrow-right"></i>
@@ -15,4 +16,4 @@ const BackButton = ({ history }) => {
   );
 };
 
-export default withRouter(BackButton);
+export default BackButton;
