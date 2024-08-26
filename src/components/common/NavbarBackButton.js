@@ -1,9 +1,13 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const NavbarBackButton = ({ history }) => 
-<button className="navbar-back-button" onClick={() => history.goBack()}>
-    <i className="material-icons">arrow_back</i>    
-</button>
+const NavbarBackButton = () => {
+    const navigate = useNavigate();
+    return (
+        <button className="navbar-back-button" onClick={() => navigate(-1)}>
+            <i className="material-icons">arrow_back</i>    
+        </button>
+    );
+}
 
-export default withRouter(NavbarBackButton);
+export default NavbarBackButton;

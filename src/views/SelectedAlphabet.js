@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Container, Col, Row } from "shards-react";
 import ItemsCarousel from "react-items-carousel";
+import { useParams } from "react-router-dom";
 
 import ComingSoon from "./ComingSoon";
 import PageTitle from "../components/common/PageTitle";
@@ -8,9 +9,9 @@ import { Store } from "../flux";
 import AlphabetsGrid from "../components/alphabets-vocabs/AlphabetsGrid";
 import AlphabetsList from "../components/alphabets-vocabs/AlphabetsList";
 
-const SelectedAlphabets = ({ match }) => {
-  const alphas = match.params.alphabet;
-  const alphasFormatted = Store.formatString(alphas);
+const SelectedAlphabets = () => {
+  const { alphabet } = useParams();
+  const alphasFormatted = Store.formatString(alphabet);
   const alphasLists = Store.getAlphabetsList();
   const vocabs = Store.getVocabsAlphabet(alphasFormatted);
 
@@ -50,11 +51,11 @@ const SelectedAlphabets = ({ match }) => {
         className="main-content-container px-4 vocab-list-wrapper"
       >
         <Row noGutters className="page-header">
-          <PageTitle title={alphas} md="12" className="ml-sm-auto mr-sm-auto" />
+          <PageTitle title={alphabet} md="12" className="ml-sm-auto mr-sm-auto" />
         </Row>
         <Row>
           <Col>
-            <AlphabetsList vocabs={vocabs} alphabet={alphas} />
+            <AlphabetsList vocabs={vocabs} alphabet={alphabet} />
           </Col>
         </Row>
       </Container>

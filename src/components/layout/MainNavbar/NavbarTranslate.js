@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import i18next from "i18next";
 import cookies from "js-cookie";
 import { Button } from "shards-react";
-import "flag-icon-css/css/flag-icon.min.css";
+import "flag-icon-css/css/flag-icons.min.css";
 import { Store } from "../../../flux";
 
 const languages = Store.getLanguages();
