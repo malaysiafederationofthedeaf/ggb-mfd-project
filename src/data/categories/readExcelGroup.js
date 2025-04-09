@@ -3,48 +3,114 @@ import axios from "axios";
 
 import { Store } from "../../flux";
 
-const fetchData = async (url) => {
-  const data = await axios({
-    method: "get",
-    url: url,
-    responseType: "blob",
-  })
-    .then((res) => res.data)
-    .catch((err) => console.log(err));
+const fetchAllData = async () => {
+  let allData = [];
+  let page = 1;
+  let hasMoreData = true;
 
-  return data;
+  while (hasMoreData) {
+    try {
+      const response = await axios.get(`https://my-excel-cms.onrender.com/api/alphabet-entries?pagination[page]=${page}&pagination[pageSize]=25`);
+      
+      if (!response.data || !response.data.data) {
+        console.error('Invalid API response structure:', response);
+        break;
+      }
+
+      const { data, meta } = response.data;
+      const transformedData = data.map(item => {
+        if (!item || !item.attributes) {
+          console.warn('Invalid item structure:', item);
+          return null;
+        }
+        return {
+          ...item.attributes,
+          // Extract group from GroupCategory
+          group: item.attributes.GroupCategory ? item.attributes.GroupCategory.split('/')[0] : null
+        };
+      }).filter(Boolean);
+
+      allData = [...allData, ...transformedData];
+      hasMoreData = meta && meta.pagination && page < meta.pagination.pageCount;
+      page++;
+    } catch (err) {
+      console.error("Error fetching data:", err);
+      hasMoreData = false;
+    }
+  }
+
+  return allData;
 };
 
 const restructureJSONGroup = (data) => {
-  const reconData = data.map((item) => ((item.KumpulanKategori !== undefined && item.GroupCategory !== undefined )&& {
-    kumpulanKategori: item.KumpulanKategori.trim(),    
-    groupCategory: item.GroupCategory.trim(),
-    remark: item.Remark,
-  }));
-  return reconData
-    .filter((group) => (group !== false));
+  if (!Array.isArray(data)) {
+    console.error('Invalid data structure received:', data);
+    return [];
+  }
+
+  const validGroups = data
+    .filter(item => {
+      // Validate existence and type of required fields
+      return item && 
+             item.GroupCategory && typeof item.GroupCategory === 'string' &&
+             item.KumpulanKategori && typeof item.KumpulanKategori === 'string';
+    })
+    .map(item => {
+      try {
+        // Safely extract group components with null checks
+        const group = item.GroupCategory.split('/')[0]?.trim() || '';
+        const kumpulan = item.KumpulanKategori.split('/')[0]?.trim() || '';
+        
+        // Validate extracted values before returning
+        if (!group || !kumpulan) {
+          console.warn('Invalid group structure:', item);
+          return null;
+        }
+
+        return {
+          group,
+          kumpulan,
+          remark: item.Remark || null,
+          groupCategory: item.GroupCategory.trim(),
+          kumpulanKategori: item.KumpulanKategori.trim()
+        };
+      } catch (error) {
+        console.error('Error processing item:', item, error);
+        return null;
+      }
+    })
+    .filter(Boolean);
+
+  // Remove duplicates with additional null check
+  const uniqueGroups = [];
+  const seenGroups = new Set();
+  
+  validGroups.forEach(group => {
+    if (group?.group && !seenGroups.has(group.group)) {
+      seenGroups.add(group.group);
+      uniqueGroups.push(group);
+    }
+  });
+
+  // Final validation before return
+  return uniqueGroups.length > 0 ? uniqueGroups : [{
+    group: 'default',
+    kumpulan: 'default',
+    remark: null,
+    groupCategory: '',
+    kumpulanKategori: ''
+  }];
 };
 
 const readExcelGroup = async () => {
-  const url = Store.getBaseURLBIMSheet();
-  const file = await fetchData(url);
-  //Export def
-  const promise = new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-    fileReader.readAsBinaryString(file);
-    fileReader.onload = (e) => {
-      const arrayBuffer = e.target.result;
-      const wb = XLSX.read(arrayBuffer, { type: "binary" });
-      // read Group sheet
-      const ws = wb.Sheets[wb.SheetNames[1]]; // second sheet: Group sheet
-      const data = XLSX.utils.sheet_to_json(ws);
+  const promise = new Promise(async (resolve, reject) => {
+    try {
+      const data = await fetchAllData();
       const reconData = restructureJSONGroup(data);
-      resolve(reconData);      
-    };
-
-    fileReader.onerror = (error) => {
+      resolve(reconData);
+    } catch (error) {
       reject(error);
-    };
+    }
   });
   return promise;
 };

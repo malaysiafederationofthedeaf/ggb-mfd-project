@@ -5,6 +5,7 @@
     "dependencies": {
         "aos": "^3.0.0-beta.6",
         "axios": "^1.7.3",
+        "body-parser": "^2.2.0",
         "bootstrap": "^5.3.3",
         "flag-icon-css": "^4.1.7",
         "flux": "^4.0.4",
@@ -13,6 +14,7 @@
         "i18next-http-backend": "^2.5.2",
         "js-cookie": "^3.0.5",
         "lodash.find": "^4.6.0",
+        "lodash.pick": "^4.4.0",
         "react": "^16.14.0",
         "react-animations": "^1.0.0",
         "react-autocomplete": "^1.8.1",
@@ -26,10 +28,11 @@
         "react-router-hash-link": "^2.4.3",
         "react-scripts": "5.0.1",
         "react-select": "^5.8.0",
-	    "sass": "^1.77.8",		
+        "sass": "^1.77.8",
         "shards-react": "^1.0.3",
         "styled-components": "^6.1.12",
         "web-vitals": "^4.2.3",
+        "webpack": "^5.98.0",
         "xlsx": "^0.18.5"
     },
     "scripts": {

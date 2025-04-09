@@ -272,10 +272,10 @@ class Store extends EventEmitter {
   // check if sign of the day exists in SOTD column (check for today's date)
   checkSignOfTheDay() {
     const signsOfTheDay = this.getVocabsItems()
-      .filter((obj) => obj.sotd !== undefined)
-      .filter((obj) => obj.sotd.toString() === this.formatDate())
+      .filter((obj) => obj.sotd != null) // Check for both null and undefined
+      .filter((obj) => obj.sotd?.toString() === this.formatDate()) // Safe conversion
       .sort((a, b) => (a.word).localeCompare(b.word));
-    return signsOfTheDay[0]; // return the first SOTD, if there are multiple
+    return signsOfTheDay[0];
   }
 
   // get date in yyyy-mm-dd format 
@@ -398,13 +398,22 @@ class Store extends EventEmitter {
   // get Top 3 Commonly Referred Groups to display in Home page
   // look for Remark with 'Home' in Group Excel
   getGroupsHome() {
-    let groups = this.getGroups().filter(
-      (group) => group.remark !== undefined && !group.remark.localeCompare("Home")
-    )
+    let groups = this.getGroups()
+      .filter(group => 
+        group?.remark !== undefined && // Null check
+        !group.remark.localeCompare("Home")
+      )
+      .filter(Boolean); // Remove any undefined/null entries
     
-    groups.push(groups.splice(groups.findIndex(item => item.group === "New Signs"), 1).pop()) // always making "new-signs" cat the last index of the list
-
-    return groups
+    const newSignsIndex = groups.findIndex(item => 
+      item?.group === "New Signs" // Optional chaining
+    );
+    
+    if(newSignsIndex > -1) {
+      groups.push(groups.splice(newSignsIndex, 1)[0]);
+    }
+  
+    return groups.filter(Boolean); // Final cleanup of array
   }
 
   // format string to lower case, replace space with dash, and remove '?' and '/' (for link path name)

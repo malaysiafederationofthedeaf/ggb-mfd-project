@@ -1,70 +1,72 @@
-import * as XLSX from "xlsx";
 import axios from "axios";
-
 import { Store } from "../../flux";
 
-const fetchData = async (url) => {
-  const data = await axios({
-    method: "get",
-    url: url,
-    responseType: "blob",
-  })
-    .then((res) => res.data)
-    .catch((err) => console.log(err));
+const fetchAllData = async () => {
+  let allData = [];
+  let page = 1;
+  let hasMoreData = true;
 
-  return data;
+  while (hasMoreData) {
+    try {
+      const response = await axios.get(`https://my-excel-cms.onrender.com/api/alphabet-entries?pagination[page]=${page}&pagination[pageSize]=25`);
+      
+      const { data, meta } = response.data;
+      allData = [...allData, ...data];
+
+      // Check if we've reached the last page
+      hasMoreData = page < meta.pagination.pageCount;
+      page++;
+    } catch (err) {
+      console.error("Error fetching data:", err);
+      hasMoreData = false;
+    }
+  }
+
+  return allData;
 };
 
 const restructureJSON = (data) => {
-  const reconData = data.map((item) => ((item.KumpulanKategori !== undefined && item.GroupCategory !== undefined && item.Word !== undefined && item.Perkataan !== undefined )&& {
-    kumpulanKategori: item.KumpulanKategori.toString().replaceAll(/(\r\n|\n|\r)/gm, ''),    
-    groupCategory: item.GroupCategory.toString().replaceAll(/(\r\n|\n|\r)/gm, ''),    
-    word: item.Word.toString().trim(),
-    perkataan: item.Perkataan.toString().trim(),
-    video: item.Video,
-    tag: item.Tag,
-    release: item.Release,
-    new: item.New,
-    order: item.Order,
-    sotd: item.SOTD
-  }));
+  const reconData = data.map((item) => {
+    const attributes = item.attributes || item;
+    return (attributes.KumpulanKategori !== undefined && 
+            attributes.GroupCategory !== undefined && 
+            attributes.Word !== undefined && 
+            attributes.Perkataan !== undefined) && {
+      kumpulanKategori: attributes.KumpulanKategori.toString().replaceAll(/(\r\n|\n|\r)/gm, ''),    
+      groupCategory: attributes.GroupCategory.toString().replaceAll(/(\r\n|\n|\r)/gm, ''),    
+      word: attributes.Word.toString().trim(),
+      perkataan: attributes.Perkataan.toString().trim(),
+      video: attributes.Video,
+      tag: attributes.Tag,
+      release: attributes.Release,
+      new: attributes.New,
+      order: attributes.Order,
+      sotd: attributes.SOTD,
+      imgStatus: attributes.ImageStatus
+    };
+  });
 
-  // if there is only 1 Release to include
-  // return filterExcelData(reconData, "Release 1");
-
-  // if there are multiple Releases to include, use an array
   return filterExcelData(reconData, ["Release 1", "Release 2", "Release 3"]);
 };
 
 const filterExcelData = (excelData, releases) => {
   return excelData
-    .filter((group) => (group !== false)) // filter out those without any value
+    .filter((group) => (group !== false))
     .filter((group) => 
       Array.isArray(releases) ? (releases.includes(group.release)) : (group.release === releases)
-    ) // filter out those that are not in 'release'
-    .sort((a, b) => (a.kumpulanKategori).localeCompare(b.kumpulanKategori) // sort the entries alphabetically based on the Kategori
-    );
-}
+    )
+    .sort((a, b) => (a.kumpulanKategori).localeCompare(b.kumpulanKategori));
+};
 
 const readExcel = async () => {
-  const url = Store.getBaseURLBIMSheet();
-  const file = await fetchData(url);
-  //Export def
-  const promise = new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-    fileReader.readAsBinaryString(file);
-    fileReader.onload = (e) => {
-      const arrayBuffer = e.target.result;
-      const wb = XLSX.read(arrayBuffer, { type: "binary" });
-      const ws = wb.Sheets[wb.SheetNames[0]]; // first sheet: BIM sheet
-      const data = XLSX.utils.sheet_to_json(ws);
+  const promise = new Promise(async (resolve, reject) => {
+    try {
+      const data = await fetchAllData();
       const reconData = restructureJSON(data);
       resolve(reconData);
-    };
-
-    fileReader.onerror = (error) => {
+    } catch (error) {
       reject(error);
-    };
+    }
   });
   return promise;
 };

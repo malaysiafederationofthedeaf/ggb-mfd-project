@@ -17,16 +17,18 @@ const Home = () => {
       <Container fluid>
         <div className="category-list-wrapper">
           <Row>
-            {/* Top 3 Sign Groups to be displayed in Home Page*/}
-            {Store.getGroupsHome().map((group, key) => (
-              group.group !== "New Signs" &&
-              <CategoryList
-                category={Store.getCategoriesOfGroup(group.group)}
-                group={group.group}
-                key={key}
-                className="category-list"
-              />              
-            ))}
+            {/* Add null check and optional chaining */}
+            {Store.getGroupsHome()
+              ?.filter(group => group?.group) // Filter out undefined/null groups
+              .map((group, key) => (
+                group.group !== "New Signs" &&
+                <CategoryList
+                  category={Store.getCategoriesOfGroup(group?.group)} // Optional chaining
+                  group={group?.group || ''} // Fallback value
+                  key={key}
+                  className="category-list"
+                />              
+              ))}
           </Row>
           <Row>
             {/* View all categories button */}
