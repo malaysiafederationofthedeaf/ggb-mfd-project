@@ -1,1 +1,1 @@
-#This fork is strictly for testing purposes
+This fork is strictly for testing purposes
