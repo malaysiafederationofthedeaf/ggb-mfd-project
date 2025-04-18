@@ -10,35 +10,27 @@ const fetchAllData = async () => {
 
   while (hasMoreData) {
     try {
-      const response = await axios.get(`https:/mfd-cms-test.onrender.com/.com/api/alphabet-entries?pagination[page]=${page}&pagination[pageSize]=25`);
+      const response = await axios.get(`https://mfd-cms-test.onrender.com/api/category-groups?pagination[page]=${page}&pagination[pageSize]=25`);
       
       if (!response.data || !response.data.data) {
         console.error('Invalid API response structure:', response);
         break;
       }
 
-      const { data, meta } = response.data;
-      const transformedData = data.map(item => {
-        if (!item || !item.attributes) {
-          console.warn('Invalid item structure:', item);
-          return null;
-        }
-        return {
-          ...item.attributes,
-          // Extract group from GroupCategory
-          group: item.attributes.GroupCategory ? item.attributes.GroupCategory.split('/')[0] : null
-        };
-      }).filter(Boolean);
+      const transformedData = response.data.data.map(item => ({
+        KumpulanKategori: item.KumpulanKategori || '',
+        GroupCategory: item.GroupCategory || '',
+        Remark: item.Remark || ''
+      }));
 
       allData = [...allData, ...transformedData];
-      hasMoreData = meta && meta.pagination && page < meta.pagination.pageCount;
+      hasMoreData = page < response.data.meta.pagination.pageCount;
       page++;
     } catch (err) {
       console.error("Error fetching data:", err);
       hasMoreData = false;
     }
   }
-
   return allData;
 };
 

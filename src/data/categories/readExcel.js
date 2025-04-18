@@ -8,20 +8,36 @@ const fetchAllData = async () => {
 
   while (hasMoreData) {
     try {
-      const response = await axios.get(`https:/mfd-cms-test.onrender.com/api/alphabet-entries?pagination[page]=${page}&pagination[pageSize]=25`);
+      const response = await axios.get(`https://mfd-cms-test.onrender.com/api/alphabet-entries?pagination[page]=${page}&pagination[pageSize]=25`);
       
-      const { data, meta } = response.data;
-      allData = [...allData, ...data];
+      // Handle API response structure
+      if (!response.data || !response.data.data) {
+        console.error('Invalid API response structure:', response);
+        break;
+      }
 
-      // Check if we've reached the last page
-      hasMoreData = page < meta.pagination.pageCount;
+      const transformedData = response.data.data.map(item => ({
+        KumpulanKategori: item.KumpulanKategori || '',
+        GroupCategory: item.GroupCategory || '',
+        Word: item.Word || '',
+        Perkataan: item.Perkataan || '',
+        Video: item.Video || '',
+        Tag: item.Tag || '',
+        Release: item.Release || '',
+        New: item.New || 'No',
+        SOTD: item.SOTD || '',
+        Order: item.Order || '',
+        ImageStatus: item.Image_Status || ''
+      }));
+
+      allData = [...allData, ...transformedData];
+      hasMoreData = page < response.data.meta.pagination.pageCount;
       page++;
     } catch (err) {
       console.error("Error fetching data:", err);
       hasMoreData = false;
     }
   }
-
   return allData;
 };
 
