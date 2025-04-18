@@ -8,7 +8,7 @@ const fetchAllData = async () => {
 
   while (hasMoreData) {
     try {
-      const response = await axios.get(`https://my-excel-cms.onrender.com/api/alphabet-entries?pagination[page]=${page}&pagination[pageSize]=25`);
+      const response = await axios.get(`https://mfd-cms-test.onrender.com//api/alphabet-entries?pagination[page]=${page}&pagination[pageSize]=25`);
       
       const { data, meta } = response.data;
       allData = [...allData, ...data];
