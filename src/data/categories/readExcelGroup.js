@@ -10,7 +10,7 @@ const fetchAllData = async () => {
 
   while (hasMoreData) {
     try {
-      const response = await axios.get(`https://mfd-cms-test.onrender.com/.com/api/alphabet-entries?pagination[page]=${page}&pagination[pageSize]=25`);
+      const response = await axios.get(`https:/mfd-cms-test.onrender.com/.com/api/alphabet-entries?pagination[page]=${page}&pagination[pageSize]=25`);
       
       if (!response.data || !response.data.data) {
         console.error('Invalid API response structure:', response);
