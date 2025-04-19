@@ -62,7 +62,7 @@ const restructureJSONGroup = (data) => {
         return {
           group,
           kumpulan,
-          remark: item.Remark || null,
+          remark: item.Remark || '', // Changed from null to empty string
           groupCategory: item.GroupCategory.trim(),
           kumpulanKategori: item.KumpulanKategori.trim()
         };

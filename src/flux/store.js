@@ -400,20 +400,18 @@ class Store extends EventEmitter {
   getGroupsHome() {
     let groups = this.getGroups()
       .filter(group => 
-        group?.remark !== undefined && // Null check
-        !group.remark.localeCompare("Home")
-      )
-      .filter(Boolean); // Remove any undefined/null entries
-    
+        group?.remark?.trim()?.toLowerCase() === "home" // Safe navigation and trimming
+      );
+
     const newSignsIndex = groups.findIndex(item => 
-      item?.group === "New Signs" // Optional chaining
+      item?.group === "New Signs"
     );
     
-    if(newSignsIndex > -1) {
+    if (newSignsIndex > -1) {
       groups.push(groups.splice(newSignsIndex, 1)[0]);
     }
   
-    return groups.filter(Boolean); // Final cleanup of array
+    return groups;
   }
 
   // format string to lower case, replace space with dash, and remove '?' and '/' (for link path name)
