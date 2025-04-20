@@ -205,11 +205,11 @@ class Store extends EventEmitter {
   // get image for Category (from cloudinary)
   getCategoryImgSrc(kumpulanKategori) {
     try {
-      const publicId = kumpulanKategori
+      const kategoriPublicId = kumpulanKategori
       .replace(/&/g, "_")
       .replace(/[()]/g, "")
       .replace(/\s+/g, "_"); // Remove other special characters if needed
-      return `${ImageURL}${publicId}.jpg`;
+      return `${ImageURL}${kategoriPublicId}.jpg`;
     } catch (err) {
       return `${ImageURL}image-coming-soon.jpg`;
     }
@@ -229,15 +229,19 @@ class Store extends EventEmitter {
 
   getSignImgSrc(perkataan) {
     try {
-      var perkataanTrimmed = perkataan.replace(/[!/]/g, "-")  //replace '!' and '/' to '-'
-      perkataanTrimmed = perkataanTrimmed.replace("?", "")  //remove '?'
-      return require(`../images/bim/vocab/${perkataanTrimmed}.jpg`);
+      const perkataanPublicId = perkataan
+        .trim()
+        .replace(/&/g, "_")           // Replace '&' with '_'
+        .replace(/[()']/g, "")        // Remove '(', ')', and single quote (')
+        .replace(/,/g, "")            // Remove commas
+        .replace(/!/g, "%21")         // Replace '!' with '%21'
+        .replace(/\s+/g, "_");        // Replace spaces with '_'
+  
+      return `${ImageURL}${perkataanPublicId}.jpg`;
     } catch (err) {
-      //default img (placeholder only)*
-      return require(`../images/general/image-coming-soon.jpg`);
+      return `${ImageURL}image-coming-soon.jpg`;
     }
   }
-
 
   // get all the (unique) Groups
   getGroups() {
