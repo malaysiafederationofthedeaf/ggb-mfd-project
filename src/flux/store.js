@@ -25,6 +25,8 @@ let _store = {
   featuredVideos: [],
 };
 
+const ImageURL ="https://res.cloudinary.com/dp3vzcgzq/image/upload/"
+
 class Store extends EventEmitter {
   constructor() {
     super();
@@ -190,17 +192,41 @@ class Store extends EventEmitter {
     return "https://youtu.be/" + videoId;
   }
 
-  // get image for Category (fileName naming std: kategori.jpg)
-  getCategoryImgSrc(kategori) {
+  // // get image for Category (fileName naming std: kategori.jpg)
+  // getCategoryImgSrc(kategori) {
+  //   try {
+  //     return require(`../images/bim/category/${kategori}.jpg`);
+  //   } catch (err) {
+  //     //default img (placeholder only)*
+  //     return require(`../images/general/image-coming-soon.jpg`);
+  //   }
+  // }
+
+  // get image for Category (from cloudinary)
+  getCategoryImgSrc(kumpulanKategori) {
     try {
-      return require(`../images/bim/category/${kategori}.jpg`);
+      const publicId = kumpulanKategori
+      .replace(/&/g, "_")
+      .replace(/[()]/g, "")
+      .replace(/\s+/g, "_"); // Remove other special characters if needed
+      return `${ImageURL}${publicId}.jpg`;
     } catch (err) {
-      //default img (placeholder only)*
-      return require(`../images/general/image-coming-soon.jpg`);
+      return `${ImageURL}image-coming-soon.jpg`;
     }
   }
 
-  // get image for Sign Word (fileName naming std: perkataan.jpg)
+  // // get image for Sign Word (fileName naming std: perkataan.jpg)
+  // getSignImgSrc(perkataan) {
+  //   try {
+  //     var perkataanTrimmed = perkataan.replace(/[!/]/g, "-")  //replace '!' and '/' to '-'
+  //     perkataanTrimmed = perkataanTrimmed.replace("?", "")  //remove '?'
+  //     return require(`../images/bim/vocab/${perkataanTrimmed}.jpg`);
+  //   } catch (err) {
+  //     //default img (placeholder only)*
+  //     return require(`../images/general/image-coming-soon.jpg`);
+  //   }
+  // }
+
   getSignImgSrc(perkataan) {
     try {
       var perkataanTrimmed = perkataan.replace(/[!/]/g, "-")  //replace '!' and '/' to '-'
@@ -211,6 +237,7 @@ class Store extends EventEmitter {
       return require(`../images/general/image-coming-soon.jpg`);
     }
   }
+
 
   // get all the (unique) Groups
   getGroups() {
