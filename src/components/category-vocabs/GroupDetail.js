@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardBody, Col } from "shards-react";
 import { useTranslation } from "react-i18next";
@@ -6,18 +6,26 @@ import styled, { keyframes } from 'styled-components';
 import { zoomIn } from 'react-animations';
 
 import { Store } from "../../flux";
+import { getImageWithFallback } from "../components-overview/ImgSrc";
 
 const ZoomIn = styled.div`animation: .5s ${keyframes `${zoomIn}`}`;
 
 const GroupDetail = ({ category, group }) => {
   const { t } = useTranslation("group-category");
   const categoryImgSrc = Store.getCategoryImgSrc(category.kategori);
+  const fallback = `https://res.cloudinary.com/dp3vzcgzq/image/upload/v1745120594/image-coming-soon.jpg`;
+  const [bgImage, setBgImage] = useState("");
 
   const groupFormatted = Store.formatString(group);
   const categoryFormatted = Store.formatString(category.category);
   const basePath = `/groups/${groupFormatted}`
 
- 
+  useEffect(() => {
+    getImageWithFallback(categoryImgSrc, fallback, (resolvedURL) => {
+      setBgImage(resolvedURL);
+    });
+  }, [categoryImgSrc]);
+
   return (
     <Col lg="6" sm="12">
       <div className="category-detail-card-wrapper">
@@ -27,7 +35,7 @@ const GroupDetail = ({ category, group }) => {
               <ZoomIn>
                 <div
                   className="card-post__image"
-                  style={{ backgroundImage: `url('${categoryImgSrc}')` }}
+                  style={{ backgroundImage: bgImage }}
                 ></div>
               </ZoomIn>
             </Col>

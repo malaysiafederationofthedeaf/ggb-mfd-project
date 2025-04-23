@@ -6,6 +6,7 @@ import styled, { keyframes } from 'styled-components';
 import { zoomIn } from 'react-animations';
 
 import { Store } from "../../flux";
+import { getImageWithFallback } from "../components-overview/ImgSrc";
 
 const ZoomIn = styled.div`animation: .5s ${keyframes `${zoomIn}`}`;  
 
@@ -17,6 +18,14 @@ const CategoryDetail = ({ categoryItem, group, noOfCard }) => {
   const basePath = `/groups/${groupFormatted}`
   const linkToPath = categoryItem.new ? `${basePath}/${Store.formatString(categoryItem.word)}` : `${basePath}/${categoryFormatted}`;
   const imgSrc = categoryItem.new ? Store.getSignImgSrc(categoryItem.perkataan) : Store.getCategoryImgSrc(categoryItem.kategori);
+  const fallback = `https://res.cloudinary.com/dp3vzcgzq/image/upload/v1745120594/image-coming-soon.jpg`;
+  const [bgImage, setBgImage] = useState("");
+
+  useEffect(() => {
+    getImageWithFallback(imgSrc, fallback, (resolvedURL) => {
+      setBgImage(resolvedURL);
+    });
+  }, [imgSrc]);
 
   // determine if the word to be displayed is Word from New Sign; or a Category
   const categoryWord = categoryItem.new ? t(`word:${Store.formatString(categoryItem.word)}`) : t(`group-category:${categoryFormatted}`);
@@ -81,7 +90,7 @@ const CategoryDetail = ({ categoryItem, group, noOfCard }) => {
         <ZoomIn>
           <div
             className="card-post__image"
-            style={{ backgroundImage: `url('${imgSrc}')` }}>
+            style={{ backgroundImage: bgImage }}>
             </div>
         </ZoomIn>
         <CardBody>

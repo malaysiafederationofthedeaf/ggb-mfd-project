@@ -23,9 +23,8 @@ let _store = {
   featuredVideosPlaylistId: "PLEztM-ga58Y4s6t5pac5uJKLeSSuspioQ",
   youtubeAPIKey: "AIzaSyBIk86nsIH0h4HSEgHPLI8bku6WKQlizDk",
   featuredVideos: [],
+  imageURL: "https://res.cloudinary.com/dp3vzcgzq/image/upload/",
 };
-
-const ImageURL ="https://res.cloudinary.com/dp3vzcgzq/image/upload/"
 
 class Store extends EventEmitter {
   constructor() {
@@ -192,55 +191,26 @@ class Store extends EventEmitter {
     return "https://youtu.be/" + videoId;
   }
 
-  // // get image for Category (fileName naming std: kategori.jpg)
-  // getCategoryImgSrc(kategori) {
-  //   try {
-  //     return require(`../images/bim/category/${kategori}.jpg`);
-  //   } catch (err) {
-  //     //default img (placeholder only)*
-  //     return require(`../images/general/image-coming-soon.jpg`);
-  //   }
-  // }
-
   // get image for Category (from cloudinary)
   getCategoryImgSrc(kumpulanKategori) {
-    try {
-      const kategoriPublicId = kumpulanKategori
+    const kategoriPublicId = "Category_" + kumpulanKategori
       .replace(/&/g, "_")
       .replace(/[()]/g, "")
       .replace(/\s+/g, "_"); // Remove other special characters if needed
-      return `${ImageURL}${kategoriPublicId}.jpg`;
-    } catch (err) {
-      return `${ImageURL}image-coming-soon.jpg`;
-    }
+      return `${_store.imageURL}${kategoriPublicId}.jpg`;
   }
 
-  // // get image for Sign Word (fileName naming std: perkataan.jpg)
-  // getSignImgSrc(perkataan) {
-  //   try {
-  //     var perkataanTrimmed = perkataan.replace(/[!/]/g, "-")  //replace '!' and '/' to '-'
-  //     perkataanTrimmed = perkataanTrimmed.replace("?", "")  //remove '?'
-  //     return require(`../images/bim/vocab/${perkataanTrimmed}.jpg`);
-  //   } catch (err) {
-  //     //default img (placeholder only)*
-  //     return require(`../images/general/image-coming-soon.jpg`);
-  //   }
-  // }
-
+  // get image for vocab (from cloudinary)
   getSignImgSrc(perkataan) {
-    try {
-      const perkataanPublicId = perkataan
-        .trim()
-        .replace(/&/g, "_")           // Replace '&' with '_'
-        .replace(/[()']/g, "")        // Remove '(', ')', and single quote (')
-        .replace(/,/g, "")            // Remove commas
-        .replace(/!/g, "%21")         // Replace '!' with '%21'
-        .replace(/\s+/g, "_");        // Replace spaces with '_'
-  
-      return `${ImageURL}${perkataanPublicId}.jpg`;
-    } catch (err) {
-      return `${ImageURL}image-coming-soon.jpg`;
-    }
+    const perkataanPublicId = perkataan
+      .trim()
+      .replace(/&/g, "_")           // Replace '&' with '_'
+      .replace(/[()’']/g, "")        // Remove '(', ')', and single quote (')
+      .replace(/,/g, "")            // Remove commas
+      .replace(/!/g, "%21")         // Replace '!' with '%21'
+      .replace(/\//g, "-")          // Replace '/' with '-'
+      .replace(/\s+/g, "_");        // Replace spaces with '_'
+      return `${_store.imageURL}${perkataanPublicId}.jpg`;
   }
 
   // get all the (unique) Groups
