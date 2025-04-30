@@ -8,7 +8,7 @@ const fetchAllData = async () => {
 
   while (hasMoreData) {
     try {
-      const response = await axios.get(`https://mfd-cms-test.onrender.com/api/alphabet-entries?pagination[page]=${page}&pagination[pageSize]=25`);
+      const response = await axios.get(`https://mfd-final-test.onrender.com/api/bims?populate=*&pagination[page]=${page}&pagination[pageSize]=25`);
       
       // Handle API response structure
       if (!response.data || !response.data.data) {
@@ -17,8 +17,8 @@ const fetchAllData = async () => {
       }
 
       const transformedData = response.data.data.map(item => ({
-        KumpulanKategori: item.KumpulanKategori || '',
-        GroupCategory: item.GroupCategory || '',
+        KumpulanKategori: `${item.Kumpulan}/${item.Kategori}` || '',
+        GroupCategory: `${item.Group}/${item.Category}` || '',
         Word: item.Word || '',
         Perkataan: item.Perkataan || '',
         Video: item.Video || '',
