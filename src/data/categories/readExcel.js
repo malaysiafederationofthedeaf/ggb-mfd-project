@@ -16,19 +16,24 @@ const fetchAllData = async () => {
         break;
       }
 
-      const transformedData = response.data.data.map(item => ({
-        KumpulanKategori: `${item.Kumpulan}/${item.Kategori}` || '',
-        GroupCategory: `${item.Group}/${item.Category}` || '',
-        Word: item.Word || '',
-        Perkataan: item.Perkataan || '',
-        Video: item.Video || '',
-        Tag: item.Tag || '',
-        Release: item.Release || '',
-        New: item.New || 'No',
-        SOTD: item.SOTD || '',
-        Order: item.Order || '',
-        ImageStatus: item.Image_Status || ''
-      }));
+      const transformedData = response.data.data.map(item => {
+        // Check if category_group exists and has the required properties
+        const categoryGroup = item.category_group || {};
+        
+        return {
+          KumpulanKategori: categoryGroup.KumpulanKategori || `${item.Kumpulan}/${item.Kategori}`,
+          GroupCategory: categoryGroup.GroupCategory || `${item.Group}/${item.Category}`,
+          Word: item.Word || '',
+          Perkataan: item.Perkataan || '',
+          Video: item.Video || '',
+          Tag: item.Tag || '',
+          Release: item.Release || '',
+          New: item.New || 'No',
+          SOTD: item.SOTD || '',
+          Order: item.Order || '',
+          ImageStatus: item.Image_Status || ''
+        };
+      });
 
       allData = [...allData, ...transformedData];
       hasMoreData = page < response.data.meta.pagination.pageCount;

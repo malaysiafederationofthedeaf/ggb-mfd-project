@@ -24,6 +24,7 @@ let _store = {
   youtubeAPIKey: "AIzaSyBIk86nsIH0h4HSEgHPLI8bku6WKQlizDk",
   featuredVideos: [],
   imageURL: "https://res.cloudinary.com/dp3vzcgzq/image/upload/",
+  signOfTheDay: null,
 };
 
 class Store extends EventEmitter {
@@ -76,22 +77,43 @@ class Store extends EventEmitter {
     this.emit(Constants.CHANGE);
   }
 
+  // Add this method to debug the store state
+  logStoreState() {
+    console.log("Store state:", {
+      vocabsItems: _store.vocabsItems.length,
+      groupCategoryItems: _store.groupCategoryItems.length,
+      groupItems: _store.groupItems.length,
+      categoryItems: _store.categoryItems.length
+    });
+  }
+
   // store all entries from BIM sheet
   storeExcel(value) {
+    console.log("Storing vocab items:", value.length);
     _store.vocabsItems = value;
     this.emit(Constants.CHANGE);
   }
 
   // store all entries from Group sheet
   storeExcelGroup(value) {
+    console.log("Storing group category items:", value.length);
     _store.groupCategoryItems = value;              // get all entries from Group sheet
     this.emit(Constants.CHANGE);
     _store.groupItems = this.getGroupItems();       // get groups (unique)
     _store.categoryItems = this.getCategoryItems(); // get groups and categories pair (unique)
+    
+    // Log the processed data for debugging
+    console.log("Processed group items:", _store.groupItems.length);
+    console.log("Processed category items:", _store.categoryItems.length);
   }
 
   storeFeaturedVideos(value) {
     _store.featuredVideos = value;
+    this.emit(Constants.CHANGE);
+  }
+
+  storeSignOfTheDay(value) {
+    _store.signOfTheDay = value;
     this.emit(Constants.CHANGE);
   }
 
@@ -111,22 +133,34 @@ class Store extends EventEmitter {
 
   // get groups (unique)  
   getGroupItems() {
-    const specialGroups = ["New Signs"]
+    const specialGroups = ["New Signs"];
+    
+    if (!this.getGroupCategoryItems() || this.getGroupCategoryItems().length === 0) {
+      console.warn("No group category items available");
+      return [];
+    }
 
     let lookup = new Set();
     const groups = this.getGroupCategoryItems()
-      .map(
-        (obj) => (
-          {
-            "group": obj.groupCategory.toString().split("/")[0],
-            "kumpulan": obj.kumpulanKategori.toString().split("/")[0],
-            "remark": obj.remark
-          }
-        )
-      )
-      .filter(
-        (obj) => (!lookup.has(obj.group) && (this.isGroupInRelease(this.formatString(obj.group)) || specialGroups.includes(obj.group))) && lookup.add(obj.group)
+      .filter(obj => obj !== null && obj !== undefined)
+      .map(obj => {
+        // Handle the new data structure
+        const group = obj.groupCategory?.toString().split("/")[0] || 
+                     obj.GroupCategory?.toString().split("/")[0] || '';
+        const kumpulan = obj.kumpulanKategori?.toString().split("/")[0] || 
+                        obj.KumpulanKategori?.toString().split("/")[0] || '';
+        const remark = obj.remark || obj.Remark || '';
+        
+        return { group, kumpulan, remark };
+      })
+      .filter(obj => obj.group && obj.kumpulan) // Filter out items with empty group or kumpulan
+      .filter(obj => 
+        (!lookup.has(obj.group) && 
+        (this.isGroupInRelease(this.formatString(obj.group)) || 
+         specialGroups.includes(obj.group))) && 
+        lookup.add(obj.group)
       );
+    
     return groups;
   }
 
@@ -135,14 +169,15 @@ class Store extends EventEmitter {
     let lookup = new Set();
     const categories = this.getGroupCategoryItems()
       .map(
-        (obj) => (
-          {
-            "group": obj.groupCategory.toString().split("/")[0],
-            "kumpulan": obj.kumpulanKategori.toString().split("/")[0],
-            "category": obj.groupCategory.toString().split("/")[1],
-            "kategori": obj.kumpulanKategori.toString().split("/")[1],
+        (obj) => {
+          // Handle the new data structure
+          return {
+            "group": obj.groupCategory?.toString().split("/")[0] || obj.GroupCategory?.toString().split("/")[0] || '',
+            "kumpulan": obj.kumpulanKategori?.toString().split("/")[0] || obj.KumpulanKategori?.toString().split("/")[0] || '',
+            "category": obj.groupCategory?.toString().split("/")[1] || obj.GroupCategory?.toString().split("/")[1] || '',
+            "kategori": obj.kumpulanKategori?.toString().split("/")[1] || obj.KumpulanKategori?.toString().split("/")[1] || '',
           }
-        )
+        }
       )
       .filter((obj) => !lookup.has(obj.category) && lookup.add(obj.category));
     return categories;
@@ -205,7 +240,7 @@ class Store extends EventEmitter {
     const perkataanPublicId = perkataan
       .trim()
       .replace(/&/g, "_")           // Replace '&' with '_'
-      .replace(/[()’']/g, "")        // Remove '(', ')', and single quote (')
+      .replace(/[()'']/g, "")        // Remove '(', ')', and single quote (')
       .replace(/,/g, "")            // Remove commas
       .replace(/!/g, "%21")         // Replace '!' with '%21'
       .replace(/\//g, "-")          // Replace '/' with '-'
@@ -235,17 +270,13 @@ class Store extends EventEmitter {
       vocabs = vocabs.filter(vocab => vocab.new === NewEnum.YES)
         .map(obj => (
           {
-            ...obj,
-            "category": obj.groupCategory.toString().split("/")[1],
-            "kategori": obj.kumpulanKategori.toString().split("/")[1]
-          }))
+            "category": obj.groupCategory?.toString().split("/")[1] || '',
+            "kategori": obj.kumpulanKategori?.toString().split("/")[1] || ''
+          }));
 
-      if (currentLanguageCode === "en") {
-        vocabs.sort((a, b) => (a.word).localeCompare(b.word));
-      }
-      else {
-        vocabs.sort((a, b) => (a.perkataan).localeCompare(b.perkataan));
-      }
+      // Remove duplicates
+      let lookup = new Set();
+      vocabs = vocabs.filter(obj => !lookup.has(obj.category) && lookup.add(obj.category));
 
       return vocabs;
     }
@@ -256,17 +287,24 @@ class Store extends EventEmitter {
 
   // get word of the day 'randomly' for each day based on date
   getSignOfTheDay() {
+    // If we have a stored sign of the day, return it
+    if (_store.signOfTheDay) {
+      return _store.signOfTheDay;
+    }
+    
+    // Otherwise check if there's one for today's date
     const sotd = this.checkSignOfTheDay();
     if(sotd !== undefined) {
       return sotd;
     }
     else {
+      // If no sign of the day is set, generate one based on the date
       var time = new Date().getTime();
       var days = Math.floor(time/ 86400000);
       const vocabsItems = this.getVocabsItems().sort((a, b) => (a.word).localeCompare(b.word))
       .sort(() => .5 - days);  
       var index = days % vocabsItems.length;
-      return vocabsItems[index] !== undefined ? vocabsItems[index] : vocabsItems[80];
+      return vocabsItems[index] !== undefined ? vocabsItems[index] : vocabsItems[0];
     }
   }
 
@@ -296,36 +334,53 @@ class Store extends EventEmitter {
 
   // get category list based on Group
   getCategoriesOfGroup(group) {
+    if (!group) {
+      console.warn("No group provided to getCategoriesOfGroup");
+      return [];
+    }
 
     if (this.formatString(group) === this.formatString("New Signs")) {
-      return this.getNewSigns()
+      return this.getNewSigns();
     }
 
     let lookup = new Set();
     const categories = this.getGroupCategoryItems()
-      .filter(
-        (obj) =>
-          !this.formatString(obj.groupCategory.toString().split("/")[0]).localeCompare(
-            this.formatString(group)
-          )
-      )
-      .map(
-        (obj) => (
-          {
-            "category": obj.groupCategory.toString().split("/")[1],
-            "kategori": obj.kumpulanKategori.toString().split("/")[1]
-          }
-        )
-      )
-      .filter((obj) => (!lookup.has(obj.category) && this.isGroupCategoryInRelease(this.formatString(group), this.formatString(obj.category))) && lookup.add(obj.category));
+      .filter(obj => obj !== null && obj !== undefined)
+      .filter(obj => {
+        const groupCat = obj.groupCategory || obj.GroupCategory;
+        if (!groupCat) return false;
+        
+        const groupPart = groupCat.toString().split("/")[0] || '';
+        return this.formatString(groupPart) === this.formatString(group);
+      })
+      .map(obj => {
+        const groupCat = obj.groupCategory || obj.GroupCategory;
+        const kumpulanKat = obj.kumpulanKategori || obj.KumpulanKategori;
+        
+        return {
+          "category": groupCat?.toString().split("/")[1] || '',
+          "kategori": kumpulanKat?.toString().split("/")[1] || ''
+        };
+      })
+      .filter(obj => 
+        obj.category && 
+        !lookup.has(obj.category) && 
+        this.isGroupCategoryInRelease(this.formatString(group), this.formatString(obj.category)) && 
+        lookup.add(obj.category)
+      );
 
+    console.log(`Categories for group "${group}":`, categories);
     return categories;
   }
 
   // get vocabItem with splitted group&category pairs
   getVocabItem() {
     const splitGroupCategory = a => a !== undefined && a.toString().split(",");
-    return this.getVocabsItems().map(o => ({ ...o, groupCategory: splitGroupCategory(o.groupCategory) }));
+    return this.getVocabsItems().map(o => {
+      // Handle both camelCase and PascalCase properties
+      const groupCategory = o.groupCategory || o.GroupCategory || '';
+      return { ...o, groupCategory: splitGroupCategory(groupCategory) };
+    });
   }
 
   // get vocabs list based on Category and Group
@@ -334,9 +389,10 @@ class Store extends EventEmitter {
 
     // check if a vocab belongs to the group&category pair
     const isInGroupCategory = a => {
+      if (!a) return false;
       var isGroup = false;
       for (let i = 0; i < a.length; i++) {
-        if (!((this.formatGroupCategory(a[i].toString())).localeCompare(groupCategoryPair))) {
+        if (a[i] && !((this.formatGroupCategory(a[i].toString())).localeCompare(groupCategoryPair))) {
           isGroup = true;
         }
       }
@@ -355,10 +411,13 @@ class Store extends EventEmitter {
 
   // check if a group is in release
   isGroupInRelease(groupEng) {
+    if (!groupEng) return false;
+    
     const vocabs = this.getVocabsItems();
     for (let obj of vocabs) {
-      if (obj.groupCategory !== undefined &&
-        !this.formatString(obj.groupCategory.toString().split("/")[0]).localeCompare(
+      const groupCategory = obj.groupCategory || obj.GroupCategory;
+      if (groupCategory !== undefined &&
+        !this.formatString(groupCategory.toString().split("/")[0]).localeCompare(
           (groupEng)
         )) {
         return true;
@@ -369,8 +428,12 @@ class Store extends EventEmitter {
 
   // check if a group&category pair is in release
   isGroupCategoryInRelease(groupEng, categoryEng) {
+    if (!groupEng || !categoryEng) return false;
+    
     const vocabs = this.getVocabItem();
     for (let obj of vocabs) {
+      if (!obj.groupCategory) continue;
+      
       for (let groupCat of obj.groupCategory) {
         if (groupCat !== undefined &&
           !this.formatString(groupCat.toString().split("/")[0]).localeCompare(
@@ -387,11 +450,16 @@ class Store extends EventEmitter {
 
   // get vocabs detail (word, perkataan, image, video) based on Word
   getVocabDetail(signEng) {
+    if (!signEng) return [];
+    
     const vocabs = this.getVocabsItems().filter(
-      (category) =>
-        !this.formatString(category.word).localeCompare(
-          this.formatString(signEng)
-        )
+      (category) => {
+        const word = category.word || category.Word;
+        return word && 
+          !this.formatString(word).localeCompare(
+            this.formatString(signEng)
+          );
+      }
     );
     return vocabs;
   }
@@ -417,6 +485,8 @@ class Store extends EventEmitter {
 
   // format string to lower case, replace space with dash, and remove '?' and '/' (for link path name)
   formatString(string) {
+    if (!string) return '';
+    
     try {
       var stringFormatted = string.toLowerCase().replace(/\s+/g, "-")
       stringFormatted = stringFormatted.replace(/[?/]/g, "")
@@ -428,6 +498,8 @@ class Store extends EventEmitter {
 
   // format group&category pair (to follow link path name)
   formatGroupCategory(string) {
+    if (!string) return '';
+    
     try {
       // return string.toLowerCase().replace(/\s+/g, "-");
       const groupCat = string.toString().split("/");
@@ -439,12 +511,20 @@ class Store extends EventEmitter {
 
   // get vocabs through matching first alphabet
   getVocabsAlphabet(alphabetFirst) {
+    if (!alphabetFirst) return [];
+    
     const vocabAlpha = this.getVocabsItems().filter((vocAl) =>
       getCurrentLocale() === "ms"
-        ? this.formatString(vocAl.perkataan).startsWith(alphabetFirst)
-        : this.formatString(vocAl.word).startsWith(alphabetFirst)
+        ? (vocAl.perkataan || vocAl.Perkataan) && this.formatString(vocAl.perkataan || vocAl.Perkataan).startsWith(alphabetFirst)
+        : (vocAl.word || vocAl.Word) && this.formatString(vocAl.word || vocAl.Word).startsWith(alphabetFirst)
     )
-    .sort((a, b) => cookies.get("i18next") === "ms" ? a.perkataan.localeCompare(b.perkataan) : a.word.localeCompare(b.word));
+    .sort((a, b) => {
+      if (cookies.get("i18next") === "ms") {
+        return (a.perkataan || a.Perkataan).localeCompare(b.perkataan || b.Perkataan);
+      } else {
+        return (a.word || a.Word).localeCompare(b.word || b.Word);
+      }
+    });
     return vocabAlpha;
   }
 

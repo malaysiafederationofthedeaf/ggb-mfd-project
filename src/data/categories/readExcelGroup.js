@@ -17,6 +17,7 @@ const fetchAllData = async () => {
         break;
       }
 
+      // Extract data from the response
       const transformedData = response.data.data.map(item => ({
         KumpulanKategori: item.KumpulanKategori || '',
         GroupCategory: item.GroupCategory || '',
@@ -31,6 +32,9 @@ const fetchAllData = async () => {
       hasMoreData = false;
     }
   }
+  
+  // Log the data for debugging
+  console.log("Category groups data:", allData);
   return allData;
 };
 
