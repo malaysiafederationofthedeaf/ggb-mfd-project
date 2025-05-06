@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Col, Row } from "shards-react";
 import ItemsCarousel from "react-items-carousel";
 import { useParams } from "react-router-dom";
@@ -8,16 +8,65 @@ import PageTitle from "../components/common/PageTitle";
 import { Store } from "../flux";
 import AlphabetsGrid from "../components/alphabets-vocabs/AlphabetsGrid";
 import AlphabetsList from "../components/alphabets-vocabs/AlphabetsList";
+import { getVocabsByAlphabet, getAlphabetsList } from "../services/api/alphabetAPI";
 
 const SelectedAlphabets = () => {
   const { alphabet } = useParams();
   const alphasFormatted = Store.formatString(alphabet);
-  const alphasLists = Store.getAlphabetsList();
-  const vocabs = Store.getVocabsAlphabet(alphasFormatted);
-
+  const alphasLists = getAlphabetsList();
+  
+  const [vocabs, setVocabs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [activeItemIndex, setActiveItemIndex] = useState(0);
+  
+  // Fetch data when component mounts or alphabet changes
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        console.log(`Fetching data for alphabet: ${alphasFormatted}`);
+        const data = await getVocabsByAlphabet(alphasFormatted);
+        console.log(`Received ${data.length} items for alphabet: ${alphasFormatted}`);
+        setVocabs(data);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching alphabet data:", err);
+        setError(err);
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
+  }, [alphabet, alphasFormatted]);
+  
+  // Show loading state
+  if (loading) {
+    return (
+      <Container fluid className="main-content-container px-4">
+        <div className="text-center p-5">
+          <div className="spinner-border text-primary" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <p className="mt-2">Loading vocabulary for "{alphabet}"...</p>
+        </div>
+      </Container>
+    );
+  }
+  
+  // Show error state
+  if (error) {
+    return (
+      <Container fluid className="main-content-container px-4">
+        <div className="alert alert-danger">
+          Error loading data: {error.message}
+        </div>
+      </Container>
+    );
+  }
+  
   // return Error page if no Vocabs are returned
-  if (vocabs.length === 0) return <ComingSoon />;
+  if (!vocabs || vocabs.length === 0) return <ComingSoon />;
 
   return (
     <>
@@ -30,8 +79,8 @@ const SelectedAlphabets = () => {
             showSlither={false}
             freeScrolling={false}
             chevronWidth={30}
-            rightChevron={<i className="material-icons">chevron_right</i>}
-            leftChevron={<i className="material-icons">chevron_left</i>}
+            rightChevron={<i className="material-icons">chevron_right</i>}
+            leftChevron={<i className="material-icons">chevron_left</i>}
             requestToChangeActive={(activeItemIndex) =>
               setActiveItemIndex(activeItemIndex)
             }
