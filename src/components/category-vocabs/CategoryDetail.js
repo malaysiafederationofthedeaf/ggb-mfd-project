@@ -28,7 +28,8 @@ const CategoryDetail = ({ categoryItem, group, noOfCard }) => {
   }, [imgSrc]);
 
   // determine if the word to be displayed is Word from New Sign; or a Category
-  const categoryWord = categoryItem.new ? t(`word:${Store.formatString(categoryItem.word)}`) : t(`group-category:${categoryFormatted}`);
+  const categoryWord = categoryItem.new ? t(`${categoryItem.word}`) : t(`${categoryItem.category}`);
+
   // get the length of word; or the longest substring if it contains space
   const length = categoryWord.split(" ").sort((a, b) => (b.length-a.length))[0].length;
   const fontSizeTemp = 30-(length);
