@@ -53,7 +53,7 @@ const CategoryList = ({ category, group }) => {
     <Col sm="12" md="6" lg="6" xl="4">
       <div className="category-card-wrapper">
         <Link to={`/groups/${groupFormatted}`}>
-          <PageTitle title={t(groupFormatted)} />
+          <PageTitle title={t(group)} />
         </Link>
         <ItemsCarousel
           // Carousel configurations

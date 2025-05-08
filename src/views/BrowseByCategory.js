@@ -3,47 +3,102 @@ import { Container, Row } from "shards-react";
 import { useTranslation } from "react-i18next";
 
 import CategoryList from "../components/category-vocabs/CategoryList";
+import {
+  getGroupItems,
+  getCategoryLength,
+  getGroupLength,
+  getCategoriesOfGroup,
+} from "../services/api/categoryAPI";
 import { Store } from "../flux";
 
 const BrowseByCategory = () => {
   const { t } = useTranslation();
   const [groups, setGroups] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
+  // Load group and category data
   useEffect(() => {
-    // Log the initial state
-    console.log("Initial groups from store:", Store.getGroups());
-    
-    // Get groups when component mounts
-    const storeGroups = Store.getGroups();
-    setGroups(storeGroups || []);
-    setLoading(storeGroups.length === 0);
-    
-    // Add listener for store changes
-    Store.addChangeListener(handleStoreChange);
-    
-    return () => {
-      // Clean up listener when component unmounts
-      Store.removeChangeListener(handleStoreChange);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const categoryLength = await getCategoryLength();
+        const groupLength = await getGroupLength();
+        const [groupData, categoryData] = await Promise.all([
+          getGroupItems(),
+          getCategoriesOfGroup(),
+        ]);
+
+        setGroups(groupData);
+        setCategories(categoryData);
+        setLoading(false);
+
+        console.log("Group Length:", groupLength);
+        console.log("Category Length:", categoryLength);
+
+        // Calling each group
+        groupData.forEach((group, index) => {
+          console.log(`Calling Group ${index + 1}: ${group.group}`);
+        });
+      } catch (err) {
+        console.error("Error fetching category data:", err);
+        setError(err);
+        setLoading(false);
+      }
     };
+
+    fetchData();
   }, []);
-  
-  const handleStoreChange = () => {
-    // Update groups when store changes
-    const updatedGroups = Store.getGroups();
-    console.log("Updated groups from store:", updatedGroups);
-    setGroups(updatedGroups || []);
-    setLoading(false);
-  };
-  
-  // Debug function to check categories for each group
-  const debugCategories = (group) => {
-    const categories = Store.getCategoriesOfGroup(group);
-    console.log(`Categories for ${group}:`, categories);
-    return categories;
-  };
-  
+
+  // Show loading state
+  if (loading) {
+    return (
+      <Container fluid className="main-content-container">
+        <Row className="p-4">
+          <h1>{t("category")}</h1>
+        </Row>
+        <Row>
+          <div className="col-12 text-center p-5">
+            <p>Loading categories...</p>
+          </div>
+        </Row>
+      </Container>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <Container fluid className="main-content-container px-4">
+        <Row className="p-4">
+          <h1>{t("category")}</h1>
+        </Row>
+        <Row>
+          <div className="col-12 text-center p-5">
+            <p>Error loading data: {error.message}</p>
+          </div>
+        </Row>
+      </Container>
+    );
+  }
+
+  // Show empty state
+  if (groups.length === 0 || categories.length === 0) {
+    return (
+      <Container fluid className="main-content-container px-4">
+        <Row className="p-4">
+          <h1>{t("category")}</h1>
+        </Row>
+        <Row>
+          <div className="col-12 text-center p-5">
+            <p>No categories found. Please check the API connection.</p>
+          </div>
+        </Row>
+      </Container>
+    );
+  }
+
   return (
     <div className="category-list-wrapper">
       <Container fluid className="main-content-container">
@@ -51,33 +106,32 @@ const BrowseByCategory = () => {
           <h1>{t("category")}</h1>
         </Row>
         <Row>
-          {loading ? (
-            <div className="col-12 text-center p-5">
-              <p>Loading categories...</p>
-            </div>
-          ) : groups.length > 0 ? (
-            groups.map((group, key) => {
-              // Debug log for each group
-              console.log(`Rendering group: ${group.group}`);
-              const categories = debugCategories(group.group);
-              
-              return (
-                <CategoryList 
-                  category={categories} 
-                  group={group.group} 
-                  key={key} 
-                />
-              );
-            })
-          ) : (
-            <div className="col-12 text-center p-5">
-              <p>No categories found. Please check the API connection.</p>
-            </div>
-          )}
+          {groups.map((group, key) => {
+            const groupName = group.group;
+            const isNewSigns = groupName === "New Signs";
+            const items = categories[groupName] || [];
+  
+            const formattedItems = isNewSigns
+              ? items.map((item) => ({
+                  word: item.word,
+                  perkataan: item.perkataan,
+                  new: item.new,
+                }))
+              : items;
+  
+            return (
+              <CategoryList
+                key={key}
+                group={groupName}
+                category={formattedItems}
+              />
+            );
+          })}
         </Row>
       </Container>
     </div>
   );
-}
+  
+};
 
 export default BrowseByCategory;
