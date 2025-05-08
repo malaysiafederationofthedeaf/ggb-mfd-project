@@ -2,78 +2,62 @@ import axios from "axios";
 import { Store } from "../../flux";
 import { alphabetCache, alphabetCacheTimestamps } from "./alphabetAPI";
 
-// Utility functions
-const formatString = (str) => {
-  return Store.formatString(str);
-};
+// Utility: Format string using Store method
+const formatString = (str) => Store.formatString(str);
 
-// Helper function to capitalize first letter
+// Utility: Capitalize the first letter
 const capitalizeFirstLetter = (string) => {
   if (!string) return '';
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-// Cache mechanism
+// Cache setup
 const vocabCache = new Map();
 const vocabCacheTimestamps = new Map();
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
-// Find vocab in alphabet data
+// Find vocab in alphabet cache
 const findVocabInAlphabetData = (vocabName) => {
   if (!vocabName) return null;
-  
-  const formattedVocabName = formatString(vocabName);
-  const firstLetter = formattedVocabName.charAt(0);
-  
-  // Check if we have alphabet data cached
-  if (alphabetCache && alphabetCache.has(firstLetter)) {
-    console.log(`Looking for vocab "${vocabName}" in cached alphabet data for "${firstLetter}"`);
-    
-    const alphabetData = alphabetCache.get(firstLetter);
-    const matchingVocabs = alphabetData.filter(item => 
-      !formatString(item.word).localeCompare(formattedVocabName)
+
+  const formatted = formatString(vocabName);
+  const firstLetter = formatted.charAt(0);
+
+  if (alphabetCache?.has(firstLetter)) {
+    console.log(`Looking for "${vocabName}" in alphabet cache [${firstLetter}]`);
+
+    const entries = alphabetCache.get(firstLetter);
+    const matches = entries.filter(
+      (item) => !formatString(item.word).localeCompare(formatted)
     );
-    
-    if (matchingVocabs.length > 0) {
-      console.log(`Found vocab "${vocabName}" in alphabet cache`);
-      return matchingVocabs;
+
+    if (matches.length > 0) {
+      console.log(`Found "${vocabName}" in alphabet cache`);
+      return matches;
     }
   }
-  
+
   return null;
 };
 
-// Fetch vocab detail from API
+// Fetch vocab from external API
 export const fetchVocabDetailFromAPI = async (vocabName) => {
   if (!vocabName) return null;
-  
+
+  const formatted = formatString(vocabName);
+  const capitalized = capitalizeFirstLetter(vocabName);
+  const endpoint = `https://mfd-final-test.onrender.com/api/bims?populate=*&filters[Word][$containsi]=${capitalized}`;
+
   try {
-    // First check if we can find the vocab in alphabet data
-    const vocabFromAlphabet = findVocabInAlphabetData(vocabName);
-    if (vocabFromAlphabet) {
-      return vocabFromAlphabet;
-    }
-    
-    // Format the vocab name for comparison
-    const formattedVocabName = formatString(vocabName);
-    
-    // Capitalize the first letter for the API request
-    const capitalizedVocabName = capitalizeFirstLetter(vocabName);
-    console.log(`Searching for vocab with capitalized name: ${capitalizedVocabName}`);
-    
-    // Fetch data from API with capitalized first letter
-    const response = await axios.get(
-      `https://mfd-final-test.onrender.com/api/bims?populate=*&filters[Word][$containsi]=${capitalizedVocabName}`
-    );
-    
-    if (!response.data || !response.data.data) {
-      console.error('Invalid API response structure:', response);
-      return null;
-    }
-    
-    // Transform and filter the data
-    const transformedData = response.data.data
-      .map(item => ({
+    const cachedData = findVocabInAlphabetData(vocabName);
+    if (cachedData) return cachedData;
+
+    console.log(`Fetching "${vocabName}" from API`);
+    const response = await axios.get(endpoint);
+
+    const data = response.data?.data || [];
+    const filtered = data
+      .map((item) => ({
         kumpulanKategori: item.category_group?.KumpulanKategori || `${item.Kumpulan}/${item.Kategori}`,
         groupCategory: item.category_group?.GroupCategory || `${item.Group}/${item.Category}`,
         word: item.Word || '',
@@ -86,64 +70,65 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
         order: item.Order || '',
         imgStatus: item.Image_Status || ''
       }))
-      .filter(item => 
-        ["Release 1", "Release 2", "Release 3"].includes(item.release) && 
-        !formatString(item.word).localeCompare(formattedVocabName)
+      .filter(
+        (entry) =>
+          ["Release 1", "Release 2", "Release 3"].includes(entry.release) &&
+          !formatString(entry.word).localeCompare(formatted)
       );
-    
-    return transformedData.length > 0 ? transformedData : null;
+
+    return filtered.length > 0 ? filtered : null;
   } catch (error) {
-    console.error("Error fetching vocab detail:", error);
+    console.error("API error while fetching vocab:", error);
     return null;
   }
 };
 
-// Get vocab detail with caching
+// Get vocab with caching
 export const getVocabDetail = async (vocabName) => {
   if (!vocabName) return null;
-  
+
+  const now = Date.now();
+
   try {
-    const now = Date.now();
-    
-    // Check if we have cached data for this vocab
-    if (vocabCache.has(vocabName) && 
-        vocabCacheTimestamps.has(vocabName) && 
-        (now - vocabCacheTimestamps.get(vocabName) < CACHE_DURATION)) {
-      console.log(`Using cached data for vocab: ${vocabName}`);
+    // Return cached if valid
+    if (
+      vocabCache.has(vocabName) &&
+      vocabCacheTimestamps.has(vocabName) &&
+      now - vocabCacheTimestamps.get(vocabName) < CACHE_DURATION
+    ) {
+      console.log(`Using cached vocab: "${vocabName}"`);
       return vocabCache.get(vocabName);
     }
-    
-    // Check if we can find it in alphabet data first
-    const vocabFromAlphabet = findVocabInAlphabetData(vocabName);
-    if (vocabFromAlphabet) {
-      // Store in vocab-specific cache
-      vocabCache.set(vocabName, vocabFromAlphabet);
+
+    // Check alphabet cache
+    const alphabetData = findVocabInAlphabetData(vocabName);
+    if (alphabetData) {
+      vocabCache.set(vocabName, alphabetData);
       vocabCacheTimestamps.set(vocabName, now);
-      return vocabFromAlphabet;
+      return alphabetData;
     }
-    
-    // If not in cache or alphabet data, fetch from API
-    console.log(`Cache miss for vocab: ${vocabName}, fetching from API`);
-    const vocabDetail = await fetchVocabDetailFromAPI(vocabName);
-    
-    // Store in vocab-specific cache
-    if (vocabDetail) {
-      vocabCache.set(vocabName, vocabDetail);
+
+    // Fetch from API
+    console.log(`Cache miss for "${vocabName}", querying API...`);
+    const fetched = await fetchVocabDetailFromAPI(vocabName);
+
+    if (fetched) {
+      vocabCache.set(vocabName, fetched);
       vocabCacheTimestamps.set(vocabName, now);
     }
-    
-    return vocabDetail;
-  } catch (error) {
-    console.error("Error in getVocabDetail:", error);
-    
-    // Check if we have cached data for this vocab even if it's expired
+
+    return fetched;
+  } catch (err) {
+    console.error(`Failed to get vocab: "${vocabName}"`, err);
+
+    // Fallback to stale cache if available
     if (vocabCache.has(vocabName)) {
-      console.log(`Using expired cache for vocab: ${vocabName} due to error`);
+      console.log(`Using stale cache for "${vocabName}"`);
       return vocabCache.get(vocabName);
     }
-    
-    // Fallback to Store if API call fails and no cache exists
-    console.log("Falling back to Store data for vocab detail");
+
+    // Last-resort fallback to Store
+    console.log(`Falling back to Store for "${vocabName}"`);
     return Store.getVocabDetail(vocabName);
   }
 };
@@ -151,14 +136,12 @@ export const getVocabDetail = async (vocabName) => {
 // Clear vocab cache
 export const clearVocabCache = (vocabName = null) => {
   if (vocabName) {
-    // Clear specific vocab cache
     vocabCache.delete(vocabName);
     vocabCacheTimestamps.delete(vocabName);
-    console.log(`Cache cleared for vocab: ${vocabName}`);
+    console.log(`Cleared cache for: "${vocabName}"`);
   } else {
-    // Clear all vocab caches
     vocabCache.clear();
     vocabCacheTimestamps.clear();
-    console.log("All vocab caches cleared");
+    console.log("Cleared all vocab caches");
   }
 };
