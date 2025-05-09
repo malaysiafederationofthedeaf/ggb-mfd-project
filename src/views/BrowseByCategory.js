@@ -9,7 +9,6 @@ import {
   getGroupLength,
   getCategoriesOfGroup,
 } from "../services/api/categoryAPI";
-import { Store } from "../flux";
 
 const BrowseByCategory = () => {
   const { t, i18n } = useTranslation();
@@ -109,9 +108,9 @@ const BrowseByCategory = () => {
         <Row>
           {groups.map((group, key) => {
             const groupName = isMalay ? group.kumpulan : group.group;
-            const rawGroupKey = group.group;
-            const isNewSigns = rawGroupKey === "New Signs";
-            const items = categories[rawGroupKey] || [];
+            const groupKey = group.group; // Pass group in Eng version
+            const isNewSigns = groupKey === "New Signs";
+            const items = categories[groupKey] || [];
   
             const formattedItems = isNewSigns
               ? items.map((item) => ({
@@ -125,6 +124,7 @@ const BrowseByCategory = () => {
               <CategoryList
                 key={key}
                 group={groupName}
+                groupKey = {groupKey}
                 category={formattedItems}
               />
             );
