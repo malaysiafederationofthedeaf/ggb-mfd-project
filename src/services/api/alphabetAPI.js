@@ -88,8 +88,9 @@ let cacheTimestamp = null;
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
 // Add alphabet-specific caching
-const alphabetCache = new Map();
-const alphabetCacheTimestamps = new Map();
+// Export the cache for use in other services
+export const alphabetCache = new Map();
+export const alphabetCacheTimestamps = new Map();
 
 // Update the getVocabsByAlphabet function to use enhanced caching
 export const getVocabsByAlphabet = async (alphabetFirst) => {
