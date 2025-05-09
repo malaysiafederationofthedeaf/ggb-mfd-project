@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import { Container } from "shards-react";
+import cookies from "js-cookie";
+import i18next from "i18next";
 
 import ComingSoon from "./ComingSoon";
 import VocabDetail from "../components/category-vocabs/VocabDetail";
@@ -9,25 +11,44 @@ import { getVocabDetail } from "../services/api/vocabAPI";
 
 const SelectedVocab = () => {
   const { vocab } = useParams();
+  // Decode the URL parameter to handle words with spaces
+  const decodedVocab = decodeURIComponent(vocab.replace(/-/g, ' '));
   const [categoryVocab, setCategoryVocab] = useState(null);
   const [vocabDetails, setVocabDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentLang, setCurrentLang] = useState(cookies.get("i18next") || "ms");
   
-  // Fetch data when component mounts or vocab changes
+  // Listen for language changes
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      const newLang = cookies.get("i18next") || "ms";
+      if (newLang !== currentLang) {
+        setCurrentLang(newLang);
+      }
+    };
+    
+    i18next.on('languageChanged', handleLanguageChange);
+    
+    return () => {
+      i18next.off('languageChanged', handleLanguageChange);
+    };
+  }, [currentLang]);
+  
+  // Fetch data when component mounts or vocab/language changes
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        console.log(`Fetching data for vocab: ${vocab}`);
-        const data = await getVocabDetail(vocab);
+        console.log(`Fetching data for vocab: ${decodedVocab} with language: ${currentLang}`);
+        const data = await getVocabDetail(decodedVocab);
         
         if (data) {
           setCategoryVocab(data);
           setVocabDetails(data[0]);
-          console.log(`Received vocab details for: ${vocab}`);
+          console.log(`Received vocab details for: ${decodedVocab}`);
         } else {
-          console.log(`No data found for vocab: ${vocab}`);
+          console.log(`No data found for vocab: ${decodedVocab}`);
         }
         
         setLoading(false);
@@ -39,7 +60,7 @@ const SelectedVocab = () => {
     };
     
     fetchData();
-  }, [vocab]);
+  }, [vocab, decodedVocab, currentLang]); // Add currentLang as a dependency
   
   // Show loading state
   if (loading) {

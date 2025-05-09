@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Container, Col, Row } from "shards-react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import cookies from "js-cookie";
+import i18next from "i18next";
 
 import ComingSoon from "./ComingSoon";
 import PageTitle from "../components/common/PageTitle";
@@ -18,6 +20,7 @@ const SelectedCategory = () => {
   const categoryEng = category;
 
   const { t } = useTranslation("group-category");
+  const [currentLang, setCurrentLang] = useState(cookies.get("i18next") || "ms");
 
   const categoryFormatted = Store.formatString(categoryEng);
   const groupFormatted = Store.formatString(group);
@@ -27,7 +30,30 @@ const SelectedCategory = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
-  // Fetch data when component mounts or group/category changes
+  // Listen for language changes
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      const newLang = cookies.get("i18next") || "ms";
+      if (newLang !== currentLang) {
+        setCurrentLang(newLang);
+        // Force re-render when language changes
+        if (!window.location.pathname.includes('/alphabets/') && 
+            !window.location.pathname.includes('/category/')) {
+          // If we're not on a page that will reload, force a re-render
+          setLoading(true);
+          setTimeout(() => setLoading(false), 10);
+        }
+      }
+    };
+    
+    i18next.on('languageChanged', handleLanguageChange);
+    
+    return () => {
+      i18next.off('languageChanged', handleLanguageChange);
+    };
+  }, [currentLang]);
+  
+  // Fetch data when component mounts or group/category/language changes
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -53,7 +79,7 @@ const SelectedCategory = () => {
     };
     
     fetchData();
-  }, [groupSelected, categoryFormatted, isNewSignCategory]);
+  }, [groupSelected, categoryFormatted, isNewSignCategory, currentLang]);
   
   // Show loading state
   if (loading) {
