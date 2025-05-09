@@ -12,11 +12,12 @@ import {
 import { Store } from "../flux";
 
 const BrowseByCategory = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [groups, setGroups] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const isMalay = i18n.language === "ms";
 
   // Load group and category data
   useEffect(() => {
@@ -107,9 +108,10 @@ const BrowseByCategory = () => {
         </Row>
         <Row>
           {groups.map((group, key) => {
-            const groupName = group.group;
-            const isNewSigns = groupName === "New Signs";
-            const items = categories[groupName] || [];
+            const groupName = isMalay ? group.kumpulan : group.group;
+            const rawGroupKey = group.group;
+            const isNewSigns = rawGroupKey === "New Signs";
+            const items = categories[rawGroupKey] || [];
   
             const formattedItems = isNewSigns
               ? items.map((item) => ({
