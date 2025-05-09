@@ -137,7 +137,6 @@ const getGroupList = async () => {
 
 // Return groups (unique)
 export const getGroupItems = async () => {
-  const locale = getCurrentLocale();
   try {
     const groupData = await getGroupList();
 
@@ -147,12 +146,14 @@ export const getGroupItems = async () => {
     }
 
     const groups = groupData
-      .filter((obj) => obj)
-      .map((obj) => {
-        const group = locale === "ms" ? obj.kumpulan : obj.group;
-        const remark = obj.remark || "";
-        return { group, remark };
-      });
+    .filter((obj) => obj)
+    .map((obj) => {
+      return {
+        group: obj.group || "",
+        kumpulan: obj.kumpulan || "",
+        remark: obj.remark || ""
+      };
+    });
     return groups;
   } catch (error) {
     console.error("Error getting group items:", error);

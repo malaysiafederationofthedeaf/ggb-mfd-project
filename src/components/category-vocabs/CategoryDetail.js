@@ -11,8 +11,9 @@ import { getImageWithFallback } from "../components-overview/ImgSrc";
 const ZoomIn = styled.div`animation: .5s ${keyframes `${zoomIn}`}`;  
 
 const CategoryDetail = ({ categoryItem, group, noOfCard }) => {
-  const { t } = useTranslation(["word", "group-category"]);
+  const { i18n } = useTranslation(["word", "group-category"]);
 
+  const isMalay = i18n.language === "ms";
   const groupFormatted = Store.formatString(group);
   const categoryFormatted = Store.formatString(categoryItem.category);
   const basePath = `/groups/${groupFormatted}`
@@ -28,7 +29,7 @@ const CategoryDetail = ({ categoryItem, group, noOfCard }) => {
   }, [imgSrc]);
 
   // determine if the word to be displayed is Word from New Sign; or a Category
-  const categoryWord = categoryItem.new ? t(`${categoryItem.word}`) : t(`${categoryItem.category}`);
+  const categoryWord = categoryItem.new ? isMalay ? categoryItem.perkataan : categoryItem.word : isMalay ? categoryItem.kategori : categoryItem.category;
 
   // get the length of word; or the longest substring if it contains space
   const length = categoryWord.split(" ").sort((a, b) => (b.length-a.length))[0].length;
