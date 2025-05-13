@@ -81,7 +81,7 @@ const CategoryList = ({ category, group, groupKey }) => {
               key={key}
             />
           ))}
-        </ItemsCarousel>
+        </ItemsCarousel> 
       </div>
     </Col>
   );
