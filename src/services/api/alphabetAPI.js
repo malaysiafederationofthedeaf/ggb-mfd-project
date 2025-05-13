@@ -17,7 +17,7 @@ export const getAlphabetsList = () => {
 };
 
 // Fetch vocabulary data directly from API
-const fetchVocabData = async () => {
+export const fetchVocabData = async () => {
   let allData = [];
   let page = 1;
   let hasMoreData = true;
@@ -234,6 +234,75 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
     });
 
   console.log(`API returned ${processedData.length} items for ${uppercaseAlphabet}`);
+  return processedData;
+};
+
+// Get new signs
+export const getNewSigns = async () => {
+  
+  let allData = [];
+  let page = 1;
+  let hasMoreData = true;
+  const fieldToFilter = "New";
+  const isNewSigns = "Yes";
+    
+  while (hasMoreData) {
+    try {
+      // Add filtering to the API call using the Strapi filter syntax New Signs where New = yes
+      const response = await axios.get(
+        `https://mfd-final-test.onrender.com/api/bims?populate=*&pagination[page]=${page}&pagination[pageSize]=25&filters[${fieldToFilter}][$startsWith]=${isNewSigns}`
+      );
+
+       if (!response.data || !response.data.data) {
+        console.error('Invalid API response structure:', response);
+        break;
+      }
+
+      const transformedData = response.data.data.map(item => {
+      const categoryGroup = item.category_group || {};
+        
+        return {
+          kumpulanKategori: categoryGroup.KumpulanKategori || `${item.Kumpulan}/${item.Kategori}`,
+          groupCategory: categoryGroup.GroupCategory || `${item.Group}/${item.Category}`,
+          word: item.Word || '',
+          perkataan: item.Perkataan || '',
+          video: item.Video || '',
+          tag: item.Tag || '',
+          release: item.Release || '',
+          new: item.New || 'No',
+          sotd: item.SOTD || '',
+          order: item.Order || '',
+          imgStatus: item.Image_Status || ''
+        };
+      });
+
+      allData = [...allData, ...transformedData];
+      hasMoreData = page < response.data.meta.pagination.pageCount;
+      page++;
+    } catch (err) {
+      console.error("Error fetching filtered data:", err);
+      hasMoreData = false;
+    }
+  }
+
+  // Process and sort the data
+  const processedData = allData
+    .map(item => {
+      return {
+        kumpulanKategori: item.kumpulanKategori.toString().replaceAll(/(\r\n|\n|\r)/gm, ''),    
+        groupCategory: item.groupCategory.toString().replaceAll(/(\r\n|\n|\r)/gm, ''),    
+        word: item.word.toString().trim(),
+        perkataan: item.perkataan.toString().trim(),
+        video: item.video,
+        tag: item.tag,
+        release: item.release,
+        new: item.new,
+        order: item.order,
+        sotd: item.sotd,
+        imgStatus: item.imgStatus
+      };
+    })
+    .filter(item => ["Release 1", "Release 2", "Release 3"].includes(item.release))
   return processedData;
 };
 
