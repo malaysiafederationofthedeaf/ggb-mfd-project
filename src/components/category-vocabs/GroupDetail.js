@@ -11,10 +11,11 @@ import { getImageWithFallback } from "../components-overview/ImgSrc";
 const ZoomIn = styled.div`animation: .5s ${keyframes `${zoomIn}`}`;
 
 const GroupDetail = ({ category, group }) => {
-  const { t } = useTranslation("group-category");
+  const { t, i18n } = useTranslation("group-category");
   const categoryImgSrc = Store.getCategoryImgSrc(category.kategori);
   const fallback = `https://res.cloudinary.com/dp3vzcgzq/image/upload/v1745120594/image-coming-soon.jpg`;
   const [bgImage, setBgImage] = useState("");
+  const isMalay = i18n.language === "ms";
 
   const groupFormatted = Store.formatString(group);
   const categoryFormatted = Store.formatString(category.category);
@@ -41,7 +42,7 @@ const GroupDetail = ({ category, group }) => {
             </Col>
             <Col lg="6" md="6" sm="6">
               <CardBody>
-                <h5 className="card-title">{t(categoryFormatted)}</h5>
+                <h5 className="card-title">{t(isMalay ? category.kategori : category.category)}</h5>
               </CardBody>
             </Col>
           </Card>
