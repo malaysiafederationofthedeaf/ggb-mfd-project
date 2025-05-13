@@ -231,7 +231,8 @@ class Store extends EventEmitter {
     const kategoriPublicId = "Category_" + kumpulanKategori
       .replace(/&/g, "_")
       .replace(/[()]/g, "")
-      .replace(/\s+/g, "_"); // Remove other special characters if needed
+      .replace(/\s+/g, "_") // Remove other special characters if needed
+      .replace(/_+/g, "_"); // Collapse multiple underscores into one
       return `${_store.imageURL}${kategoriPublicId}.jpg`;
   }
 

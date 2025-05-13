@@ -32,10 +32,7 @@ const fetchAllData = async () => {
       hasMoreData = false;
     }
   }
-  
-  // Log the data for debugging
-  console.log("Category groups data:", allData);
-  return allData;
+    return allData;
 };
 
 const restructureJSONGroup = (data) => {
