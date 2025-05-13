@@ -126,7 +126,7 @@ const restructureJSONGroup = (data) => {
 };
 
 // Return a list of unique group objects
-const getGroupList = async () => {
+export const getGroupList = async () => {
   if (groupCache) return groupCache;
 
   const data = await fetchCategoryData();
