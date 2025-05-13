@@ -19,13 +19,15 @@ const SelectedCategory = () => {
   const groupSelected = isNewSignCategory ? pathTail : group;
   const categoryEng = category;
 
-  const { t } = useTranslation("group-category");
+  const { t, i18n } = useTranslation("group-category"); // Add i18n here
   const [currentLang, setCurrentLang] = useState(cookies.get("i18next") || "ms");
+  const isMalay = i18n.language === "ms"; // Add this line to check language
 
   const categoryFormatted = Store.formatString(categoryEng);
   const groupFormatted = Store.formatString(group);
-  const title = isNewSignCategory ? groupFormatted : categoryFormatted;
   
+  // Declare all state variables first
+  const [localizedTitle, setLocalizedTitle] = useState("");
   const [vocabs, setVocabs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -81,6 +83,64 @@ const SelectedCategory = () => {
     fetchData();
   }, [groupSelected, categoryFormatted, isNewSignCategory, currentLang]);
   
+  // Fetch category data for localization - MOVED AFTER vocabs is initialized
+  useEffect(() => {
+    const fetchCategoryData = async () => {
+      try {
+        // For "New Signs" we can use the API data
+        if (isNewSignCategory) {
+          setLocalizedTitle(isMalay ? "Isyarat Baru" : "New Signs");
+          return;
+        }
+        
+        // For regular categories, try to get the localized name from the first vocab item
+        if (vocabs && vocabs.length > 0) {
+          // Extract group/category information from the first item
+          const firstItem = vocabs[0];
+          
+          if (isMalay && firstItem.kumpulanKategori) {
+            // For Malay, use the KumpulanKategori field
+            const parts = firstItem.kumpulanKategori.split('/');
+            if (parts.length >= 2) {
+              // Use the second part (category name)
+              setLocalizedTitle(parts[1].trim());
+              console.log(`Set Malay title from API: ${parts[1].trim()}`);
+              return;
+            }
+          } else if (!isMalay && firstItem.groupCategory) {
+            // For English, use the GroupCategory field
+            const parts = firstItem.groupCategory.split('/');
+            if (parts.length >= 2) {
+              // Use the second part (category name)
+              setLocalizedTitle(parts[1].trim());
+              console.log(`Set English title from API: ${parts[1].trim()}`);
+              return;
+            }
+          }
+        }
+        
+        // Fallback: Simple capitalization function
+        const capitalize = (str) => {
+          if (!str) return '';
+          return str.split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ');
+        };
+        
+        // If we couldn't get the title from API data, use the URL parameter
+        setLocalizedTitle(capitalize(categoryEng));
+        console.log(`Set fallback title: ${capitalize(categoryEng)}`);
+        
+      } catch (err) {
+        console.error("Error setting localized title:", err);
+        // Fallback to category name as-is
+        setLocalizedTitle(categoryEng);
+      }
+    };
+    
+    fetchCategoryData();
+  }, [isMalay, isNewSignCategory, categoryEng, vocabs]);
+  
   // Show loading state
   if (loading) {
     return (
@@ -120,7 +180,7 @@ const SelectedCategory = () => {
       >
         <Row noGutters className="page-header">
           <PageTitle
-            title={t(title)}
+            title={localizedTitle} // Use the state variable
             md="12"
             className="ml-sm-auto mr-sm-auto"
           />
