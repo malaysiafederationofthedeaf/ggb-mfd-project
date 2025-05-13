@@ -30,10 +30,14 @@ const Home = () => {
       try {
         setLoading(true);
 
+        // Fetch groups and filter for those with Remark="Home"
         const groupsData = await getGroupItems();
-        const filteredGroups = groupsData.filter((group) => group?.group);
-        setGroups(filteredGroups);
+        const homeGroups = groupsData.filter(
+          (group) => group?.group && group.remark === "Home"
+        );
+        setGroups(homeGroups);
 
+        // Fetch categories for the filtered groups
         const categoriesData = await getCategoriesOfGroup();
         setCategories(categoriesData);
 
@@ -48,7 +52,11 @@ const Home = () => {
       } catch (error) {
         console.error("Error fetching home page data:", error);
 
-        setGroups(Store.getGroupsHome().filter((group) => group?.group));
+        // Fallback to Store data, but still filter for Home remark
+        const storeGroups = Store.getGroupsHome().filter(
+          (group) => group?.group && group.remark === "Home"
+        );
+        setGroups(storeGroups);
         setCategories({});
         setNewSigns([]);
         setFeaturedVideos(Store.getFeaturedVideosList());
@@ -77,12 +85,12 @@ const Home = () => {
       <Container fluid>
         <div className="category-list-wrapper">
           <Row>
-            {/* Top Sign Groups to be displayed in Home Page */}
+            {/* Only display groups with Remark="Home" */}
             {groups
               .filter(group => group.group !== "New Signs")
               .map((group, key) => {
                 const groupName = isMalay ? group.kumpulan : group.group;
-                const groupKey = group.group; // Pass group in Eng version
+                const groupKey = group.group;
                 
                 return (
                   <CategoryList
@@ -101,12 +109,14 @@ const Home = () => {
               <Link to="/groups">{t("view_all_category_btn")} &rarr;</Link>
             </Col>
             
-            {/* New Signs Category */}
-            <CategoryList
-              category={categories["New Signs"] || Store.getCategoriesOfGroup("New Signs")}
-              group={isMalay ? "Isyarat Baru" : "New Signs"}
-              groupKey="New Signs"
-            />
+            {/* Only show New Signs if it has Remark="Home" */}
+            {groups.some(group => group.group === "New Signs") && (
+              <CategoryList
+                category={categories["New Signs"] || Store.getCategoriesOfGroup("New Signs")}
+                group={isMalay ? "Isyarat Baru" : "New Signs"}
+                groupKey="New Signs"
+              />
+            )}
             
             {/* Featured Videos List */}
             <FeaturedVideoList videoItems={featuredVideos}/> 
