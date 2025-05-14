@@ -13,7 +13,7 @@ import { Store } from "../flux";
 import { getGroupItems, getCategoriesOfGroup } from "../services/api/categoryAPI";
 import { getFeaturedVideos } from "../services/api/featuredVideosAPI";
 import { getNewSigns } from "../services/api/alphabetAPI";
-import { getSignOfTheDay } from "../services/api/signOfTheDayAPI";
+import { getSignOfTheDayLightweight } from "../services/api/signOfTheDayAPI";
 
 const Home = () => {
   const { t, i18n } = useTranslation();
@@ -49,9 +49,8 @@ const Home = () => {
         setFeaturedVideos(videosData || []);
 
         // Fetch Sign of the Day from API or local store cache
-        const sotd = await getSignOfTheDay();
+        const sotd = await getSignOfTheDayLightweight();
         setSignOfDay(sotd);
-        console.log("Sign of day:", signOfDay);
 
         setLoading(false);
       } catch (error) {

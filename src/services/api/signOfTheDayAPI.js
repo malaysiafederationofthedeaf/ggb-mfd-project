@@ -1,52 +1,65 @@
-import { fetchVocabData } from "./alphabetAPI";
+function getSeededRandom(seed) {
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+}
 
-let signOfTheDay = null;
+function formatDateToSeed(date = new Date()) {
+  return parseInt(date.toISOString().split("T")[0].replace(/-/g, ""), 10);
+}
 
-// get word of the day 'randomly' for each day based on date
-export const getSignOfTheDay = async () => {
-  // If we have a stored sign of the day, return it
-  if (signOfTheDay) {
-    return signOfTheDay;
+async function getTotalEntries(apiUrl) {
+  const res = await fetch(`${apiUrl}?pagination[page]=1&pagination[pageSize]=1`);
+  const json = await res.json();
+  return json.meta.pagination.total;
+}
+
+async function fetchPageEntries(apiUrl, pageNum, pageSize) {
+  const res = await fetch(`${apiUrl}?populate=*&pagination[page]=${pageNum}&pagination[pageSize]=${pageSize}`);
+  const json = await res.json();
+  return json.data || [];
+}
+
+export async function getSignOfTheDayLightweight() {
+  const apiUrl = "https://mfd-final-test.onrender.com/api/bims";
+  const pageSize = 25;
+  const seed = formatDateToSeed();
+  const totalEntries = await getTotalEntries(apiUrl);
+  const totalPages = Math.ceil(totalEntries / pageSize);
+
+  // Pick a deterministic page number
+  const pageSeed = getSeededRandom(seed);
+  const pageNum = Math.floor(pageSeed * totalPages) + 1;
+
+  // Fetch entries for that page
+  const entries = await fetchPageEntries(apiUrl, pageNum, pageSize);
+
+  // Filter only valid entries with video
+  const validEntries = entries.filter(
+    (e) => e?.Video_Status === "Published"
+  );
+
+  if (validEntries.length === 0) {
+    console.warn("No valid SOTD entries found on page:", pageNum);
+    return null;
   }
 
-  // Otherwise check if there's one for today's date
-  const sotd = await checkSignOfTheDay();
-  if (sotd) {
-    signOfTheDay = sotd;
-    return signOfTheDay;
-  } else {
-    // If no sign of the day is set, generate one based on the date
-    const time = new Date().getTime();
-    const days = Math.floor(time / 86400000); // Convert ms to days
-    const vocabsItems = await fetchVocabData();
-    const sortedVocabs = vocabsItems.sort((a, b) => a.word.localeCompare(b.word));
+  // Pick a deterministic entry from valid ones
+  const indexSeed = getSeededRandom(seed + 1);
+  const index = Math.floor(indexSeed * validEntries.length);
+  const selected = validEntries[index];
+  console.log("Indexseed: ", indexSeed);
+  console.log("index: ", index);
+  console.log("selected: ", selected);
 
-    const index = days % sortedVocabs.length;
-    signOfTheDay = sortedVocabs[index] ?? sortedVocabs[0];
-    return signOfTheDay;
-  }
-};
-
-// check if sign of the day exists in SOTD column (check for today's date)
-const checkSignOfTheDay = async () => {
-  const today = formatDate();
-  const vocabItems = await fetchVocabData();
-  const signsOfTheDay = vocabItems
-    .filter((obj) => obj.sotd != null) // Check for both null and undefined
-    .filter((obj) => obj.sotd?.toString() === today) // Safe conversion
-    .sort((a, b) => a.word.localeCompare(b.word));
-  return signsOfTheDay[0];
-};
-
-// Get date in yyyy-mm-dd format
-const formatDate = (date) => {
-  const d = date ? new Date(date) : new Date();
-  let month = "" + (d.getMonth() + 1);
-  let day = "" + d.getDate();
-  const year = d.getFullYear();
-
-  if (month.length < 2) month = "0" + month;
-  if (day.length < 2) day = "0" + day;
-
-  return [year, month, day].join("-");
-};
+  // Return transformed object
+  return {
+    word: selected.Word || "",
+    perkataan: selected.Perkataan || "",
+    video: selected.Video || "",
+    tag: selected.Tag || "",
+    release: selected.Release || "",
+    category: selected.category_group?.KumpulanKategori || "",
+    group: selected.category_group?.GroupCategory || "",
+    imgStatus: selected.Image_Status || "",
+  };
+}
