@@ -207,6 +207,7 @@ export const getCategoriesOfGroup = async () => {
             new: item.new,
           }));
 
+          // Sort New Signs alphabetically
           if (currentLanguageCode === "en") {
             words.sort((a, b) => a.word.localeCompare(b.word));
           } else {
@@ -231,6 +232,13 @@ export const getCategoriesOfGroup = async () => {
               kategori: obj.kategori,
             });
           }
+        }
+        
+        // Sort categories alphabetically based on current language
+        if (currentLanguageCode === "en") {
+          filtered.sort((a, b) => a.category.localeCompare(b.category));
+        } else {
+          filtered.sort((a, b) => a.kategori.localeCompare(b.kategori));
         }
   
         allResults[groupObj.group] = filtered;

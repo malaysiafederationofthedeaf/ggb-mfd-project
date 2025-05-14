@@ -229,12 +229,13 @@ export const getNewSigns = async () => {
     let page = 1;
     let hasMoreData = true;
     const locale = getCurrentLocale();
+    const sortField = locale === "ms" ? "Perkataan" : "Word";
     
     while (hasMoreData) {
       try {
-        // Use $eq (equals) operator instead of $startsWith for exact matching
+        // Use $eq (equals) operator for exact matching and add sort parameter
         const response = await axios.get(
-          `https://mfd-final-test.onrender.com/api/bims?populate=*&pagination[page]=${page}&pagination[pageSize]=25&filters[New][$eq]=Yes`
+          `https://mfd-final-test.onrender.com/api/bims?populate=*&pagination[page]=${page}&pagination[pageSize]=25&filters[New][$eq]=Yes&sort=${sortField}:asc`
         );
 
         if (!response.data?.data) {
@@ -283,6 +284,7 @@ export const getNewSigns = async () => {
         imgStatus: item.imgStatus
       }))
       .filter(item => ["Release 1", "Release 2", "Release 3"].includes(item.release))
+      // Additional client-side sorting to ensure correct alphabetical order
       .sort((a, b) => 
         locale === "ms" 
           ? a.perkataan.localeCompare(b.perkataan)
@@ -293,7 +295,7 @@ export const getNewSigns = async () => {
     alphabetCache.set(cacheKey, processedData);
     alphabetCacheTimestamps.set(cacheKey, now);
     
-    console.log(`API returned ${processedData.length} new sign items`);
+    console.log(`API returned ${processedData.length} new sign items, sorted alphabetically`);
     return processedData;
   } catch (error) {
     console.error("Error in getNewSigns:", error);
