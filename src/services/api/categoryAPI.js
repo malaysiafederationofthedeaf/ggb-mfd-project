@@ -189,7 +189,7 @@ const getCategoryItems = async () => {
 };
 
 // Get category list based on Group
-export const getCategoriesOfGroup = async () => {
+export const getCategoriesOfGroup = async (lang = "ms") => {
     try {
       const currentLanguageCode = getCurrentLocale();
       const groupList = await getGroupList(); // Get all groups

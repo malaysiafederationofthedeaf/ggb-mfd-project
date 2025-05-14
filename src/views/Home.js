@@ -12,14 +12,14 @@ import SignOfTheDay from "../components/category-vocabs/SignOfTheDay";
 import { Store } from "../flux";
 import { getGroupItems, getCategoriesOfGroup } from "../services/api/categoryAPI";
 import { getFeaturedVideos } from "../services/api/featuredVideosAPI";
-import { getNewSigns } from "../services/api/alphabetAPI";
 import { getSignOfTheDayLightweight } from "../services/api/signOfTheDayAPI";
+
+const newSignsCache = {};
 
 const Home = () => {
   const { t, i18n } = useTranslation();
   const [groups, setGroups] = useState([]);
   const [categories, setCategories] = useState({});
-  const [newSigns, setNewSigns] = useState([]);
   const [featuredVideos, setFeaturedVideos] = useState([]);
   const [signOfDay, setSignOfDay] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -38,13 +38,6 @@ const Home = () => {
         );
         setGroups(homeGroups);
 
-        // Fetch categories for the filtered groups
-        const categoriesData = await getCategoriesOfGroup();
-        setCategories(categoriesData);
-
-        const newSignsData = await getNewSigns();
-        setNewSigns(newSignsData);
-
         const videosData = await getFeaturedVideos();
         setFeaturedVideos(videosData || []);
 
@@ -62,7 +55,6 @@ const Home = () => {
         );
         setGroups(storeGroups);
         setCategories({});
-        setNewSigns([]);
         setFeaturedVideos(Store.getFeaturedVideosList());
         setLoading(false);
       }
@@ -70,6 +62,27 @@ const Home = () => {
 
     fetchAllData();
   }, [currentLang]);
+
+  useEffect(() => {
+    const lang = i18n.language;
+
+    const fetchCategories = async () => {
+      if (newSignsCache[lang]) {
+        setCategories(newSignsCache[lang]);
+        return;
+      }
+
+      try {
+        const categoriesData = await getCategoriesOfGroup(i18n.language);
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error("Error fetching new signs:", error);
+      }
+    };
+
+    fetchCategories();
+  }, [i18n.language]);
+
 
   if (loading) {
     return (
@@ -115,10 +128,10 @@ const Home = () => {
             {/* Only show New Signs if it has Remark="Home" */}
             {groups.some(group => group.group === "New Signs") && (
               <CategoryList
-                category={categories["New Signs"] || Store.getCategoriesOfGroup("New Signs")}
-                group={isMalay ? "Isyarat Baru" : "New Signs"}
-                groupKey="New Signs"
-              />
+              category={categories["New Signs"] || Store.getCategoriesOfGroup("New Signs")}
+              group={isMalay ? "Isyarat Baru" : "New Signs"}
+              groupKey="New Signs"
+            />
             )}
             
             {/* Featured Videos List */}

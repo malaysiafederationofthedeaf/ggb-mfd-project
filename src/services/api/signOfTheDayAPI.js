@@ -47,9 +47,6 @@ export async function getSignOfTheDayLightweight() {
   const indexSeed = getSeededRandom(seed + 1);
   const index = Math.floor(indexSeed * validEntries.length);
   const selected = validEntries[index];
-  console.log("Indexseed: ", indexSeed);
-  console.log("index: ", index);
-  console.log("selected: ", selected);
 
   // Return transformed object
   return {
