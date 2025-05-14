@@ -13,6 +13,7 @@ import { Store } from "../flux";
 import { getGroupItems, getCategoriesOfGroup } from "../services/api/categoryAPI";
 import { getFeaturedVideos } from "../services/api/featuredVideosAPI";
 import { getNewSigns } from "../services/api/alphabetAPI";
+import { getSignOfTheDayLightweight } from "../services/api/signOfTheDayAPI";
 
 const Home = () => {
   const { t, i18n } = useTranslation();
@@ -47,7 +48,10 @@ const Home = () => {
         const videosData = await getFeaturedVideos();
         setFeaturedVideos(videosData || []);
 
-        setSignOfDay(Store.getSignOfTheDay());
+        // Fetch Sign of the Day from API or local store cache
+        const sotd = await getSignOfTheDayLightweight();
+        setSignOfDay(sotd);
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching home page data:", error);
@@ -60,7 +64,6 @@ const Home = () => {
         setCategories({});
         setNewSigns([]);
         setFeaturedVideos(Store.getFeaturedVideosList());
-        setSignOfDay(Store.getSignOfTheDay());
         setLoading(false);
       }
     };
