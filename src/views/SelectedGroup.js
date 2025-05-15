@@ -35,7 +35,17 @@ const SelectedGroup = () => {
         );
 
         if (matchedKey && allGroups[matchedKey]) {
-          setGroupCategories(allGroups[matchedKey]);
+          // Sort the categories alphabetically if this is the New Signs group
+          if (formattedGroup === Store.formatString("New Signs")) {
+            const sortedCategories = [...allGroups[matchedKey]].sort((a, b) => 
+              isMalay 
+                ? a.perkataan.localeCompare(b.perkataan)
+                : a.word.localeCompare(b.word)
+            );
+            setGroupCategories(sortedCategories);
+          } else {
+            setGroupCategories(allGroups[matchedKey]);
+          }
         } else {
           setGroupCategories([]);
         }
@@ -48,7 +58,7 @@ const SelectedGroup = () => {
     };
 
     fetchData();
-  }, [group]);
+  }, [group, isMalay]); // Added isMalay to dependencies to re-sort when language changes
 
   // return Error page if no Categories are returned
   if (loading) return null;

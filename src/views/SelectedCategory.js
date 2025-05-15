@@ -58,11 +58,22 @@ const SelectedCategory = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const data = isNewSignCategory
+        let data = isNewSignCategory
           ? await getNewSigns()
           : await getVocabsByCategory(groupSelected, categoryFormatted);
 
         console.log(`Received ${data.length} items for ${isNewSignCategory ? "new signs" : `${groupSelected}/${categoryFormatted}`}`);
+        
+        // Sort data alphabetically if it's new signs
+        if (isNewSignCategory && data.length > 0) {
+          data = [...data].sort((a, b) => 
+            isMalay 
+              ? a.perkataan.localeCompare(b.perkataan)
+              : a.word.localeCompare(b.word)
+          );
+          console.log("New signs sorted alphabetically based on current language");
+        }
+        
         setVocabs(data);
         setLoading(false);
       } catch (err) {
