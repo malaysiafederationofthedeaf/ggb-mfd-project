@@ -233,7 +233,7 @@ class Store extends EventEmitter {
       .replace(/[()]/g, "")
       .replace(/\s+/g, "_") // Remove other special characters if needed
       .replace(/_+/g, "_"); // Collapse multiple underscores into one
-      return `${_store.imageURL}${kategoriPublicId}.jpg`;
+      return `${_store.imageURL}f_auto,q_auto/${kategoriPublicId}.jpg`;
   }
 
   // get image for vocab (from cloudinary)
@@ -246,7 +246,7 @@ class Store extends EventEmitter {
       .replace(/!/g, "%21")         // Replace '!' with '%21'
       .replace(/\//g, "-")          // Replace '/' with '-'
       .replace(/\s+/g, "_");        // Replace spaces with '_'
-      return `${_store.imageURL}${perkataanPublicId}.jpg`;
+      return `${_store.imageURL}f_auto,q_auto/${perkataanPublicId}.jpg`;
   }
 
   // get all the (unique) Groups
