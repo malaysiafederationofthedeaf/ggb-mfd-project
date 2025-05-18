@@ -16,6 +16,18 @@ import { getSignOfTheDayLightweight } from "../services/api/signOfTheDayAPI";
 
 const newSignsCache = {};
 
+// Preload the LCP image
+const preloadLCPImage = () => {
+  
+  const preloadLink = document.createElement('link');
+  preloadLink.rel = 'preload';
+  preloadLink.as = 'image';
+  preloadLink.href = '/assets/images/home-background.jpg'; 
+  preloadLink.type = 'image/jpeg';
+  preloadLink.fetchPriority = 'high';
+  document.head.appendChild(preloadLink);
+};
+
 const Home = () => {
   const { t, i18n } = useTranslation();
   const [groups, setGroups] = useState([]);
@@ -25,6 +37,11 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [currentLang] = useState(cookies.get("i18next") || "ms");
   const isMalay = i18n.language === "ms";
+
+  // Call the preload function when component mounts
+  useEffect(() => {
+    preloadLCPImage();
+  }, []);
 
   useEffect(() => {
     const fetchAllData = async () => {
