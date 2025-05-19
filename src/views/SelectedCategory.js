@@ -11,6 +11,21 @@ import { Store } from "../flux";
 import Breadcrumbs from "../components/layout/Breadcrumbs/Breadcrumbs";
 import { getVocabsByCategory, getNewSigns } from "../services/api/selectcategoryapi";
 
+// Add utility function for URL to API format conversion
+const convertUrlToApiFormat = (urlString) => {
+  if (!urlString) return '';
+  
+  // First decode any URL-encoded characters
+  let decoded = decodeURIComponent(urlString);
+  
+  // Then convert URL-friendly format to API format
+  return decoded
+    .replace(/-and-/g, ' & ')   // Convert -and- to &
+    .replace(/-amp-/g, ' & ')   // Convert -amp- to &
+    .replace(/--/g, '/')        // Convert -- to /
+    .replace(/-/g, ' ');        // Convert remaining hyphens to spaces
+};
+
 // Capitalize helper
 const capitalize = (str) =>
   str?.split(" ")
@@ -19,17 +34,21 @@ const capitalize = (str) =>
 
 const SelectedCategory = () => {
   const { group, category } = useParams();
-  const categoryEng = decodeURIComponent(category); // fix for encoded URLs
+  
+  // Convert URL parameters to API-friendly format
+  const apiFormattedGroup = convertUrlToApiFormat(group);
+  const apiFormattedCategory = convertUrlToApiFormat(category);
+  
   const pathTail = window.location.pathname.split("/").pop();
   const isNewSignCategory = pathTail === "new-signs";
-  const groupSelected = isNewSignCategory ? pathTail : group;
+  const groupSelected = isNewSignCategory ? pathTail : apiFormattedGroup;
 
   const { t, i18n } = useTranslation("group-category");
   const [currentLang, setCurrentLang] = useState(i18n.language);
   const isMalay = currentLang === "ms";
 
-  //const groupFormatted = useMemo(() => Store.formatString(group), [group]);
-  const categoryFormatted = useMemo(() => Store.formatString(categoryEng), [categoryEng]);
+  const categoryFormatted = useMemo(() => 
+    Store.formatString(apiFormattedCategory), [apiFormattedCategory]);
 
   const [localizedTitle, setLocalizedTitle] = useState("");
   const [vocabs, setVocabs] = useState([]);
@@ -108,16 +127,16 @@ const SelectedCategory = () => {
           }
         }
 
-        // Fallback to URL param
-        setLocalizedTitle(capitalize(categoryEng));
+        // Fallback to URL param but use API-formatted version
+        setLocalizedTitle(capitalize(apiFormattedCategory));
       } catch (err) {
         console.error("Error setting localized title:", err);
-        setLocalizedTitle(categoryEng);
+        setLocalizedTitle(apiFormattedCategory);
       }
     };
 
     fetchCategoryData();
-  }, [isMalay, isNewSignCategory, categoryEng, vocabs]);
+  }, [isMalay, isNewSignCategory, apiFormattedCategory, vocabs]);
 
   // Render loading state
   if (loading) {
@@ -128,7 +147,7 @@ const SelectedCategory = () => {
             <span className="sr-only">Loading...</span>
           </div>
           <p className="mt-2">
-            Loading {isNewSignCategory ? "new signs" : `vocabulary for "${categoryEng}"`}...
+            Loading {isNewSignCategory ? "new signs" : `vocabulary for "${apiFormattedCategory}"`}...
           </p>
         </div>
       </Container>
@@ -163,7 +182,7 @@ const SelectedCategory = () => {
         </Row>
         <Row>
           <Col>
-            <VocabList vocabs={vocabs} group={groupSelected} category={categoryEng} />
+            <VocabList vocabs={vocabs} group={groupSelected} category={apiFormattedCategory} />
           </Col>
         </Row>
       </Container>

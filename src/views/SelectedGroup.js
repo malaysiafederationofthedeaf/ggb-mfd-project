@@ -10,6 +10,17 @@ import Breadcrumbs from "../components/layout/Breadcrumbs/Breadcrumbs";
 import { getCategoriesOfGroup, getGroupList} from "../services/api/categoryAPI";
 import { Store } from "../flux";
 
+// Add a utility function to convert between URL format and API format
+const convertUrlToApiFormat = (urlString) => {
+  if (!urlString) return '';
+  // Convert hyphens back to spaces for API queries
+  return decodeURIComponent(urlString)
+    .replace(/-and-/g, ' & ')   // Convert -and- to &
+    .replace(/-amp-/g, ' & ')   // Convert -amp- to &
+    .replace(/--/g, '/')        // Convert -- to /
+    .replace(/-/g, ' ');        // Convert remaining hyphens to spaces
+};
+
 const SelectedGroup = () => {
   const { group } = useParams();
   const { t, i18n } = useTranslation("group-category");
@@ -18,6 +29,9 @@ const SelectedGroup = () => {
   const [loading, setLoading] = useState(true);
 
   const isMalay = i18n.language === "ms";
+  
+  // Convert URL parameter to API-friendly format
+  const apiFormattedGroup = convertUrlToApiFormat(group);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,7 +43,8 @@ const SelectedGroup = () => {
         
         setGroupList(allGroupList);
 
-        const formattedGroup = Store.formatString(group); // format URL param
+        // Use the API-formatted group name for matching
+        const formattedGroup = Store.formatString(apiFormattedGroup);
         const matchedKey = Object.keys(allGroups).find(
           (key) => Store.formatString(key) === formattedGroup
         );
@@ -58,7 +73,7 @@ const SelectedGroup = () => {
     };
 
     fetchData();
-  }, [group, isMalay]); // Added isMalay to dependencies to re-sort when language changes
+  }, [apiFormattedGroup, isMalay]); // Use apiFormattedGroup in dependencies
 
   // return Error page if no Categories are returned
   if (loading) return null;
@@ -66,7 +81,7 @@ const SelectedGroup = () => {
 
   // Find the group object to get the Malay or English name
   const currentGroupObj = groupList.find(
-    (g) => Store.formatString(g.group) === Store.formatString(group)
+    (g) => Store.formatString(g.group) === Store.formatString(apiFormattedGroup)
   );
 
   return (

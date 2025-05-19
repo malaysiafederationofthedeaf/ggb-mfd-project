@@ -10,6 +10,25 @@ import {
   getCategoriesOfGroup,
 } from "../services/api/categoryAPI";
 
+// Add this utility function at the top of the file (after imports)
+const convertToUrlFormat = (str) => {
+  if (!str) return '';
+  return str
+    .replace(/\s*&\s*/g, '-and-')  // Convert & to -and-
+    .replace(/\//g, '--')          // Convert / to --
+    .replace(/\s+/g, '-')          // Convert spaces to hyphens
+    .toLowerCase();                // Convert to lowercase
+};
+
+// Add a function to convert URL format back to API format
+const convertFromUrlFormat = (urlString) => {
+  if (!urlString) return '';
+  return decodeURIComponent(urlString)
+    .replace(/-and-/g, ' & ')   // Convert -and- to &
+    .replace(/--/g, '/')        // Convert -- to /
+    .replace(/-/g, ' ');        // Convert remaining hyphens to spaces
+};
+
 const BrowseByCategory = () => {
   const { t, i18n } = useTranslation();
   const [groups, setGroups] = useState([]);
@@ -99,6 +118,7 @@ const BrowseByCategory = () => {
     );
   }
 
+  // Inside the return statement, where CategoryList is rendered
   return (
     <div className="category-list-wrapper">
       <Container fluid className="main-content-container">
@@ -120,12 +140,16 @@ const BrowseByCategory = () => {
                 }))
               : items;
   
+            // Create URL-friendly version of the group name
+            const urlFriendlyGroupName = convertToUrlFormat(groupName);
+  
             return (
               <CategoryList
                 key={key}
                 group={groupName}
-                groupKey = {groupKey}
-                category={formattedItems}
+                groupKey={groupKey}
+                urlFriendlyGroup={urlFriendlyGroupName}
+                items={formattedItems}
               />
             );
           })}
@@ -133,7 +157,6 @@ const BrowseByCategory = () => {
       </Container>
     </div>
   );
-  
 };
 
 export default BrowseByCategory;

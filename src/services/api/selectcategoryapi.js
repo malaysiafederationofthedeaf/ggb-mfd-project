@@ -43,16 +43,40 @@ export const getCategoriesOfGroup = (group) => {
 };
 
 // Fetch vocabs by category from API
+// Fetch vocabs by category from API
 export const fetchVocabsByCategoryFromAPI = async (group, category) => {
   if (!group || !category) return [];
 
   try {
-    const groupCategoryPair = `${capitalizeFirst(group)}/${capitalizeFirst(category)}`;
+    // First, ensure we're working with properly formatted strings
+    // Replace any hyphens with spaces in the input parameters
+    const cleanGroup = group.replace(/-/g, ' ');
+    const cleanCategory = category.replace(/-/g, ' ');
+    
+    // Capitalize each word
+    const formattedGroup = cleanGroup.split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+    
+    const formattedCategory = cleanCategory.split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+    
+    // Replace any instances of "-&-" with " & "
+    const finalGroup = formattedGroup.replace(/-&-/g, ' & ');
+    const finalCategory = formattedCategory.replace(/-&-/g, ' & ');
+    
+    const groupCategoryPair = `${finalGroup}/${finalCategory}`;
+    
     console.log(`Fetching vocabs for group/category: ${groupCategoryPair}`);
 
-    const response = await axios.get(
-      `https://mfd-final-test.onrender.com/api/bims?populate=*&filters[category_group][GroupCategory][$eq]=${groupCategoryPair}`
-    );
+    // Properly encode the URL parameter
+    const encodedGroupCategoryPair = encodeURIComponent(groupCategoryPair);
+    
+    const apiUrl = `https://mfd-final-test.onrender.com/api/bims?populate=*&filters[category_group][GroupCategory][$eq]=${encodedGroupCategoryPair}`;
+    console.log(`API URL: ${apiUrl}`);
+    
+    const response = await axios.get(apiUrl);
 
     if (!response.data?.data) {
       console.error('Invalid API response structure:', response);
