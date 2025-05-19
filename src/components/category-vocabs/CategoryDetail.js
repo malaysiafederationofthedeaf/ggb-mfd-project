@@ -10,11 +10,11 @@ import { getImageWithFallback } from "../components-overview/ImgSrc";
 
 const ZoomIn = styled.div`animation: .5s ${keyframes `${zoomIn}`}`;  
 
-const CategoryDetail = ({ categoryItem, group, noOfCard }) => {
+const CategoryDetail = ({ categoryItem, group, groupKey, noOfCard }) => {
   const { i18n } = useTranslation(["word", "group-category"]);
 
   const isMalay = i18n.language === "ms";
-  const groupFormatted = Store.formatString(group);
+  const groupFormatted = Store.formatString(groupKey);
   const categoryFormatted = Store.formatString(categoryItem.category);
   const basePath = `/groups/${groupFormatted}`
   const linkToPath = categoryItem.new ? `${basePath}/${Store.formatString(categoryItem.word)}` : `${basePath}/${categoryFormatted}`;

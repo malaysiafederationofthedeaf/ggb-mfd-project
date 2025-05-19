@@ -77,6 +77,7 @@ const CategoryList = ({ category, group, groupKey }) => {
             <CategoryDetail
               categoryItem={categoryItem}
               group={group}
+              groupKey={groupKey}
               noOfCard={noOfCards}
               key={key}
             />

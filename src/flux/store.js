@@ -241,7 +241,7 @@ class Store extends EventEmitter {
     const perkataanPublicId = perkataan
       .trim()
       .replace(/&/g, "_")           // Replace '&' with '_'
-      .replace(/[()'']/g, "")        // Remove '(', ')', and single quote (')
+      .replace(/[()'’]/g, "")        // Remove '(', ')', and single quote (')
       .replace(/,/g, "")            // Remove commas
       .replace(/!/g, "%21")         // Replace '!' with '%21'
       .replace(/\//g, "-")          // Replace '/' with '-'
