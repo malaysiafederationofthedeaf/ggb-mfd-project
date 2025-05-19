@@ -56,7 +56,7 @@ const BrowseByCategory = () => {
         console.log("Group Length:", groupLength);
         console.log("Category Length:", categoryLength);
 
-        // Calling each group
+        // Logging group data
         groupData.forEach((group, index) => {
           console.log(`Calling Group ${index + 1}: ${group.group}`);
         });
@@ -128,28 +128,25 @@ const BrowseByCategory = () => {
         <Row>
           {groups.map((group, key) => {
             const groupName = isMalay ? group.kumpulan : group.group;
-            const groupKey = group.group; // Pass group in Eng version
+            const groupKey = group.group; // English identifier
             const isNewSigns = groupKey === "New Signs";
             const items = categories[groupKey] || [];
-  
-            const formattedItems = isNewSigns
-              ? items.map((item) => ({
-                  word: item.word,
-                  perkataan: item.perkataan,
-                  new: item.new,
-                }))
+
+            // Sort "New Signs" dynamically by language
+            const sortedItems = isNewSigns
+              ? [...items].sort((a, b) =>
+                  isMalay
+                    ? (a.perkataan || "").localeCompare(b.perkataan || "")
+                    : (a.word || "").localeCompare(b.word || "")
+                )
               : items;
-  
-            // Create URL-friendly version of the group name
-            const urlFriendlyGroupName = convertToUrlFormat(groupName);
-  
+
             return (
               <CategoryList
                 key={key}
                 group={groupName}
                 groupKey={groupKey}
-                urlFriendlyGroup={urlFriendlyGroupName}
-                items={formattedItems}
+                category={sortedItems}
               />
             );
           })}
