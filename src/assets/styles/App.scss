@@ -576,6 +576,7 @@ p {
   }
   @media (max-width: $breakpoint-md) {
     display: inline-block;
+    background: #ffffff;
     position: fixed;
     z-index: 1;
     width: 100%;
@@ -585,6 +586,7 @@ p {
 
 .alphabet-breadcrumbs {
   position: fixed;
+  background: #ffffff;
   z-index: 1;
   width: 100%;
   max-width: inherit;
