@@ -32,7 +32,7 @@ const GroupDetail = ({ category, group }) => {
       <div className="category-detail-card-wrapper">
         <Link to={`${basePath}/${categoryFormatted}`}>
           <Card small className="card-post card-post--aside card-post--1">
-            <Col lg="6" md="6" sm="6">
+            <Col xs="6" lg="6" md="6" sm="6">
               <ZoomIn>
                 <div
                   className="card-post__image"
