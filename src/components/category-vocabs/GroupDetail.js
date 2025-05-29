@@ -40,7 +40,7 @@ const GroupDetail = ({ category, group }) => {
                 ></div>
               </ZoomIn>
             </Col>
-            <Col lg="6" md="6" sm="6">
+            <Col xs="6" lg="6" md="6" sm="6">
               <CardBody>
                 <h5 className="card-title">{t(isMalay ? category.kategori : category.category)}</h5>
               </CardBody>
