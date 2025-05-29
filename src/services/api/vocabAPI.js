@@ -1,4 +1,5 @@
 import axios from "axios";
+import levenshtein from 'js-levenshtein';
 import { Store } from "../../flux";
 import { alphabetCache, alphabetCacheTimestamps } from "./alphabetAPI";
 
@@ -143,5 +144,45 @@ export const clearVocabCache = (vocabName = null) => {
     vocabCache.clear();
     vocabCacheTimestamps.clear();
     console.log("Cleared all vocab caches");
+  }
+};
+
+// Find similar words based on the given vocab using Levenshtein distance
+export const findSimilarWords = async (vocabName, limit = 5) => {
+  if (!vocabName) return [];
+  
+  try {
+    // Get the first letter of the vocab to check the alphabet cache
+    const formatted = formatString(vocabName);
+    const firstLetter = formatted.charAt(0);
+    
+    // Try to get words from the same alphabet first
+    let wordsFromSameAlphabet = [];
+    
+    if (alphabetCache.has(firstLetter)) {
+      wordsFromSameAlphabet = alphabetCache.get(firstLetter);
+    } else {
+      // If not in cache, fetch from API
+      const { getVocabsByAlphabet } = require('./alphabetAPI');
+      wordsFromSameAlphabet = await getVocabsByAlphabet(firstLetter);
+    }
+    
+    // Calculate Levenshtein distance for each word
+    const scoredWords = wordsFromSameAlphabet
+      .filter(item => formatString(item.word) !== formatted) // Exclude the current word
+      .map(item => ({
+        ...item, // Keep all original properties
+        score: levenshtein(formatString(item.word), formatted)
+      }));
+
+    // Sort by similarity score (lower is better)
+    const similarWords = scoredWords
+      .sort((a, b) => a.score - b.score)
+      .slice(0, limit);
+      
+    return similarWords;
+  } catch (err) {
+    console.error(`Failed to find similar words for: "${vocabName}"`, err);
+    return [];
   }
 };

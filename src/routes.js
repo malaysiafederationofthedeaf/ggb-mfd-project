@@ -15,6 +15,7 @@ import SelectedCategory from "./views/SelectedCategory";
 import SelectedVocab from "./views/SelectedVocab";
 import SelectedAlphabets from "./views/SelectedAlphabet";
 import FeaturedVideos from "./views/FeaturedVideos";
+import Debug from "./views/Debug";
 
 const routes = [
   {
@@ -91,6 +92,11 @@ const routes = [
     path: "/featured-videos",
     layout: DefaultLayout,
     component: FeaturedVideos,
+  },
+  {
+    path: "/debug",
+    layout: DefaultLayout,
+    component: Debug
   },
 ];
 
