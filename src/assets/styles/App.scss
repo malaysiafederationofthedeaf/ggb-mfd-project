@@ -122,6 +122,8 @@ p {
   .navbar-menu-items {
     float: right;
     height: 100%;
+    padding-left: 12px;
+    padding-right: 12px;
     &:hover {
       cursor: pointer;
     }   
@@ -142,7 +144,7 @@ p {
         }
         .dropdown-item {
           span {
-            margin-left: 5px;
+            margin-left: 15px;
             margin-right: 5px;
             font-size: 90%;
             @media (max-width: $breakpoint-md) {
