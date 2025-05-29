@@ -12,7 +12,7 @@ import NavbarBackButton from "../../common/NavbarBackButton";
 import NavbarNavItems from "./NavbarNavItems";
 import NavbarTranslate from "./NavbarTranslate";
 import SearchInput from "../Searchbar/SearchInput";
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom';
 
 class MainNavbar extends React.Component {
   constructor(props) {
@@ -24,12 +24,11 @@ class MainNavbar extends React.Component {
   }
 
   toggleNavbar() {
-    this.setState({
-      ...this.state,
-      ...{
-        collapseOpen: !this.state.collapseOpen,
-      },
-    });
+    this.setState(prevState => ({ collapseOpen: !prevState.collapseOpen }));
+  }
+
+  closeNavbar = () => {
+    this.setState({ collapseOpen: false });
   }
 
   render() {
@@ -49,7 +48,7 @@ class MainNavbar extends React.Component {
           navbar
         >
           <Nav navbar>
-            <NavbarNavItems />
+            <NavbarNavItems closeNavbar={this.closeNavbar} />
           </Nav>
           {!this.state.collapseOpen && (
             <div className="navbar-right-logo">
