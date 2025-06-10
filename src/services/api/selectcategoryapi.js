@@ -43,7 +43,6 @@ export const getCategoriesOfGroup = (group) => {
 };
 
 // Fetch vocabs by category from API
-// Fetch vocabs by category from API
 export const fetchVocabsByCategoryFromAPI = async (group, category) => {
   if (!group || !category) return [];
 

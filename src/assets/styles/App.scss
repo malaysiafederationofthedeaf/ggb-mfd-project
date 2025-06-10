@@ -116,11 +116,14 @@ p {
   .navbar-toggler {
     @media (max-width: $breakpoint-sm) {
       padding: 5px;
+      margin-right: 10px;
     }
   }
   .navbar-menu-items {
     float: right;
     height: 100%;
+    padding-left: 12px;
+    padding-right: 12px;
     &:hover {
       cursor: pointer;
     }   
@@ -141,7 +144,7 @@ p {
         }
         .dropdown-item {
           span {
-            margin-left: 5px;
+            margin-left: 15px;
             margin-right: 5px;
             font-size: 90%;
             @media (max-width: $breakpoint-md) {
@@ -378,7 +381,7 @@ p {
       overflow: hidden;      
     }  
     .card-title {
-      height: 50px;   
+      height: 70px;   
       span {
         font-weight: 500;
       }  
@@ -423,7 +426,7 @@ p {
   flex-flow: row; 
   margin: 10px;
   @media (max-width: $breakpoint-sm) {  
-    height: 80px;
+    height: 110px;
     overflow: hidden;
   }
   div {
@@ -575,6 +578,7 @@ p {
   }
   @media (max-width: $breakpoint-md) {
     display: inline-block;
+    background: #ffffff;
     position: fixed;
     z-index: 1;
     width: 100%;
@@ -584,6 +588,7 @@ p {
 
 .alphabet-breadcrumbs {
   position: fixed;
+  background: #ffffff;
   z-index: 1;
   width: 100%;
   max-width: inherit;

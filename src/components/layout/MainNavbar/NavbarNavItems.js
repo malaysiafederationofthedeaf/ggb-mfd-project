@@ -14,11 +14,13 @@ class NavbarNavItems extends React.Component {
 
   render() {
     const { navItems: items } = this.state;
+    const { closeNavbar } = this.props;
+
     return (
       <>
         {
           items.map((item, key) => (
-            <NavbarNavItem key={key} item={item} />
+            <NavbarNavItem key={key} item={item} closeNavbar={closeNavbar}/>
           ))
         }
       </>
