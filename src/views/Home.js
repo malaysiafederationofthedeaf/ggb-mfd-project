@@ -66,14 +66,6 @@ const Home = () => {
       } catch (error) {
         console.error("Error fetching home page data:", error);
 
-        // Fallback to Store data, but still filter for Home remark
-        const storeGroups = Store.getGroupsHome().filter(
-          (group) => group?.group && group.remark === "Home"
-        );
-        setGroups(storeGroups);
-        setCategories({});
-        setFeaturedVideos(Store.getFeaturedVideosList());
-        setLoading(false);
       }
     };
 
