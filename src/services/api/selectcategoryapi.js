@@ -72,17 +72,34 @@ export const fetchVocabsByCategoryFromAPI = async (group, category) => {
     // Properly encode the URL parameter
     const encodedGroupCategoryPair = encodeURIComponent(groupCategoryPair);
     
-    const apiUrl = `https://mfd-final-test.onrender.com/api/bims?populate=*&filters[category_group][GroupCategory][$eq]=${encodedGroupCategoryPair}`;
-    console.log(`API URL: ${apiUrl}`);
-    
-    const response = await axios.get(apiUrl);
+    const PAGE_SIZE = 25;
+    let page = 1;
+    let allData = [];
+    let totalItems = 0;
 
-    if (!response.data?.data) {
-      console.error('Invalid API response structure:', response);
-      return [];
+    while (true) {
+      const apiUrl = `https://mfd-final-test.onrender.com/api/bims?populate=*&filters[category_group][GroupCategory][$eq]=${encodedGroupCategoryPair}&pagination[page]=${page}&pagination[pageSize]=${PAGE_SIZE}`;
+      console.log(`API URL (Page ${page}): ${apiUrl}`);
+
+      const response = await axios.get(apiUrl);
+
+      const pageData = response.data?.data ?? [];
+      const meta = response.data?.meta?.pagination;
+
+      if (meta && page === 1) {
+        totalItems = meta.total;
+      }
+
+      allData = allData.concat(pageData);
+
+      if (!meta || allData.length >= totalItems) {
+        break;
+      }
+
+      page++;
     }
 
-    const transformedData = response.data.data
+    const transformedData = allData
       .map(transformVocabItem)
       .filter(item => ALLOWED_RELEASES.has(item.release))
       .sort((a, b) => {
