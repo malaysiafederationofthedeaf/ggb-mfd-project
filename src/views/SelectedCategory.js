@@ -9,7 +9,8 @@ import PageTitle from "../components/common/PageTitle";
 import VocabList from "../components/category-vocabs/VocabList";
 import { Store } from "../flux";
 import Breadcrumbs from "../components/layout/Breadcrumbs/Breadcrumbs";
-import { getVocabsByCategory, getNewSigns } from "../services/api/selectcategoryapi";
+import { getVocabsByCategory } from "../services/api/selectcategoryapi";
+import { getNewSigns } from '../services/api/alphabetAPI';
 
 // Add utility function for URL to API format conversion
 const convertUrlToApiFormat = (urlString) => {

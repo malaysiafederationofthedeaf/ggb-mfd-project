@@ -119,7 +119,7 @@ const Home = () => {
                 
                 return (
                   <CategoryList
-                    category={categories[groupKey]}
+                    category={categories[groupKey] ?? []}
                     group={groupName}
                     groupKey={groupKey}
                     key={key}
@@ -137,7 +137,7 @@ const Home = () => {
             {/* Only show New Signs if it has Remark="Home" */}
             {groups.some(group => group.group === "New Signs") && (
               <CategoryList
-              category={categories["New Signs"]}
+              category={categories["New Signs"] ?? []}
               group={isMalay ? "Isyarat Baru" : "New Signs"}
               groupKey="New Signs"
             />

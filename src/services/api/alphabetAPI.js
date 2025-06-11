@@ -30,8 +30,11 @@ export const fetchVocabData = async () => {
       const transformedData = response.data.data.map((item) => {
         const categoryGroup = item.category_group || {};
         return {
-          kumpulanKategori: categoryGroup.KumpulanKategori || `${item.Kumpulan}/${item.Kategori}`,
-          groupCategory: categoryGroup.GroupCategory || `${item.Group}/${item.Category}`,
+          kumpulanKategori:
+            categoryGroup.KumpulanKategori ||
+            `${item.Kumpulan}/${item.Kategori}`,
+          groupCategory:
+            categoryGroup.GroupCategory || `${item.Group}/${item.Category}`,
           word: item.Word || "",
           perkataan: item.Perkataan || "",
           video: item.Video || "",
@@ -55,8 +58,12 @@ export const fetchVocabData = async () => {
 
   const processedData = allData
     .map((item) => ({
-      kumpulanKategori: item.kumpulanKategori.toString().replaceAll(/(\r\n|\n|\r)/gm, ""),
-      groupCategory: item.groupCategory.toString().replaceAll(/(\r\n|\n|\r)/gm, ""),
+      kumpulanKategori: item.kumpulanKategori
+        .toString()
+        .replaceAll(/(\r\n|\n|\r)/gm, ""),
+      groupCategory: item.groupCategory
+        .toString()
+        .replaceAll(/(\r\n|\n|\r)/gm, ""),
       word: item.word.toString().trim(),
       perkataan: item.perkataan.toString().trim(),
       video: item.video,
@@ -67,7 +74,9 @@ export const fetchVocabData = async () => {
       sotd: item.sotd,
       imgStatus: item.imgStatus,
     }))
-    .filter((item) => ["Release 1", "Release 2", "Release 3"].includes(item.release))
+    .filter((item) =>
+      ["Release 1", "Release 2", "Release 3"].includes(item.release)
+    )
     .sort((a, b) => a.kumpulanKategori.localeCompare(b.kumpulanKategori));
 
   return processedData;
@@ -107,7 +116,9 @@ export const getVocabsByAlphabet = async (alphabetFirst) => {
     console.error("Error in getVocabsByAlphabet:", error);
 
     if (alphabetCache.has(alphabetFirst)) {
-      console.log(`Using expired cache for alphabet: ${alphabetFirst} due to error`);
+      console.log(
+        `Using expired cache for alphabet: ${alphabetFirst} due to error`
+      );
       return alphabetCache.get(alphabetFirst);
     }
 
@@ -145,7 +156,9 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
   const fieldToFilter = locale === "ms" ? "Perkataan" : "Word";
   const uppercaseAlphabet = alphabetFirst.toUpperCase();
 
-  console.log(`Fetching data with filter: ${fieldToFilter} starts with ${uppercaseAlphabet}`);
+  console.log(
+    `Fetching data with filter: ${fieldToFilter} starts with ${uppercaseAlphabet}`
+  );
 
   while (hasMoreData) {
     try {
@@ -161,8 +174,11 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
       const transformedData = response.data.data.map((item) => {
         const categoryGroup = item.category_group || {};
         return {
-          kumpulanKategori: categoryGroup.KumpulanKategori || `${item.Kumpulan}/${item.Kategori}`,
-          groupCategory: categoryGroup.GroupCategory || `${item.Group}/${item.Category}`,
+          kumpulanKategori:
+            categoryGroup.KumpulanKategori ||
+            `${item.Kumpulan}/${item.Kategori}`,
+          groupCategory:
+            categoryGroup.GroupCategory || `${item.Group}/${item.Category}`,
           word: item.Word || "",
           perkataan: item.Perkataan || "",
           video: item.Video || "",
@@ -186,8 +202,12 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
 
   const processedData = allData
     .map((item) => ({
-      kumpulanKategori: item.kumpulanKategori.toString().replaceAll(/(\r\n|\n|\r)/gm, ""),
-      groupCategory: item.groupCategory.toString().replaceAll(/(\r\n|\n|\r)/gm, ""),
+      kumpulanKategori: item.kumpulanKategori
+        .toString()
+        .replaceAll(/(\r\n|\n|\r)/gm, ""),
+      groupCategory: item.groupCategory
+        .toString()
+        .replaceAll(/(\r\n|\n|\r)/gm, ""),
       word: item.word.toString().trim(),
       perkataan: item.perkataan.toString().trim(),
       video: item.video,
@@ -198,14 +218,18 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
       sotd: item.sotd,
       imgStatus: item.imgStatus,
     }))
-    .filter((item) => ["Release 1", "Release 2", "Release 3"].includes(item.release))
+    .filter((item) =>
+      ["Release 1", "Release 2", "Release 3"].includes(item.release)
+    )
     .sort((a, b) =>
       locale === "ms"
         ? a.perkataan.localeCompare(b.perkataan)
         : a.word.localeCompare(b.word)
     );
 
-  console.log(`API returned ${processedData.length} items for ${uppercaseAlphabet}`);
+  console.log(
+    `API returned ${processedData.length} items for ${uppercaseAlphabet}`
+  );
   return processedData;
 };
 
@@ -214,65 +238,52 @@ export const getNewSigns = async () => {
   try {
     // Check if we have cached data for new signs
     const now = Date.now();
-    const cacheKey = 'new-signs';
-    
-    if (alphabetCache.has(cacheKey) && 
-        alphabetCacheTimestamps.has(cacheKey) && 
-        (now - alphabetCacheTimestamps.get(cacheKey) < CACHE_DURATION)) {
+    const cacheKey = "new-signs";
+
+    if (
+      alphabetCache.has(cacheKey) &&
+      alphabetCacheTimestamps.has(cacheKey) &&
+      now - alphabetCacheTimestamps.get(cacheKey) < CACHE_DURATION
+    ) {
       console.log(`Using cached data for new signs`);
       return alphabetCache.get(cacheKey);
     }
-    
+
     console.log(`Cache miss for new signs, fetching from API`);
-    
-    let allData = [];
-    let page = 1;
-    let hasMoreData = true;
+
     const locale = getCurrentLocale();
-    const sortField = locale === "ms" ? "Perkataan" : "Word";
-    
-    while (hasMoreData) {
-      try {
-        // Use $eq (equals) operator for exact matching and add sort parameter
-        const response = await axios.get(
-          `https://mfd-final-test.onrender.com/api/bims?populate=*&pagination[page]=${page}&pagination[pageSize]=25&filters[New][$eq]=Yes&sort=${sortField}:asc`
-        );
 
-        if (!response.data?.data) {
-          console.error('Invalid API response structure:', response);
-          break;
-        }
+    const response = await axios.get(
+      `https://mfd-final-test.onrender.com/api/bims?populate=*&sort=createdAt:desc&pagination[limit]=25`
+    );
 
-        const transformedData = response.data.data.map(item => {
-          const categoryGroup = item.category_group || {};
-          return {
-            kumpulanKategori: categoryGroup.KumpulanKategori || `${item.Kumpulan}/${item.Kategori}`,
-            groupCategory: categoryGroup.GroupCategory || `${item.Group}/${item.Category}`,
-            word: item.Word || '',
-            perkataan: item.Perkataan || '',
-            video: item.Video || '',
-            tag: item.Tag || '',
-            release: item.Release || '',
-            new: item.New || 'No',
-            sotd: item.SOTD || '',
-            order: item.Order || '',
-            imgStatus: item.Image_Status || ''
-          };
-        });
+    const transformedData = response.data.data.map((item) => {
+      const categoryGroup = item.category_group || {};
+      return {
+        kumpulanKategori:
+          categoryGroup.KumpulanKategori || `${item.Kumpulan}/${item.Kategori}`,
+        groupCategory:
+          categoryGroup.GroupCategory || `${item.Group}/${item.Category}`,
+        word: item.Word || "",
+        perkataan: item.Perkataan || "",
+        video: item.Video || "",
+        tag: item.Tag || "",
+        release: item.Release || "",
+        new: item.New || "No",
+        sotd: item.SOTD || "",
+        order: item.Order || "",
+        imgStatus: item.Image_Status || "",
+      };
+    });
 
-        allData = [...allData, ...transformedData];
-        hasMoreData = page < response.data.meta.pagination.pageCount;
-        page++;
-      } catch (err) {
-        console.error("Error fetching new signs data:", err);
-        hasMoreData = false;
-      }
-    }
-
-    const processedData = allData
-      .map(item => ({
-        kumpulanKategori: item.kumpulanKategori.toString().replaceAll(/(\r\n|\n|\r)/gm, ''),    
-        groupCategory: item.groupCategory.toString().replaceAll(/(\r\n|\n|\r)/gm, ''),    
+    const processedData = transformedData
+      .map((item) => ({
+        kumpulanKategori: item.kumpulanKategori
+          .toString()
+          .replaceAll(/(\r\n|\n|\r)/gm, ""),
+        groupCategory: item.groupCategory
+          .toString()
+          .replaceAll(/(\r\n|\n|\r)/gm, ""),
         word: item.word.toString().trim(),
         perkataan: item.perkataan.toString().trim(),
         video: item.video,
@@ -281,32 +292,36 @@ export const getNewSigns = async () => {
         new: item.new,
         order: item.order,
         sotd: item.sotd,
-        imgStatus: item.imgStatus
+        imgStatus: item.imgStatus,
       }))
-      .filter(item => ["Release 1", "Release 2", "Release 3"].includes(item.release))
+      .filter((item) =>
+        ["Release 1", "Release 2", "Release 3"].includes(item.release)
+      )
       // Additional client-side sorting to ensure correct alphabetical order
-      .sort((a, b) => 
-        locale === "ms" 
+      .sort((a, b) =>
+        locale === "ms"
           ? a.perkataan.localeCompare(b.perkataan)
           : a.word.localeCompare(b.word)
       );
-    
+
     // Store in cache
     alphabetCache.set(cacheKey, processedData);
     alphabetCacheTimestamps.set(cacheKey, now);
-    
-    console.log(`API returned ${processedData.length} new sign items, sorted alphabetically`);
+
+    console.log(
+      `API returned ${processedData.length} new sign items, sorted alphabetically`
+    );
     return processedData;
   } catch (error) {
     console.error("Error in getNewSigns:", error);
-    
+
     // Check if we have cached data even if it's expired
-    const cacheKey = 'new-signs';
+    const cacheKey = "new-signs";
     if (alphabetCache.has(cacheKey)) {
       console.log(`Using expired cache for new signs due to error`);
       return alphabetCache.get(cacheKey);
     }
-    
+
     return [];
   }
 };
@@ -317,8 +332,12 @@ const getVocabsFromStore = (alphabetFirst, vocabsItems) => {
   return vocabsItems
     .filter((vocAl) =>
       locale === "ms"
-        ? (vocAl.perkataan || vocAl.Perkataan)?.toLowerCase().startsWith(alphabetFirst.toLowerCase())
-        : (vocAl.word || vocAl.Word)?.toLowerCase().startsWith(alphabetFirst.toLowerCase())
+        ? (vocAl.perkataan || vocAl.Perkataan)
+            ?.toLowerCase()
+            .startsWith(alphabetFirst.toLowerCase())
+        : (vocAl.word || vocAl.Word)
+            ?.toLowerCase()
+            .startsWith(alphabetFirst.toLowerCase())
     )
     .sort((a, b) =>
       locale === "ms"
