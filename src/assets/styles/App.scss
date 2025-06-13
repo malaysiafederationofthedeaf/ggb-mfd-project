@@ -378,13 +378,28 @@ p {
       color: $color-secondary-dark;
       text-transform: uppercase;
       text-align: center;   
-      overflow: hidden;      
+      overflow: hidden;     
     }  
     .card-title {
-      height: 70px;   
+      height: 70px;
       span {
         font-weight: 500;
       }  
+    }
+    .card-title-2 {
+      @include card-title;
+      height: 90px;
+      padding: 0px 8px 0px 8px; 
+      text-align: left;
+      display: flex;
+      align-items: center;
+      span {
+        font-weight: 500;
+      }  
+
+      @media (min-width: 768px) {
+        height: 110px;
+      }
     }
     .card-title-featured-video {
       height: 20px;  

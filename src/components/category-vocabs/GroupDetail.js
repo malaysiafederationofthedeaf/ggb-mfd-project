@@ -32,7 +32,7 @@ const GroupDetail = ({ category, group }) => {
       <div className="category-detail-card-wrapper">
         <Link to={`${basePath}/${categoryFormatted}`}>
           <Card small className="card-post card-post--aside card-post--1">
-            <Col xs="6" lg="6" md="6" sm="6">
+            <Col xs="4" lg="6" md="6" sm="6">
               <ZoomIn>
                 <div
                   className="card-post__image"
@@ -40,9 +40,9 @@ const GroupDetail = ({ category, group }) => {
                 ></div>
               </ZoomIn>
             </Col>
-            <Col xs="6" lg="6" md="6" sm="6">
+            <Col xs="8" lg="6" md="6" sm="6">
               <CardBody>
-                <h5 className="card-title">{t(isMalay ? category.kategori : category.category)}</h5>
+                <h5 className="card-title-2">{t(isMalay ? category.kategori : category.category)}</h5>
               </CardBody>
             </Col>
           </Card>
