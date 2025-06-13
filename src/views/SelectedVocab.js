@@ -114,8 +114,8 @@ const SelectedVocab = () => {
         {similarWords.length > 0 && (
           <Card className="mt-4">
             <CardBody>
-              <h4>Similar Words</h4>
-              <Row>
+            <h4>{currentLang === "ms" ? "Lihat Juga" : "See Also"}</h4>
+            <Row>
                 {similarWords.map((word, idx) => {
                   // Determine the correct routing based on the word's category/group
                   let routePath;
