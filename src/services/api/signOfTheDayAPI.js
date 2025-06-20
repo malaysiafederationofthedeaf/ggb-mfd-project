@@ -20,7 +20,7 @@ async function fetchPageEntries(apiUrl, pageNum, pageSize) {
 }
 
 export async function getSignOfTheDayLightweight() {
-  const apiUrl = "https://mfd-final-test.onrender.com/api/bims";
+  const apiUrl = "https://bimsignbank-strapi.onrender.com/api/bims";
   const pageSize = 25;
   const seed = formatDateToSeed();
   const totalEntries = await getTotalEntries(apiUrl);
@@ -54,7 +54,6 @@ export async function getSignOfTheDayLightweight() {
     perkataan: selected.Perkataan || "",
     video: selected.Video || "",
     tag: selected.Tag || "",
-    release: selected.Release || "",
     category: selected.category_group?.KumpulanKategori || "",
     group: selected.category_group?.GroupCategory || "",
     imgStatus: selected.Image_Status || "",

@@ -47,7 +47,7 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
 
   const formatted = formatString(vocabName);
   const capitalized = capitalizeFirstLetter(vocabName);
-  const endpoint = `https://mfd-final-test.onrender.com/api/bims?populate=*&filters[Word][$containsi]=${capitalized}`;
+  const endpoint = `https://bimsignbank-strapi.onrender.com/api/bims?populate=*&filters[Word][$containsi]=${capitalized}`;
 
   try {
     const cachedData = findVocabInAlphabetData(vocabName);
@@ -65,9 +65,7 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
         perkataan: item.Perkataan || '',
         video: item.Video || '',
         tag: item.Tag || '',
-        release: item.Release || '',
         new: item.New || 'No',
-        sotd: item.SOTD || '',
         order: item.Order || '',
         imgStatus: item.Image_Status || ''
       }))

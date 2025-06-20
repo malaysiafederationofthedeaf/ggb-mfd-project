@@ -16,7 +16,7 @@ let _store = {
   featuredVideosPlaylistId: "PLEztM-ga58Y4s6t5pac5uJKLeSSuspioQ",
   youtubeAPIKey: "AIzaSyBIk86nsIH0h4HSEgHPLI8bku6WKQlizDk",
   featuredVideos: [],
-  imageURL: "https://res.cloudinary.com/dp3vzcgzq/image/upload/",
+  imageURL: "https://res.cloudinary.com/dvkbfpll1/image/upload/",
 };
 
 class Store extends EventEmitter {

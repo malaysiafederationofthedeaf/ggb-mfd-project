@@ -19,7 +19,7 @@ export const fetchVocabData = async () => {
   while (hasMoreData) {
     try {
       const response = await axios.get(
-        `https://mfd-final-test.onrender.com/api/bims?populate=*&pagination[page]=${page}&pagination[pageSize]=25`
+        `https://bimsignbank-strapi.onrender.com/api/bims?populate=*&pagination[page]=${page}&pagination[pageSize]=25`
       );
 
       if (!response.data?.data) {
@@ -39,9 +39,7 @@ export const fetchVocabData = async () => {
           perkataan: item.Perkataan || "",
           video: item.Video || "",
           tag: item.Tag || "",
-          release: item.Release || "",
           new: item.New || "No",
-          sotd: item.SOTD || "",
           order: item.Order || "",
           imgStatus: item.Image_Status || "",
         };
@@ -68,10 +66,8 @@ export const fetchVocabData = async () => {
       perkataan: item.perkataan.toString().trim(),
       video: item.video,
       tag: item.tag,
-      release: item.release,
       new: item.new,
       order: item.order,
-      sotd: item.sotd,
       imgStatus: item.imgStatus,
     }))
     // Removed release filtering
@@ -161,7 +157,7 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
   while (hasMoreData) {
     try {
       const response = await axios.get(
-        `https://mfd-final-test.onrender.com/api/bims?populate=*&pagination[page]=${page}&pagination[pageSize]=25&filters[${fieldToFilter}][$startsWith]=${uppercaseAlphabet}`
+        `https://bimsignbank-strapi.onrender.com/api/bims?populate=*&pagination[page]=${page}&pagination[pageSize]=25&filters[${fieldToFilter}][$startsWith]=${uppercaseAlphabet}`
       );
 
       if (!response.data?.data) {
@@ -181,9 +177,7 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
           perkataan: item.Perkataan || "",
           video: item.Video || "",
           tag: item.Tag || "",
-          release: item.Release || "",
           new: item.New || "No",
-          sotd: item.SOTD || "",
           order: item.Order || "",
           imgStatus: item.Image_Status || "",
         };
@@ -210,10 +204,8 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
       perkataan: item.perkataan.toString().trim(),
       video: item.video,
       tag: item.tag,
-      release: item.release,
       new: item.new,
       order: item.order,
-      sotd: item.sotd,
       imgStatus: item.imgStatus,
     }))
     // Removed release filtering
@@ -250,7 +242,7 @@ export const getNewSigns = async () => {
     const locale = getCurrentLocale();
 
     const response = await axios.get(
-      `https://mfd-final-test.onrender.com/api/bims?populate=*&sort=createdAt:desc&pagination[limit]=25`
+      `https://bimsignbank-strapi.onrender.com/api/bims?populate=*&sort=createdAt:desc&pagination[limit]=25`
     );
 
     const transformedData = response.data.data.map((item) => {
@@ -264,9 +256,7 @@ export const getNewSigns = async () => {
         perkataan: item.Perkataan || "",
         video: item.Video || "",
         tag: item.Tag || "",
-        release: item.Release || "",
         new: item.New || "No",
-        sotd: item.SOTD || "",
         order: item.Order || "",
         imgStatus: item.Image_Status || "",
       };
@@ -284,15 +274,10 @@ export const getNewSigns = async () => {
         perkataan: item.perkataan.toString().trim(),
         video: item.video,
         tag: item.tag,
-        release: item.release,
         new: item.new,
         order: item.order,
-        sotd: item.sotd,
         imgStatus: item.imgStatus,
       }))
-      .filter((item) =>
-        ["Release 1", "Release 2", "Release 3"].includes(item.release)
-      )
       // Additional client-side sorting to ensure correct alphabetical order
       .sort((a, b) =>
         locale === "ms"

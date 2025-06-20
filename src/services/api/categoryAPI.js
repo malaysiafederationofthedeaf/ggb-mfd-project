@@ -28,7 +28,7 @@ const fetchCategoryData = async () => {
   while (hasMoreData) {
     try {
       const response = await axios.get(
-        `https://mfd-final-test.onrender.com/api/category-groups?pagination[page]=${page}&pagination[pageSize]=90&filters[Remark][$ne]=Unpublished`
+        `https://bimsignbank-strapi.onrender.com/api/category-groups?pagination[page]=${page}&pagination[pageSize]=90&filters[Remark][$ne]=Unpublished`
       );
 
       // Ensure response is structured correctly
