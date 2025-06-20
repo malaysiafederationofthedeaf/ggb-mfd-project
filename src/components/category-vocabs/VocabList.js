@@ -45,6 +45,11 @@ const VocabList = ({ vocabs, group, category }) => {
                     src={vocabImgSrc}
                     alt={vocab.word}
                     className="vocab-image"
+                    onError={(e) => {
+                      e.target.onerror = null; // prevent infinite loop
+                      e.target.src = `https://res.cloudinary.com/dp3vzcgzq/image/upload/v1745120594/image-coming-soon.jpg`; //if there is no image url
+                    }
+                  }
                   />
                 </Col>   
                 <Col className="pl-2 pr-0">

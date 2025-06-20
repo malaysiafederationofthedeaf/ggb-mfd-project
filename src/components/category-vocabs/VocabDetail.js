@@ -18,7 +18,16 @@ const VocabDetail = ({vocab}) => {
             <Row className="selected-vocab-detail">        
                 <Col xl="6" lg="12" md="12" sm="12">
                     <div className="selected-vocab-image-wrapper">
-                        <img src={vocabImgSrc} alt={vocab.word} className="selected-vocab-image" />
+                        <img 
+                         src={vocabImgSrc} 
+                         alt={vocab.word} 
+                         className="selected-vocab-image"  
+                         onError={(e) => {
+                            e.target.onerror = null; // prevent infinite loop
+                            e.target.src = `https://res.cloudinary.com/dp3vzcgzq/image/upload/v1745120594/image-coming-soon.jpg`; // if there is no image url
+                        }
+                        }
+                    />
                     </div>
                 </Col>                                
                 <Col xl="6" lg="12" md="12" sm="12" >

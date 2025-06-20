@@ -6,20 +6,31 @@ import styled, { keyframes } from 'styled-components';
 import { zoomIn } from 'react-animations';
 
 import { Store } from "../../flux";
+import { getImageWithFallback } from "../components-overview/ImgSrc";
 
 const ZoomIn = styled.div`animation: .5s ${keyframes `${zoomIn}`}`;  
 
-const CategoryDetail = ({ categoryItem, group, noOfCard }) => {
-  const { t } = useTranslation(["word", "group-category"]);
+const CategoryDetail = ({ categoryItem, group, groupKey, noOfCard }) => {
+  const { i18n } = useTranslation(["word", "group-category"]);
 
-  const groupFormatted = Store.formatString(group);
+  const isMalay = i18n.language === "ms";
+  const groupFormatted = Store.formatString(groupKey);
   const categoryFormatted = Store.formatString(categoryItem.category);
   const basePath = `/groups/${groupFormatted}`
   const linkToPath = categoryItem.new ? `${basePath}/${Store.formatString(categoryItem.word)}` : `${basePath}/${categoryFormatted}`;
   const imgSrc = categoryItem.new ? Store.getSignImgSrc(categoryItem.perkataan) : Store.getCategoryImgSrc(categoryItem.kategori);
+  const fallback = `https://res.cloudinary.com/dp3vzcgzq/image/upload/v1745120594/image-coming-soon.jpg`;
+  const [bgImage, setBgImage] = useState("");
+
+  useEffect(() => {
+    getImageWithFallback(imgSrc, fallback, (resolvedURL) => {
+      setBgImage(resolvedURL);
+    });
+  }, [imgSrc]);
 
   // determine if the word to be displayed is Word from New Sign; or a Category
-  const categoryWord = categoryItem.new ? t(`word:${Store.formatString(categoryItem.word)}`) : t(`group-category:${categoryFormatted}`);
+  const categoryWord = categoryItem.new ? isMalay ? categoryItem.perkataan : categoryItem.word : isMalay ? categoryItem.kategori : categoryItem.category;
+
   // get the length of word; or the longest substring if it contains space
   const length = categoryWord.split(" ").sort((a, b) => (b.length-a.length))[0].length;
   const fontSizeTemp = 30-(length);
@@ -81,7 +92,7 @@ const CategoryDetail = ({ categoryItem, group, noOfCard }) => {
         <ZoomIn>
           <div
             className="card-post__image"
-            style={{ backgroundImage: `url('${imgSrc}')` }}>
+            style={{ backgroundImage: bgImage }}>
             </div>
         </ZoomIn>
         <CardBody>
