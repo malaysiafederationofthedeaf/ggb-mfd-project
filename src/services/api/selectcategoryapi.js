@@ -5,7 +5,7 @@ import { Store } from "../../flux";
 const categoryCache = new Map();
 const categoryCacheTimestamps = new Map();
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
-const ALLOWED_RELEASES = new Set(["Release 1", "Release 2", "Release 3"]);
+// Removed ALLOWED_RELEASES
 
 export { categoryCache, categoryCacheTimestamps };
 
@@ -101,7 +101,7 @@ export const fetchVocabsByCategoryFromAPI = async (group, category) => {
 
     const transformedData = allData
       .map(transformVocabItem)
-      .filter(item => ALLOWED_RELEASES.has(item.release))
+      // Removed filter for ALLOWED_RELEASES
       .sort((a, b) => {
         const aOrder = a.order ?? Infinity;
         const bOrder = b.order ?? Infinity;
@@ -131,8 +131,7 @@ export const fetchNewSignsFromAPI = async () => {
     }
 
     return response.data.data
-      .map(transformVocabItem)
-      .filter(item => ALLOWED_RELEASES.has(item.release) && item.new === "Yes");
+      .map(transformVocabItem);
 
   } catch (error) {
     console.error("Error fetching new signs:", error);

@@ -31,17 +31,18 @@ const restructureJSON = (data) => {
                 imgStatus: item.ImageStatus,
             }
     );
-    return filterExcelData(reconData, ["Release 1", "Release 2"]);
+    // Removing release filtering - include all releases
+    return filterExcelData(reconData, []);
 };
 
 const filterExcelData = (excelData, releases) => {
     return excelData
         .filter((group) => group !== false) // filter out those without any value
         .filter((group) =>
-            Array.isArray(releases)
+            releases.length === 0 || (Array.isArray(releases)
                 ? releases.includes(group.release)
-                : group.release === releases
-        ) // filter out those that are not in 'release'
+                : group.release === releases)
+        ) // filter only if releases array is not empty
         .sort(
             (a, b) => a.kumpulanKategori.localeCompare(b.kumpulanKategori) // sort the entries alphabetically based on the Kategori
         );

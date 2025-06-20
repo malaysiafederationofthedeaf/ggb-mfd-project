@@ -74,9 +74,7 @@ export const fetchVocabData = async () => {
       sotd: item.sotd,
       imgStatus: item.imgStatus,
     }))
-    .filter((item) =>
-      ["Release 1", "Release 2", "Release 3"].includes(item.release)
-    )
+    // Removed release filtering
     .sort((a, b) => a.kumpulanKategori.localeCompare(b.kumpulanKategori));
 
   return processedData;
@@ -218,9 +216,7 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
       sotd: item.sotd,
       imgStatus: item.imgStatus,
     }))
-    .filter((item) =>
-      ["Release 1", "Release 2", "Release 3"].includes(item.release)
-    )
+    // Removed release filtering
     .sort((a, b) =>
       locale === "ms"
         ? a.perkataan.localeCompare(b.perkataan)

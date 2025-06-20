@@ -73,7 +73,7 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
       }))
       .filter(
         (entry) =>
-          ["Release 1", "Release 2", "Release 3"].includes(entry.release) &&
+          // Removed release filtering
           !formatString(entry.word).localeCompare(formatted)
       );
 

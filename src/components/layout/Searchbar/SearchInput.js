@@ -7,7 +7,7 @@ import axios from "axios";
 import { Store } from "../../../flux";
 
 const MAX_PAGES = 5;
-const VALID_RELEASES = ["Release 1", "Release 2", "Release 3"];
+// Removing VALID_RELEASES constraint
 const CACHE_KEY = "searchVocabularyData";
 const CACHE_TIMESTAMP_KEY = "searchVocabularyTimestamp";
 const CACHE_DURATION_MS = 10 * 60 * 1000;
@@ -29,7 +29,8 @@ const SearchInput = () => {
       word: item.Word || '',
       perkataan: item.Perkataan || '',
       release: item.Release || ''
-    })).filter(item => VALID_RELEASES.includes(item.release))
+    }))
+    // Removed filter for VALID_RELEASES
   );
 
   const fetchVocabularyData = async () => {
