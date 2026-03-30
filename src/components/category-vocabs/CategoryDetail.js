@@ -8,7 +8,7 @@ import { zoomIn } from 'react-animations';
 import { Store } from "../../flux";
 import { getImageWithFallback } from "../components-overview/ImgSrc";
 
-const ZoomIn = styled.div`animation: .5s ${keyframes `${zoomIn}`}`;  
+const ZoomIn = styled.div`animation: .5s ${keyframes`${zoomIn}`}`;
 
 const CategoryDetail = ({ categoryItem, group, groupKey, noOfCard }) => {
   const { i18n } = useTranslation(["word", "group-category"]);
@@ -19,7 +19,7 @@ const CategoryDetail = ({ categoryItem, group, groupKey, noOfCard }) => {
   const basePath = `/groups/${groupFormatted}`
   const linkToPath = categoryItem.new ? `${basePath}/${Store.formatString(categoryItem.word)}` : `${basePath}/${categoryFormatted}`;
   const imgSrc = categoryItem.new ? Store.getSignImgSrc(categoryItem.perkataan) : Store.getCategoryImgSrc(categoryItem.kategori);
-  const fallback = `https://res.cloudinary.com/dvkbfpll1/image/upload/v1745120594/image-coming-soon.jpg`;
+  const fallback = `https://pub-53c2a4aa4b544b0fb5ca676a1f4675e0.r2.dev/images/bim/coming-soon.avif`;
   const [bgImage, setBgImage] = useState("");
 
   useEffect(() => {
@@ -32,40 +32,40 @@ const CategoryDetail = ({ categoryItem, group, groupKey, noOfCard }) => {
   const categoryWord = categoryItem.new ? isMalay ? categoryItem.perkataan : categoryItem.word : isMalay ? categoryItem.kategori : categoryItem.category;
 
   // get the length of word; or the longest substring if it contains space
-  const length = categoryWord.split(" ").sort((a, b) => (b.length-a.length))[0].length;
-  const fontSizeTemp = 30-(length);
+  const length = categoryWord.split(" ").sort((a, b) => (b.length - a.length))[0].length;
+  const fontSizeTemp = 30 - (length);
 
   // to set the font size of card title dynamically
   // based on window.width, number of cards, length of the word, and whether the word contains spaces
   const getFontSize = () => {
     // 1. Three cards
-    if(noOfCard >= 3 ) {
-      if(length >= 10) {
-        return (window.innerWidth >= 1500) ? (fontSizeTemp-5+"px") : (fontSizeTemp-4+"px");
+    if (noOfCard >= 3) {
+      if (length >= 10) {
+        return (window.innerWidth >= 1500) ? (fontSizeTemp - 5 + "px") : (fontSizeTemp - 4 + "px");
       }
       else { return "17px"; }
     }
     // 2. Two cards
-    else if(noOfCard === 2) {
-      if((window.innerWidth > 1200)) {
-        return (length >= 10) ? (fontSizeTemp-2+"px") : "17px";
-      }           
-      else if((window.innerWidth <= 1200 && window.innerWidth >= 875)) {
+    else if (noOfCard === 2) {
+      if ((window.innerWidth > 1200)) {
+        return (length >= 10) ? (fontSizeTemp - 2 + "px") : "17px";
+      }
+      else if ((window.innerWidth <= 1200 && window.innerWidth >= 875)) {
         return (length >= 10) ? "16px" : "18px";
-      }    
-      else if(window.innerWidth >= 765) {
-          return (length >= 10) ? (fontSizeTemp-3+"px") : "16px";
-        }                 
-        else if((window.innerWidth <= 765 && window.innerWidth >= 500)) {
-          return "19px";
-        }
-        else if((window.innerWidth <= 460 && window.innerWidth > 320)) {
-          return (length >= 10) ? (fontSizeTemp-5+"px") : "17px";
-        }
-        else { return "18px"; }
+      }
+      else if (window.innerWidth >= 765) {
+        return (length >= 10) ? (fontSizeTemp - 3 + "px") : "16px";
+      }
+      else if ((window.innerWidth <= 765 && window.innerWidth >= 500)) {
+        return "19px";
+      }
+      else if ((window.innerWidth <= 460 && window.innerWidth > 320)) {
+        return (length >= 10) ? (fontSizeTemp - 5 + "px") : "17px";
+      }
+      else { return "18px"; }
     }
     // 3. One card
-    else if(noOfCard === 1) { return "18px"; }
+    else if (noOfCard === 1) { return "18px"; }
   }
 
   const [fontSize, setFontSize] = useState(
@@ -93,11 +93,11 @@ const CategoryDetail = ({ categoryItem, group, groupKey, noOfCard }) => {
           <div
             className="card-post__image"
             style={{ backgroundImage: bgImage }}>
-            </div>
+          </div>
         </ZoomIn>
         <CardBody>
           <CardTitle className="card-title">
-            { <span style={{fontSize: fontSize}}>{categoryWord}</span> }
+            {<span style={{ fontSize: fontSize }}>{categoryWord}</span>}
           </CardTitle>
         </CardBody>
       </Card>
