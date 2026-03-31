@@ -2,6 +2,7 @@ import axios from "axios";
 import cookies from "js-cookie";
 import { Store } from "../../flux";
 import { getNewSigns } from './alphabetAPI';
+import { API_BASE } from "./config";
 
 // Utility function to format strings
 const formatString = (str) => {
@@ -28,7 +29,7 @@ const fetchCategoryData = async () => {
   while (hasMoreData) {
     try {
       const response = await axios.get(
-        `https://bimsignbank-strapi.onrender.com/api/category-groups?pagination[page]=${page}&pagination[pageSize]=90&filters[Remark][$ne]=Unpublished`
+        `${API_BASE}/api/category-groups?pagination[page]=${page}&pagination[pageSize]=90&filters[Remark][$ne]=Unpublished`
       );
 
       // Ensure response is structured correctly

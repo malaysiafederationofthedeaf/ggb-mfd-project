@@ -2,6 +2,7 @@ import axios from "axios";
 import levenshtein from 'js-levenshtein';
 import { Store } from "../../flux";
 import { alphabetCache, alphabetCacheTimestamps } from "./alphabetAPI";
+import { API_BASE } from "./config";
 
 // Utility: Format string using Store method
 const formatString = (str) => Store.formatString(str);
@@ -47,7 +48,7 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
 
   const formatted = formatString(vocabName);
   const capitalized = capitalizeFirstLetter(vocabName);
-  const endpoint = `https://bimsignbank-strapi.onrender.com/api/bims?populate=*&filters[Word][$containsi]=${capitalized}`;
+  const endpoint = `${API_BASE}/api/bims?populate=*&filters[Word][$containsi]=${capitalized}`;
 
   try {
     const cachedData = findVocabInAlphabetData(vocabName);

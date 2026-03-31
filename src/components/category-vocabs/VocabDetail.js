@@ -6,7 +6,8 @@ import { Store } from "../../flux";
 import VocabWordPerkataan from "./VocabWordPerkataan";
 
 const VocabDetail = ({vocab}) => {
-    const vocabImgSrc = Store.getSignImgSrc(vocab.perkataan);
+    const useBlobImages = process.env.REACT_APP_USE_BLOB_IMAGES === "true";
+    const vocabImgSrc = useBlobImages && vocab.imageUrl ? vocab.imageUrl : Store.getSignImgSrc(vocab.perkataan);
 
     return (
         <div className="selected-vocab">
