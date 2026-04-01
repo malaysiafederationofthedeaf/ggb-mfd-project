@@ -16,7 +16,7 @@ let _store = {
   featuredVideosPlaylistId: "PLEztM-ga58Y4s6t5pac5uJKLeSSuspioQ",
   youtubeAPIKey: "AIzaSyBIk86nsIH0h4HSEgHPLI8bku6WKQlizDk",
   featuredVideos: [],
-  imageURL: "https://pub-484eefc799ec44daac47eef319579772.r2.dev/mfd-signbank-images/",
+  imageURL: "https://pub-484eefc799ec44daac47eef319579772.r2.dev/",
 };
 
 class Store extends EventEmitter {
