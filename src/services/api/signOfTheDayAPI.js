@@ -20,7 +20,7 @@ async function fetchPageEntries(apiUrl, pageNum, pageSize) {
 }
 
 export async function getSignOfTheDayLightweight() {
-  const apiUrl = "${STRAPI_BASE_URL}/api/bims";
+  const apiUrl = `${STRAPI_BASE_URL}/api/bims`;
   const pageSize = 25;
   const seed = formatDateToSeed();
   const totalEntries = await getTotalEntries(apiUrl);
