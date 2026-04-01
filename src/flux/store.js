@@ -145,25 +145,16 @@ class Store extends EventEmitter {
 
   // get image for Category (from Cloudflare R2)
   getCategoryImgSrc(kumpulanKategori) {
-    const kategoriPublicId = kumpulanKategori
-      .replace(/&/g, "_")
-      .replace(/[()]/g, "")
-      .replace(/\s+/g, "_") // Remove other special characters if needed
-      .replace(/_+/g, "_"); // Collapse multiple underscores into one
-      return `${_store.imageURL}category/${kategoriPublicId}.webp`;
+    if (!kumpulanKategori) return "";
+    const fileName = encodeURIComponent(kumpulanKategori);
+    return `${_store.imageURL}category/${fileName}.webp`;
   }
 
   // get image for vocab (from Cloudflare R2)
   getSignImgSrc(perkataan) {
-    const perkataanPublicId = perkataan
-      .trim()
-      .replace(/&/g, "_")           // Replace '&' with '_'
-      .replace(/[()'’]/g, "")        // Remove '(', ')', and single quote (')
-      .replace(/,/g, "")            // Remove commas
-      .replace(/!/g, "%21")         // Replace '!' with '%21'
-      .replace(/\//g, "-")          // Replace '/' with '-'
-      .replace(/\s+/g, "_");        // Replace spaces with '_'
-      return `${_store.imageURL}vocab/${perkataanPublicId}.webp`;
+    if (!perkataan) return "";
+    const fileName = encodeURIComponent(perkataan.trim());
+    return `${_store.imageURL}vocab/${fileName}.webp`;
   }
 
   // format string to lower case, replace space with dash, and remove '?' and '/' (for link path name)
