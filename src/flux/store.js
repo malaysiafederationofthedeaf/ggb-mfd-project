@@ -16,7 +16,7 @@ let _store = {
   featuredVideosPlaylistId: "PLEztM-ga58Y4s6t5pac5uJKLeSSuspioQ",
   youtubeAPIKey: "AIzaSyBIk86nsIH0h4HSEgHPLI8bku6WKQlizDk",
   featuredVideos: [],
-  imageURL: "https://pub-53c2a4aa4b544b0fb5ca676a1f4675e0.r2.dev/images/bim/",
+  imageURL: "https://pub-484eefc799ec44daac47eef319579772.r2.dev/mfd-signbank-images/",
 };
 
 class Store extends EventEmitter {
@@ -145,12 +145,12 @@ class Store extends EventEmitter {
 
   // get image for Category (from Cloudflare R2)
   getCategoryImgSrc(kumpulanKategori) {
-    const kategoriPublicId = "Category_" + kumpulanKategori
+    const kategoriPublicId = kumpulanKategori
       .replace(/&/g, "_")
       .replace(/[()]/g, "")
       .replace(/\s+/g, "_") // Remove other special characters if needed
       .replace(/_+/g, "_"); // Collapse multiple underscores into one
-      return `${_store.imageURL}category/${kategoriPublicId}.jpg`;
+      return `${_store.imageURL}category/${kategoriPublicId}.webp`;
   }
 
   // get image for vocab (from Cloudflare R2)
@@ -163,7 +163,7 @@ class Store extends EventEmitter {
       .replace(/!/g, "%21")         // Replace '!' with '%21'
       .replace(/\//g, "-")          // Replace '/' with '-'
       .replace(/\s+/g, "_");        // Replace spaces with '_'
-      return `${_store.imageURL}${perkataanPublicId}.jpg`;
+      return `${_store.imageURL}vocab/${perkataanPublicId}.webp`;
   }
 
   // format string to lower case, replace space with dash, and remove '?' and '/' (for link path name)
