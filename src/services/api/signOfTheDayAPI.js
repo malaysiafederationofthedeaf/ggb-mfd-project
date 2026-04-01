@@ -1,3 +1,5 @@
+import { STRAPI_BASE_URL } from "../../config";
+
 function getSeededRandom(seed) {
   const x = Math.sin(seed) * 10000;
   return x - Math.floor(x);
