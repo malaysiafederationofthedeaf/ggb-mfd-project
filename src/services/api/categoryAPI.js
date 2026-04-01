@@ -2,6 +2,7 @@ import axios from "axios";
 import cookies from "js-cookie";
 import { Store } from "../../flux";
 import { getNewSigns } from './alphabetAPI';
+import { STRAPI_BASE_URL } from "../../config";
 
 // Utility function to format strings
 const formatString = (str) => {

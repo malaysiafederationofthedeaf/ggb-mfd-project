@@ -1,6 +1,7 @@
 import axios from "axios";
 import cookies from "js-cookie";
 import { Store } from "../../flux";
+import { STRAPI_BASE_URL } from "../../config";
 
 // Utility functions
 const formatString = (str) => Store.formatString(str);

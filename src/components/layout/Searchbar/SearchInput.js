@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import i18next from "i18next";
 import axios from "axios";
 import { Store } from "../../../flux";
+import { STRAPI_BASE_URL } from "../../../config";
 
 const MAX_PAGES = 5;
 // Removing VALID_RELEASES constraint

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Store } from "../../flux";
+import { STRAPI_BASE_URL } from "../../config";
 
 // Cache mechanism
 const categoryCache = new Map();

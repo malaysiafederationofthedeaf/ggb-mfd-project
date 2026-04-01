@@ -2,6 +2,7 @@ import axios from "axios";
 import levenshtein from 'js-levenshtein';
 import { Store } from "../../flux";
 import { alphabetCache, alphabetCacheTimestamps } from "./alphabetAPI";
+import { STRAPI_BASE_URL } from "../../config";
 
 // Utility: Format string using Store method
 const formatString = (str) => Store.formatString(str);
