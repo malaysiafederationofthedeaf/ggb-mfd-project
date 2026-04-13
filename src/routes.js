@@ -16,6 +16,7 @@ import SelectedVocab from "./views/SelectedVocab";
 import SelectedAlphabets from "./views/SelectedAlphabet";
 import FeaturedVideos from "./views/FeaturedVideos";
 
+
 const routes = [
   {
     path: "/",
@@ -92,6 +93,7 @@ const routes = [
     layout: DefaultLayout,
     component: FeaturedVideos,
   },
+  
 ];
 
 export default routes;

@@ -9,12 +9,12 @@ const VocabList = ({ vocabs, group, category }) => {
   const trimWord = (word) => {
     console.log("word: " + word)
     const length = word.length
-    if(length >= 45) {
-      if(word.includes('(') && word.includes(')')) {
+    if (length >= 45) {
+      if (word.includes('(') && word.includes(')')) {
         word = word.substring(0, word.indexOf('('));
         console.log("trimmed: " + word)
       }
-    } 
+    }
     return word;
   }
 
@@ -39,14 +39,19 @@ const VocabList = ({ vocabs, group, category }) => {
             to={`${linkToPath}`}
           >
             <ListGroupItem className="double">
-              <Row className="vocab-word">              
+              <Row className="vocab-word">
                 <Col className="vocab-image-wrapper">
                   <img
                     src={vocabImgSrc}
                     alt={vocab.word}
                     className="vocab-image"
+                    onError={(e) => {
+                      e.target.onerror = null; // prevent infinite loop
+                      e.target.src = `https://pub-53c2a4aa4b544b0fb5ca676a1f4675e0.r2.dev/images/bim/coming-soon.avif`; //if there is no image url
+                    }
+                    }
                   />
-                </Col>   
+                </Col>
                 <Col className="pl-2 pr-0">
                   <VocabWordPerkataan
                     word={trimWord(vocab.word)}

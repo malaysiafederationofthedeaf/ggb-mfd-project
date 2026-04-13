@@ -1,18 +1,24 @@
 import React from "react";
-
 import { Store } from "../../../flux";
 import SidebarCategoryItem from "./SidebarCategoryItem";
+import { getGroupItems } from "../../../services/api/categoryAPI";
 
 class SidebarCategoryItems extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      vocabsItems: Store.getGroups(),
+      vocabsItems: [],
       alphabets: Store.getAlphabetsList(),
     };
 
     this.onChange = this.onChange.bind(this);
+  }
+
+  async componentDidMount() {
+    Store.addChangeListener(this.onChange);
+    const groups = await getGroupItems();
+    this.setState({ vocabsItems: groups });
   }
 
   componentWillMount() {
@@ -25,13 +31,13 @@ class SidebarCategoryItems extends React.Component {
 
   onChange() {
     this.setState({
-      vocabsItems: Store.getGroups(),
       alphabets: Store.getAlphabetsList(),
     });
   }
 
   render() {
     const { vocabsItems: items, alphabets: alphas } = this.state;
+
     return (
       <div className="sidebar-category m-0">
         {!this.props.param
