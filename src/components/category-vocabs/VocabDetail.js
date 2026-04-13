@@ -45,6 +45,16 @@ const VocabDetail = ({vocab}) => {
                     </div>
                 </Col>                    
             </Row>
+            {vocab.exampleSentence && (
+                <Row className="selected-vocab-example mt-4">
+                    <Col>
+                        <div className="p-3 bg-light rounded">
+                            <h6 className="text-muted mb-2">Example Sentence</h6>
+                            <p className="mb-0" style={{ whiteSpace: 'pre-line' }}>{vocab.exampleSentence}</p>
+                        </div>
+                    </Col>
+                </Row>
+            )}
         </div>
     );
 }
