@@ -3,21 +3,15 @@ import { useTranslation } from "react-i18next";
 import Select, { components } from "react-select";
 import { useNavigate } from "react-router-dom";
 import i18next from "i18next";
-import axios from "axios";
 import { Store } from "../../../flux";
-import { STRAPI_BASE_URL } from "../../../config";
-
-const MAX_PAGES = 5;
-// Removing VALID_RELEASES constraint
-const CACHE_KEY = "searchVocabularyData";
-const CACHE_TIMESTAMP_KEY = "searchVocabularyTimestamp";
-const CACHE_DURATION_MS = 10 * 60 * 1000;
+import apiClient from "../../../services/api/client";
 
 const SearchInput = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [searchInput, setSearchInput] = useState('');
   const [openMenu, setOpenMenu] = useState(false);
   const currentLanguage = i18next.language;
@@ -33,65 +27,30 @@ const SearchInput = () => {
     // Removed filter for VALID_RELEASES
   );
 
-  const fetchVocabularyData = async () => {
-    setLoading(true);
+  const searchSpecificTerm = async (query) => {
+    if (!query || query.length < 2) {
+      if (isMounted.current) setOptions([]);
+      return;
+    }
+
     try {
-      const cachedData = sessionStorage.getItem(CACHE_KEY);
-      const cachedTimestamp = sessionStorage.getItem(CACHE_TIMESTAMP_KEY);
-      const now = Date.now();
+      if (isMounted.current) setLoading(true);
+      const field = currentLanguage === "en" ? "Word" : "Perkataan";
+      const res = await apiClient.get(`/api/bims?populate=category_group&filters[${field}][$containsi]=${encodeURIComponent(query)}`);
+      const results = transformData(res.data?.data || []);
 
-      if (cachedData && cachedTimestamp && (now - parseInt(cachedTimestamp)) < CACHE_DURATION_MS) {
-        setOptions(JSON.parse(cachedData));
-        return;
-      }
-
-      let allData = [];
-      for (let page = 1; page <= MAX_PAGES; page++) {
-        const res = await axios.get(`${STRAPI_BASE_URL}/api/bims?populate=*&pagination[page]=${page}&pagination[pageSize]=100`);
-        const pageData = res.data?.data || [];
-        allData = [...allData, ...pageData];
-
-        const { pageCount } = res.data.meta.pagination;
-        if (page >= pageCount) break;
-      }
-
-      const filteredData = transformData(allData).sort((a, b) =>
+      const sortedResults = results.sort((a, b) =>
         currentLanguage === "en" ? a.word.localeCompare(b.word) : a.perkataan.localeCompare(b.perkataan)
       );
 
-      sessionStorage.setItem(CACHE_KEY, JSON.stringify(filteredData));
-      sessionStorage.setItem(CACHE_TIMESTAMP_KEY, now.toString());
-
-      if (isMounted.current) setOptions(filteredData);
-    } catch (error) {
-      console.error("Vocabulary fetch error:", error);
-      setOptions(Store.getSortedVocabsItems(currentLanguage));
-    } finally {
-      if (isMounted.current) setLoading(false);
-    }
-  };
-
-  const searchSpecificTerm = async (query) => {
-    if (!query || query.length < 2) return;
-
-    try {
-      const field = currentLanguage === "en" ? "Word" : "Perkataan";
-      const res = await axios.get(`${STRAPI_BASE_URL}/api/bims?populate=*&filters[${field}][$containsi]=${query}`);
-      const results = transformData(res.data?.data || []);
-
-      const seen = new Set(options.map(opt => currentLanguage === "en" ? opt.word : opt.perkataan));
-      const uniqueResults = results.filter(item => !seen.has(currentLanguage === "en" ? item.word : item.perkataan));
-
-      if (uniqueResults.length) {
-        const updated = [...options, ...uniqueResults].sort((a, b) =>
-          currentLanguage === "en" ? a.word.localeCompare(b.word) : a.perkataan.localeCompare(b.perkataan)
-        );
-        setOptions(updated);
-        sessionStorage.setItem(CACHE_KEY, JSON.stringify(updated));
-        sessionStorage.setItem(CACHE_TIMESTAMP_KEY, Date.now().toString());
+      if (isMounted.current) {
+        setOptions(sortedResults);
       }
     } catch (err) {
-      console.error("Search term fetch error:", err);
+      console.error("Search fetch error:", err);
+      if (isMounted.current) setOptions([]);
+    } finally {
+      if (isMounted.current) setLoading(false);
     }
   };
 
@@ -119,7 +78,6 @@ const SearchInput = () => {
 
   useEffect(() => {
     isMounted.current = true;
-    fetchVocabularyData();
     return () => {
       isMounted.current = false;
       clearTimeout(debounceRef.current);

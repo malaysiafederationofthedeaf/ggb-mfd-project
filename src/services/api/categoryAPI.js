@@ -1,9 +1,7 @@
-import axios from "axios";
 import cookies from "js-cookie";
 import { Store } from "../../flux";
 import { getNewSigns } from './alphabetAPI';
-import { STRAPI_BASE_URL } from "../../config";
-
+import apiClient from "./client";
 // Utility function to format strings
 const formatString = (str) => {
   return Store.formatString(str);
@@ -28,8 +26,8 @@ const fetchCategoryData = async () => {
 
   while (hasMoreData) {
     try {
-      const response = await axios.get(
-        `${STRAPI_BASE_URL}/api/category-groups?pagination[page]=${page}&pagination[pageSize]=90&filters[Remark][$ne]=Unpublished`
+      const response = await apiClient.get(
+        `/api/category-groups?pagination[page]=${page}&pagination[pageSize]=90&filters[Remark][$ne]=Unpublished`
       );
 
       // Ensure response is structured correctly
@@ -235,12 +233,8 @@ export const getCategoriesOfGroup = async (lang = "ms") => {
           }
         }
         
-        // Sort categories alphabetically based on current language
-        if (currentLanguageCode === "en") {
-          filtered.sort((a, b) => a.category.localeCompare(b.category));
-        } else {
-          filtered.sort((a, b) => a.kategori.localeCompare(b.kategori));
-        }
+        // Sort categories alphabetically based on Malay (kategori) always
+        filtered.sort((a, b) => a.kategori.localeCompare(b.kategori));
   
         allResults[groupObj.group] = filtered;
       }

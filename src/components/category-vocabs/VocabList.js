@@ -3,24 +3,16 @@ import { Link } from "react-router-dom";
 import { Col, ListGroup, ListGroupItem, Row } from "shards-react";
 
 import { Store } from "../../flux";
+import { COMING_SOON_IMAGE_URL } from "../../config";
 import VocabWordPerkataan from "./VocabWordPerkataan";
+import { trimWord } from "../../utils/stringUtils";
 
 const VocabList = ({ vocabs, group, category }) => {
-  const trimWord = (word) => {
-    console.log("word: " + word)
-    const length = word.length
-    if (length >= 45) {
-      if (word.includes('(') && word.includes(')')) {
-        word = word.substring(0, word.indexOf('('));
-        console.log("trimmed: " + word)
-      }
-    }
-    return word;
-  }
+  // Shared trimWord utility is used when passing props to VocabWordPerkataan
 
   return (
     <ListGroup flush>
-      {vocabs.map((vocab, key) => {
+      {vocabs.map((vocab) => {
         const groupTitle = group === undefined ? vocab.group : group;
         const categoryTitle =
           category === undefined ? vocab.category : category;
@@ -35,7 +27,7 @@ const VocabList = ({ vocabs, group, category }) => {
 
         return (
           <Link
-            key={key}
+            key={vocab.word}
             to={`${linkToPath}`}
           >
             <ListGroupItem className="double">
@@ -47,7 +39,7 @@ const VocabList = ({ vocabs, group, category }) => {
                     className="vocab-image"
                     onError={(e) => {
                       e.target.onerror = null; // prevent infinite loop
-                      e.target.src = `https://pub-53c2a4aa4b544b0fb5ca676a1f4675e0.r2.dev/images/bim/coming-soon.avif`; //if there is no image url
+                      e.target.src = COMING_SOON_IMAGE_URL; //if there is no image url
                     }
                     }
                   />

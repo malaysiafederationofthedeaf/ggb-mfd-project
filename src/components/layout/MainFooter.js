@@ -9,16 +9,16 @@ const MainFooter = ({ contained, menuItems, copyright, footerLinks }) => {
     <footer className="main-footer p-2 bg-white border-top">
       <Container fluid={contained}>
         <Nav>
-          {menuItems.map((item, key) => (
-            <a href={item.href} target="_blank" rel="noopener noreferrer" key={key} className="main-footer-items">
+          {menuItems.map((item) => (
+            <a href={item.href} target="_blank" rel="noopener noreferrer" key={item.title || item.href} className="main-footer-items">
               {t(item.title)}
             </a>
           ))}
         </Nav>
         <span className="copyright ml-auto my-auto mr-2">{t(copyright)}</span>
         <div className="footer-logo d-inline ml-auto my-auto mr-2">
-          {footerLinks.map((link, key) => (
-            <a href={link.href} target="_blank" rel="noopener noreferrer" key={key}>
+          {footerLinks.map((link) => (
+            <a href={link.href} target="_blank" rel="noopener noreferrer" key={link.href || link.imgSrc}>
               <img src={link.imgSrc} alt={link.imgAlt} />
             </a>
           ))}
@@ -81,10 +81,10 @@ MainFooter.defaultProps = {
       imgAlt: "Youtube Logo",
     },
     {
-      href: "https://vercel.com/?utm_source=ggb-mfd&utm_campaign=oss",
-      imgSrc: require("../../images/general/logo/powered-by-vercel.svg"),
-      imgAlt: "Powered by Vercel Logo",
-    },    
+      href: "https://www.cloudflare.com/",
+      imgSrc: require("../../images/general/logo/cloudflare-logo.png"),
+      imgAlt: "Cloudflare Logo",
+    },
   ],
 };
 

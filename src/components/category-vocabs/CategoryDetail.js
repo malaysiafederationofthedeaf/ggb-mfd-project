@@ -7,6 +7,7 @@ import { zoomIn } from 'react-animations';
 
 import { Store } from "../../flux";
 import { getImageWithFallback } from "../components-overview/ImgSrc";
+import { COMING_SOON_IMAGE_URL } from "../../config";
 
 const ZoomIn = styled.div`animation: .5s ${keyframes`${zoomIn}`}`;
 
@@ -19,13 +20,14 @@ const CategoryDetail = ({ categoryItem, group, groupKey, noOfCard }) => {
   const basePath = `/groups/${groupFormatted}`
   const linkToPath = categoryItem.new ? `${basePath}/${Store.formatString(categoryItem.word)}` : `${basePath}/${categoryFormatted}`;
   const imgSrc = categoryItem.new ? Store.getSignImgSrc(categoryItem.perkataan) : Store.getCategoryImgSrc(categoryItem.kategori);
-  const fallback = `https://pub-53c2a4aa4b544b0fb5ca676a1f4675e0.r2.dev/images/bim/coming-soon.avif`;
+  const fallback = COMING_SOON_IMAGE_URL;
   const [bgImage, setBgImage] = useState("");
 
   useEffect(() => {
     getImageWithFallback(imgSrc, fallback, (resolvedURL) => {
       setBgImage(resolvedURL);
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imgSrc]);
 
   // determine if the word to be displayed is Word from New Sign; or a Category
@@ -72,19 +74,18 @@ const CategoryDetail = ({ categoryItem, group, groupKey, noOfCard }) => {
     getFontSize()
   );
 
-  // setFontSize when window resizes
-  function handleResize() {
-    setFontSize(getFontSize());
-  }
-  window.addEventListener("resize", handleResize);
-
-  // setFontSize when category/ word to be displayed changes (switched language)
   useEffect(() => {
+    function handleResize() {
+      setFontSize(getFontSize());
+    }
+    window.addEventListener("resize", handleResize);
     setFontSize(getFontSize());
-    return (_) => {
+    
+    return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [categoryWord]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryWord, noOfCard]);
 
   return (
     <Link to={linkToPath}>

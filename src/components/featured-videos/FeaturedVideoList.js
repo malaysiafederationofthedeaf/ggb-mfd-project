@@ -35,10 +35,10 @@ const FeaturedVideoList = ({videoItems}) => {
           leftChevron={<i className="material-icons">arrow_back_ios</i>}
           outsideChevron={false}
         >
-          {videoItems.map((videoItem, key) => (
+          {videoItems.map((videoItem) => (
             <FeaturedVideoDetail className="featured-video"
               video={videoItem}
-              key={key}
+              key={videoItem?.id || videoItem?.title}
             />
           ))}
         </ItemsCarousel>
