@@ -48,7 +48,7 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
 
   const formatted = formatString(vocabName);
   const capitalized = capitalizeFirstLetter(vocabName);
-  const endpoint = `${API_BASE}/api/bims?populate=*&filters[Word][$containsi]=${capitalized}`;
+  const endpoint = `${API_BASE}/api/bims?populate=*&filters[$or][0][Word][$containsi]=${encodeURIComponent(capitalized)}&filters[$or][1][Perkataan][$containsi]=${encodeURIComponent(capitalized)}`;
 
   try {
     const cachedData = findVocabInAlphabetData(vocabName);
