@@ -104,9 +104,14 @@ export const getVocabDetail = async (vocabName) => {
     // Check alphabet cache
     const alphabetData = findVocabInAlphabetData(vocabName);
     if (alphabetData) {
-      vocabCache.set(vocabName, alphabetData);
-      vocabCacheTimestamps.set(vocabName, now);
-      return alphabetData;
+      // If the cached entry lacks an exampleSentence, ignore it and fetch fresh
+      const hasExample = alphabetData.some(item => item.exampleSentence);
+      if (hasExample) {
+        vocabCache.set(vocabName, alphabetData);
+        vocabCacheTimestamps.set(vocabName, now);
+        return alphabetData;
+      }
+      console.log(`Alphabet cache for "${vocabName}" missing ExampleSentence – fetching fresh`);
     }
 
     // Fetch from API
