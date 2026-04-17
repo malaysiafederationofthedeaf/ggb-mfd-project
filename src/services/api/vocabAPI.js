@@ -48,15 +48,7 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
 
   const formatted = formatString(vocabName);
   const capitalized = capitalizeFirstLetter(vocabName);
-<<<<<<< HEAD
-<<<<<<< HEAD
   const endpoint = `${API_BASE}/api/bims?populate=*&filters[$or][0][Word][$containsi]=${encodeURIComponent(capitalized)}&filters[$or][1][Perkataan][$containsi]=${encodeURIComponent(capitalized)}`;
-=======
-  const endpoint = `https://bimsignbank-strapi.onrender.com/api/bims?populate=*&filters[Word][$containsi]=${capitalized}`;
->>>>>>> parent of 9295bc3 (feat: Add optional Blob image usage and BFF base URL handling)
-=======
-  const endpoint = `${STRAPI_BASE_URL}/api/bims?populate=*&filters[Word][$containsi]=${capitalized}`;
->>>>>>> baa1472c25d2cd1e671bf26c616d2bf43d324f52
 
   try {
     const cachedData = findVocabInAlphabetData(vocabName);
