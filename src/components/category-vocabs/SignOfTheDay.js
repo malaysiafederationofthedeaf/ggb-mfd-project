@@ -74,8 +74,7 @@ const SignOfTheDay = ({ wordItem }) => {
     Store.formatGroupCategory(groupName) +
     Store.formatGroupCategory(groupCat) +
     Store.formatString(wordItem.word);
-  const useBlobImages = process.env.REACT_APP_USE_BLOB_IMAGES === "true";
-  const imgSrc = useBlobImages && wordItem.imageUrl ? wordItem.imageUrl : Store.getSignImgSrc(wordItem.perkataan);
+  const imgSrc = Store.getSignImgSrc(wordItem.perkataan);
 
   const { t } = useTranslation(["", "word"]);
 

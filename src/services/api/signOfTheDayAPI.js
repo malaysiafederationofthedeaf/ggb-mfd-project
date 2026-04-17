@@ -1,5 +1,3 @@
-import { API_BASE } from "./config";
-
 function getSeededRandom(seed) {
   const x = Math.sin(seed) * 10000;
   return x - Math.floor(x);
@@ -22,7 +20,7 @@ async function fetchPageEntries(apiUrl, pageNum, pageSize) {
 }
 
 export async function getSignOfTheDayLightweight() {
-  const apiUrl = `${API_BASE}/api/bims`;
+  const apiUrl = "https://bimsignbank-strapi.onrender.com/api/bims";
   const pageSize = 25;
   const seed = formatDateToSeed();
   const totalEntries = await getTotalEntries(apiUrl);

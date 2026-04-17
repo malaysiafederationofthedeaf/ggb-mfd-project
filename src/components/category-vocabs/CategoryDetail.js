@@ -18,10 +18,7 @@ const CategoryDetail = ({ categoryItem, group, groupKey, noOfCard }) => {
   const categoryFormatted = Store.formatString(categoryItem.category);
   const basePath = `/groups/${groupFormatted}`
   const linkToPath = categoryItem.new ? `${basePath}/${Store.formatString(categoryItem.word)}` : `${basePath}/${categoryFormatted}`;
-  const useBlobImages = process.env.REACT_APP_USE_BLOB_IMAGES === "true";
-  const imgSrc = categoryItem.new 
-    ? (useBlobImages && categoryItem.imageUrl ? categoryItem.imageUrl : Store.getSignImgSrc(categoryItem.perkataan)) 
-    : (useBlobImages && categoryItem.imageUrl ? categoryItem.imageUrl : Store.getCategoryImgSrc(categoryItem.kategori));
+  const imgSrc = categoryItem.new ? Store.getSignImgSrc(categoryItem.perkataan) : Store.getCategoryImgSrc(categoryItem.kategori);
   const fallback = `https://res.cloudinary.com/dvkbfpll1/image/upload/v1745120594/image-coming-soon.jpg`;
   const [bgImage, setBgImage] = useState("");
 

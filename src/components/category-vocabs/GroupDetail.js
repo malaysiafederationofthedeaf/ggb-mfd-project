@@ -12,8 +12,7 @@ const ZoomIn = styled.div`animation: .5s ${keyframes `${zoomIn}`}`;
 
 const GroupDetail = ({ category, group }) => {
   const { t, i18n } = useTranslation("group-category");
-  const useBlobImages = process.env.REACT_APP_USE_BLOB_IMAGES === "true";
-  const categoryImgSrc = useBlobImages && category.imageUrl ? category.imageUrl : Store.getCategoryImgSrc(category.kategori);
+  const categoryImgSrc = Store.getCategoryImgSrc(category.kategori);
   const fallback = `https://res.cloudinary.com/dvkbfpll1/image/upload/v1745120594/image-coming-soon.jpg`;
   const [bgImage, setBgImage] = useState("");
   const isMalay = i18n.language === "ms";
