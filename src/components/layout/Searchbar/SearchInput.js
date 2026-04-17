@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import i18next from "i18next";
 import axios from "axios";
 import { Store } from "../../../flux";
+import { STRAPI_BASE_URL } from "../../../config";
 
 const MAX_PAGES = 5;
 // Removing VALID_RELEASES constraint
@@ -46,7 +47,7 @@ const SearchInput = () => {
 
       let allData = [];
       for (let page = 1; page <= MAX_PAGES; page++) {
-        const res = await axios.get(`https://bimsignbank-strapi.onrender.com/api/bims?populate=*&pagination[page]=${page}&pagination[pageSize]=100`);
+        const res = await axios.get(`${STRAPI_BASE_URL}/api/bims?populate=*&pagination[page]=${page}&pagination[pageSize]=100`);
         const pageData = res.data?.data || [];
         allData = [...allData, ...pageData];
 
@@ -75,7 +76,7 @@ const SearchInput = () => {
 
     try {
       const field = currentLanguage === "en" ? "Word" : "Perkataan";
-      const res = await axios.get(`https://bimsignbank-strapi.onrender.com/api/bims?populate=*&filters[${field}][$containsi]=${query}`);
+      const res = await axios.get(`${STRAPI_BASE_URL}/api/bims?populate=*&filters[${field}][$containsi]=${query}`);
       const results = transformData(res.data?.data || []);
 
       const seen = new Set(options.map(opt => currentLanguage === "en" ? opt.word : opt.perkataan));

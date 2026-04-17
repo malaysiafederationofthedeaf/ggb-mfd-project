@@ -8,12 +8,12 @@ import { zoomIn } from 'react-animations';
 import { Store } from "../../flux";
 import { getImageWithFallback } from "../components-overview/ImgSrc";
 
-const ZoomIn = styled.div`animation: .5s ${keyframes `${zoomIn}`}`;
+const ZoomIn = styled.div`animation: .5s ${keyframes`${zoomIn}`}`;
 
 const GroupDetail = ({ category, group }) => {
   const { t, i18n } = useTranslation("group-category");
   const categoryImgSrc = Store.getCategoryImgSrc(category.kategori);
-  const fallback = `https://res.cloudinary.com/dvkbfpll1/image/upload/v1745120594/image-coming-soon.jpg`;
+  const fallback = `https://pub-53c2a4aa4b544b0fb5ca676a1f4675e0.r2.dev/images/bim/coming-soon.avif`;
   const [bgImage, setBgImage] = useState("");
   const isMalay = i18n.language === "ms";
 

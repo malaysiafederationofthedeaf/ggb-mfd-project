@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Store } from "../../flux";
+import { STRAPI_BASE_URL } from "../../config";
 
 // Cache mechanism
 const categoryCache = new Map();
@@ -77,7 +78,7 @@ export const fetchVocabsByCategoryFromAPI = async (group, category) => {
     let totalItems = 0;
 
     while (true) {
-      const apiUrl = `https://bimsignbank-strapi.onrender.com/api/bims?populate=*&filters[category_group][GroupCategory][$eq]=${encodedGroupCategoryPair}&pagination[page]=${page}&pagination[pageSize]=${PAGE_SIZE}`;
+      const apiUrl = `${STRAPI_BASE_URL}/api/bims?populate=*&filters[category_group][GroupCategory][$eq]=${encodedGroupCategoryPair}&pagination[page]=${page}&pagination[pageSize]=${PAGE_SIZE}`;
       console.log(`API URL (Page ${page}): ${apiUrl}`);
 
       const response = await axios.get(apiUrl);
@@ -121,7 +122,7 @@ export const fetchNewSignsFromAPI = async () => {
     console.log("Fetching new signs");
 
     const response = await axios.get(
-      `https://bimsignbank-strapi.onrender.com/api/bims?populate=*&filters[New][$eq]=Yes`
+      `${STRAPI_BASE_URL}/api/bims?populate=*&filters[New][$eq]=Yes`
     );
 
     if (!response.data?.data) {

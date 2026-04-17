@@ -16,7 +16,7 @@ let _store = {
   featuredVideosPlaylistId: "PLEztM-ga58Y4s6t5pac5uJKLeSSuspioQ",
   youtubeAPIKey: "AIzaSyBIk86nsIH0h4HSEgHPLI8bku6WKQlizDk",
   featuredVideos: [],
-  imageURL: "https://res.cloudinary.com/dvkbfpll1/image/upload/",
+  imageURL: "https://pub-484eefc799ec44daac47eef319579772.r2.dev/",
 };
 
 class Store extends EventEmitter {
@@ -143,27 +143,18 @@ class Store extends EventEmitter {
     return "https://youtu.be/" + videoId;
   }
 
-  // get image for Category (from cloudinary)
+  // get image for Category (from Cloudflare R2)
   getCategoryImgSrc(kumpulanKategori) {
-    const kategoriPublicId = "Category_" + kumpulanKategori
-      .replace(/&/g, "_")
-      .replace(/[()]/g, "")
-      .replace(/\s+/g, "_") // Remove other special characters if needed
-      .replace(/_+/g, "_"); // Collapse multiple underscores into one
-      return `${_store.imageURL}f_auto,q_auto/${kategoriPublicId}.jpg`;
+    if (!kumpulanKategori) return "";
+    const fileName = encodeURIComponent(kumpulanKategori);
+    return `${_store.imageURL}category/${fileName}.webp`;
   }
 
-  // get image for vocab (from cloudinary)
+  // get image for vocab (from Cloudflare R2)
   getSignImgSrc(perkataan) {
-    const perkataanPublicId = perkataan
-      .trim()
-      .replace(/&/g, "_")           // Replace '&' with '_'
-      .replace(/[()'’]/g, "")        // Remove '(', ')', and single quote (')
-      .replace(/,/g, "")            // Remove commas
-      .replace(/!/g, "%21")         // Replace '!' with '%21'
-      .replace(/\//g, "-")          // Replace '/' with '-'
-      .replace(/\s+/g, "_");        // Replace spaces with '_'
-      return `${_store.imageURL}f_auto,q_auto/${perkataanPublicId}.jpg`;
+    if (!perkataan) return "";
+    const fileName = encodeURIComponent(perkataan.trim());
+    return `${_store.imageURL}vocab/${fileName}.webp`;
   }
 
   // format string to lower case, replace space with dash, and remove '?' and '/' (for link path name)
