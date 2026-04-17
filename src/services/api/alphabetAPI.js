@@ -43,7 +43,7 @@ export const fetchVocabData = async () => {
           new: item.New || "No",
           order: item.Order || "",
           imgStatus: item.Image_Status || "",
-          exampleSentence: item.ExampleSentence || "",
+          exampleSentence: item.Example_Sentence || "",
         };
       });
 
@@ -183,7 +183,7 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
           new: item.New || "No",
           order: item.Order || "",
           imgStatus: item.Image_Status || "",
-          exampleSentence: item.ExampleSentence || "",
+          exampleSentence: item.Example_Sentence || "",
         };
       });
 
@@ -264,7 +264,7 @@ export const getNewSigns = async () => {
         new: item.New || "No",
         order: item.Order || "",
         imgStatus: item.Image_Status || "",
-        exampleSentence: item.ExampleSentence || "",
+        exampleSentence: item.Example_Sentence || "",
       };
     });
 

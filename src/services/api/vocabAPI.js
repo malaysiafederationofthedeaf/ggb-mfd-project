@@ -69,7 +69,7 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
         new: item.New || 'No',
         order: item.Order || '',
         imgStatus: item.Image_Status || '',
-        exampleSentence: item.ExampleSentence || ''
+        exampleSentence: item.Example_Sentence || ''
       }))
       .filter(
         (entry) =>
@@ -111,7 +111,7 @@ export const getVocabDetail = async (vocabName) => {
         vocabCacheTimestamps.set(vocabName, now);
         return alphabetData;
       }
-      console.log(`Alphabet cache for "${vocabName}" missing ExampleSentence – fetching fresh`);
+      console.log(`Alphabet cache for "${vocabName}" missing Example_Sentence – fetching fresh`);
     }
 
     // Fetch from API
