@@ -26,9 +26,8 @@ const VocabDetail = ({vocab, currentLang: langProp}) => {
                             className="selected-vocab-image"
                             onError={(e) => {
                                 e.target.onerror = null; // prevent infinite loop
-                                e.target.src = `https://pub-53c2a4aa4b544b0fb5ca676a1f4675e0.r2.dev/images/bim/coming-soon.avif`; // if there is no image url
-                            }
-                            }
+                                e.target.src = require(`../../images/general/image-coming-soon.jpg`); // if there is no image url
+                            }}
                         />
                     </div>
                 </Col>
