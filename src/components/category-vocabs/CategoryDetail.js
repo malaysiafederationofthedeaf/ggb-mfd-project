@@ -6,7 +6,7 @@ import styled, { keyframes } from 'styled-components';
 import { zoomIn } from 'react-animations';
 
 import { Store } from "../../flux";
-import LazyImage from "../common/LazyImage";
+import { getImageWithFallback } from "../components-overview/ImgSrc";
 
 const ZoomIn = styled.div`animation: .5s ${keyframes`${zoomIn}`}`;
 
@@ -20,6 +20,7 @@ const CategoryDetail = ({ categoryItem, group, groupKey, noOfCard }) => {
   const linkToPath = categoryItem.new ? `${basePath}/${Store.formatString(categoryItem.word)}` : `${basePath}/${categoryFormatted}`;
   const imgSrc = categoryItem.new ? Store.getSignImgSrc(categoryItem.perkataan) : Store.getCategoryImgSrc(categoryItem.kategori);
   const fallback = `https://pub-53c2a4aa4b544b0fb5ca676a1f4675e0.r2.dev/images/bim/coming-soon.avif`;
+  const [bgImage, setBgImage] = useState("");
   const categoryWord = categoryItem.new ? isMalay ? categoryItem.perkataan : categoryItem.word : isMalay ? categoryItem.kategori : categoryItem.category;
 
   // get the length of word; or the longest substring if it contains space
@@ -63,6 +64,12 @@ const CategoryDetail = ({ categoryItem, group, groupKey, noOfCard }) => {
     getFontSize()
   );
 
+  useEffect(() => {
+    getImageWithFallback(imgSrc, fallback, (resolvedURL) => {
+      setBgImage(resolvedURL);
+    });
+  }, [imgSrc, fallback]);
+
   // setFontSize when window resizes
   function handleResize() {
     setFontSize(getFontSize());
@@ -81,13 +88,10 @@ const CategoryDetail = ({ categoryItem, group, groupKey, noOfCard }) => {
     <Link to={linkToPath}>
       <Card small className="card-post card-post--1">
         <ZoomIn>
-          <LazyImage
+          <div
             className="card-post__image"
-            src={imgSrc}
-            alt={categoryWord}
-            fallback={fallback}
-            style={{ objectFit: 'cover', width: '100%', height: '100%', display: 'block' }}
-          />
+            style={{ backgroundImage: bgImage }}
+          ></div>
         </ZoomIn>
         <CardBody>
           <CardTitle className="card-title">
