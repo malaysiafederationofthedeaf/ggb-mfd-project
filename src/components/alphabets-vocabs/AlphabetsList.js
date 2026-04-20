@@ -4,6 +4,7 @@ import { Col, ListGroup, ListGroupItem, Row } from "shards-react";
 
 import { Store } from "../../flux";
 import VocabWordPerkataan from "../category-vocabs/VocabWordPerkataan";
+import LazyImage from "../common/LazyImage";
 
 const AlphabetsList = ({ vocabs, alphabet }) => {
 
@@ -29,15 +30,11 @@ const AlphabetsList = ({ vocabs, alphabet }) => {
             <ListGroupItem className="double">
               <Row className="vocab-word">
                 <Col className="vocab-image-wrapper">
-                  <img
+                  <LazyImage
                     src={vocabImgSrc}
                     alt={vocab.word}
                     className="vocab-image"
-                    onError={(e) => {
-                      e.target.onerror = null; // prevent infinite loop
-                      e.target.src = `https://pub-53c2a4aa4b544b0fb5ca676a1f4675e0.r2.dev/images/bim/coming-soon.avif`; // if there is no image url
-                    }
-                    }
+                    fallback={`https://pub-53c2a4aa4b544b0fb5ca676a1f4675e0.r2.dev/images/bim/coming-soon.avif`}
                   />
                 </Col>
                 <Col className="pl-2 pr-0">

@@ -6,7 +6,7 @@ import styled, { keyframes } from 'styled-components';
 import { zoomIn } from 'react-animations';
 
 import { Store } from "../../flux";
-import { getImageWithFallback } from "../components-overview/ImgSrc";
+import LazyImage from "../common/LazyImage";
 
 const ZoomIn = styled.div`animation: .5s ${keyframes`${zoomIn}`}`;
 
@@ -20,15 +20,6 @@ const CategoryDetail = ({ categoryItem, group, groupKey, noOfCard }) => {
   const linkToPath = categoryItem.new ? `${basePath}/${Store.formatString(categoryItem.word)}` : `${basePath}/${categoryFormatted}`;
   const imgSrc = categoryItem.new ? Store.getSignImgSrc(categoryItem.perkataan) : Store.getCategoryImgSrc(categoryItem.kategori);
   const fallback = `https://pub-53c2a4aa4b544b0fb5ca676a1f4675e0.r2.dev/images/bim/coming-soon.avif`;
-  const [bgImage, setBgImage] = useState("");
-
-  useEffect(() => {
-    getImageWithFallback(imgSrc, fallback, (resolvedURL) => {
-      setBgImage(resolvedURL);
-    });
-  }, [imgSrc]);
-
-  // determine if the word to be displayed is Word from New Sign; or a Category
   const categoryWord = categoryItem.new ? isMalay ? categoryItem.perkataan : categoryItem.word : isMalay ? categoryItem.kategori : categoryItem.category;
 
   // get the length of word; or the longest substring if it contains space
@@ -90,10 +81,13 @@ const CategoryDetail = ({ categoryItem, group, groupKey, noOfCard }) => {
     <Link to={linkToPath}>
       <Card small className="card-post card-post--1">
         <ZoomIn>
-          <div
+          <LazyImage
             className="card-post__image"
-            style={{ backgroundImage: bgImage }}>
-          </div>
+            src={imgSrc}
+            alt={categoryWord}
+            fallback={fallback}
+            style={{ objectFit: 'cover', width: '100%', height: '100%', display: 'block' }}
+          />
         </ZoomIn>
         <CardBody>
           <CardTitle className="card-title">
