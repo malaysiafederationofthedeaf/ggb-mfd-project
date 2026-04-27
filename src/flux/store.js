@@ -19,6 +19,17 @@ let _store = {
   imageURL: "https://pub-484eefc799ec44daac47eef319579772.r2.dev/",
 };
 
+// Shared slug for vocab images (must match Strapi lifecycles)
+const slugPerkataan = (perkataan) => {
+  if (!perkataan) return "";
+  return perkataan
+    .trim()
+    .replace(/[!/]/g, "-")        // legacy: '!' and '/' -> '-'
+    .replace(/\?/g, "")           // legacy: remove '?'
+    .replace(/[<>:"\\|*]/g, "")   // new: strip Windows-illegal chars
+    .replace(/[. ]+$/g, "");      // new: strip trailing '.' / spaces
+};
+
 class Store extends EventEmitter {
   constructor() {
     super();
@@ -153,22 +164,23 @@ class Store extends EventEmitter {
   // get image for vocab (from Cloudflare R2)
   getSignImgSrc(perkataan) {
     if (!perkataan) return "";
-    const fileName = encodeURIComponent(perkataan.trim());
+    const baseName = slugPerkataan(perkataan);           // shared slug
+    const fileName = encodeURIComponent(baseName);       // single encode for URL
     return `${_store.imageURL}vocab/${fileName}.webp`;
   }
 
   // format string to lower case, replace space with dash, and remove '?' and '/' (for link path name)
   formatString(string) {
     if (!string) return '';
-    
     try {
-      var stringFormatted = string.toLowerCase().replace(/\s+/g, "-")
-      stringFormatted = stringFormatted.replace(/[?/]/g, "")
-      return stringFormatted
+      let stringFormatted = string.toLowerCase().replace(/\s+/g, "-");
+      // Strip characters that can confuse routing or matching
+      stringFormatted = stringFormatted.replace(/[?\/<>.]/g, "");
+      return stringFormatted;
     } catch (err) {
       return string;
     }
-  }
+}
 
   // format group&category pair (to follow link path name)
   formatGroupCategory(string) {
