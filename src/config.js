@@ -15,3 +15,6 @@ export const GA_TRACKING_ID = process.env.REACT_APP_GAID;
 export const COMING_SOON_IMAGE_URL = process.env.REACT_APP_COMING_SOON_IMAGE_URL;
 
 export const YOUTUBE_BASE_URL = process.env.REACT_APP_YOUTUBE_BASE_URL;
+
+
+export const ONRENDER_BASE_URL = process.env.REACT_APP_ONRENDER_BASE_URL;
