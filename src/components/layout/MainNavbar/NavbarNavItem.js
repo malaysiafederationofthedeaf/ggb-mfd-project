@@ -4,7 +4,7 @@ import { NavLink as RouteNavLink } from "react-router-dom";
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, NavItem, NavLink } from "shards-react";
 import { useTranslation } from "react-i18next";
 
-const NavbarNavItem = ({ item }) => {
+const NavbarNavItem = ({ item, closeNavbar }) => {
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
@@ -14,7 +14,7 @@ const NavbarNavItem = ({ item }) => {
     item.items === undefined 
     ?
       <NavItem className="navbar-menu-item">
-        <NavLink tag={(props) => <RouteNavLink {...props} />} to={item.to}>
+        <NavLink tag={(props) => <RouteNavLink {...props} />} to={item.to} onClick={() => setTimeout(() => closeNavbar?.(), 15)}>
           {t(item.title) && <span>{t(item.title)}</span>}
         </NavLink>
       </NavItem> 
@@ -30,7 +30,7 @@ const NavbarNavItem = ({ item }) => {
         {
           item.items.map((item, key) => (
             <DropdownItem className="navbar-menu-item" key={key}>
-              <NavLink tag={(props) => <RouteNavLink {...props} />} to={item.to}>
+              <NavLink tag={(props) => <RouteNavLink {...props} />} to={item.to} onClick={() => setTimeout(() => closeNavbar?.(), 15)}>
                 {t(item.title) && <span>{t(item.title)}</span>}
               </NavLink>
             </DropdownItem>

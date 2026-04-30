@@ -29,19 +29,16 @@ const restructureJSON = (data) => {
     sotd: item.SOTD
   }));
 
-  // if there is only 1 Release to include
-  // return filterExcelData(reconData, "Release 1");
-
-  // if there are multiple Releases to include, use an array
-  return filterExcelData(reconData, ["Release 1", "Release 2", "Release 3", "Release 4"]);
+  // Removing release filtering - include all releases
+  return filterExcelData(reconData, []);
 };
 
 const filterExcelData = (excelData, releases) => {
   return excelData
     .filter((group) => (group !== false)) // filter out those without any value
     .filter((group) => 
-      Array.isArray(releases) ? (releases.includes(group.release)) : (group.release === releases)
-    ) // filter out those that are not in 'release'
+      releases.length === 0 || (Array.isArray(releases) ? (releases.includes(group.release)) : (group.release === releases))
+    ) // filter out those that are not in 'release' if releases array is not empty
     .sort((a, b) => (a.kumpulanKategori).localeCompare(b.kumpulanKategori) // sort the entries alphabetically based on the Kategori
     );
 }
