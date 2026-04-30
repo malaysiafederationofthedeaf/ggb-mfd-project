@@ -90,8 +90,9 @@ const CategoryDetail = ({ categoryItem, group, groupKey, noOfCard }) => {
         <ZoomIn>
           <div
             className="card-post__image"
-            style={{ backgroundImage: bgImage }}
-          ></div>
+            style={{ backgroundImage: bgImage }}>
+
+          </div>
         </ZoomIn>
         <CardBody>
           <CardTitle className="card-title">
