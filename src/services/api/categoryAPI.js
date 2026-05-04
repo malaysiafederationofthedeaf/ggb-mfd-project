@@ -29,7 +29,10 @@ const fetchCategoryData = async () => {
   while (hasMoreData) {
     try {
       const response = await axios.get(
-        `${STRAPI_BASE_URL}/api/category-groups?pagination[page]=${page}&pagination[pageSize]=90&filters[Remark][$ne]=Unpublished`
+        `${STRAPI_BASE_URL}/api/category-groups` +
+        `?pagination[page]=${page}&pagination[pageSize]=90` +
+        `&filters[$or][0][Remark][$ne]=Unpublished` +
+        `&filters[$or][1][Remark][$null]=true`
       );
 
       // Ensure response is structured correctly

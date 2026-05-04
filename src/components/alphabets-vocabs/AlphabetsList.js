@@ -24,9 +24,9 @@ const AlphabetsList = ({ vocabs, alphabet }) => {
     <ListGroup flush>
       {vocabs.map((vocab, key) => {
         const vocabImgSrc = Store.getSignImgSrc(vocab.perkataan);
-        const wordFormatted = Store.formatString(vocab.word);
+        const vocabParam = encodeURIComponent(vocab.word);
         return (
-          <Link key={key} to={`/alphabets/${alphabet}/${wordFormatted}`}>
+          <Link key={key} to={`/alphabets/${alphabet}/${vocabParam}`}>
             <ListGroupItem className="double">
               <Row className="vocab-word">
                 <Col className="vocab-image-wrapper">

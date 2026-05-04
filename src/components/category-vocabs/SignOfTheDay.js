@@ -70,11 +70,13 @@ const SignOfTheDay = ({ wordItem }) => {
   const groupName = groupParts[0]; 
   const groupCat = groupParts[1].trim();
 
+  const vocabParam = encodeURIComponent(wordItem.word);
+
   const linkToPath =
     "/groups/" +
     Store.formatGroupCategory(groupName) +
     Store.formatGroupCategory(groupCat) +
-    Store.formatString(wordItem.word);
+    vocabParam;
   const imgSrc = Store.getSignImgSrc(wordItem.perkataan);
 
   const { t } = useTranslation(["", "word"]);

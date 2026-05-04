@@ -30,9 +30,11 @@ const VocabList = ({ vocabs, group, category }) => {
 
         const groupFormatted = Store.formatString(groupTitle);
         const categoryFormatted = Store.formatString(categoryTitle);
-        const wordFormatted = Store.formatString(vocab.word);
-        const basePath = `/groups/${groupFormatted}`
-        const linkToPath = groupFormatted === "new-signs" ? `${basePath}/${wordFormatted}` : `${basePath}/${categoryFormatted}/${wordFormatted}`;
+        const vocabParam = encodeURIComponent(vocab.word);
+        const basePath = `/groups/${groupFormatted}`;
+        const linkToPath = groupFormatted === "new-signs"
+          ? `${basePath}/${vocabParam}`
+          : `${basePath}/${categoryFormatted}/${vocabParam}`;
 
         return (
           <Link

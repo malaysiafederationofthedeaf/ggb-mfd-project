@@ -76,7 +76,9 @@ const SearchInput = () => {
 
     try {
       const field = currentLanguage === "en" ? "Word" : "Perkataan";
-      const res = await axios.get(`${STRAPI_BASE_URL}/api/bims?populate=*&filters[${field}][$containsi]=${query}`);
+      const res = await axios.get(
+        `${STRAPI_BASE_URL}/api/bims?populate=*&filters[${field}][$containsi]=${encodeURIComponent(query)}`
+      );
       const results = transformData(res.data?.data || []);
 
       const seen = new Set(options.map(opt => currentLanguage === "en" ? opt.word : opt.perkataan));
@@ -111,9 +113,10 @@ const SearchInput = () => {
     const [groupRaw, categoryRaw] = groupCategory.split("/");
     const group = Store.formatString(groupRaw);
     const category = Store.formatString(categoryRaw);
-    const word = Store.formatString(selected.word);
 
-    navigate(`/groups/${group}/${category}/${word}`);
+    // Use full word in :vocab, encoded
+    const vocabParam = encodeURIComponent(selected.word);
+    navigate(`/groups/${group}/${category}/${vocabParam}`);
     setOpenMenu(false);
   };
 
