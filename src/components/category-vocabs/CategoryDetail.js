@@ -21,14 +21,6 @@ const CategoryDetail = ({ categoryItem, group, groupKey, noOfCard }) => {
   const imgSrc = categoryItem.new ? Store.getSignImgSrc(categoryItem.perkataan) : Store.getCategoryImgSrc(categoryItem.kategori);
   const fallback = `https://pub-53c2a4aa4b544b0fb5ca676a1f4675e0.r2.dev/images/bim/coming-soon.avif`;
   const [bgImage, setBgImage] = useState("");
-
-  useEffect(() => {
-    getImageWithFallback(imgSrc, fallback, (resolvedURL) => {
-      setBgImage(resolvedURL);
-    });
-  }, [imgSrc]);
-
-  // determine if the word to be displayed is Word from New Sign; or a Category
   const categoryWord = categoryItem.new ? isMalay ? categoryItem.perkataan : categoryItem.word : isMalay ? categoryItem.kategori : categoryItem.category;
 
   // get the length of word; or the longest substring if it contains space
@@ -71,6 +63,12 @@ const CategoryDetail = ({ categoryItem, group, groupKey, noOfCard }) => {
   const [fontSize, setFontSize] = useState(
     getFontSize()
   );
+
+  useEffect(() => {
+    getImageWithFallback(imgSrc, fallback, (resolvedURL) => {
+      setBgImage(resolvedURL);
+    });
+  }, [imgSrc, fallback]);
 
   // setFontSize when window resizes
   function handleResize() {
