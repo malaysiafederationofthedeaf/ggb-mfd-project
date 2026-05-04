@@ -22,10 +22,7 @@ const restructureJSON = (data) => {
     word: item.Word.toString().trim(),
     perkataan: item.Perkataan.toString().trim(),
     video: item.Video,
-    tag: item.Tag,
     release: item.Release,
-    new: item.New,
-    order: item.Order,
     sotd: item.SOTD
   }));
 

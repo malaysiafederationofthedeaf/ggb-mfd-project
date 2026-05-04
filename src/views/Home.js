@@ -48,12 +48,9 @@ const Home = () => {
       try {
         setLoading(true);
 
-        // Fetch groups and filter for those with Remark="Home"
+        // Fetch all groups
         const groupsData = await getGroupItems();
-        const homeGroups = groupsData.filter(
-          (group) => group?.group && group.remark === "Home"
-        );
-        setGroups(homeGroups);
+        setGroups(groupsData);
 
         const videosData = await getFeaturedVideos();
         setFeaturedVideos(videosData || []);

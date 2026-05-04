@@ -39,9 +39,6 @@ export const fetchVocabData = async () => {
           word: item.Word || "",
           perkataan: item.Perkataan || "",
           video: item.Video || "",
-          tag: item.Tag || "",
-          new: item.New || "No",
-          order: item.Order || "",
           imgStatus: item.Image_Status || "",
         };
       });
@@ -66,20 +63,17 @@ export const fetchVocabData = async () => {
       word: item.word.toString().trim(),
       perkataan: item.perkataan.toString().trim(),
       video: item.video,
-      tag: item.tag,
-      new: item.new,
-      order: item.order,
       imgStatus: item.imgStatus,
     }))
-    // Removed release filtering
-    .sort((a, b) => a.kumpulanKategori.localeCompare(b.kumpulanKategori));
+    .sort((a, b) =>
+      getCurrentLocale() === "ms"
+        ? a.perkataan.localeCompare(b.perkataan)
+        : a.word.localeCompare(b.word)
+    );
 
   return processedData;
 };
 
-// Alphabet-specific caching
-let cachedVocabs = null;
-let cacheTimestamp = null;
 const CACHE_DURATION = 5 * 60 * 1000;
 
 export const alphabetCache = new Map();
@@ -135,8 +129,6 @@ export const clearAlphabetCache = (alphabetFirst = null) => {
   } else {
     alphabetCache.clear();
     alphabetCacheTimestamps.clear();
-    cachedVocabs = null;
-    cacheTimestamp = null;
     console.log("All caches cleared");
   }
 };
@@ -177,9 +169,6 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
           word: item.Word || "",
           perkataan: item.Perkataan || "",
           video: item.Video || "",
-          tag: item.Tag || "",
-          new: item.New || "No",
-          order: item.Order || "",
           imgStatus: item.Image_Status || "",
         };
       });
@@ -204,9 +193,6 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
       word: item.word.toString().trim(),
       perkataan: item.perkataan.toString().trim(),
       video: item.video,
-      tag: item.tag,
-      new: item.new,
-      order: item.order,
       imgStatus: item.imgStatus,
     }))
     // Removed release filtering
@@ -256,9 +242,6 @@ export const getNewSigns = async () => {
         word: item.Word || "",
         perkataan: item.Perkataan || "",
         video: item.Video || "",
-        tag: item.Tag || "",
-        new: item.New || "No",
-        order: item.Order || "",
         imgStatus: item.Image_Status || "",
       };
     });
@@ -274,9 +257,6 @@ export const getNewSigns = async () => {
         word: item.word.toString().trim(),
         perkataan: item.perkataan.toString().trim(),
         video: item.video,
-        tag: item.tag,
-        new: item.new,
-        order: item.order,
         imgStatus: item.imgStatus,
       }))
       // Additional client-side sorting to ensure correct alphabetical order

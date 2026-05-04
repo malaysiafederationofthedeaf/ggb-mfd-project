@@ -14,6 +14,31 @@ export { categoryCache, categoryCacheTimestamps };
 const formatString = (str) => Store.formatString(str);
 const capitalizeFirst = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
+const extractLeadingNumber = (str) => {
+  if (!str) return null;
+  const match = str.toString().trim().match(/^\s*(\d+)/);
+  return match ? Number(match[1]) : null;
+};
+
+const compareTextWithNumericPrefix = (a, b) => {
+  const textA = (a || "").toString().trim();
+  const textB = (b || "").toString().trim();
+  const numA = extractLeadingNumber(textA);
+  const numB = extractLeadingNumber(textB);
+
+  if (numA !== null && numB !== null) {
+    if (numA !== numB) return numA - numB;
+    const restA = textA.replace(/^\s*\d+\s*,?\s*/, "");
+    const restB = textB.replace(/^\s*\d+\s*,?\s*/, "");
+    return restA.localeCompare(restB);
+  }
+
+  if (numA !== null) return -1;
+  if (numB !== null) return 1;
+
+  return textA.localeCompare(textB);
+};
+
 // Reusable transformer for vocab items
 const transformVocabItem = (item) => ({
   kumpulanKategori: item.category_group?.KumpulanKategori || `${item.Kumpulan}/${item.Kategori}`,
@@ -21,9 +46,6 @@ const transformVocabItem = (item) => ({
   word: item.Word || '',
   perkataan: item.Perkataan || '',
   video: item.Video || '',
-  tag: item.Tag || '',
-  new: item.New || 'No',
-  order: item.Order || '',
   imgStatus: item.Image_Status || ''
 });
 
@@ -101,12 +123,7 @@ export const fetchVocabsByCategoryFromAPI = async (group, category) => {
     const transformedData = allData
       .map(transformVocabItem)
       // Removed filter for ALLOWED_RELEASES
-      .sort((a, b) => {
-        const aOrder = a.order ?? Infinity;
-        const bOrder = b.order ?? Infinity;
-        if (aOrder !== bOrder) return aOrder - bOrder;
-        return a.perkataan.localeCompare(b.perkataan);
-      });
+      .sort((a, b) => compareTextWithNumericPrefix(a.perkataan, b.perkataan));
 
     return transformedData;
   } catch (error) {
@@ -121,7 +138,7 @@ export const fetchNewSignsFromAPI = async () => {
     console.log("Fetching new signs");
 
     const response = await axios.get(
-      `${STRAPI_BASE_URL}/api/bims?populate=*&filters[New][$eq]=Yes`
+      `${STRAPI_BASE_URL}/api/bims?populate=*&sort=createdAt:desc&pagination[limit]=25`
     );
 
     if (!response.data?.data) {
@@ -175,7 +192,8 @@ export const getVocabsByCategory = async (group, category) => {
     }
 
     console.log("Falling back to Store data for category vocabs");
-    return Store.getVocabList(group, formatString(category));
+    const fallbackVocabs = Store.getVocabList(group, formatString(category)) || [];
+    return [...fallbackVocabs].sort((a, b) => compareTextWithNumericPrefix(a.perkataan, b.perkataan));
   }
 };
 

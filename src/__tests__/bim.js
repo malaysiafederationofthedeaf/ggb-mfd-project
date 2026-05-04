@@ -23,10 +23,7 @@ const restructureJSON = (data) => {
                 word: item.Word.toString().trim(),
                 perkataan: item.Perkataan.toString().trim(),
                 video: item.Video,
-                tag: item.Tag,
                 release: item.Release,
-                new: item.New,
-                order: item.Order,
                 sotd: item.SOTD,
                 imgStatus: item.ImageStatus,
             }
@@ -56,7 +53,6 @@ const restructureJSONGroup = (data) => {
             item.GroupCategory !== undefined && {
                 kumpulanKategori: item.KumpulanKategori.trim(),
                 groupCategory: item.GroupCategory.trim(),
-                remark: item.Remark,
             }
     );
     return reconData.filter((group) => group !== false);

@@ -29,7 +29,7 @@ const fetchCategoryData = async () => {
   while (hasMoreData) {
     try {
       const response = await axios.get(
-        `${STRAPI_BASE_URL}/api/category-groups?pagination[page]=${page}&pagination[pageSize]=90&filters[Remark][$ne]=Unpublished`
+        `${STRAPI_BASE_URL}/api/category-groups?pagination[page]=${page}&pagination[pageSize]=90`
       );
 
       // Ensure response is structured correctly
@@ -42,7 +42,6 @@ const fetchCategoryData = async () => {
       const transformedData = response.data.data.map((item) => ({
         KumpulanKategori: item.KumpulanKategori || "",
         GroupCategory: item.GroupCategory || "",
-        Remark: item.Remark || "",
       }));
 
       // Merge new data into the total dataset
@@ -90,7 +89,6 @@ const restructureJSONGroup = (data) => {
         return {
           group,
           kumpulan,
-          remark: item.Remark || "",
           groupCategory: item.GroupCategory.trim(),
           kumpulanKategori: item.KumpulanKategori.trim(),
         };
@@ -119,7 +117,6 @@ const restructureJSONGroup = (data) => {
         {
           group: "default",
           kumpulan: "default",
-          remark: null,
           groupCategory: "",
           kumpulanKategori: "",
         },
@@ -151,8 +148,7 @@ export const getGroupItems = async () => {
     .map((obj) => {
       return {
         group: obj.group || "",
-        kumpulan: obj.kumpulan || "",
-        remark: obj.remark || ""
+        kumpulan: obj.kumpulan || ""
       };
     });
     return groups;
@@ -179,8 +175,7 @@ const getCategoryItems = async () => {
         const kumpulan = obj.KumpulanKategori?.split("/")[0]?.trim() || "";
         const category = obj.GroupCategory?.split("/")[1]?.trim() || "";
         const kategori = obj.KumpulanKategori?.split("/")[1]?.trim() || "";
-        const remark = obj.remark;
-        return { group, kumpulan, category, kategori, remark };
+        return { group, kumpulan, category, kategori };
       })
     return categories;
   } catch (error) {
@@ -205,7 +200,6 @@ export const getCategoriesOfGroup = async (lang = "ms") => {
           const words = newSignsWords.map((item) => ({
             word: item.word,
             perkataan: item.perkataan,
-            new: item.new,
           }));
 
           // Sort New Signs alphabetically
