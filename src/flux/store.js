@@ -4,6 +4,7 @@ import Dispatcher from "./dispatcher";
 import Constants from "./constants";
 import getMainNavItems from "../data/main-nav-items";
 import getAlphabets from "../data/alphabets/alphabets-arrays";
+import { FEATURED_VIDEOS_PLAYLIST_ID, YOUTUBE_API_KEY, IMAGE_BASE_URL, YOUTUBE_BASE_URL } from "../config";
 
 let _store = {
   menuVisible: false,
@@ -13,10 +14,10 @@ let _store = {
   alphabets: getAlphabets(),
   languages: ["en","ms"],
   countryCode: ["gb","my"],
-  featuredVideosPlaylistId: "PLEztM-ga58Y4s6t5pac5uJKLeSSuspioQ",
-  youtubeAPIKey: "AIzaSyBIk86nsIH0h4HSEgHPLI8bku6WKQlizDk",
+  featuredVideosPlaylistId: FEATURED_VIDEOS_PLAYLIST_ID,
+  youtubeAPIKey: YOUTUBE_API_KEY,
   featuredVideos: [],
-  imageURL: "https://images.anxinbay.com/",
+  imageURL: IMAGE_BASE_URL,
 };
 
 // Shared slug for vocab images (must match Strapi lifecycles)
@@ -82,32 +83,24 @@ class Store extends EventEmitter {
 
   // Add this method to debug the store state
   logStoreState() {
-    console.log("Store state:", {
-      vocabsItems: _store.vocabsItems.length,
-      groupCategoryItems: _store.groupCategoryItems.length,
-      groupItems: _store.groupItems.length,
-      categoryItems: _store.categoryItems.length
-    });
   }
 
   // store all entries from BIM sheet
   storeExcel(value) {
-    console.log("Storing vocab items:", value.length);
+
     _store.vocabsItems = value;
     this.emit(Constants.CHANGE);
   }
 
   // store all entries from Group sheet
   storeExcelGroup(value) {
-    console.log("Storing group category items:", value.length);
+
     _store.groupCategoryItems = value;              // get all entries from Group sheet
     this.emit(Constants.CHANGE);
     _store.groupItems = this.getGroupItems();       // get groups (unique)
     _store.categoryItems = this.getCategoryItems(); // get groups and categories pair (unique)
     
-    // Log the processed data for debugging
-    console.log("Processed group items:", _store.groupItems.length);
-    console.log("Processed category items:", _store.categoryItems.length);
+    // Processed groups and categories
   }
 
   storeFeaturedVideos(value) {
@@ -144,7 +137,8 @@ class Store extends EventEmitter {
   }
 
   getFeaturedVideosPlaylistUrl() {
-    return "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId="
+    return YOUTUBE_BASE_URL
+    + "/playlistItems?part=snippet&maxResults=50&playlistId="
     + _store.featuredVideosPlaylistId
     + "&key="
     + _store.youtubeAPIKey;
@@ -209,4 +203,5 @@ class Store extends EventEmitter {
     this.removeListener(Constants.CHANGE, callback);
   }
 }
-export default new Store();
+const storeInstance = new Store();
+export default storeInstance;

@@ -1,6 +1,6 @@
-import axios from "axios";
 import { Store } from "../../flux";
-import { STRAPI_BASE_URL } from "../../config";
+import apiClient from "./client";
+import { getNewSigns } from "./alphabetAPI";
 
 // Cache mechanism
 const categoryCache = new Map();
@@ -12,7 +12,6 @@ export { categoryCache, categoryCacheTimestamps };
 
 // Utility functions
 const formatString = (str) => Store.formatString(str);
-const capitalizeFirst = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 // Reusable transformer for vocab items
 const transformVocabItem = (item) => ({
@@ -66,7 +65,7 @@ export const fetchVocabsByCategoryFromAPI = async (group, category) => {
     
     const groupCategoryPair = `${finalGroup}/${finalCategory}`;
     
-    console.log(`Fetching vocabs for group/category: ${groupCategoryPair}`);
+
 
     // Properly encode the URL parameter
     const encodedGroupCategoryPair = encodeURIComponent(groupCategoryPair);
@@ -77,10 +76,10 @@ export const fetchVocabsByCategoryFromAPI = async (group, category) => {
     let totalItems = 0;
 
     while (true) {
-      const apiUrl = `${STRAPI_BASE_URL}/api/bims?populate=*&filters[category_group][GroupCategory][$eq]=${encodedGroupCategoryPair}&pagination[page]=${page}&pagination[pageSize]=${PAGE_SIZE}`;
-      console.log(`API URL (Page ${page}): ${apiUrl}`);
+      const apiUrl = `/api/bims?populate=category_group&filters[category_group][GroupCategory][$eq]=${encodedGroupCategoryPair}&pagination[page]=${page}&pagination[pageSize]=${PAGE_SIZE}`;
 
-      const response = await axios.get(apiUrl);
+
+      const response = await apiClient.get(apiUrl);
 
       const pageData = response.data?.data ?? [];
       const meta = response.data?.meta?.pagination;
@@ -118,10 +117,10 @@ export const fetchVocabsByCategoryFromAPI = async (group, category) => {
 // Fetch new signs from API
 export const fetchNewSignsFromAPI = async () => {
   try {
-    console.log("Fetching new signs");
 
-    const response = await axios.get(
-      `${STRAPI_BASE_URL}/api/bims?populate=*&filters[New][$eq]=Yes`
+
+    const response = await apiClient.get(
+      `/api/bims?populate=category_group&filters[New][$eq]=Yes`
     );
 
     if (!response.data?.data) {
@@ -155,11 +154,10 @@ export const getVocabsByCategory = async (group, category) => {
       categoryCacheTimestamps.has(cacheKey) &&
       now - categoryCacheTimestamps.get(cacheKey) < CACHE_DURATION
     ) {
-      console.log(`Using cached data for category: ${cacheKey}`);
       return categoryCache.get(cacheKey);
     }
 
-    console.log(`Cache miss for category: ${cacheKey}, fetching from API`);
+
     const vocabs = await fetchVocabsByCategoryFromAPI(group, category);
 
     categoryCache.set(cacheKey, vocabs);
@@ -170,49 +168,14 @@ export const getVocabsByCategory = async (group, category) => {
     console.error("Error in getVocabsByCategory:", error);
 
     if (categoryCache.has(cacheKey)) {
-      console.log(`Using expired cache for category: ${cacheKey}`);
       return categoryCache.get(cacheKey);
     }
 
-    console.log("Falling back to Store data for category vocabs");
+
     return Store.getVocabList(group, formatString(category));
   }
 };
 
-// Get new signs with caching
-export const getNewSigns = async () => {
-  const cacheKey = "new-signs";
-  const now = Date.now();
-
-  try {
-    if (
-      categoryCache.has(cacheKey) &&
-      categoryCacheTimestamps.has(cacheKey) &&
-      now - categoryCacheTimestamps.get(cacheKey) < CACHE_DURATION
-    ) {
-      console.log("Using cached data for new signs");
-      return categoryCache.get(cacheKey);
-    }
-
-    console.log("Cache miss for new signs, fetching from API");
-    const newSigns = await fetchNewSignsFromAPI();
-
-    categoryCache.set(cacheKey, newSigns);
-    categoryCacheTimestamps.set(cacheKey, now);
-
-    return newSigns;
-  } catch (error) {
-    console.error("Error in getNewSigns:", error);
-
-    if (categoryCache.has(cacheKey)) {
-      console.log("Using expired cache for new signs");
-      return categoryCache.get(cacheKey);
-    }
-
-    console.log("Falling back to Store data for new signs");
-    return Store.getNewSigns();
-  }
-};
 
 // Clear category cache
 export const clearCategoryCache = (group = null, category = null) => {
@@ -220,14 +183,14 @@ export const clearCategoryCache = (group = null, category = null) => {
     const cacheKey = `${formatString(group)}/${formatString(category)}`;
     categoryCache.delete(cacheKey);
     categoryCacheTimestamps.delete(cacheKey);
-    console.log(`Cache cleared for category: ${cacheKey}`);
+
   } else if (group === "new-signs") {
     categoryCache.delete("new-signs");
     categoryCacheTimestamps.delete("new-signs");
-    console.log("New signs cache cleared");
+
   } else {
     categoryCache.clear();
     categoryCacheTimestamps.clear();
-    console.log("All category caches cleared");
+
   }
 };

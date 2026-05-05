@@ -49,18 +49,17 @@ const SignOfTheDay = ({ wordItem }) => {
 
   const [fontSize, setFontSize] = useState(getFontSize());
 
-  // setFontSize when window resizes
-  function handleResize() {
-    setFontSize(getFontSize());
-  }
-  window.addEventListener("resize", handleResize);
-
-  // setFontSize when sotd to be displayed changes (switched language)
   useEffect(() => {
+    function handleResize() {
+      setFontSize(getFontSize());
+    }
+    window.addEventListener("resize", handleResize);
     setFontSize(getFontSize());
-    return (_) => {
+    
+    return () => {
       window.removeEventListener("resize", handleResize);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [longSotd]);
 
   const groupParts = wordItem.group.includes("/")

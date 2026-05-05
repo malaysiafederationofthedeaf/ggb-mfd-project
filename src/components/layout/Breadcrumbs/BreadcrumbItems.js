@@ -2,17 +2,7 @@ import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "shards-react";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
-// Function to trim words for display
-const trimWord = (word) => {
-  const length = word.length;
-  if (length >= 45) {
-    if (word.includes('(') && word.includes(')')) {
-      word = word.substring(0, word.indexOf('(') - 1);
-    }
-  }
-  return word;
-};
+import { trimWord } from "../../../utils/stringUtils";
 
 const BreadcrumbItems = ({ vocab }) => {
   const { t } = useTranslation(["word", "group-category"]);

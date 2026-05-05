@@ -89,9 +89,9 @@ const SidebarCategoryItem = ({ item, alpha, param }) => {
                 >
                   <DropdownMenu>
                     {!isNewSign &&
-                      groupCategories.map((item1, key) => (
+                      groupCategories.map((item1) => (
                         <DropdownItem
-                          key={key}
+                          key={item1.category}
                           className={isDropDownItemActive(item1)}
                         >
                           <Link

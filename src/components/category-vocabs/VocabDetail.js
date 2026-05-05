@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Col, Row } from "shards-react";
 import ReactPlayer from "react-player";
 import { Store } from "../../flux";
+import { COMING_SOON_IMAGE_URL } from "../../config";
 import VocabWordPerkataan from "./VocabWordPerkataan";
 
 const VocabDetail = ({ vocab }) => {
@@ -64,7 +65,7 @@ const VocabDetail = ({ vocab }) => {
           <div className="selected-vocab-image-wrapper">
             {imageUrls.length === 0 ? (
               <img
-                src={`https://pub-53c2a4aa4b544b0fb5ca676a1f4675e0.r2.dev/images/bim/coming-soon.avif`}
+                src={COMING_SOON_IMAGE_URL}
                 alt={vocab.word}
                 className="selected-vocab-image"
               />
@@ -77,7 +78,7 @@ const VocabDetail = ({ vocab }) => {
                   className="selected-vocab-image"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = `https://pub-53c2a4aa4b544b0fb5ca676a1f4675e0.r2.dev/images/bim/coming-soon.avif`;
+                    e.target.src = COMING_SOON_IMAGE_URL;
                   }}
                 />
               ))

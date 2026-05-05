@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from 'react-router-dom';
 import { Container, Row, Col, Card, CardBody } from "shards-react";
+import { useTranslation } from "react-i18next";
 import cookies from "js-cookie";
 import i18next from "i18next";
 
-import ComingSoon from "./ComingSoon";
+import WordNotFound from "./WordNotFound";
 import VocabDetail from "../components/category-vocabs/VocabDetail";
 import Breadcrumbs from "../components/layout/Breadcrumbs/Breadcrumbs";
 import { getVocabDetail, findSimilarWords } from "../services/api/vocabAPI";
+import { convertToUrlFormat } from "../utils/urlFormat";
 
 const SelectedVocab = () => {
   const { vocab } = useParams();
@@ -17,59 +19,57 @@ const SelectedVocab = () => {
   const [similarWords, setSimilarWords] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { t } = useTranslation();
   const [currentLang, setCurrentLang] = useState(cookies.get("i18next") || "ms");
-  
+
   // Listen for language changes
   useEffect(() => {
     const handleLanguageChange = () => {
       const newLang = cookies.get("i18next") || "ms";
-      if (newLang !== currentLang) {
-        setCurrentLang(newLang);
-      }
+      setCurrentLang(newLang);
     };
-    
+
     i18next.on('languageChanged', handleLanguageChange);
-    
+
     return () => {
       i18next.off('languageChanged', handleLanguageChange);
     };
-  }, [currentLang]);
-  
+  }, []);
+
   // Fetch data when component mounts or vocab/language changes
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        console.log(`Fetching data for vocab: ${decodedVocab} with language: ${currentLang}`);
+        setError(null);
+
         const data = await getVocabDetail(decodedVocab);
-        
+
         if (data) {
           setCategoryVocab(data);
           setVocabDetails(data[0]);
-          console.log(`Received vocab details for: ${decodedVocab}`);
-          
+          setLoading(false);
+
           // Use the localized word based on current language for finding similar words
           const localizedWord = currentLang === "ms" ? data[0].perkataan : data[0].word;
-          console.log(`Finding similar words for localized word: ${localizedWord}`);
-          
-          const similar = await findSimilarWords(localizedWord, 5);
-          setSimilarWords(similar);
-          console.log(`Found ${similar.length} similar words`);
+
+          // Process similar words asynchronously without blocking the UI
+          findSimilarWords(localizedWord, 5)
+            .then(similar => setSimilarWords(similar))
+            .catch(console.error);
         } else {
-          console.log(`No data found for vocab: ${decodedVocab}`);
+          setLoading(false);
         }
-        
-        setLoading(false);
       } catch (err) {
         console.error("Error fetching vocab data:", err);
         setError(err);
         setLoading(false);
       }
     };
-    
+
     fetchData();
   }, [vocab, decodedVocab, currentLang]);
-  
+
   // Show loading state
   if (loading) {
     return (
@@ -83,20 +83,11 @@ const SelectedVocab = () => {
       </Container>
     );
   }
-  
-  // Show error state
-  if (error) {
-    return (
-      <Container fluid className="main-content-container px-4">
-        <div className="alert alert-danger">
-          Error loading data: {error.message}
-        </div>
-      </Container>
-    );
+
+  // Show error state or a friendly message for invalid/missing vocab URLs
+  if (error || !categoryVocab || categoryVocab.length === 0) {
+    return <WordNotFound />;
   }
-  
-  // return Error page if no Vocab Details are returned
-  if (!categoryVocab) return <ComingSoon />;
 
   return (
     <>
@@ -108,31 +99,29 @@ const SelectedVocab = () => {
         className="main-content-container vocab-list-wrapper"
       >
         <VocabDetail vocab={vocabDetails} />
-        
+
         {/* Similar Words Section */}
         {similarWords.length > 0 && (
           <Card className="mt-4">
             <CardBody>
-            <h4>{currentLang === "ms" ? "Lihat Juga" : "See Also"}</h4>
-            <Row>
-                {similarWords.map((word, idx) => {
+              <h4>{currentLang === "ms" ? "Lihat Juga" : "See Also"}</h4>
+              <Row>
+                {similarWords.map((word) => {
                   // Determine the correct routing based on the word's category/group
                   let routePath;
-                  
+
                   // If the word has category information, use the group/category route
                   if (word.groupCategory && word.groupCategory.includes('/')) {
-                    const [group, category] = word.groupCategory.split('/').map(part =>
-                      part.trim().replace(/\s+/g, '-').replace(/&/g, '-and-').replace(/\//g, '--')
-                    );
-                    routePath = `/groups/${group}/${category}/${encodeURIComponent(word.word)}`;
+                    const [group, category] = word.groupCategory.split('/').map(convertToUrlFormat);
+                    routePath = `/groups/${group}/${category}/${convertToUrlFormat(word.word)}`;
                   } else {
                     // Default to alphabet route if no category info
-                    routePath = `/alphabets/${word.word.charAt(0).toLowerCase()}/${encodeURIComponent(word.word)}`;
+                    routePath = `/alphabets/${word.word.charAt(0).toLowerCase()}/${convertToUrlFormat(word.word)}`;
                   }
-                  
+
                   return (
-                    <Col key={idx} md={4} sm={6} className="mb-3">
-                      <Link 
+                    <Col key={word.word} md={4} sm={6} className="mb-3">
+                      <Link
                         to={routePath}
                         className="similar-word-link"
                       >

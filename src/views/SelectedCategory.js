@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import i18next from "i18next";
 
 import ComingSoon from "./ComingSoon";
+import ErrorPage from "./ErrorPage";
 import PageTitle from "../components/common/PageTitle";
 import VocabList from "../components/category-vocabs/VocabList";
 import { Store } from "../flux";
@@ -12,20 +13,7 @@ import Breadcrumbs from "../components/layout/Breadcrumbs/Breadcrumbs";
 import { getVocabsByCategory } from "../services/api/selectcategoryapi";
 import { getNewSigns } from '../services/api/alphabetAPI';
 
-// Add utility function for URL to API format conversion
-const convertUrlToApiFormat = (urlString) => {
-  if (!urlString) return '';
-  
-  // First decode any URL-encoded characters
-  let decoded = decodeURIComponent(urlString);
-  
-  // Then convert URL-friendly format to API format
-  return decoded
-    .replace(/-and-/g, ' & ')   // Convert -and- to &
-    .replace(/-amp-/g, ' & ')   // Convert -amp- to &
-    .replace(/--/g, '/')        // Convert -- to /
-    .replace(/-/g, ' ');        // Convert remaining hyphens to spaces
-};
+import { convertFromUrlFormat } from "../utils/urlFormat";
 
 // Capitalize helper
 const capitalize = (str) =>
@@ -35,11 +23,11 @@ const capitalize = (str) =>
 
 const SelectedCategory = () => {
   const { group, category } = useParams();
-  
+
   // Convert URL parameters to API-friendly format
-  const apiFormattedGroup = convertUrlToApiFormat(group);
-  const apiFormattedCategory = convertUrlToApiFormat(category);
-  
+  const apiFormattedGroup = convertFromUrlFormat(group);
+  const apiFormattedCategory = convertFromUrlFormat(category);
+
   const pathTail = window.location.pathname.split("/").pop();
   const isNewSignCategory = pathTail === "new-signs";
   const groupSelected = isNewSignCategory ? pathTail : apiFormattedGroup;
@@ -48,20 +36,21 @@ const SelectedCategory = () => {
   const [currentLang, setCurrentLang] = useState(i18n.language);
   const isMalay = currentLang === "ms";
 
-  const categoryFormatted = useMemo(() => 
+  const categoryFormatted = useMemo(() =>
     Store.formatString(apiFormattedCategory), [apiFormattedCategory]);
 
   const [localizedTitle, setLocalizedTitle] = useState("");
   const [vocabs, setVocabs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [retry, setRetry] = useState(0);
 
   // Listen for language changes
   useEffect(() => {
     const handleLanguageChange = (lng) => {
       setCurrentLang(lng);
       if (!window.location.pathname.includes("/alphabets/") &&
-          !window.location.pathname.includes("/category/")) {
+        !window.location.pathname.includes("/category/")) {
         setLoading(true);
         setTimeout(() => setLoading(false), 10);
       }
@@ -78,22 +67,20 @@ const SelectedCategory = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
+        setError(null);
         let data = isNewSignCategory
           ? await getNewSigns()
           : await getVocabsByCategory(groupSelected, categoryFormatted);
 
-        console.log(`Received ${data.length} items for ${isNewSignCategory ? "new signs" : `${groupSelected}/${categoryFormatted}`}`);
-        
         // Sort data alphabetically if it's new signs
         if (isNewSignCategory && data.length > 0) {
-          data = [...data].sort((a, b) => 
-            isMalay 
+          data = [...data].sort((a, b) =>
+            isMalay
               ? a.perkataan.localeCompare(b.perkataan)
               : a.word.localeCompare(b.word)
           );
-          console.log("New signs sorted alphabetically based on current language");
         }
-        
+
         setVocabs(data);
         setLoading(false);
       } catch (err) {
@@ -104,7 +91,8 @@ const SelectedCategory = () => {
     };
 
     fetchData();
-  }, [groupSelected, categoryFormatted, isNewSignCategory, currentLang]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [groupSelected, categoryFormatted, isNewSignCategory, currentLang, retry]);
 
   // Set localized title
   useEffect(() => {
@@ -158,11 +146,12 @@ const SelectedCategory = () => {
   // Render error state
   if (error) {
     return (
-      <Container fluid className="main-content-container px-4">
-        <div className="alert alert-danger">
-          {t("errorLoadingData")}: {error.message}
-        </div>
-      </Container>
+      <ErrorPage
+        title={t("error.heading", { ns: 'translation' })}
+        body={t("error.generic", { ns: 'translation' })}
+        buttonLabel={t("error.retry", { ns: 'translation' })}
+        onButtonClick={() => setRetry(r => r + 1)}
+      />
     );
   }
 

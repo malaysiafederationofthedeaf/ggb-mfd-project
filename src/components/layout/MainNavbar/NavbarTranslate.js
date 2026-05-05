@@ -41,12 +41,6 @@ const NavbarTranslate = () => {
     // Change language
     i18next.changeLanguage(newLang);
     setFlag(newFlag);
-    
-    // Force reload if on alphabet page to refresh data
-    // For category pages, we now handle language changes in the component
-    if (window.location.pathname.includes('/alphabets/')) {
-      window.location.reload();
-    }
   };
 
   return (

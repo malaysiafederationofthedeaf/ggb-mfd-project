@@ -45,21 +45,21 @@
   "about_ggb_more": "Untuk maklumat lanjut mengenai Guidewire Gives Back, sila layari laman web Guidewire di ",
   "about_ggb_more_link": "https://careers.guidewire.com/guidewire-gives-back",
 
-  "about_vercel_title": "Vercel",
-  "about_vercel_1": "Vercel adalah platform penyebaran dan kolaborasi untuk pembangun frontend. Ini membolehkan pemaju untuk mengehoskan laman web dan perkhidmatan web yang menggunakan seketika dan skala secara automatik - semuanya tanpa konfigurasi.",
-  "about_vercel_2": "Vercel berkomitmen untuk memungkinkan penciptaan, adopsi, dan pengembangan proyek sumber terbuka. Dengan demikian, Vercel menawarkan pilihan untuk menaja projek-projek ini, yang meliputi biaya hosting sepenuhnya.",
-  "about_vercel_3": "Ribuan terima kasih kepada Vercel kerana menaja hosting projek ini yang membolehkan komuniti pekak di Malaysia mengakses Bank Isyarat BIM secara percuma.",
-  "about_vercel_more": "Untuk maklumat lanjut mengenai Vercel, sila layari ",
-  "about_vercel_more_link": "https://vercel.com/",
-
   "under_maintenance": "Dalam Penyelenggaraan",
   "be_back": "Kami akan kembali!",
   "visit_again": "Laman sedang menjalani penyelenggaraan. Sila layar kemudian.",
   "coming_soon": "Akan Datang",
   "stay_tuned": "Nantikan!",
   "new_content": "Kandungan baru tidak lama lagi.",
+  "word_not_found": "Perkataan ini tidak wujud.",
+  "try_another_word": "Sila semak pautan atau cuba perkataan lain.",
+  "page_not_found": "Halaman Tidak Ditemui",
+  "page_not_found_detail": "Halaman yang anda cari tidak wujud.",
   "go_back": "Kembali",
   "footer_item_1_title": "Hubungi Kami",
   "footer_item_2_title": "Persekutuan Orang Pekak Malaysia",
-  "footer_item_3_title": "Guidewire Gives Back"   
+  "footer_item_3_title": "Guidewire Gives Back",
+  "error": {    "heading": "Ralat telah berlaku",    "generic": "Ralat berlaku semasa memuatkan data. Sila cuba sebentar lagi.",
+    "retry": "Cuba Semula"
+  }
 }
