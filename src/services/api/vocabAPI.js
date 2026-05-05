@@ -45,19 +45,18 @@ const findVocabInAlphabetData = (vocabName) => {
 // Fetch vocab from external API
 export const fetchVocabDetailFromAPI = async (vocabName) => {
   if (!vocabName) return null;
-
-  const formatted = formatString(vocabName);
-  const capitalized = capitalizeFirstLetter(vocabName);
-  const endpoint = `${STRAPI_BASE_URL}/api/bims?populate=*&filters[Word][$containsi]=${capitalized}`;
+  const formatted = formatString(vocabName);          // slug used for exact match later
+  const searchToken = vocabName.trim();               // full word, as typed / decoded
+  const endpoint =
+    `${STRAPI_BASE_URL}/api/bims?populate=*&filters[Word][$containsi]=${encodeURIComponent(searchToken)}`;
 
   try {
     const cachedData = findVocabInAlphabetData(vocabName);
     if (cachedData) return cachedData;
-
     console.log(`Fetching "${vocabName}" from API`);
     const response = await axios.get(endpoint);
-
     const data = response.data?.data || [];
+
     const filtered = data
       .map((item) => ({
         kumpulanKategori: item.category_group?.KumpulanKategori || `${item.Kumpulan}/${item.Kategori}`,

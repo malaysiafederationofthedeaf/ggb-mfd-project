@@ -763,7 +763,7 @@ p {
     text-align: center;
     display: flex;
     justify-content: center;
-    align-items: center;    
+    align-items: flex-start;   // top-align both columns
     @media (min-width: $breakpoint-lg) {
       padding: 30px;
     }
@@ -772,6 +772,10 @@ p {
     }    
     .selected-vocab-image-wrapper{
       max-width: 100%;
+      display: flex;
+      flex-direction: column;   // stack images vertically
+      align-items: center;      // optional: center images horizontally
+
       .selected-vocab-image {
         max-height: 350px;
         max-width: inherit;
