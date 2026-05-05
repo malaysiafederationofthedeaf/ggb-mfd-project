@@ -9,17 +9,7 @@ import GroupList from "../components/category-vocabs/GroupList";
 import Breadcrumbs from "../components/layout/Breadcrumbs/Breadcrumbs";
 import { getCategoriesOfGroup, getGroupList} from "../services/api/categoryAPI";
 import { Store } from "../flux";
-
-// Add a utility function to convert between URL format and API format
-const convertUrlToApiFormat = (urlString) => {
-  if (!urlString) return '';
-  // Convert hyphens back to spaces for API queries
-  return decodeURIComponent(urlString)
-    .replace(/-and-/g, ' & ')   // Convert -and- to &
-    .replace(/-amp-/g, ' & ')   // Convert -amp- to &
-    .replace(/--/g, '/')        // Convert -- to /
-    .replace(/-/g, ' ');        // Convert remaining hyphens to spaces
-};
+import { convertFromUrlFormat } from "../utils/urlFormat";
 
 const SelectedGroup = () => {
   const { group } = useParams();
@@ -31,7 +21,7 @@ const SelectedGroup = () => {
   const isMalay = i18n.language === "ms";
   
   // Convert URL parameter to API-friendly format
-  const apiFormattedGroup = convertUrlToApiFormat(group);
+  const apiFormattedGroup = convertFromUrlFormat(group);
 
   useEffect(() => {
     const fetchData = async () => {

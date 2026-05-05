@@ -4,17 +4,20 @@ import { Navigate } from "react-router-dom";
 // Layout Types
 import { DefaultLayout, SideCategoryLayout } from "./layouts";
 
+import { lazy } from "react";
+
 // Route Views
-import ComingSoon from "./views/ComingSoon";
-import UnderMaintenance from "./views/UnderMaintenance";
-import AboutUs from "./views/AboutUs";
-import Home from "./views/Home";
-import BrowseByCategory from "./views/BrowseByCategory";
-import SelectedGroup from "./views/SelectedGroup";
-import SelectedCategory from "./views/SelectedCategory";
-import SelectedVocab from "./views/SelectedVocab";
-import SelectedAlphabets from "./views/SelectedAlphabet";
-import FeaturedVideos from "./views/FeaturedVideos";
+const ComingSoon = lazy(() => import("./views/ComingSoon"));
+const UnderMaintenance = lazy(() => import("./views/UnderMaintenance"));
+const AboutUs = lazy(() => import("./views/AboutUs"));
+const Home = lazy(() => import("./views/Home"));
+const BrowseByCategory = lazy(() => import("./views/BrowseByCategory"));
+const SelectedGroup = lazy(() => import("./views/SelectedGroup"));
+const SelectedCategory = lazy(() => import("./views/SelectedCategory"));
+const SelectedVocab = lazy(() => import("./views/SelectedVocab"));
+const SelectedAlphabets = lazy(() => import("./views/SelectedAlphabet"));
+const FeaturedVideos = lazy(() => import("./views/FeaturedVideos"));
+const NotFound = lazy(() => import("./views/NotFound"));
 
 
 const routes = [
@@ -93,7 +96,11 @@ const routes = [
     layout: DefaultLayout,
     component: FeaturedVideos,
   },
-  
+  {
+    path: "*",
+    layout: DefaultLayout,
+    component: NotFound,
+  },
 ];
 
 export default routes;

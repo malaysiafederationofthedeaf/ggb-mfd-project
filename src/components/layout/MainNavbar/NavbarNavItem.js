@@ -28,8 +28,8 @@ const NavbarNavItem = ({ item, closeNavbar }) => {
         </DropdownToggle>
         <DropdownMenu>
         {
-          item.items.map((item, key) => (
-            <DropdownItem className="navbar-menu-item" key={key}>
+          item.items.map((item) => (
+            <DropdownItem className="navbar-menu-item" key={item.to || item.title}>
               <NavLink tag={(props) => <RouteNavLink {...props} />} to={item.to} onClick={() => setTimeout(() => closeNavbar?.(), 15)}>
                 {t(item.title) && <span>{t(item.title)}</span>}
               </NavLink>

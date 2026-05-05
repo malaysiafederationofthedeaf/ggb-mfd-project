@@ -5,8 +5,8 @@ import GroupDetail from "./GroupDetail";
 const GroupList = ({categories, group}) => {
   return(
       <Row>
-        {categories.map((category, key) => (
-          <GroupDetail category={category} group={group} key={key} />
+        {categories.map((category) => (
+          <GroupDetail category={category} group={group} key={category.category} />
         ))}
       </Row>        
   );

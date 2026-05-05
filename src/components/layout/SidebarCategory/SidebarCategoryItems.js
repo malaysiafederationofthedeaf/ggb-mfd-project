@@ -41,13 +41,13 @@ class SidebarCategoryItems extends React.Component {
     return (
       <div className="sidebar-category m-0">
         {!this.props.param
-          ? items.map((item, key) => (
-              <ul key={key}>
+          ? items.map((item) => (
+              <ul key={item.group}>
                 <SidebarCategoryItem item={item} />
               </ul>
             ))
-          : alphas.map((alpha, key) => (
-            <ul key={key}>
+          : alphas.map((alpha) => (
+            <ul key={alpha}>
               <SidebarCategoryItem alpha={alpha} param={this.props.param} />
             </ul>
           ))

@@ -1,10 +1,8 @@
-import axios from "axios";
 import cookies from "js-cookie";
 import { Store } from "../../flux";
-import { STRAPI_BASE_URL } from "../../config";
+import apiClient from "./client";
 
 // Utility functions
-const formatString = (str) => Store.formatString(str);
 
 const getCurrentLocale = () => cookies.get("i18next") || "en";
 
@@ -19,8 +17,8 @@ export const fetchVocabData = async () => {
 
   while (hasMoreData) {
     try {
-      const response = await axios.get(
-        `${STRAPI_BASE_URL}/api/bims?populate=*&pagination[page]=${page}&pagination[pageSize]=25`
+      const response = await apiClient.get(
+        `/api/bims?populate=category_group&pagination[page]=${page}&pagination[pageSize]=25`
       );
 
       if (!response.data?.data) {
@@ -40,6 +38,7 @@ export const fetchVocabData = async () => {
           perkataan: item.Perkataan || "",
           video: item.Video || "",
           imgStatus: item.Image_Status || "",
+          exampleSentence: item.Example_Sentence || "",
         };
       });
 
@@ -64,6 +63,7 @@ export const fetchVocabData = async () => {
       perkataan: item.perkataan.toString().trim(),
       video: item.video,
       imgStatus: item.imgStatus,
+      exampleSentence: item.exampleSentence || "",
     }))
     .sort((a, b) =>
       getCurrentLocale() === "ms"
@@ -74,6 +74,7 @@ export const fetchVocabData = async () => {
   return processedData;
 };
 
+// Alphabet-specific caching
 const CACHE_DURATION = 5 * 60 * 1000;
 
 export const alphabetCache = new Map();
@@ -84,36 +85,35 @@ export const getVocabsByAlphabet = async (alphabetFirst) => {
 
   try {
     const now = Date.now();
+    const locale = getCurrentLocale();
+    const cacheKey = `${locale}-${alphabetFirst.toLowerCase()}`;
 
     if (
-      alphabetCache.has(alphabetFirst) &&
-      alphabetCacheTimestamps.has(alphabetFirst) &&
-      now - alphabetCacheTimestamps.get(alphabetFirst) < CACHE_DURATION
+      alphabetCache.has(cacheKey) &&
+      alphabetCacheTimestamps.has(cacheKey) &&
+      now - alphabetCacheTimestamps.get(cacheKey) < CACHE_DURATION
     ) {
-      console.log(`Using cached data for alphabet: ${alphabetFirst}`);
-      return alphabetCache.get(alphabetFirst);
+      return alphabetCache.get(cacheKey);
     }
 
-    console.log(`Cache miss for alphabet: ${alphabetFirst}, fetching from API`);
     const vocabAlpha = await fetchVocabsByAlphabetFromAPI(alphabetFirst);
 
-    alphabetCache.set(alphabetFirst, vocabAlpha);
-    alphabetCacheTimestamps.set(alphabetFirst, now);
+    alphabetCache.set(cacheKey, vocabAlpha);
+    alphabetCacheTimestamps.set(cacheKey, now);
 
     return vocabAlpha;
   } catch (error) {
     console.error("Error in getVocabsByAlphabet:", error);
 
-    if (alphabetCache.has(alphabetFirst)) {
-      console.log(
-        `Using expired cache for alphabet: ${alphabetFirst} due to error`
-      );
-      return alphabetCache.get(alphabetFirst);
+    const locale = getCurrentLocale();
+    const cacheKey = `${locale}-${alphabetFirst.toLowerCase()}`;
+
+    if (alphabetCache.has(cacheKey)) {
+      return alphabetCache.get(cacheKey);
     }
 
     const storeVocabs = Store.getVocabsItems();
     if (storeVocabs && storeVocabs.length > 0) {
-      console.log("Falling back to Store data");
       return getVocabsFromStore(alphabetFirst, storeVocabs);
     }
 
@@ -123,13 +123,13 @@ export const getVocabsByAlphabet = async (alphabetFirst) => {
 
 export const clearAlphabetCache = (alphabetFirst = null) => {
   if (alphabetFirst) {
-    alphabetCache.delete(alphabetFirst);
-    alphabetCacheTimestamps.delete(alphabetFirst);
-    console.log(`Cache cleared for alphabet: ${alphabetFirst}`);
+    const locale = getCurrentLocale();
+    const cacheKey = `${locale}-${alphabetFirst.toLowerCase()}`;
+    alphabetCache.delete(cacheKey);
+    alphabetCacheTimestamps.delete(cacheKey);
   } else {
     alphabetCache.clear();
     alphabetCacheTimestamps.clear();
-    console.log("All caches cleared");
   }
 };
 
@@ -143,14 +143,12 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
   const fieldToFilter = locale === "ms" ? "Perkataan" : "Word";
   const uppercaseAlphabet = alphabetFirst.toUpperCase();
 
-  console.log(
-    `Fetching data with filter: ${fieldToFilter} starts with ${uppercaseAlphabet}`
-  );
-
   while (hasMoreData) {
     try {
-      const response = await axios.get(
-        `${STRAPI_BASE_URL}/api/bims?populate=*&pagination[page]=${page}&pagination[pageSize]=25&filters[${fieldToFilter}][$startsWith]=${uppercaseAlphabet}`
+      const response = await apiClient.get(
+        `/api/bims?populate=category_group&pagination[page]=${page}&pagination[pageSize]=100&filters[${fieldToFilter}][$startsWith]=${encodeURIComponent(
+          uppercaseAlphabet
+        )}`
       );
 
       if (!response.data?.data) {
@@ -170,6 +168,7 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
           perkataan: item.Perkataan || "",
           video: item.Video || "",
           imgStatus: item.Image_Status || "",
+          exampleSentence: item.Example_Sentence || "",
         };
       });
 
@@ -194,6 +193,7 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
       perkataan: item.perkataan.toString().trim(),
       video: item.video,
       imgStatus: item.imgStatus,
+      exampleSentence: item.exampleSentence || "",
     }))
     // Removed release filtering
     .sort((a, b) =>
@@ -202,35 +202,32 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
         : a.word.localeCompare(b.word)
     );
 
-  console.log(
-    `API returned ${processedData.length} items for ${uppercaseAlphabet}`
-  );
   return processedData;
 };
 
+let newSignsPromise = null;
+
 // Get new signs - fixed implementation with proper caching
 export const getNewSigns = async () => {
+  const cacheKey = "new-signs";
+  const now = Date.now();
+
   try {
     // Check if we have cached data for new signs
-    const now = Date.now();
-    const cacheKey = "new-signs";
-
     if (
       alphabetCache.has(cacheKey) &&
       alphabetCacheTimestamps.has(cacheKey) &&
       now - alphabetCacheTimestamps.get(cacheKey) < CACHE_DURATION
     ) {
-      console.log(`Using cached data for new signs`);
       return alphabetCache.get(cacheKey);
     }
 
-    console.log(`Cache miss for new signs, fetching from API`);
+    if (newSignsPromise) {
+      return newSignsPromise;
+    }
 
-    const locale = getCurrentLocale();
-
-    const response = await axios.get(
-      `${STRAPI_BASE_URL}/api/bims?populate=*&sort=createdAt:desc&pagination[limit]=25`
-    );
+    newSignsPromise = (async () => {
+      const locale = getCurrentLocale();
 
     const transformedData = response.data.data.map((item) => {
       const categoryGroup = item.category_group || {};
@@ -266,25 +263,69 @@ export const getNewSigns = async () => {
           : a.word.localeCompare(b.word)
       );
 
-    // Store in cache
-    alphabetCache.set(cacheKey, processedData);
-    alphabetCacheTimestamps.set(cacheKey, now);
+      const transformedData = response.data.data.map((item) => {
+        const categoryGroup = item.category_group || {};
+        return {
+          kumpulanKategori:
+            categoryGroup.KumpulanKategori ||
+            `${item.Kumpulan}/${item.Kategori}`,
+          groupCategory:
+            categoryGroup.GroupCategory || `${item.Group}/${item.Category}`,
+          word: item.Word || "",
+          perkataan: item.Perkataan || "",
+          video: item.Video || "",
+          tag: item.Tag || "",
+          new: item.New || "No",
+          order: item.Order || "",
+          imgStatus: item.Image_Status || "",
+          exampleSentence: item.Example_Sentence || "",
+        };
+      });
 
-    console.log(
-      `API returned ${processedData.length} new sign items, sorted alphabetically`
-    );
-    return processedData;
+      const processedData = transformedData
+        .map((item) => ({
+          kumpulanKategori: item.kumpulanKategori
+            .toString()
+            .replaceAll(/(\r\n|\n|\r)/gm, ""),
+          groupCategory: item.groupCategory
+            .toString()
+            .replaceAll(/(\r\n|\n|\r)/gm, ""),
+          word: item.word.toString().trim(),
+          perkataan: item.perkataan.toString().trim(),
+          video: item.video,
+          tag: item.tag,
+          new: item.new,
+          order: item.order,
+          imgStatus: item.imgStatus,
+          exampleSentence: item.exampleSentence || "",
+        }))
+        // Additional client-side sorting to ensure correct alphabetical order
+        .sort((a, b) =>
+          locale === "ms"
+            ? a.perkataan.localeCompare(b.perkataan)
+            : a.word.localeCompare(b.word)
+        );
+
+      // Store in cache
+      alphabetCache.set(cacheKey, processedData);
+      alphabetCacheTimestamps.set(cacheKey, Date.now());
+
+      return processedData;
+    })();
+
+    const result = await newSignsPromise;
+    return result;
   } catch (error) {
     console.error("Error in getNewSigns:", error);
 
     // Check if we have cached data even if it's expired
-    const cacheKey = "new-signs";
     if (alphabetCache.has(cacheKey)) {
-      console.log(`Using expired cache for new signs due to error`);
       return alphabetCache.get(cacheKey);
     }
 
     return [];
+  } finally {
+    newSignsPromise = null;
   }
 };
 
