@@ -3,6 +3,7 @@ import levenshtein from "js-levenshtein";
 import { Store } from "../../flux";
 import { alphabetCache, alphabetCacheTimestamps } from "./alphabetAPI";
 import { API_BASE } from "./config";
+import apiClient from "./client";
 
 // Utility: Format string using Store method
 const formatString = (str) => Store.formatString(str);
@@ -26,7 +27,7 @@ const findVocabInAlphabetData = (vocabName) => {
   const firstLetter = formatted.charAt(0);
 
   if (alphabetCache?.has(firstLetter)) {
-    console.log(`Looking for "${vocabName}" in alphabet cache [${firstLetter}]`);
+
 
     const entries = alphabetCache.get(firstLetter);
     const matches = entries.filter(
@@ -34,7 +35,7 @@ const findVocabInAlphabetData = (vocabName) => {
     );
 
     if (matches.length > 0) {
-      console.log(`Found "${vocabName}" in alphabet cache`);
+
       return matches;
     }
   }
@@ -84,10 +85,10 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
           !formatString(entry.word).localeCompare(formatted)
       );
 
-    return filtered.length > 0 ? filtered : null;
+    return filtered.length > 0 ? filtered : [];
   } catch (error) {
     console.error("API error while fetching vocab:", error);
-    return null;
+    return [];
   }
 };
 
@@ -104,7 +105,7 @@ export const getVocabDetail = async (vocabName) => {
       vocabCacheTimestamps.has(vocabName) &&
       now - vocabCacheTimestamps.get(vocabName) < CACHE_DURATION
     ) {
-      console.log(`Using cached vocab: "${vocabName}"`);
+
       return vocabCache.get(vocabName);
     }
 
@@ -124,27 +125,31 @@ export const getVocabDetail = async (vocabName) => {
     }
 
     // Fetch from API
-    console.log(`Cache miss for "${vocabName}", querying API...`);
+
     const fetched = await fetchVocabDetailFromAPI(vocabName);
 
-    if (fetched) {
+    if (fetched && fetched.length > 0) {
       vocabCache.set(vocabName, fetched);
       vocabCacheTimestamps.set(vocabName, now);
+      return fetched;
     }
+    
+    // Last-resort fallback to Store
 
-    return fetched;
+    const storeData = Store.getVocabDetail(vocabName);
+    return storeData || [];
   } catch (err) {
     console.error(`Failed to get vocab: "${vocabName}"`, err);
 
     // Fallback to stale cache if available
     if (vocabCache.has(vocabName)) {
-      console.log(`Using stale cache for "${vocabName}"`);
+
       return vocabCache.get(vocabName);
     }
 
-    // Last-resort fallback to Store
-    console.log(`Falling back to Store for "${vocabName}"`);
-    return Store.getVocabDetail(vocabName);
+
+    const storeData = Store.getVocabDetail(vocabName);
+    return storeData || [];
   }
 };
 
@@ -153,11 +158,11 @@ export const clearVocabCache = (vocabName = null) => {
   if (vocabName) {
     vocabCache.delete(vocabName);
     vocabCacheTimestamps.delete(vocabName);
-    console.log(`Cleared cache for: "${vocabName}"`);
+
   } else {
     vocabCache.clear();
     vocabCacheTimestamps.clear();
-    console.log("Cleared all vocab caches");
+
   }
 };
 

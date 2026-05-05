@@ -19,8 +19,8 @@ class NavbarNavItems extends React.Component {
     return (
       <>
         {
-          items.map((item, key) => (
-            <NavbarNavItem key={key} item={item} closeNavbar={closeNavbar}/>
+          items.map((item) => (
+            <NavbarNavItem key={item.to || item.title} item={item} closeNavbar={closeNavbar}/>
           ))
         }
       </>
