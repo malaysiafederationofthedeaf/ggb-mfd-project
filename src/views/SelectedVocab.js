@@ -98,8 +98,8 @@ const SelectedVocab = () => {
         fluid
         className="main-content-container vocab-list-wrapper"
       >
-        <VocabDetail vocab={vocabDetails} />
-
+        <VocabDetail vocab={vocabDetails} currentLang={currentLang} />
+        
         {/* Similar Words Section */}
         {similarWords.length > 0 && (
           <Card className="mt-4">

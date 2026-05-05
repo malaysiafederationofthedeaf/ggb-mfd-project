@@ -41,6 +41,7 @@ export const fetchVocabData = async () => {
           new: item.New || "No",
           order: item.Order || "",
           imgStatus: item.Image_Status || "",
+          exampleSentence: item.Example_Sentence || "",
         };
       });
 
@@ -68,6 +69,7 @@ export const fetchVocabData = async () => {
       new: item.new,
       order: item.order,
       imgStatus: item.imgStatus,
+      exampleSentence: item.exampleSentence || "",
     }))
     // Removed release filtering
     .sort((a, b) => a.kumpulanKategori.localeCompare(b.kumpulanKategori));
@@ -94,10 +96,8 @@ export const getVocabsByAlphabet = async (alphabetFirst) => {
       alphabetCacheTimestamps.has(cacheKey) &&
       now - alphabetCacheTimestamps.get(cacheKey) < CACHE_DURATION
     ) {
-
       return alphabetCache.get(cacheKey);
     }
-
 
     const vocabAlpha = await fetchVocabsByAlphabetFromAPI(alphabetFirst);
 
@@ -107,18 +107,16 @@ export const getVocabsByAlphabet = async (alphabetFirst) => {
     return vocabAlpha;
   } catch (error) {
     console.error("Error in getVocabsByAlphabet:", error);
-    
+
     const locale = getCurrentLocale();
     const cacheKey = `${locale}-${alphabetFirst.toLowerCase()}`;
 
     if (alphabetCache.has(cacheKey)) {
-
       return alphabetCache.get(cacheKey);
     }
 
     const storeVocabs = Store.getVocabsItems();
     if (storeVocabs && storeVocabs.length > 0) {
-
       return getVocabsFromStore(alphabetFirst, storeVocabs);
     }
 
@@ -132,7 +130,6 @@ export const clearAlphabetCache = (alphabetFirst = null) => {
     const cacheKey = `${locale}-${alphabetFirst.toLowerCase()}`;
     alphabetCache.delete(cacheKey);
     alphabetCacheTimestamps.delete(cacheKey);
-
   } else {
     alphabetCache.clear();
     alphabetCacheTimestamps.clear();
@@ -149,12 +146,12 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
   const fieldToFilter = locale === "ms" ? "Perkataan" : "Word";
   const uppercaseAlphabet = alphabetFirst.toUpperCase();
 
-
-
   while (hasMoreData) {
     try {
       const response = await apiClient.get(
-        `/api/bims?populate=category_group&pagination[page]=${page}&pagination[pageSize]=100&filters[${fieldToFilter}][$startsWith]=${encodeURIComponent(uppercaseAlphabet)}`
+        `/api/bims?populate=category_group&pagination[page]=${page}&pagination[pageSize]=100&filters[${fieldToFilter}][$startsWith]=${encodeURIComponent(
+          uppercaseAlphabet
+        )}`
       );
 
       if (!response.data?.data) {
@@ -177,6 +174,7 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
           new: item.New || "No",
           order: item.Order || "",
           imgStatus: item.Image_Status || "",
+          exampleSentence: item.Example_Sentence || "",
         };
       });
 
@@ -204,6 +202,7 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
       new: item.new,
       order: item.order,
       imgStatus: item.imgStatus,
+      exampleSentence: item.exampleSentence || "",
     }))
     // Removed release filtering
     .sort((a, b) =>
@@ -211,7 +210,6 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
         ? a.perkataan.localeCompare(b.perkataan)
         : a.word.localeCompare(b.word)
     );
-
 
   return processedData;
 };
@@ -248,7 +246,8 @@ export const getNewSigns = async () => {
         const categoryGroup = item.category_group || {};
         return {
           kumpulanKategori:
-            categoryGroup.KumpulanKategori || `${item.Kumpulan}/${item.Kategori}`,
+            categoryGroup.KumpulanKategori ||
+            `${item.Kumpulan}/${item.Kategori}`,
           groupCategory:
             categoryGroup.GroupCategory || `${item.Group}/${item.Category}`,
           word: item.Word || "",
@@ -258,6 +257,7 @@ export const getNewSigns = async () => {
           new: item.New || "No",
           order: item.Order || "",
           imgStatus: item.Image_Status || "",
+          exampleSentence: item.Example_Sentence || "",
         };
       });
 
@@ -276,6 +276,7 @@ export const getNewSigns = async () => {
           new: item.new,
           order: item.order,
           imgStatus: item.imgStatus,
+          exampleSentence: item.exampleSentence || "",
         }))
         // Additional client-side sorting to ensure correct alphabetical order
         .sort((a, b) =>
