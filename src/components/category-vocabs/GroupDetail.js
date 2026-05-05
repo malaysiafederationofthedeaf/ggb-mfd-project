@@ -26,7 +26,7 @@ const GroupDetail = ({ category, group }) => {
     getImageWithFallback(categoryImgSrc, fallback, (resolvedURL) => {
       setBgImage(resolvedURL);
     });
-  }, [categoryImgSrc]);
+  }, [categoryImgSrc, fallback]);
 
   return (
     <Col lg="6" sm="12">

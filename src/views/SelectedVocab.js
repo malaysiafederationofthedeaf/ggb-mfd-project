@@ -13,8 +13,7 @@ import { convertToUrlFormat } from "../utils/urlFormat";
 
 const SelectedVocab = () => {
   const { vocab } = useParams();
-  // Decode the URL parameter to handle words with spaces
-  const decodedVocab = decodeURIComponent(vocab.replace(/-/g, ' '));
+  const decodedVocab = decodeURIComponent(vocab);
   const [categoryVocab, setCategoryVocab] = useState(null);
   const [vocabDetails, setVocabDetails] = useState(null);
   const [similarWords, setSimilarWords] = useState([]);

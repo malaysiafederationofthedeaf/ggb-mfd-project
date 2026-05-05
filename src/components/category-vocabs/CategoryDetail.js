@@ -17,8 +17,10 @@ const CategoryDetail = ({ categoryItem, group, groupKey, noOfCard }) => {
   const isMalay = i18n.language === "ms";
   const groupFormatted = Store.formatString(groupKey);
   const categoryFormatted = Store.formatString(categoryItem.category);
-  const basePath = `/groups/${groupFormatted}`
-  const linkToPath = categoryItem.new ? `${basePath}/${Store.formatString(categoryItem.word)}` : `${basePath}/${categoryFormatted}`;
+  const basePath = `/groups/${groupFormatted}`;
+  const linkToPath = categoryItem.new
+    ? `${basePath}/${encodeURIComponent(categoryItem.word)}`
+    : `${basePath}/${categoryFormatted}`;
   const imgSrc = categoryItem.new ? Store.getSignImgSrc(categoryItem.perkataan) : Store.getCategoryImgSrc(categoryItem.kategori);
   const fallback = COMING_SOON_IMAGE_URL;
   const [bgImage, setBgImage] = useState("");

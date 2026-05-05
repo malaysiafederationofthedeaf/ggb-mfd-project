@@ -6,6 +6,7 @@ import { Store } from "../../flux";
 import { COMING_SOON_IMAGE_URL } from "../../config";
 import VocabWordPerkataan from "./VocabWordPerkataan";
 import { trimWord } from "../../utils/stringUtils";
+import LazyImage from "../common/LazyImage";
 
 const VocabList = ({ vocabs, group, category }) => {
   // Shared trimWord utility is used when passing props to VocabWordPerkataan
@@ -21,9 +22,11 @@ const VocabList = ({ vocabs, group, category }) => {
 
         const groupFormatted = Store.formatString(groupTitle);
         const categoryFormatted = Store.formatString(categoryTitle);
-        const wordFormatted = Store.formatString(vocab.word);
-        const basePath = `/groups/${groupFormatted}`
-        const linkToPath = groupFormatted === "new-signs" ? `${basePath}/${wordFormatted}` : `${basePath}/${categoryFormatted}/${wordFormatted}`;
+        const vocabParam = encodeURIComponent(vocab.word);
+        const basePath = `/groups/${groupFormatted}`;
+        const linkToPath = groupFormatted === "new-signs"
+          ? `${basePath}/${vocabParam}`
+          : `${basePath}/${categoryFormatted}/${vocabParam}`;
 
         return (
           <Link
@@ -33,7 +36,7 @@ const VocabList = ({ vocabs, group, category }) => {
             <ListGroupItem className="double">
               <Row className="vocab-word">
                 <Col className="vocab-image-wrapper">
-                  <img
+                  <LazyImage
                     src={vocabImgSrc}
                     alt={vocab.word}
                     className="vocab-image"

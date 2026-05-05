@@ -46,7 +46,8 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
   if (!vocabName) return null;
 
   const formatted = formatString(vocabName);
-  const capitalized = capitalizeFirstLetter(vocabName);
+  const raw = vocabName.trim();
+  const capitalized = capitalizeFirstLetter(raw);
   const endpoint = `/api/bims?populate=category_group&filters[Word][$containsi]=${encodeURIComponent(capitalized)}`;
 
   try {
@@ -57,23 +58,28 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
     const response = await apiClient.get(endpoint);
 
     const data = response.data?.data || [];
+
     const filtered = data
-      .map((item) => ({
-        kumpulanKategori: item.category_group?.KumpulanKategori || `${item.Kumpulan}/${item.Kategori}`,
-        groupCategory: item.category_group?.GroupCategory || `${item.Group}/${item.Category}`,
-        word: item.Word || '',
-        perkataan: item.Perkataan || '',
-        video: item.Video || '',
-        tag: item.Tag || '',
-        new: item.New || 'No',
-        order: item.Order || '',
-        imgStatus: item.Image_Status || ''
-      }))
-      .filter(
-        (entry) =>
-          // Removed release filtering
-          !formatString(entry.word).localeCompare(formatted)
-      );
+      .map((item) => {
+        const mapped = {
+          kumpulanKategori: item.category_group?.KumpulanKategori || `${item.Kumpulan}/${item.Kategori}`,
+          groupCategory:    item.category_group?.GroupCategory       || `${item.Group}/${item.Category}`,
+          word:             item.Word        || "",
+          perkataan:        item.Perkataan   || "",
+          video:            item.Video       || "",
+          tag:              item.Tag         || "",
+          new:              item.New         || "No",
+          order:            item.Order       || "",
+          imgStatus:        item.Image_Status || ""
+        };
+        console.log("API mapped vocab:", {
+          word: mapped.word,
+          perkataan: mapped.perkataan,
+          imagesCount: Array.isArray(mapped.images) ? mapped.images.length : (mapped.images ? 1 : 0),
+        });
+        return mapped;
+      })
+      .filter((entry) => !formatString(entry.word).localeCompare(formatted));
 
     return filtered.length > 0 ? filtered : [];
   } catch (error) {
