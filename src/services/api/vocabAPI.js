@@ -1,5 +1,5 @@
 import axios from "axios";
-import levenshtein from 'js-levenshtein';
+import levenshtein from "js-levenshtein";
 import { Store } from "../../flux";
 import { alphabetCache, alphabetCacheTimestamps } from "./alphabetAPI";
 import { API_BASE } from "./config";
@@ -9,7 +9,7 @@ const formatString = (str) => Store.formatString(str);
 
 // Utility: Capitalize the first letter
 const capitalizeFirstLetter = (string) => {
-  if (!string) return '';
+  if (!string) return "";
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
@@ -48,7 +48,11 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
 
   const formatted = formatString(vocabName);
   const capitalized = capitalizeFirstLetter(vocabName);
-  const endpoint = `${API_BASE}/api/bims?populate=*&filters[$or][0][Word][$containsi]=${encodeURIComponent(capitalized)}&filters[$or][1][Perkataan][$containsi]=${encodeURIComponent(capitalized)}`;
+  const endpoint = `${API_BASE}/api/bims?populate=*&filters[$or][0][Word][$containsi]=${encodeURIComponent(
+    capitalized
+  )}&filters[$or][1][Perkataan][$containsi]=${encodeURIComponent(
+    capitalized
+  )}`;
 
   try {
     const cachedData = findVocabInAlphabetData(vocabName);
@@ -56,24 +60,27 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
 
     console.log(`Fetching "${vocabName}" from API`);
     const response = await axios.get(endpoint);
-
     const data = response.data?.data || [];
+
     const filtered = data
       .map((item) => ({
-        kumpulanKategori: item.category_group?.KumpulanKategori || `${item.Kumpulan}/${item.Kategori}`,
-        groupCategory: item.category_group?.GroupCategory || `${item.Group}/${item.Category}`,
-        word: item.Word || '',
-        perkataan: item.Perkataan || '',
-        video: item.Video || '',
-        tag: item.Tag || '',
-        new: item.New || 'No',
-        order: item.Order || '',
-        imgStatus: item.Image_Status || '',
-        exampleSentence: item.Example_Sentence || ''
+        kumpulanKategori:
+          item.category_group?.KumpulanKategori ||
+          `${item.Kumpulan}/${item.Kategori}`,
+        groupCategory:
+          item.category_group?.GroupCategory ||
+          `${item.Group}/${item.Category}`,
+        word: item.Word || "",
+        perkataan: item.Perkataan || "",
+        video: item.Video || "",
+        tag: item.Tag || "",
+        new: item.New || "No",
+        order: item.Order || "",
+        imgStatus: item.Image_Status || "",
+        exampleSentence: item.Example_Sentence || "",
       }))
       .filter(
         (entry) =>
-          // Removed release filtering
           !formatString(entry.word).localeCompare(formatted)
       );
 
@@ -105,13 +112,15 @@ export const getVocabDetail = async (vocabName) => {
     const alphabetData = findVocabInAlphabetData(vocabName);
     if (alphabetData) {
       // If the cached entry lacks an exampleSentence, ignore it and fetch fresh
-      const hasExample = alphabetData.some(item => item.exampleSentence);
+      const hasExample = alphabetData.some((item) => item.exampleSentence);
       if (hasExample) {
         vocabCache.set(vocabName, alphabetData);
         vocabCacheTimestamps.set(vocabName, now);
         return alphabetData;
       }
-      console.log(`Alphabet cache for "${vocabName}" missing Example_Sentence – fetching fresh`);
+      console.log(
+        `Alphabet cache for "${vocabName}" missing Example_Sentence – fetching fresh`
+      );
     }
 
     // Fetch from API
@@ -155,36 +164,31 @@ export const clearVocabCache = (vocabName = null) => {
 // Find similar words based on the given vocab using Levenshtein distance
 export const findSimilarWords = async (vocabName, limit = 5) => {
   if (!vocabName) return [];
-  
+
   try {
-    // Get the first letter of the vocab to check the alphabet cache
     const formatted = formatString(vocabName);
     const firstLetter = formatted.charAt(0);
-    
-    // Try to get words from the same alphabet first
+
     let wordsFromSameAlphabet = [];
-    
+
     if (alphabetCache.has(firstLetter)) {
       wordsFromSameAlphabet = alphabetCache.get(firstLetter);
     } else {
-      // If not in cache, fetch from API
-      const { getVocabsByAlphabet } = require('./alphabetAPI');
+      const { getVocabsByAlphabet } = require("./alphabetAPI");
       wordsFromSameAlphabet = await getVocabsByAlphabet(firstLetter);
     }
-    
-    // Calculate Levenshtein distance for each word
+
     const scoredWords = wordsFromSameAlphabet
-      .filter(item => formatString(item.word) !== formatted) // Exclude the current word
-      .map(item => ({
-        ...item, // Keep all original properties
-        score: levenshtein(formatString(item.word), formatted)
+      .filter((item) => formatString(item.word) !== formatted)
+      .map((item) => ({
+        ...item,
+        score: levenshtein(formatString(item.word), formatted),
       }));
 
-    // Sort by similarity score (lower is better)
     const similarWords = scoredWords
       .sort((a, b) => a.score - b.score)
       .slice(0, limit);
-      
+
     return similarWords;
   } catch (err) {
     console.error(`Failed to find similar words for: "${vocabName}"`, err);

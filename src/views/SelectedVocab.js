@@ -11,8 +11,7 @@ import { getVocabDetail, findSimilarWords } from "../services/api/vocabAPI";
 
 const SelectedVocab = () => {
   const { vocab } = useParams();
-  // Decode the URL parameter to handle words with spaces
-  const decodedVocab = decodeURIComponent(vocab.replace(/-/g, ' '));
+  const decodedVocab = decodeURIComponent(vocab);
   const [categoryVocab, setCategoryVocab] = useState(null);
   const [vocabDetails, setVocabDetails] = useState(null);
   const [similarWords, setSimilarWords] = useState([]);
@@ -122,13 +121,13 @@ const SelectedVocab = () => {
                   
                   // If the word has category information, use the group/category route
                   if (word.groupCategory && word.groupCategory.includes('/')) {
-                    const [group, category] = word.groupCategory.split('/').map(part => 
+                    const [group, category] = word.groupCategory.split('/').map(part =>
                       part.trim().replace(/\s+/g, '-').replace(/&/g, '-and-').replace(/\//g, '--')
                     );
-                    routePath = `/groups/${group}/${category}/${word.word.replace(/\s+/g, '-')}`;
+                    routePath = `/groups/${group}/${category}/${encodeURIComponent(word.word)}`;
                   } else {
                     // Default to alphabet route if no category info
-                    routePath = `/alphabets/${word.word.charAt(0).toLowerCase()}/${word.word.replace(/\s+/g, '-')}`;
+                    routePath = `/alphabets/${word.word.charAt(0).toLowerCase()}/${encodeURIComponent(word.word)}`;
                   }
                   
                   return (
