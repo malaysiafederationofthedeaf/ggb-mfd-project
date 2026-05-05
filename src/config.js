@@ -1,2 +1,1 @@
-export const STRAPI_BASE_URL =
-  process.env.REACT_APP_STRAPI_BASE_URL || "https://api.anxinbay.com";
+export const STRAPI_BASE_URL = process.env.REACT_APP_STRAPI_BASE_URL;

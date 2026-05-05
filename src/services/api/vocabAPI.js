@@ -2,7 +2,7 @@ import axios from "axios";
 import levenshtein from 'js-levenshtein';
 import { Store } from "../../flux";
 import { alphabetCache, alphabetCacheTimestamps } from "./alphabetAPI";
-import { STRAPI_BASE_URL } from "../../config";
+import { API_BASE } from "./config";
 
 // Utility: Format string using Store method
 const formatString = (str) => Store.formatString(str);
@@ -48,7 +48,7 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
 
   const formatted = formatString(vocabName);
   const capitalized = capitalizeFirstLetter(vocabName);
-  const endpoint = `${STRAPI_BASE_URL}/api/bims?populate=*&filters[Word][$containsi]=${capitalized}`;
+  const endpoint = `${API_BASE}/api/bims?populate=*&filters[$or][0][Word][$containsi]=${encodeURIComponent(capitalized)}&filters[$or][1][Perkataan][$containsi]=${encodeURIComponent(capitalized)}`;
 
   try {
     const cachedData = findVocabInAlphabetData(vocabName);
@@ -68,7 +68,8 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
         tag: item.Tag || '',
         new: item.New || 'No',
         order: item.Order || '',
-        imgStatus: item.Image_Status || ''
+        imgStatus: item.Image_Status || '',
+        exampleSentence: item.Example_Sentence || ''
       }))
       .filter(
         (entry) =>
@@ -103,9 +104,14 @@ export const getVocabDetail = async (vocabName) => {
     // Check alphabet cache
     const alphabetData = findVocabInAlphabetData(vocabName);
     if (alphabetData) {
-      vocabCache.set(vocabName, alphabetData);
-      vocabCacheTimestamps.set(vocabName, now);
-      return alphabetData;
+      // If the cached entry lacks an exampleSentence, ignore it and fetch fresh
+      const hasExample = alphabetData.some(item => item.exampleSentence);
+      if (hasExample) {
+        vocabCache.set(vocabName, alphabetData);
+        vocabCacheTimestamps.set(vocabName, now);
+        return alphabetData;
+      }
+      console.log(`Alphabet cache for "${vocabName}" missing Example_Sentence – fetching fresh`);
     }
 
     // Fetch from API

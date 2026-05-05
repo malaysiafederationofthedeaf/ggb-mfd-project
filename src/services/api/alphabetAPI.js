@@ -43,6 +43,7 @@ export const fetchVocabData = async () => {
           new: item.New || "No",
           order: item.Order || "",
           imgStatus: item.Image_Status || "",
+          exampleSentence: item.Example_Sentence || "",
         };
       });
 
@@ -70,6 +71,7 @@ export const fetchVocabData = async () => {
       new: item.new,
       order: item.order,
       imgStatus: item.imgStatus,
+      exampleSentence: item.exampleSentence || "",
     }))
     // Removed release filtering
     .sort((a, b) => a.kumpulanKategori.localeCompare(b.kumpulanKategori));
@@ -181,6 +183,7 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
           new: item.New || "No",
           order: item.Order || "",
           imgStatus: item.Image_Status || "",
+          exampleSentence: item.Example_Sentence || "",
         };
       });
 
@@ -208,6 +211,7 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
       new: item.new,
       order: item.order,
       imgStatus: item.imgStatus,
+      exampleSentence: item.exampleSentence || "",
     }))
     // Removed release filtering
     .sort((a, b) =>
@@ -260,6 +264,7 @@ export const getNewSigns = async () => {
         new: item.New || "No",
         order: item.Order || "",
         imgStatus: item.Image_Status || "",
+        exampleSentence: item.Example_Sentence || "",
       };
     });
 
@@ -278,6 +283,7 @@ export const getNewSigns = async () => {
         new: item.new,
         order: item.order,
         imgStatus: item.imgStatus,
+        exampleSentence: item.exampleSentence || "",
       }))
       // Additional client-side sorting to ensure correct alphabetical order
       .sort((a, b) =>
