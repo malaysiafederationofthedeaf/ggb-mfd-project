@@ -67,7 +67,6 @@ export async function getSignOfTheDayLightweight() {
     word: selected.Word || "",
     perkataan: selected.Perkataan || "",
     video: selected.Video || "",
-    tag: selected.Tag || "",
     category: selected.category_group?.KumpulanKategori || "",
     group: selected.category_group?.GroupCategory || "",
     imgStatus: selected.Image_Status || "",

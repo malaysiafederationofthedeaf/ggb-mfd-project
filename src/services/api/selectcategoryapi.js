@@ -13,6 +13,31 @@ export { categoryCache, categoryCacheTimestamps };
 // Utility functions
 const formatString = (str) => Store.formatString(str);
 
+const extractLeadingNumber = (str) => {
+  if (!str) return null;
+  const match = str.toString().trim().match(/^\s*(\d+)/);
+  return match ? Number(match[1]) : null;
+};
+
+const compareTextWithNumericPrefix = (a, b) => {
+  const textA = (a || "").toString().trim();
+  const textB = (b || "").toString().trim();
+  const numA = extractLeadingNumber(textA);
+  const numB = extractLeadingNumber(textB);
+
+  if (numA !== null && numB !== null) {
+    if (numA !== numB) return numA - numB;
+    const restA = textA.replace(/^\s*\d+\s*,?\s*/, "");
+    const restB = textB.replace(/^\s*\d+\s*,?\s*/, "");
+    return restA.localeCompare(restB);
+  }
+
+  if (numA !== null) return -1;
+  if (numB !== null) return 1;
+
+  return textA.localeCompare(textB);
+};
+
 // Reusable transformer for vocab items
 const transformVocabItem = (item) => ({
   kumpulanKategori: item.category_group?.KumpulanKategori || `${item.Kumpulan}/${item.Kategori}`,
@@ -20,11 +45,7 @@ const transformVocabItem = (item) => ({
   word: item.Word || '',
   perkataan: item.Perkataan || '',
   video: item.Video || '',
-  tag: item.Tag || '',
-  new: item.New || 'No',
-  order: item.Order || '',
-  imgStatus: item.Image_Status || '',
-  exampleSentence: item.Example_Sentence || ''
+  imgStatus: item.Image_Status || ''
 });
 
 // Get categories of a group
@@ -101,12 +122,7 @@ export const fetchVocabsByCategoryFromAPI = async (group, category) => {
     const transformedData = allData
       .map(transformVocabItem)
       // Removed filter for ALLOWED_RELEASES
-      .sort((a, b) => {
-        const aOrder = a.order ?? Infinity;
-        const bOrder = b.order ?? Infinity;
-        if (aOrder !== bOrder) return aOrder - bOrder;
-        return a.perkataan.localeCompare(b.perkataan);
-      });
+      .sort((a, b) => compareTextWithNumericPrefix(a.perkataan, b.perkataan));
 
     return transformedData;
   } catch (error) {
@@ -118,20 +134,16 @@ export const fetchVocabsByCategoryFromAPI = async (group, category) => {
 // Fetch new signs from API
 export const fetchNewSignsFromAPI = async () => {
   try {
-
-
     const response = await apiClient.get(
-      `/api/bims?populate=category_group&filters[New][$eq]=Yes`
+      `/api/bims?populate=category_group&sort=createdAt:desc&pagination[limit]=25`
     );
 
     if (!response.data?.data) {
-      console.error('Invalid API response structure:', response);
+      console.error("Invalid API response structure:", response);
       return [];
     }
 
-    return response.data.data
-      .map(transformVocabItem);
-
+    return response.data.data.map(transformVocabItem);
   } catch (error) {
     console.error("Error fetching new signs:", error);
     return [];
@@ -172,8 +184,9 @@ export const getVocabsByCategory = async (group, category) => {
       return categoryCache.get(cacheKey);
     }
 
-
-    return Store.getVocabList(group, formatString(category));
+    console.log("Falling back to Store data for category vocabs");
+    const fallbackVocabs = Store.getVocabList(group, formatString(category)) || [];
+    return [...fallbackVocabs].sort((a, b) => compareTextWithNumericPrefix(a.perkataan, b.perkataan));
   }
 };
 

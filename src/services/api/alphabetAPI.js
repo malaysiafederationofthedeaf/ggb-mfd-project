@@ -37,9 +37,6 @@ export const fetchVocabData = async () => {
           word: item.Word || "",
           perkataan: item.Perkataan || "",
           video: item.Video || "",
-          tag: item.Tag || "",
-          new: item.New || "No",
-          order: item.Order || "",
           imgStatus: item.Image_Status || "",
           exampleSentence: item.Example_Sentence || "",
         };
@@ -65,14 +62,14 @@ export const fetchVocabData = async () => {
       word: item.word.toString().trim(),
       perkataan: item.perkataan.toString().trim(),
       video: item.video,
-      tag: item.tag,
-      new: item.new,
-      order: item.order,
       imgStatus: item.imgStatus,
       exampleSentence: item.exampleSentence || "",
     }))
-    // Removed release filtering
-    .sort((a, b) => a.kumpulanKategori.localeCompare(b.kumpulanKategori));
+    .sort((a, b) =>
+      getCurrentLocale() === "ms"
+        ? a.perkataan.localeCompare(b.perkataan)
+        : a.word.localeCompare(b.word)
+    );
 
   return processedData;
 };
@@ -170,9 +167,6 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
           word: item.Word || "",
           perkataan: item.Perkataan || "",
           video: item.Video || "",
-          tag: item.Tag || "",
-          new: item.New || "No",
-          order: item.Order || "",
           imgStatus: item.Image_Status || "",
           exampleSentence: item.Example_Sentence || "",
         };
@@ -198,9 +192,6 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
       word: item.word.toString().trim(),
       perkataan: item.perkataan.toString().trim(),
       video: item.video,
-      tag: item.tag,
-      new: item.new,
-      order: item.order,
       imgStatus: item.imgStatus,
       exampleSentence: item.exampleSentence || "",
     }))
@@ -238,8 +229,38 @@ export const getNewSigns = async () => {
     newSignsPromise = (async () => {
       const locale = getCurrentLocale();
 
-      const response = await apiClient.get(
-        `/api/bims?populate=category_group&sort=createdAt:desc&pagination[limit]=25`
+    const transformedData = response.data.data.map((item) => {
+      const categoryGroup = item.category_group || {};
+      return {
+        kumpulanKategori:
+          categoryGroup.KumpulanKategori || `${item.Kumpulan}/${item.Kategori}`,
+        groupCategory:
+          categoryGroup.GroupCategory || `${item.Group}/${item.Category}`,
+        word: item.Word || "",
+        perkataan: item.Perkataan || "",
+        video: item.Video || "",
+        imgStatus: item.Image_Status || "",
+      };
+    });
+
+    const processedData = transformedData
+      .map((item) => ({
+        kumpulanKategori: item.kumpulanKategori
+          .toString()
+          .replaceAll(/(\r\n|\n|\r)/gm, ""),
+        groupCategory: item.groupCategory
+          .toString()
+          .replaceAll(/(\r\n|\n|\r)/gm, ""),
+        word: item.word.toString().trim(),
+        perkataan: item.perkataan.toString().trim(),
+        video: item.video,
+        imgStatus: item.imgStatus,
+      }))
+      // Additional client-side sorting to ensure correct alphabetical order
+      .sort((a, b) =>
+        locale === "ms"
+          ? a.perkataan.localeCompare(b.perkataan)
+          : a.word.localeCompare(b.word)
       );
 
       const transformedData = response.data.data.map((item) => {

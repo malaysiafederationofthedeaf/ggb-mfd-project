@@ -65,27 +65,20 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
 
     const filtered = data
       .map((item) => ({
-        kumpulanKategori:
-          item.category_group?.KumpulanKategori ||
-          `${item.Kumpulan}/${item.Kategori}`,
-        groupCategory:
-          item.category_group?.GroupCategory ||
-          `${item.Group}/${item.Category}`,
-        word: item.Word || "",
-        perkataan: item.Perkataan || "",
-        video: item.Video || "",
-        tag: item.Tag || "",
-        new: item.New || "No",
-        order: item.Order || "",
-        imgStatus: item.Image_Status || "",
-        exampleSentence: item.Example_Sentence || "",
+        kumpulanKategori: item.category_group?.KumpulanKategori || `${item.Kumpulan}/${item.Kategori}`,
+        groupCategory: item.category_group?.GroupCategory || `${item.Group}/${item.Category}`,
+        word: item.Word || '',
+        perkataan: item.Perkataan || '',
+        video: item.Video || '',
+        imgStatus: item.Image_Status || ''
       }))
       .filter(
         (entry) =>
+          // Removed release filtering
           !formatString(entry.word).localeCompare(formatted)
       );
 
-    return filtered.length > 0 ? filtered : [];
+    return filtered.length > 0 ? filtered : null;
   } catch (error) {
     console.error("API error while fetching vocab:", error);
     return [];
