@@ -28,7 +28,7 @@ export const fetchVocabData = async () => {
         break;
       }
 
-      const transformedData = response.data.data.map((item) => {
+      const batchData = response.data.data.map((item) => {
         const categoryGroup = item.category_group || {};
         return {
           kumpulanKategori:
@@ -43,7 +43,7 @@ export const fetchVocabData = async () => {
         };
       });
 
-      allData = [...allData, ...transformedData];
+      allData = [...allData, ...batchData];
       hasMoreData = page < response.data.meta.pagination.pageCount;
       page++;
     } catch (err) {
@@ -158,7 +158,7 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
         break;
       }
 
-      const transformedData = response.data.data.map((item) => {
+      const batchData = response.data.data.map((item) => {
         const categoryGroup = item.category_group || {};
         return {
           kumpulanKategori:
@@ -173,7 +173,7 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
         };
       });
 
-      allData = [...allData, ...transformedData];
+      allData = [...allData, ...batchData];
       hasMoreData = page < response.data.meta.pagination.pageCount;
       page++;
     } catch (err) {
@@ -232,7 +232,7 @@ export const getNewSigns = async () => {
       `${STRAPI_BASE_URL}/api/bims?populate=*&sort=createdAt:desc&pagination[limit]=25`
     );
 
-    const transformedData = response.data.data.map((item) => {
+    const processedData = response.data.data.map((item) => {
       const categoryGroup = item.category_group || {};
       return {
         kumpulanKategori:
@@ -244,9 +244,7 @@ export const getNewSigns = async () => {
         video: item.Video || "",
         imgStatus: item.Image_Status || "",
       };
-    });
-
-    const processedData = transformedData
+    })
       .map((item) => ({
         kumpulanKategori: item.kumpulanKategori
           .toString()
