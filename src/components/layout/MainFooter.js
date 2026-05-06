@@ -81,9 +81,9 @@ MainFooter.defaultProps = {
       imgAlt: "Youtube Logo",
     },
     {
-      href: "https://www.cloudflare.com/",
-      imgSrc: require("../../images/general/logo/cloudflare-logo.png"),
-      imgAlt: "Cloudflare Logo",
+      href: "https://www.guidewire.com/",
+      imgSrc: require("../../images/general/logo/guidewire-logo.png"),
+      imgAlt: "Guidewire Logo",
     },
   ],
 };
