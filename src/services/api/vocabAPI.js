@@ -69,6 +69,7 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
         groupCategory: item.category_group?.GroupCategory || `${item.Group}/${item.Category}`,
         word: item.Word || '',
         perkataan: item.Perkataan || '',
+        exampleSentence: item.Example_Sentence || '',
         video: item.Video || '',
         imgStatus: item.Image_Status || ''
       }))
