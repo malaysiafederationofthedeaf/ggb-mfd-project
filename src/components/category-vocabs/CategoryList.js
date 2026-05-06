@@ -79,7 +79,7 @@ const CategoryList = ({ category, group, groupKey }) => {
               group={group}
               groupKey={groupKey}
               noOfCard={noOfCards}
-              key={categoryItem.category}
+              key={categoryItem.category || categoryItem.word }
             />
           ))}
         </ItemsCarousel> 

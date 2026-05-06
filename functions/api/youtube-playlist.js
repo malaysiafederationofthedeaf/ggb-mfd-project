@@ -5,9 +5,9 @@
  *   1. The YouTube API key is never exposed in the browser bundle.
  *   2. CORS is not an issue (server-to-server request).
  *
- * Required Cloudflare Pages environment variable (set in dashboard, NOT prefixed with REACT_APP_):
- *   YOUTUBE_API_KEY          — your YouTube Data API v3 key
- *   YOUTUBE_PLAYLIST_ID      — the featured videos playlist ID
+ * Required Cloudflare Pages environment variable (set in dashboard):
+ *   REACT_APP_YOUTUBE_API_KEY          — your YouTube Data API v3 key
+ *   REACT_APP_FEATURED_VIDEOS_PLAYLIST_ID      — the featured videos playlist ID
  *
  * Usage from the browser:
  *   GET /api/youtube-playlist
@@ -15,8 +15,8 @@
 export async function onRequestGet(context) {
   const { env } = context;
 
-  const apiKey = env.YOUTUBE_API_KEY;
-  const playlistId = env.YOUTUBE_PLAYLIST_ID;
+  const apiKey = env.REACT_APP_YOUTUBE_API_KEY;
+  const playlistId = env.REACT_APP_FEATURED_VIDEOS_PLAYLIST_ID;
 
   if (!apiKey || !playlistId) {
     return new Response(

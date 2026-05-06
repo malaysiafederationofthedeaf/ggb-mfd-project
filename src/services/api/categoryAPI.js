@@ -1,8 +1,8 @@
-import axios from "axios";
 import cookies from "js-cookie";
 import { Store } from "../../flux";
-import { STRAPI_BASE_URL } from "../../config";
 import { getNewSigns } from './alphabetAPI';
+import apiClient from "./client";
+
 // Utility function to format strings
 const formatString = (str) => {
   return Store.formatString(str);
@@ -27,8 +27,8 @@ const fetchCategoryData = async () => {
 
   while (hasMoreData) {
     try {
-      const response = await axios.get(
-        `${STRAPI_BASE_URL}/api/category-groups?pagination[page]=${page}&pagination[pageSize]=90`
+      const response = await apiClient.get(
+        `/api/category-groups?pagination[page]=${page}&pagination[pageSize]=90`
       );
 
       // Ensure response is structured correctly
@@ -113,13 +113,13 @@ const restructureJSONGroup = (data) => {
   return uniqueGroups.length > 0
     ? uniqueGroups
     : [
-        {
-          group: "default",
-          kumpulan: "default",
-          groupCategory: "",
-          kumpulanKategori: "",
-        },
-      ];
+      {
+        group: "default",
+        kumpulan: "default",
+        groupCategory: "",
+        kumpulanKategori: "",
+      },
+    ];
 };
 
 // Return a list of unique group objects
@@ -143,13 +143,13 @@ export const getGroupItems = async () => {
     }
 
     const groups = groupData
-    .filter((obj) => obj)
-    .map((obj) => {
-      return {
-        group: obj.group || "",
-        kumpulan: obj.kumpulan || ""
-      };
-    });
+      .filter((obj) => obj)
+      .map((obj) => {
+        return {
+          group: obj.group || "",
+          kumpulan: obj.kumpulan || ""
+        };
+      });
     return groups;
   } catch (error) {
     console.error("Error getting group items:", error);
@@ -185,61 +185,61 @@ const getCategoryItems = async () => {
 
 // Get category list based on Group
 export const getCategoriesOfGroup = async (lang = "ms") => {
-    try {
-      const currentLanguageCode = getCurrentLocale();
-      const groupList = await getGroupList(); // Get all groups
-      const categoryItems = await getCategoryItems(); // Get all category info
-      const allResults = {};
-  
-      for (const groupObj of groupList) {
-        const groupName = formatString(groupObj.group);
-  
-        if (groupName === formatString("New Signs")) {
-          const newSignsWords = await getNewSigns();
-          const words = newSignsWords.map((item) => ({
-            word: item.word,
-            perkataan: item.perkataan,
-          }));
+  try {
+    const currentLanguageCode = getCurrentLocale();
+    const groupList = await getGroupList(); // Get all groups
+    const categoryItems = await getCategoryItems(); // Get all category info
+    const allResults = {};
 
-          // Sort New Signs alphabetically
-          if (currentLanguageCode === "en") {
-            words.sort((a, b) => a.word.localeCompare(b.word));
-          } else {
-            words.sort((a, b) => a.perkataan.localeCompare(b.perkataan));
-          }
-  
-          allResults["New Signs"] = words;
-          continue;
+    for (const groupObj of groupList) {
+      const groupName = formatString(groupObj.group);
+
+      if (groupName === formatString("New Signs")) {
+        const newSignsWords = await getNewSigns();
+        const words = newSignsWords.map((item) => ({
+          word: item.word,
+          perkataan: item.perkataan,
+        }));
+
+        // Sort New Signs alphabetically
+        if (currentLanguageCode === "en") {
+          words.sort((a, b) => a.word.localeCompare(b.word));
+        } else {
+          words.sort((a, b) => a.perkataan.localeCompare(b.perkataan));
         }
-  
-        const lookup = new Set();
-        const filtered = [];
-  
-        for (const obj of categoryItems) {
-          const objGroup = formatString(obj.group);
-          const objCategory = formatString(obj.category);
-  
-          if (objGroup === groupName && !lookup.has(objCategory)) {
-            lookup.add(objCategory);
-            filtered.push({
-              category: obj.category,
-              kategori: obj.kategori,
-            });
-          }
-        }
-        
-        // Sort categories alphabetically based on Malay (kategori) always
-        filtered.sort((a, b) => a.kategori.localeCompare(b.kategori));
-  
-        allResults[groupObj.group] = filtered;
+
+        allResults["New Signs"] = words;
+        continue;
       }
-  
-      return allResults;
-    } catch (error) {
-      console.error("Error getting categories of group:", error);
-      return {};
+
+      const lookup = new Set();
+      const filtered = [];
+
+      for (const obj of categoryItems) {
+        const objGroup = formatString(obj.group);
+        const objCategory = formatString(obj.category);
+
+        if (objGroup === groupName && !lookup.has(objCategory)) {
+          lookup.add(objCategory);
+          filtered.push({
+            category: obj.category,
+            kategori: obj.kategori,
+          });
+        }
+      }
+
+      // Sort categories alphabetically based on Malay (kategori) always
+      filtered.sort((a, b) => a.kategori.localeCompare(b.kategori));
+
+      allResults[groupObj.group] = filtered;
     }
-  };
+
+    return allResults;
+  } catch (error) {
+    console.error("Error getting categories of group:", error);
+    return {};
+  }
+};
 
 // Return the total number of category records fetched
 export const getCategoryLength = async () => {
