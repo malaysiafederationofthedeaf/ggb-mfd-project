@@ -1,6 +1,7 @@
+import axios from "axios";
 import cookies from "js-cookie";
 import { Store } from "../../flux";
-import apiClient from "./client";
+import { STRAPI_BASE_URL } from "../../config";
 
 // Utility functions
 
@@ -17,8 +18,8 @@ export const fetchVocabData = async () => {
 
   while (hasMoreData) {
     try {
-      const response = await apiClient.get(
-        `/api/bims?populate=category_group&pagination[page]=${page}&pagination[pageSize]=25`
+      const response = await axios.get(
+        `${STRAPI_BASE_URL}/api/bims?populate=category_group&pagination[page]=${page}&pagination[pageSize]=25`
       );
 
       if (!response.data?.data) {
@@ -145,8 +146,8 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
 
   while (hasMoreData) {
     try {
-      const response = await apiClient.get(
-        `/api/bims?populate=category_group&pagination[page]=${page}&pagination[pageSize]=100&filters[${fieldToFilter}][$startsWith]=${encodeURIComponent(
+      const response = await axios.get(
+        `${STRAPI_BASE_URL}/api/bims?populate=category_group&pagination[page]=${page}&pagination[pageSize]=100&filters[${fieldToFilter}][$startsWith]=${encodeURIComponent(
           uppercaseAlphabet
         )}`
       );
@@ -229,36 +230,8 @@ export const getNewSigns = async () => {
     newSignsPromise = (async () => {
       const locale = getCurrentLocale();
 
-    const processedData = response.data.data.map((item) => {
-      const categoryGroup = item.category_group || {};
-      return {
-        kumpulanKategori:
-          categoryGroup.KumpulanKategori || `${item.Kumpulan}/${item.Kategori}`,
-        groupCategory:
-          categoryGroup.GroupCategory || `${item.Group}/${item.Category}`,
-        word: item.Word || "",
-        perkataan: item.Perkataan || "",
-        video: item.Video || "",
-        imgStatus: item.Image_Status || "",
-      };
-    })
-      .map((item) => ({
-        kumpulanKategori: item.kumpulanKategori
-          .toString()
-          .replaceAll(/(\r\n|\n|\r)/gm, ""),
-        groupCategory: item.groupCategory
-          .toString()
-          .replaceAll(/(\r\n|\n|\r)/gm, ""),
-        word: item.word.toString().trim(),
-        perkataan: item.perkataan.toString().trim(),
-        video: item.video,
-        imgStatus: item.imgStatus,
-      }))
-      // Additional client-side sorting to ensure correct alphabetical order
-      .sort((a, b) =>
-        locale === "ms"
-          ? a.perkataan.localeCompare(b.perkataan)
-          : a.word.localeCompare(b.word)
+      const response = await axios.get(
+        `${STRAPI_BASE_URL}/api/bims?populate=*&sort=createdAt:desc&pagination[limit]=25`
       );
 
       const transformedData = response.data.data.map((item) => {
