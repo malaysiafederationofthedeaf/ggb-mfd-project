@@ -17,7 +17,7 @@ const AlphabetsList = ({ vocabs, alphabet }) => {
         const vocabImgSrc = Store.getSignImgSrc(vocab.perkataan);
         const vocabParam = encodeURIComponent(vocab.word);
         return (
-          <Link key={vocab.word} to={`/alphabets/${alphabet}/${wordFormatted}`}>
+          <Link key={vocab.word} to={`/alphabets/${alphabet}/${vocabParam}`}>
             <ListGroupItem className="double">
               <Row className="vocab-word">
                 <Col className="vocab-image-wrapper">
