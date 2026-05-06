@@ -9,6 +9,7 @@ import i18next from "i18next";
 
 import PageTitle from "../common/PageTitle";
 import { Store } from "../../flux";
+import LazyImage from "../common/LazyImage";
 
 const ZoomIn = styled.div`
   animation: 0.5s ${keyframes`${zoomIn}`};
@@ -48,18 +49,17 @@ const SignOfTheDay = ({ wordItem }) => {
 
   const [fontSize, setFontSize] = useState(getFontSize());
 
-  // setFontSize when window resizes
-  function handleResize() {
-    setFontSize(getFontSize());
-  }
-  window.addEventListener("resize", handleResize);
-
-  // setFontSize when sotd to be displayed changes (switched language)
   useEffect(() => {
+    function handleResize() {
+      setFontSize(getFontSize());
+    }
+    window.addEventListener("resize", handleResize);
     setFontSize(getFontSize());
-    return (_) => {
+    
+    return () => {
       window.removeEventListener("resize", handleResize);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [longSotd]);
 
   const groupParts = wordItem.group.includes("/")
@@ -69,11 +69,13 @@ const SignOfTheDay = ({ wordItem }) => {
   const groupName = groupParts[0]; 
   const groupCat = groupParts[1].trim();
 
+  const vocabParam = encodeURIComponent(wordItem.word);
+
   const linkToPath =
     "/groups/" +
     Store.formatGroupCategory(groupName) +
     Store.formatGroupCategory(groupCat) +
-    Store.formatString(wordItem.word);
+    vocabParam;
   const imgSrc = Store.getSignImgSrc(wordItem.perkataan);
 
   const { t } = useTranslation(["", "word"]);
@@ -88,7 +90,7 @@ const SignOfTheDay = ({ wordItem }) => {
           <Card small className="card-post card-post--aside card-post--1">
             <Col lg="6" md="6" sm="6">
               <ZoomIn className="card-post__image-wrapper">
-                <img
+                <LazyImage
                   src={imgSrc}
                   alt={wordItem.word}
                   className="card-post__image"

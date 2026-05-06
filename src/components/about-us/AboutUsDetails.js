@@ -5,9 +5,9 @@ import { Row, Col } from "shards-react";
 
 const AboutUsDetails = ({ aboutUsDetails, t }) => 
 <div className="about-us-wrapper">
-  {aboutUsDetails.map((vocab, key) => {
+  {aboutUsDetails.map((vocab) => {
     return (
-      <div className="about-us" key={key}>
+      <div className="about-us" key={vocab.name}>
         <Col>
           {/* logo & title */}
           <Row className="about-us-title">
@@ -22,14 +22,14 @@ const AboutUsDetails = ({ aboutUsDetails, t }) =>
           </Row>
 
           {/* paragraph texts */}
-          {vocab.metaValue.map((paragraph, key) =>
-            <p data-aos="fade-up" data-aos-delay="400" key={key}>{t(paragraph)}</p>         
+          {vocab.metaValue.map((paragraph) =>
+            <p data-aos="fade-up" data-aos-delay="400" key={paragraph}>{t(paragraph)}</p>         
           )} 
 
           {/* for more */}
           <p data-aos="fade-up" data-aos-delay="400" className="about-us-for-more">
             {t(vocab.forMore)}
-            <a href={t(vocab.forMoreLink)} target="_blank" rel="noopener noreferrer" key={key}>
+            <a href={t(vocab.forMoreLink)} target="_blank" rel="noopener noreferrer">
               {t(vocab.forMoreLink)}
             </a>
             .
@@ -87,18 +87,6 @@ AboutUsDetails.defaultProps = {
       forMore: "about_ggb_more",
       forMoreLink: "about_ggb_more_link"
     },
-    {
-      name: "vercel_name",
-      logo: require("./../../images/general/logo/vercel-logo.jpg"),
-      metaTitle: "about_vercel_title",
-      metaValue: [ 
-        "about_vercel_1", 
-        "about_vercel_2", 
-        "about_vercel_3", 
-      ],
-      forMore: "about_vercel_more",
-      forMoreLink: "about_vercel_more_link"
-    },        
   ],
 };
 

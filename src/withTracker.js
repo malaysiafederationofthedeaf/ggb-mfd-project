@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import GoogleAnalytics from "react-ga";
+import { GA_TRACKING_ID } from "./config";
 
-GoogleAnalytics.initialize(process.env.REACT_APP_GAID || "UA-115105611-2");
+if (GA_TRACKING_ID) {
+  GoogleAnalytics.initialize(GA_TRACKING_ID);
+}
 
 const withTracker = (WrappedComponent, options = {}) => {
   const HOC = (props) => {
     const location = useLocation();
     
     useEffect(() => {
-      if (process.env.NODE_ENV !== "production") {
+      if (process.env.NODE_ENV !== "production" || !GA_TRACKING_ID) {
         return;
       }
 

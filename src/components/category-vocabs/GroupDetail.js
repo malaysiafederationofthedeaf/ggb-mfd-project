@@ -7,13 +7,14 @@ import { zoomIn } from 'react-animations';
 
 import { Store } from "../../flux";
 import { getImageWithFallback } from "../components-overview/ImgSrc";
+import { COMING_SOON_IMAGE_URL } from "../../config";
 
 const ZoomIn = styled.div`animation: .5s ${keyframes`${zoomIn}`}`;
 
 const GroupDetail = ({ category, group }) => {
   const { t, i18n } = useTranslation("group-category");
   const categoryImgSrc = Store.getCategoryImgSrc(category.kategori);
-  const fallback = `https://pub-53c2a4aa4b544b0fb5ca676a1f4675e0.r2.dev/images/bim/coming-soon.avif`;
+  const fallback = COMING_SOON_IMAGE_URL;
   const [bgImage, setBgImage] = useState("");
   const isMalay = i18n.language === "ms";
 
@@ -25,7 +26,7 @@ const GroupDetail = ({ category, group }) => {
     getImageWithFallback(categoryImgSrc, fallback, (resolvedURL) => {
       setBgImage(resolvedURL);
     });
-  }, [categoryImgSrc]);
+  }, [categoryImgSrc, fallback]);
 
   return (
     <Col lg="6" sm="12">

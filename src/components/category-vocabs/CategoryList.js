@@ -42,7 +42,7 @@ const CategoryList = ({ category, group, groupKey }) => {
     return (_) => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [noOfCategories]);
 
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const { t } = useTranslation("group-category");
@@ -73,13 +73,13 @@ const CategoryList = ({ category, group, groupKey }) => {
           leftChevron={<i className="material-icons">arrow_back_ios</i>}
           outsideChevron={false}
         >
-          {category.map((categoryItem, key) => (
+          {category.map((categoryItem) => (
             <CategoryDetail
               categoryItem={categoryItem}
               group={group}
               groupKey={groupKey}
               noOfCard={noOfCards}
-              key={key}
+              key={categoryItem.category}
             />
           ))}
         </ItemsCarousel> 

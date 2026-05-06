@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Container, Row, Col } from "shards-react";
 import { useTranslation } from "react-i18next";
 import cookies from "js-cookie";
@@ -9,7 +9,6 @@ import CategoryList from "../components/category-vocabs/CategoryList";
 import FeaturedVideoList from "../components/featured-videos/FeaturedVideoList";
 import SignOfTheDay from "../components/category-vocabs/SignOfTheDay";
 
-import { Store } from "../flux";
 import { getGroupItems, getCategoriesOfGroup } from "../services/api/categoryAPI";
 import { getFeaturedVideos } from "../services/api/featuredVideosAPI";
 import { getSignOfTheDayLightweight } from "../services/api/signOfTheDayAPI";
@@ -18,7 +17,6 @@ const newSignsCache = {};
 
 // Preload the LCP image
 const preloadLCPImage = () => {
-  
   const preloadLink = document.createElement('link');
   preloadLink.rel = 'preload';
   preloadLink.as = 'image';
@@ -35,6 +33,7 @@ const Home = () => {
   const [featuredVideos, setFeaturedVideos] = useState([]);
   const [signOfDay, setSignOfDay] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [currentLang] = useState(cookies.get("i18next") || "ms");
   const isMalay = i18n.language === "ms";
 
@@ -43,31 +42,32 @@ const Home = () => {
     preloadLCPImage();
   }, []);
 
+  const fetchAllData = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const groupsData = await getGroupItems();
+      setGroups(groupsData);
+
+      const videosData = await getFeaturedVideos();
+      setFeaturedVideos(videosData || []);
+
+      // Fetch Sign of the Day from API or local store cache
+      const sotd = await getSignOfTheDayLightweight();
+      setSignOfDay(sotd);
+
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching home page data:", err);
+      setError(err);
+      setLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
-    const fetchAllData = async () => {
-      try {
-        setLoading(true);
-
-        // Fetch all groups
-        const groupsData = await getGroupItems();
-        setGroups(groupsData);
-
-        const videosData = await getFeaturedVideos();
-        setFeaturedVideos(videosData || []);
-
-        // Fetch Sign of the Day from API or local store cache
-        const sotd = await getSignOfTheDayLightweight();
-        setSignOfDay(sotd);
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching home page data:", error);
-
-      }
-    };
-
     fetchAllData();
-  }, [currentLang]);
+  }, [fetchAllData, currentLang]);
 
   useEffect(() => {
     const lang = i18n.language;
@@ -101,6 +101,21 @@ const Home = () => {
     );
   }
 
+  if (error) {
+    return (
+      <Container fluid className="main-content-container px-4">
+        <Row>
+          <div className="col-12 text-center p-5">
+            <p className="text-danger">{t("error.generic")}</p>
+            <button className="btn btn-primary mt-3" onClick={fetchAllData}>
+              {t("error.retry")}
+            </button>
+          </div>
+        </Row>
+      </Container>
+    );
+  }
+
   return (
     <>
       <AboutUsPreview />
@@ -110,7 +125,7 @@ const Home = () => {
             {/* Only display groups with Remark="Home" */}
             {groups
               .filter(group => group.group !== "New Signs")
-              .map((group, key) => {
+              .map((group) => {
                 const groupName = isMalay ? group.kumpulan : group.group;
                 const groupKey = group.group;
                 
@@ -119,7 +134,7 @@ const Home = () => {
                     category={categories[groupKey] ?? []}
                     group={groupName}
                     groupKey={groupKey}
-                    key={key}
+                    key={groupKey}
                     className="category-list"
                   />              
                 );

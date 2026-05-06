@@ -1,4 +1,4 @@
-import { STRAPI_BASE_URL } from "../../config";
+import apiClient from "./client";
 
 function getSeededRandom(seed) {
   const x = Math.sin(seed) * 10000;
@@ -10,23 +10,35 @@ function formatDateToSeed(date = new Date()) {
 }
 
 async function getTotalEntries(apiUrl) {
-  const res = await fetch(`${apiUrl}?pagination[page]=1&pagination[pageSize]=1`);
-  const json = await res.json();
-  return json.meta.pagination.total;
+  try {
+    const res = await apiClient.get(`${apiUrl}?pagination[page]=1&pagination[pageSize]=1`);
+    return res.data.meta.pagination.total;
+  } catch (error) {
+    console.error("Error getting total entries for SOTD:", error);
+    return 0; // Return 0 to gracefully handle failure
+  }
 }
 
 async function fetchPageEntries(apiUrl, pageNum, pageSize) {
-  const res = await fetch(`${apiUrl}?populate=*&pagination[page]=${pageNum}&pagination[pageSize]=${pageSize}`);
-  const json = await res.json();
-  return json.data || [];
+  try {
+    const res = await apiClient.get(`${apiUrl}?populate=category_group&pagination[page]=${pageNum}&pagination[pageSize]=${pageSize}`);
+    return res.data.data || [];
+  } catch (error) {
+    console.error("Error fetching SOTD page entries:", error);
+    return [];
+  }
 }
 
 export async function getSignOfTheDayLightweight() {
-  const apiUrl = `${STRAPI_BASE_URL}/api/bims`;
+  const apiUrl = `/api/bims`;
   const pageSize = 25;
   const seed = formatDateToSeed();
   const totalEntries = await getTotalEntries(apiUrl);
-  const totalPages = Math.ceil(totalEntries / pageSize);
+  const totalPages = totalEntries > 0 ? Math.ceil(totalEntries / pageSize) : 1;
+
+  if (totalEntries === 0) {
+    return null; // Graceful return if fetch failed or empty
+  }
 
   // Pick a deterministic page number
   const pageSeed = getSeededRandom(seed);

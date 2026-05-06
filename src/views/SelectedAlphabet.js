@@ -29,9 +29,7 @@ const SelectedAlphabets = () => {
   useEffect(() => {
     const handleLanguageChange = () => {
       const newLang = cookies.get("i18next") || "ms";
-      if (newLang !== currentLang) {
-        setCurrentLang(newLang);
-      }
+      setCurrentLang(newLang);
     };
     
     i18next.on('languageChanged', handleLanguageChange);
@@ -39,26 +37,26 @@ const SelectedAlphabets = () => {
     return () => {
       i18next.off('languageChanged', handleLanguageChange);
     };
-  }, [currentLang]);
+  }, []);
   
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await getVocabsByAlphabet(alphasFormatted);
+      setVocabs(data);
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching alphabet data:", err);
+      setError(err);
+      setLoading(false);
+    }
+  };
+
   // Fetch data when component mounts or alphabet/language changes
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        console.log(`Fetching data for alphabet: ${alphasFormatted} with language: ${currentLang}`);
-        const data = await getVocabsByAlphabet(alphasFormatted);
-        console.log(`Received ${data.length} items for alphabet: ${alphasFormatted}`);
-        setVocabs(data);
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching alphabet data:", err);
-        setError(err);
-        setLoading(false);
-      }
-    };
-    
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [alphabet, alphasFormatted, currentLang]);
   
   // Show loading state
@@ -81,8 +79,11 @@ const SelectedAlphabets = () => {
   if (error) {
     return (
       <Container fluid className="main-content-container px-4">
-        <div className="alert alert-danger">
-          {t('Error loading data')}: {error.message}
+        <div className="alert alert-danger text-center">
+          <p>{t("error.generic")}</p>
+          <button className="btn btn-primary mt-2" onClick={fetchData}>
+            {t("error.retry")}
+          </button>
         </div>
       </Container>
     );
@@ -111,8 +112,8 @@ const SelectedAlphabets = () => {
             outsideChevron={true}
             disableSwipe={false}
           >
-            {alphasLists.map((alpha, key) => (
-              <AlphabetsGrid alphabets={alpha} key={key} />
+            {alphasLists.map((alpha) => (
+              <AlphabetsGrid alphabets={alpha} key={alpha} />
             ))}
           </ItemsCarousel>
         </nav>

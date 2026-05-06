@@ -1,19 +1,23 @@
-import axios from "axios";
 import { Store } from "../../flux";
+import axios from "axios";
+
+// Proxy endpoint served by the Cloudflare Pages Function at functions/api/youtube-playlist.js
+// This avoids direct browser→googleapis calls which are blocked by CORS.
+const YOUTUBE_PROXY_URL = "/api/youtube-playlist";
 
 // Cache mechanism
 const videosCache = new Map();
 let cacheTimestamp = null;
 const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
 
-// Fetch featured videos from YouTube API
+// Fetch featured videos via the server-side proxy (resolves CORS & hides API key)
 export const fetchFeaturedVideosFromAPI = async () => {
   try {
-    const response = await axios.get(Store.getFeaturedVideosPlaylistUrl());
+    const response = await axios.get(YOUTUBE_PROXY_URL, { timeout: 15000 });
     
     if (!response.data || !response.data.items) {
       console.error('Invalid API response structure:', response);
-      return null;
+      return [];
     }
     
     // Transform the data
@@ -21,14 +25,14 @@ export const fetchFeaturedVideosFromAPI = async () => {
       id: item.snippet.resourceId.videoId,
       title: item.snippet.title,
       description: item.snippet.description,
-      thumbnail: item.snippet.thumbnails.high.url,
+      thumbnail: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.medium?.url || "",
       publishedAt: item.snippet.publishedAt
     }));
     
     return transformedData;
   } catch (error) {
     console.error("Error fetching featured videos:", error);
-    return null;
+    return [];
   }
 };
 
@@ -39,14 +43,14 @@ export const getFeaturedVideos = async () => {
     
     // Check if we have cached data
     if (cacheTimestamp && (now - cacheTimestamp < CACHE_DURATION) && videosCache.size > 0) {
-      console.log(`Using cached data for featured videos`);
+
       return Array.from(videosCache.values());
     }
     
     // If not in cache, first check Store
     const storeVideos = Store.getFeaturedVideosList();
     if (storeVideos && storeVideos.length > 0) {
-      console.log(`Using Store data for featured videos`);
+
       
       // Update cache
       videosCache.clear();
@@ -59,7 +63,7 @@ export const getFeaturedVideos = async () => {
     }
     
     // If not in Store, fetch from API
-    console.log(`Cache and Store miss for featured videos, fetching from API`);
+
     const videos = await fetchFeaturedVideosFromAPI();
     
     // Store in cache
@@ -76,7 +80,7 @@ export const getFeaturedVideos = async () => {
     console.error("Error in getFeaturedVideos:", error);
     
     // Fallback to Store if API call fails and no cache exists
-    console.log("Falling back to Store data for featured videos");
+
     return Store.getFeaturedVideosList();
   }
 };
@@ -85,7 +89,7 @@ export const getFeaturedVideos = async () => {
 export const clearVideosCache = () => {
   videosCache.clear();
   cacheTimestamp = null;
-  console.log("Videos cache cleared");
+
 };
 
 // Get video URL

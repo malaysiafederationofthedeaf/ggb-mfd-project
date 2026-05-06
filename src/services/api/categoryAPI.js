@@ -1,9 +1,7 @@
-import axios from "axios";
 import cookies from "js-cookie";
 import { Store } from "../../flux";
 import { getNewSigns } from './alphabetAPI';
-import { STRAPI_BASE_URL } from "../../config";
-
+import apiClient from "./client";
 // Utility function to format strings
 const formatString = (str) => {
   return Store.formatString(str);
@@ -229,12 +227,8 @@ export const getCategoriesOfGroup = async (lang = "ms") => {
           }
         }
         
-        // Sort categories alphabetically based on current language
-        if (currentLanguageCode === "en") {
-          filtered.sort((a, b) => a.category.localeCompare(b.category));
-        } else {
-          filtered.sort((a, b) => a.kategori.localeCompare(b.kategori));
-        }
+        // Sort categories alphabetically based on Malay (kategori) always
+        filtered.sort((a, b) => a.kategori.localeCompare(b.kategori));
   
         allResults[groupObj.group] = filtered;
       }

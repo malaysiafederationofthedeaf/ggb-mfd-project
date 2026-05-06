@@ -46,21 +46,23 @@
   "about_ggb_more": "To learn more about Guidewire Gives Back, please visit Guidewire website at ",
   "about_ggb_more_link": "https://careers.guidewire.com/guidewire-gives-back",
 
-  "about_vercel_title": "Vercel",
-  "about_vercel_1": "Vercel is a deployment and collaboration platform for frontend developers. It enables developers to host websites and web services that deploy instantly and scale automatically – all without any configuration.",
-  "about_vercel_2": "Vercel is committed to enabling the creation, adoption, and development of open source projects. As such, Vercel offers the option to sponsor these projects, covering the costs of hosting them in full.",
-  "about_vercel_3": "A big thank you to Vercel for sponsoring the hosting of this project that enables the deaf community in Malaysia to access the BIM Sign Bank for free.",
-  "about_vercel_more": "To know more about Vercel, please visit ",
-  "about_vercel_more_link": "https://vercel.com/",
-
   "under_maintenance": "Under Maintenance",
   "be_back": "We'll be back!",
   "visit_again": "The site is currently under maintenance. Please visit again later.",
   "coming_soon": "Coming Soon",
   "stay_tuned": "Stay tuned!",
   "new_content": "New content is around the corner.",
+  "word_not_found": "This word does not exist.",
+  "try_another_word": "Please check the link or try another word.",
+  "page_not_found": "Page Not Found",
+  "page_not_found_detail": "The page you are looking for does not exist.",
   "go_back": "Go Back",
   "footer_item_1_title": "Contact Us",
   "footer_item_2_title": "Malaysia Federation of The Deaf",
-  "footer_item_3_title": "Guidewire Gives Back"  
+  "footer_item_3_title": "Guidewire Gives Back",
+  "error": {
+    "heading": "Something went wrong",
+    "generic": "Something went wrong while loading data. Please try again later.",
+    "retry": "Retry"
+  }
 }
