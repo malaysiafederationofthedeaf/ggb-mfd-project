@@ -1,7 +1,6 @@
-import axios from "axios";
 import cookies from "js-cookie";
 import { Store } from "../../flux";
-import { STRAPI_BASE_URL } from "../../config";
+import apiClient from "./client";
 
 // Utility functions
 
@@ -18,8 +17,8 @@ export const fetchVocabData = async () => {
 
   while (hasMoreData) {
     try {
-      const response = await axios.get(
-        `${STRAPI_BASE_URL}/api/bims?populate=category_group&pagination[page]=${page}&pagination[pageSize]=25`
+      const response = await apiClient.get(
+        `/api/bims?populate=category_group&pagination[page]=${page}&pagination[pageSize]=25`
       );
 
       if (!response.data?.data) {
@@ -146,8 +145,8 @@ export const fetchVocabsByAlphabetFromAPI = async (alphabetFirst) => {
 
   while (hasMoreData) {
     try {
-      const response = await axios.get(
-        `${STRAPI_BASE_URL}/api/bims?populate=category_group&pagination[page]=${page}&pagination[pageSize]=100&filters[${fieldToFilter}][$startsWith]=${encodeURIComponent(
+      const response = await apiClient.get(
+        `/api/bims?populate=category_group&pagination[page]=${page}&pagination[pageSize]=100&filters[${fieldToFilter}][$startsWith]=${encodeURIComponent(
           uppercaseAlphabet
         )}`
       );
@@ -230,8 +229,8 @@ export const getNewSigns = async () => {
     newSignsPromise = (async () => {
       const locale = getCurrentLocale();
 
-      const response = await axios.get(
-        `${STRAPI_BASE_URL}/api/bims?populate=*&sort=createdAt:desc&pagination[limit]=25`
+      const response = await apiClient.get(
+        `/api/bims?populate=*&sort=createdAt:desc&pagination[limit]=25`
       );
 
       const transformedData = response.data.data.map((item) => {
