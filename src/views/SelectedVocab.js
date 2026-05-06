@@ -113,10 +113,10 @@ const SelectedVocab = () => {
                   // If the word has category information, use the group/category route
                   if (word.groupCategory && word.groupCategory.includes('/')) {
                     const [group, category] = word.groupCategory.split('/').map(convertToUrlFormat);
-                    routePath = `/groups/${group}/${category}/${convertToUrlFormat(word.word)}`;
+                    routePath = `/groups/${group}/${category}/${encodeURIComponent(word.word)}`;
                   } else {
                     // Default to alphabet route if no category info
-                    routePath = `/alphabets/${word.word.charAt(0).toLowerCase()}/${convertToUrlFormat(word.word)}`;
+                    routePath = `/alphabets/${word.word.charAt(0).toLowerCase()}/${encodeURIComponent(word.word)}`;
                   }
 
                   return (
