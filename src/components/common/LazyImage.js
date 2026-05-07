@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const LazyImage = ({ src, alt, className, style, fallback }) => {
+const LazyImage = ({ src, alt, className, style, fallback, onError, ...rest }) => {
   const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef(null);
 
   useEffect(() => {
     let observer;
     let isMounted = true;
+    const currentRef = containerRef.current;
 
     if (window.IntersectionObserver) {
       observer = new IntersectionObserver(
@@ -24,8 +25,8 @@ const LazyImage = ({ src, alt, className, style, fallback }) => {
         { rootMargin: '50px' } // very tight margin
       );
 
-      if (containerRef.current) {
-        observer.observe(containerRef.current);
+      if (currentRef) {
+        observer.observe(currentRef);
       }
     } else {
       setIsVisible(true);
@@ -33,22 +34,42 @@ const LazyImage = ({ src, alt, className, style, fallback }) => {
 
     return () => {
       isMounted = false;
-      if (observer && containerRef.current) {
-        observer.unobserve(containerRef.current);
+      if (observer && currentRef) {
+        observer.unobserve(currentRef);
         observer.disconnect();
       }
     };
   }, []);
 
+  const handleError = (e) => {
+    if (fallback && e.target.src !== fallback) {
+      e.target.onerror = null;
+      e.target.src = fallback;
+      return;
+    }
+    if (onError) {
+      onError(e);
+    }
+  };
+
+  const imageStyle = {
+    display: 'block',
+    width: '100%',
+    height: '100%',
+    objectFit: 'contain',
+    ...style,
+  };
+
   return (
-    <div 
-      ref={containerRef} 
-      style={{ 
-        minHeight: '120px', 
-        width: '100%', 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center' 
+    <div
+      ref={containerRef}
+      style={{
+        minHeight: '120px',
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
       }}
     >
       {isVisible ? (
@@ -56,13 +77,10 @@ const LazyImage = ({ src, alt, className, style, fallback }) => {
           src={src}
           alt={alt}
           className={className}
-          style={style}
-          onError={(e) => {
-            if (fallback && e.target.src !== fallback) {
-              e.target.onerror = null;
-              e.target.src = fallback;
-            }
-          }}
+          style={imageStyle}
+          loading="lazy"
+          onError={handleError}
+          {...rest}
         />
       ) : (
         <div style={{ height: '120px', width: '100%', background: '#f4f4f4', borderRadius: '8px' }}></div>

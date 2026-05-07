@@ -47,20 +47,15 @@ export async function getSignOfTheDayLightweight() {
   // Fetch entries for that page
   const entries = await fetchPageEntries(apiUrl, pageNum, pageSize);
 
-  // Filter only valid entries with video
-  const validEntries = entries.filter(
-    (e) => e?.Video_Status === "Published"
-  );
-
-  if (validEntries.length === 0) {
-    console.warn("No valid SOTD entries found on page:", pageNum);
-    return null;
+    if (entries.length === 0) {
+      console.warn("No SOTD entries found on page:", pageNum);
+      return null;
   }
 
-  // Pick a deterministic entry from valid ones
+  // Pick a deterministic entry from the fetched entries
   const indexSeed = getSeededRandom(seed + 1);
-  const index = Math.floor(indexSeed * validEntries.length);
-  const selected = validEntries[index];
+  const index = Math.floor(indexSeed * entries.length);
+  const selected = entries[index];
 
   // Return transformed object
   return {

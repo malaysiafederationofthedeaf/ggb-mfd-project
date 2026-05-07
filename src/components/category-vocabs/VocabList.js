@@ -40,11 +40,11 @@ const VocabList = ({ vocabs, group, category }) => {
                     src={vocabImgSrc}
                     alt={vocab.word}
                     className="vocab-image"
+                    fallback={COMING_SOON_IMAGE_URL}
                     onError={(e) => {
                       e.target.onerror = null; // prevent infinite loop
-                      e.target.src = COMING_SOON_IMAGE_URL; //if there is no image url
-                    }
-                    }
+                      e.target.src = COMING_SOON_IMAGE_URL; // if there is no image url
+                    }}
                   />
                 </Col>
                 <Col className="pl-2 pr-0">

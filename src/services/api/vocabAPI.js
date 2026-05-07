@@ -1,8 +1,7 @@
-import axios from "axios";
 import levenshtein from "js-levenshtein";
 import { Store } from "../../flux";
 import { alphabetCache, alphabetCacheTimestamps } from "./alphabetAPI";
-import { API_BASE } from "./config";
+import { STRAPI_BASE_URL } from "../../config";
 import apiClient from "./client";
 
 // Utility: Format string using Store method
@@ -48,19 +47,15 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
   if (!vocabName) return null;
 
   const formatted = formatString(vocabName);
-  const capitalized = capitalizeFirstLetter(vocabName);
-  const endpoint = `${API_BASE}/api/bims?populate=*&filters[$or][0][Word][$containsi]=${encodeURIComponent(
-    capitalized
-  )}&filters[$or][1][Perkataan][$containsi]=${encodeURIComponent(
-    capitalized
-  )}`;
+  const searchToken = vocabName.trim();
+  const endpoint = `${STRAPI_BASE_URL}/api/bims?populate=*&filters[Word][$containsi]=${encodeURIComponent(searchToken)}`;
 
   try {
     const cachedData = findVocabInAlphabetData(vocabName);
     if (cachedData) return cachedData;
 
     console.log(`Fetching "${vocabName}" from API`);
-    const response = await axios.get(endpoint);
+    const response = await apiClient.get(endpoint);
     const data = response.data?.data || [];
 
     const filtered = data

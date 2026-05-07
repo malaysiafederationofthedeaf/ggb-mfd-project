@@ -41,6 +41,7 @@ const fetchCategoryData = async () => {
       const transformedData = response.data.data.map((item) => ({
         KumpulanKategori: item.KumpulanKategori || "",
         GroupCategory: item.GroupCategory || "",
+        remark: item.Remark || item.remark || "",
       }));
 
       // Merge new data into the total dataset
@@ -90,6 +91,7 @@ const restructureJSONGroup = (data) => {
           kumpulan,
           groupCategory: item.GroupCategory.trim(),
           kumpulanKategori: item.KumpulanKategori.trim(),
+          remark: item.remark || "",
         };
       } catch (error) {
         console.error("Error processing item:", item, error);
@@ -147,7 +149,8 @@ export const getGroupItems = async () => {
       .map((obj) => {
         return {
           group: obj.group || "",
-          kumpulan: obj.kumpulan || ""
+          kumpulan: obj.kumpulan || "",
+          remark: obj.remark || "",
         };
       });
     return groups;
