@@ -12,8 +12,8 @@ let _store = {
   signListVisible: false,
   openDropdown: false,
   alphabets: getAlphabets(),
-  languages: ["en","ms"],
-  countryCode: ["gb","my"],
+  languages: ["en", "ms"],
+  countryCode: ["gb", "my"],
   featuredVideosPlaylistId: FEATURED_VIDEOS_PLAYLIST_ID,
   youtubeAPIKey: YOUTUBE_API_KEY,
   featuredVideos: [],
@@ -29,6 +29,16 @@ const slugPerkataan = (perkataan) => {
     .replace(/\?/g, "")           // legacy: remove '?'
     .replace(/[<>:"\\|*]/g, "")   // new: strip Windows-illegal chars
     .replace(/[. ]+$/g, "");      // new: strip trailing '.' / spaces
+};
+
+const decodeIfEncoded = (value) => {
+  if (typeof value !== "string") return value;
+  if (!/%[0-9A-Fa-f]{2}/.test(value)) return value;
+  try {
+    return decodeURIComponent(value);
+  } catch (err) {
+    return value;
+  }
 };
 
 class Store extends EventEmitter {
@@ -65,7 +75,7 @@ class Store extends EventEmitter {
 
       case Constants.STORE_FEATURED_VIDEOS: // store all the entries from Group sheet
         this.storeFeaturedVideos(payload);
-        break;        
+        break;
 
       default:
     }
@@ -99,7 +109,7 @@ class Store extends EventEmitter {
     this.emit(Constants.CHANGE);
     _store.groupItems = this.getGroupItems();       // get groups (unique)
     _store.categoryItems = this.getCategoryItems(); // get groups and categories pair (unique)
-    
+
     // Processed groups and categories
   }
 
@@ -114,7 +124,7 @@ class Store extends EventEmitter {
 
   getMainNavItems() {
     return _store.mainNavItems;
-  }  
+  }
 
   getOpenDropdown() {
     return _store.openDropdown;
@@ -138,10 +148,10 @@ class Store extends EventEmitter {
 
   getFeaturedVideosPlaylistUrl() {
     return YOUTUBE_BASE_URL
-    + "/playlistItems?part=snippet&maxResults=50&playlistId="
-    + _store.featuredVideosPlaylistId
-    + "&key="
-    + _store.youtubeAPIKey;
+      + "/playlistItems?part=snippet&maxResults=50&playlistId="
+      + _store.featuredVideosPlaylistId
+      + "&key="
+      + _store.youtubeAPIKey;
   }
 
   getFeaturedVideoUrl(videoId) {
@@ -151,14 +161,16 @@ class Store extends EventEmitter {
   // get image for Category (from Cloudflare R2)
   getCategoryImgSrc(kumpulanKategori) {
     if (!kumpulanKategori) return "";
-    const fileName = encodeURIComponent(kumpulanKategori);
+    const normalizedKategori = decodeIfEncoded(kumpulanKategori);
+    const fileName = encodeURIComponent(normalizedKategori);
     return `${_store.imageURL}category/${fileName}.webp`;
   }
 
   // get image for vocab (from Cloudflare R2)
   getSignImgSrc(perkataan) {
     if (!perkataan) return "";
-    const baseName = slugPerkataan(perkataan);           // shared slug
+    const normalizedPerkataan = decodeIfEncoded(perkataan);
+    const baseName = slugPerkataan(normalizedPerkataan);           // shared slug
     const fileName = encodeURIComponent(baseName);       // single encode for URL
     return `${_store.imageURL}vocab/${fileName}.webp`;
   }
@@ -169,17 +181,17 @@ class Store extends EventEmitter {
     try {
       let stringFormatted = string.toLowerCase().replace(/\s+/g, "-");
       // Strip characters that can confuse routing or matching
-      stringFormatted = stringFormatted.replace(/[?\/<>.]/g, "");
+      stringFormatted = stringFormatted.replace(/[?<>.]/g, "");
       return stringFormatted;
     } catch (err) {
       return string;
     }
-}
+  }
 
   // format group&category pair (to follow link path name)
   formatGroupCategory(string) {
     if (!string) return '';
-    
+
     try {
       // return string.toLowerCase().replace(/\s+/g, "-");
       const groupCat = string.toString().split("/");

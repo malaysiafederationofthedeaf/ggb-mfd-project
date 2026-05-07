@@ -142,6 +142,7 @@ $font-button: $font-body;
     @include title-font;
     margin: 3;
     padding: 3;
+    overflow-wrap: break-word;
     @media (max-width: $breakpoint-md) {
         text-align: center;
         font-size: 35px;

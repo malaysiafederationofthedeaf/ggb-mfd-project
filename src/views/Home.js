@@ -20,7 +20,7 @@ const preloadLCPImage = () => {
   const preloadLink = document.createElement('link');
   preloadLink.rel = 'preload';
   preloadLink.as = 'image';
-  preloadLink.href = '/assets/images/home-background.jpg'; 
+  preloadLink.href = '/assets/images/home-background.jpg';
   preloadLink.type = 'image/jpeg';
   preloadLink.fetchPriority = 'high';
   document.head.appendChild(preloadLink);
@@ -47,14 +47,15 @@ const Home = () => {
       setLoading(true);
       setError(null);
 
-      const groupsData = await getGroupItems();
+      // Fetch all data in parallel to reduce total load time
+      const [groupsData, videosData, sotd] = await Promise.all([
+        getGroupItems(),
+        getFeaturedVideos(),
+        getSignOfTheDayLightweight(),
+      ]);
+
       setGroups(groupsData);
-
-      const videosData = await getFeaturedVideos();
       setFeaturedVideos(videosData || []);
-
-      // Fetch Sign of the Day from API or local store cache
-      const sotd = await getSignOfTheDayLightweight();
       setSignOfDay(sotd);
 
       setLoading(false);
@@ -124,11 +125,11 @@ const Home = () => {
           <Row>
             {/* Only display groups with Remark="Home" */}
             {groups
-              .filter(group => group.group !== "New Signs")
+              .filter(group => group.group !== "New Signs" && group.remark?.toLowerCase() === "home")
               .map((group) => {
                 const groupName = isMalay ? group.kumpulan : group.group;
                 const groupKey = group.group;
-                
+
                 return (
                   <CategoryList
                     category={categories[groupKey] ?? []}
@@ -136,7 +137,7 @@ const Home = () => {
                     groupKey={groupKey}
                     key={groupKey}
                     className="category-list"
-                  />              
+                  />
                 );
               })}
           </Row>
@@ -145,18 +146,18 @@ const Home = () => {
             <Col sm="12" md="12" lg="12" className="btn-view-all-categories">
               <Link to="/groups">{t("view_all_category_btn")} &rarr;</Link>
             </Col>
-            
+
             {/* Only show New Signs if it has Remark="Home" */}
-            {groups.some(group => group.group === "New Signs") && (
+            {groups.some(group => group.group === "New Signs" && group.remark?.toLowerCase() === "home") && (
               <CategoryList
-              category={categories["New Signs"] ?? []}
-              group={isMalay ? "Isyarat Baru" : "New Signs"}
-              groupKey="New Signs"
-            />
+                category={categories["New Signs"] ?? []}
+                group={isMalay ? "Isyarat Baru" : "New Signs"}
+                groupKey="New Signs"
+              />
             )}
-            
+
             {/* Featured Videos List */}
-            <FeaturedVideoList videoItems={featuredVideos}/> 
+            <FeaturedVideoList videoItems={featuredVideos} />
 
             {/* Sign of The Day */}
             {signOfDay?.word && <SignOfTheDay wordItem={signOfDay} />}

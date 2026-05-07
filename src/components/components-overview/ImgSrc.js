@@ -5,15 +5,16 @@
  * @param {function} callback - Callback function to handle the result.
  */
 export function getImageWithFallback(primarySrc, fallbackSrc, callback) {
-    const img = new Image();
-    img.src = primarySrc;
-  
-    img.onload = () => {
-      callback(`url('${primarySrc}')`);
-    };
-  
-    img.onerror = () => {
-      callback(`url('${fallbackSrc}')`);
-    };
-  }
-  
+  const img = new Image();
+  img.src = primarySrc;
+
+  const safeUrl = (url) => `url("${url.replace(/"/g, '\\"')}")`;
+
+  img.onload = () => {
+    callback(safeUrl(primarySrc));
+  };
+
+  img.onerror = () => {
+    callback(safeUrl(fallbackSrc));
+  };
+}
