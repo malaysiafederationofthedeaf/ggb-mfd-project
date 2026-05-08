@@ -128,7 +128,7 @@ const VocabDetail = ({ vocab, currentLang: langProp }) => {
                 {currentLang === "ms" ? "Contoh Ayat" : "Example Sentence"}
               </h4>
               <p className="mb-0" style={{ whiteSpace: "pre-line" }}>
-                {vocab.exampleSentence ||
+                {(currentLang === "ms" ? vocab.contohAyat : vocab.exampleSentence) ||
                   (currentLang === "ms"
                     ? "Tiada contoh ayat tersedia."
                     : "No example sentence available.")}
