@@ -70,6 +70,7 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
         word: item.Word || '',
         perkataan: item.Perkataan || '',
         exampleSentence: item.Example_Sentence || '',
+        contohAyat: item.Contoh_Ayat || '',
         video: item.Video || '',
         imgStatus: item.Image_Status || ''
       }))
