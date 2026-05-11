@@ -6,6 +6,7 @@ import cookies from "js-cookie";
 import { Store } from "../../flux";
 import { COMING_SOON_IMAGE_URL } from "../../config";
 import VocabWordPerkataan from "./VocabWordPerkataan";
+import LazyImage from "../common/LazyImage";
 
 const VocabDetail = ({ vocab, currentLang: langProp }) => {
   const [imageUrls, setImageUrls] = useState([]);
@@ -68,22 +69,19 @@ const VocabDetail = ({ vocab, currentLang: langProp }) => {
         <Col xl="6" lg="12" md="12" sm="12">
           <div className="selected-vocab-image-wrapper">
             {imageUrls.length === 0 ? (
-              <img
+              <LazyImage
                 src={COMING_SOON_IMAGE_URL}
                 alt={vocab.word}
                 className="selected-vocab-image"
               />
             ) : (
               imageUrls.map((src, index) => (
-                <img
+                <LazyImage
                   key={src}
                   src={src}
                   alt={`${vocab.word} ${index + 1}`}
                   className="selected-vocab-image"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = COMING_SOON_IMAGE_URL;
-                  }}
+                  fallback={COMING_SOON_IMAGE_URL}
                 />
               ))
             )}
@@ -94,7 +92,7 @@ const VocabDetail = ({ vocab, currentLang: langProp }) => {
           <div>
             {vocab.video === undefined ? (
               <div className="selected-vocab-image-wrapper">
-                <img
+                <LazyImage
                   src={require(`../../images/general/video-coming-soon.jpg`)}
                   alt={vocab.word}
                   className="selected-vocab-image"
