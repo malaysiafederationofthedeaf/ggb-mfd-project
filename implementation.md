@@ -76,7 +76,7 @@ This document details the changes made to decouple data fetching from the centra
 ```javascript
 // Example of an optimized API call:
 const response = await axios.get(
-  `https://mfd-final-test.onrender.com/api/bims?populate=*&pagination[page]=${page}&pagination[pageSize]=25&filters[${fieldToFilter}][$startsWith]=${uppercaseAlphabet}`
+  `https://mfd-final-test.onrender.com/api/bims?populate=category_group&pagination[page]=${page}&pagination[pageSize]=25&filters[${fieldToFilter}][$startsWith]=${uppercaseAlphabet}`
 );
 ```
 

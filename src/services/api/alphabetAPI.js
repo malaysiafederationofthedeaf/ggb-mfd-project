@@ -234,7 +234,7 @@ export const getNewSigns = async () => {
       const locale = getCurrentLocale();
 
       const response = await apiClient.get(
-        `/api/bims?populate=*&sort=createdAt:desc&pagination[limit]=25`
+        `/api/bims?populate=category_group&sort=createdAt:desc&pagination[limit]=25`
       );
 
       const transformedData = response.data.data.map((item) => {
