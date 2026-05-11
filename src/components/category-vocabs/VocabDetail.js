@@ -10,12 +10,14 @@ import LazyImage from "../common/LazyImage";
 
 const VocabDetail = ({ vocab, currentLang: langProp }) => {
   const [imageUrls, setImageUrls] = useState([]);
+  const [baseUrlDetails, setBaseUrlDetails] = useState(null);
   const currentLang = langProp || cookies.get("i18next") || "ms";
 
   useEffect(() => {
     const baseUrl = Store.getSignImgSrc(vocab.perkataan);
     if (!baseUrl) {
       setImageUrls([]);
+      setBaseUrlDetails(null);
       return;
     }
 
@@ -23,35 +25,8 @@ const VocabDetail = ({ vocab, currentLang: langProp }) => {
     const prefix = match ? match[1] : baseUrl;
     const ext = match ? match[2] : "";
 
-    let isCancelled = false;
-    const urls = [baseUrl];
-    setImageUrls(urls);
-
-    const probeNext = (index) => {
-      const url = `${prefix}-${index}${ext}`;
-      const img = new Image();
-
-      img.onload = () => {
-        if (isCancelled) return;
-        urls.push(url);
-        setImageUrls([...urls]);
-        probeNext(index + 1); // try next suffix
-      };
-
-      img.onerror = () => {
-        if (isCancelled) return;
-        // stop probing on first missing suffix
-      };
-
-      img.src = url;
-    };
-
-    // start probing at -2
-    probeNext(2);
-
-    return () => {
-      isCancelled = true;
-    };
+    setBaseUrlDetails({ prefix, ext });
+    setImageUrls([baseUrl]);
   }, [vocab.perkataan]);
 
   return (
@@ -75,15 +50,34 @@ const VocabDetail = ({ vocab, currentLang: langProp }) => {
                 className="selected-vocab-image"
               />
             ) : (
-              imageUrls.map((src, index) => (
-                <LazyImage
-                  key={src}
-                  src={src}
-                  alt={`${vocab.word} ${index + 1}`}
-                  className="selected-vocab-image"
-                  fallback={COMING_SOON_IMAGE_URL}
-                />
-              ))
+              imageUrls.map((src, index) => {
+                const isFirst = index === 0;
+                const isLast = index === imageUrls.length - 1;
+
+                return (
+                  <LazyImage
+                    key={src}
+                    src={src}
+                    alt={`${vocab.word} ${index + 1}`}
+                    className="selected-vocab-image"
+                    fallback={isFirst ? COMING_SOON_IMAGE_URL : undefined}
+                    onLoad={() => {
+                      if (isLast && baseUrlDetails && src.startsWith(baseUrlDetails.prefix)) {
+                        const nextUrl = `${baseUrlDetails.prefix}-${index + 2}${baseUrlDetails.ext}`;
+                        setImageUrls(prev => {
+                          if (!prev.includes(nextUrl)) return [...prev, nextUrl];
+                          return prev;
+                        });
+                      }
+                    }}
+                    onError={() => {
+                      if (!isFirst) {
+                        setImageUrls(prev => prev.filter(url => url !== src));
+                      }
+                    }}
+                  />
+                );
+              })
             )}
           </div>
         </Col>
