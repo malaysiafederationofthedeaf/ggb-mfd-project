@@ -3,7 +3,7 @@ import { STRAPI_BASE_URL } from '../../config';
 
 const apiClient = axios.create({
   baseURL: STRAPI_BASE_URL,
-  timeout: 15000, // 15 seconds
+  timeout: 120000, // 2 minute
 });
 
 export default apiClient;

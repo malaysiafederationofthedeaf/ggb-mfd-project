@@ -662,12 +662,17 @@ p {
           height: 145px;
         } 
         @media (max-width: $breakpoint-lg) {
-          height: 100px;
+          height: auto;
+          min-height: 120px;
         }      
         @media (max-width: $breakpoint-sm) {
           height: auto;
+          min-height: unset;
         }                 
         .vocab-image-wrapper {
+          > div {
+            min-height: unset !important;
+          }
           display: flex;
           align-items: center;
           justify-content: center;

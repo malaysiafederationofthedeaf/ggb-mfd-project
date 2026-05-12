@@ -1,7 +1,6 @@
 import levenshtein from "js-levenshtein";
 import { Store } from "../../flux";
 import { alphabetCache, alphabetCacheTimestamps } from "./alphabetAPI";
-import { STRAPI_BASE_URL } from "../../config";
 import apiClient from "./client";
 
 // Utility: Format string using Store method
@@ -48,7 +47,7 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
 
   const formatted = formatString(vocabName);
   const searchToken = vocabName.trim();
-  const endpoint = `${STRAPI_BASE_URL}/api/bims?populate=*&filters[Word][$containsi]=${encodeURIComponent(searchToken)}`;
+  const endpoint = `/api/bims?populate=category_group&filters[Word][$containsi]=${encodeURIComponent(searchToken)}`;
 
   try {
     const cachedData = findVocabInAlphabetData(vocabName);

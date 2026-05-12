@@ -6,15 +6,18 @@ import cookies from "js-cookie";
 import { Store } from "../../flux";
 import { COMING_SOON_IMAGE_URL } from "../../config";
 import VocabWordPerkataan from "./VocabWordPerkataan";
+import LazyImage from "../common/LazyImage";
 
 const VocabDetail = ({ vocab, currentLang: langProp }) => {
   const [imageUrls, setImageUrls] = useState([]);
+  const [baseUrlDetails, setBaseUrlDetails] = useState(null);
   const currentLang = langProp || cookies.get("i18next") || "ms";
 
   useEffect(() => {
     const baseUrl = Store.getSignImgSrc(vocab.perkataan);
     if (!baseUrl) {
       setImageUrls([]);
+      setBaseUrlDetails(null);
       return;
     }
 
@@ -22,35 +25,8 @@ const VocabDetail = ({ vocab, currentLang: langProp }) => {
     const prefix = match ? match[1] : baseUrl;
     const ext = match ? match[2] : "";
 
-    let isCancelled = false;
-    const urls = [baseUrl];
-    setImageUrls(urls);
-
-    const probeNext = (index) => {
-      const url = `${prefix}-${index}${ext}`;
-      const img = new Image();
-
-      img.onload = () => {
-        if (isCancelled) return;
-        urls.push(url);
-        setImageUrls([...urls]);
-        probeNext(index + 1); // try next suffix
-      };
-
-      img.onerror = () => {
-        if (isCancelled) return;
-        // stop probing on first missing suffix
-      };
-
-      img.src = url;
-    };
-
-    // start probing at -2
-    probeNext(2);
-
-    return () => {
-      isCancelled = true;
-    };
+    setBaseUrlDetails({ prefix, ext });
+    setImageUrls([baseUrl]);
   }, [vocab.perkataan]);
 
   return (
@@ -68,24 +44,40 @@ const VocabDetail = ({ vocab, currentLang: langProp }) => {
         <Col xl="6" lg="12" md="12" sm="12">
           <div className="selected-vocab-image-wrapper">
             {imageUrls.length === 0 ? (
-              <img
+              <LazyImage
                 src={COMING_SOON_IMAGE_URL}
                 alt={vocab.word}
                 className="selected-vocab-image"
               />
             ) : (
-              imageUrls.map((src, index) => (
-                <img
-                  key={src}
-                  src={src}
-                  alt={`${vocab.word} ${index + 1}`}
-                  className="selected-vocab-image"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = COMING_SOON_IMAGE_URL;
-                  }}
-                />
-              ))
+              imageUrls.map((src, index) => {
+                const isFirst = index === 0;
+                const isLast = index === imageUrls.length - 1;
+
+                return (
+                  <LazyImage
+                    key={src}
+                    src={src}
+                    alt={`${vocab.word} ${index + 1}`}
+                    className="selected-vocab-image"
+                    fallback={isFirst ? COMING_SOON_IMAGE_URL : undefined}
+                    onLoad={() => {
+                      if (isLast && baseUrlDetails && src.startsWith(baseUrlDetails.prefix)) {
+                        const nextUrl = `${baseUrlDetails.prefix}-${index + 2}${baseUrlDetails.ext}`;
+                        setImageUrls(prev => {
+                          if (!prev.includes(nextUrl)) return [...prev, nextUrl];
+                          return prev;
+                        });
+                      }
+                    }}
+                    onError={() => {
+                      if (!isFirst) {
+                        setImageUrls(prev => prev.filter(url => url !== src));
+                      }
+                    }}
+                  />
+                );
+              })
             )}
           </div>
         </Col>
@@ -94,7 +86,7 @@ const VocabDetail = ({ vocab, currentLang: langProp }) => {
           <div>
             {vocab.video === undefined ? (
               <div className="selected-vocab-image-wrapper">
-                <img
+                <LazyImage
                   src={require(`../../images/general/video-coming-soon.jpg`)}
                   alt={vocab.word}
                   className="selected-vocab-image"
