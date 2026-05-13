@@ -17,6 +17,14 @@ const SearchInput = () => {
   const currentLanguage = i18next.language;
   const debounceRef = useRef(null);
   const isMounted = useRef(true);
+  const latestRequestIdRef = useRef(0);
+  const queryCacheRef = useRef({});
+  const queryCacheOrderRef = useRef([]);
+
+  const MIN_SEARCH_LENGTH = 2;
+  const DEBOUNCE_DELAY = 500;
+  const CACHE_TTL = 1000 * 60 * 2; // 2 minutes
+  const MAX_CACHE_ENTRIES = 20; // cache size
 
   const transformData = (data) => (
     data.map(item => ({
@@ -27,11 +35,54 @@ const SearchInput = () => {
     // Removed filter for VALID_RELEASES
   );
 
+  const clearSearchCache = () => {
+    queryCacheRef.current = {};
+    queryCacheOrderRef.current = [];
+  };
+
+  const cacheResults = (query, results) => {
+    if (!query) return;
+    const cacheKey = `${currentLanguage}:${query}`;
+    queryCacheRef.current[cacheKey] = {
+      timestamp: Date.now(),
+      results,
+    };
+    queryCacheOrderRef.current = [cacheKey, ...queryCacheOrderRef.current.filter(key => key !== cacheKey)];
+    if (queryCacheOrderRef.current.length > MAX_CACHE_ENTRIES) {
+      const oldestKey = queryCacheOrderRef.current.pop();
+      delete queryCacheRef.current[oldestKey];
+    }
+  };
+
+  const getCachedResults = (query) => {
+    if (!query) return null;
+
+    const cacheKey = `${currentLanguage}:${query}`;
+    const cached = queryCacheRef.current[cacheKey];
+    if (!cached) return null;
+
+    if (Date.now() - cached.timestamp >= CACHE_TTL) {
+      queryCacheOrderRef.current = queryCacheOrderRef.current.filter((key) => key !== cacheKey);
+      delete queryCacheRef.current[cacheKey];
+      return null;
+    }
+
+    return cached.results;
+  };
+
   const searchSpecificTerm = async (query) => {
-    if (!query || query.length < 2) {
+    if (!query || query.length < MIN_SEARCH_LENGTH) {
       if (isMounted.current) setOptions([]);
       return;
     }
+
+    const cachedOptions = getCachedResults(query);
+    if (cachedOptions) {
+      if (isMounted.current) setOptions(cachedOptions);
+      return;
+    }
+
+    const requestId = ++latestRequestIdRef.current;
 
     try {
       if (isMounted.current) setLoading(true);
@@ -43,12 +94,13 @@ const SearchInput = () => {
         currentLanguage === "en" ? a.word.localeCompare(b.word) : a.perkataan.localeCompare(b.perkataan)
       );
 
-      if (isMounted.current) {
+      if (isMounted.current && requestId === latestRequestIdRef.current) {
         setOptions(sortedResults);
+        cacheResults(query, sortedResults);
       }
     } catch (err) {
       console.error("Search fetch error:", err);
-      if (isMounted.current) setOptions([]);
+      if (isMounted.current && requestId === latestRequestIdRef.current) setOptions([]);
     } finally {
       if (isMounted.current) setLoading(false);
     }
@@ -60,7 +112,7 @@ const SearchInput = () => {
     setOpenMenu(true);
 
     clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => searchSpecificTerm(input), 300);
+    debounceRef.current = setTimeout(() => searchSpecificTerm(input), DEBOUNCE_DELAY);
   };
 
   const handleSelectChange = (selected) => {
@@ -79,9 +131,15 @@ const SearchInput = () => {
 
   useEffect(() => {
     isMounted.current = true;
+    clearSearchCache();
+
+    const handleSearchDataUpdated = () => clearSearchCache();
+    window.addEventListener("searchDataUpdated", handleSearchDataUpdated);
+
     return () => {
       isMounted.current = false;
       clearTimeout(debounceRef.current);
+      window.removeEventListener("searchDataUpdated", handleSearchDataUpdated);
     };
   }, [currentLanguage]);
 
