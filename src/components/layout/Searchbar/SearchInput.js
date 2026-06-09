@@ -4,7 +4,7 @@ import Select, { components } from "react-select";
 import { useNavigate } from "react-router-dom";
 import i18next from "i18next";
 import { Store } from "../../../flux";
-import apiClient from "../../../services/api/client";
+import { searchVocabs } from "../../../services/api/searchVocabAPI";
 
 const SearchInput = () => {
   const { t } = useTranslation();
@@ -25,15 +25,6 @@ const SearchInput = () => {
   const DEBOUNCE_DELAY = 500;
   const CACHE_TTL = 1000 * 60 * 2; // 2 minutes
   const MAX_CACHE_ENTRIES = 20; // cache size
-
-  const transformData = (data) => (
-    data.map(item => ({
-      groupCategory: item.category_group?.GroupCategory || `${item.Group}/${item.Category}`,
-      word: item.Word || '',
-      perkataan: item.Perkataan || ''
-    }))
-    // Removed filter for VALID_RELEASES
-  );
 
   const clearSearchCache = () => {
     queryCacheRef.current = {};
@@ -86,17 +77,11 @@ const SearchInput = () => {
 
     try {
       if (isMounted.current) setLoading(true);
-      const field = currentLanguage === "en" ? "Word" : "Perkataan";
-      const res = await apiClient.get(`/api/bims?populate=category_group&filters[${field}][$containsi]=${encodeURIComponent(query)}`);
-      const results = transformData(res.data?.data || []);
-
-      const sortedResults = results.sort((a, b) =>
-        currentLanguage === "en" ? a.word.localeCompare(b.word) : a.perkataan.localeCompare(b.perkataan)
-      );
+      const results = await searchVocabs(query);
 
       if (isMounted.current && requestId === latestRequestIdRef.current) {
-        setOptions(sortedResults);
-        cacheResults(query, sortedResults);
+        setOptions(results);
+        cacheResults(query, results);
       }
     } catch (err) {
       console.error("Search fetch error:", err);
