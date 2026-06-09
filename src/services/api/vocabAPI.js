@@ -47,7 +47,7 @@ export const fetchVocabDetailFromAPI = async (vocabName) => {
 
   const formatted = formatString(vocabName);
   const searchToken = vocabName.trim();
-  const endpoint = `/api/bims?populate=category_group&filters[Word][$containsi]=${encodeURIComponent(searchToken)}`;
+  const endpoint = `/api/bims?populate=category_group&filters[Word][$eq]=${encodeURIComponent(searchToken)}`;
 
   try {
     const cachedData = findVocabInAlphabetData(vocabName);
@@ -122,7 +122,7 @@ export const getVocabDetail = async (vocabName) => {
       vocabCacheTimestamps.set(vocabName, now);
       return fetched;
     }
-    
+
     // Last-resort fallback to Store
 
     const storeData = Store.getVocabDetail(vocabName);
